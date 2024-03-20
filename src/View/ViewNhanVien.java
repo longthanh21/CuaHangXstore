@@ -28,6 +28,8 @@ public class ViewNhanVien extends javax.swing.JFrame {
 
         NhanVien = new javax.swing.JPanel();
         pnCaLam = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
         pnNhanVien = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         txtTimKiem = new javax.swing.JTextField();
@@ -63,15 +65,33 @@ public class ViewNhanVien extends javax.swing.JFrame {
 
         pnCaLam.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, null), "Ca làm"));
 
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable2);
+
         javax.swing.GroupLayout pnCaLamLayout = new javax.swing.GroupLayout(pnCaLam);
         pnCaLam.setLayout(pnCaLamLayout);
         pnCaLamLayout.setHorizontalGroup(
             pnCaLamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 573, Short.MAX_VALUE)
+            .addGroup(pnCaLamLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 561, Short.MAX_VALUE)
+                .addContainerGap())
         );
         pnCaLamLayout.setVerticalGroup(
             pnCaLamLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 314, Short.MAX_VALUE)
+            .addGroup(pnCaLamLayout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 313, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 6, Short.MAX_VALUE))
         );
 
         pnNhanVien.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, null), "Nhân viên"));
@@ -357,9 +377,11 @@ public class ViewNhanVien extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
     private javax.swing.JPanel pnCaLam;
     private javax.swing.JPanel pnNhanVien;
     private javax.swing.JPanel pnQuanLyTK;
