@@ -90,6 +90,8 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
 
         btnNew.setText("New");
 
+        jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
         jLabel1.setText("Mã Voucher:");
 
         jLabel2.setText("Tên Voucher:");
@@ -207,7 +209,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 647, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 643, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
