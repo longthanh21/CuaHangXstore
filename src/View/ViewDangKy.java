@@ -4,6 +4,10 @@
  */
 package View;
 
+import Model.TaiKhoan;
+import Service.DangKyService;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author TienBB
@@ -15,6 +19,35 @@ public class ViewDangKy extends javax.swing.JFrame {
      */
     public ViewDangKy() {
         initComponents();
+    }
+    
+    private void dangKi() {
+        String ten = txtTenDK.getText().toString().trim();
+        String matKhau = txtMK.getText().toString().trim();
+        String xacNhan = txtXacNhanMK.getText().toString().trim();
+        if (ten.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Không được để trống tên");
+        } else if (matKhau.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Không được để trống mật khẩu");
+        } else if (xacNhan.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Không được để trống xác nhận mật khẩu");
+        } else if (!xacNhan.equalsIgnoreCase(matKhau)) {
+            JOptionPane.showMessageDialog(this, "Mật khẩu xác nhận không đúng");
+        } else {
+            DangKyService dangKyService = new DangKyService();
+            TaiKhoan tk = new TaiKhoan();
+            tk.setTenDN(ten);
+            tk.setMatKhau(matKhau);
+            String kq = dangKyService.add(tk);
+            if (kq.equals("Thêm thành công")) {
+                JOptionPane.showMessageDialog(this, "Đăng ký thành công");
+                ViewDangNhap vdn = new ViewDangNhap();
+                vdn.setVisible(true);
+                this.setVisible(false);
+            } else {
+                JOptionPane.showMessageDialog(this, "Mật khẩu xác nhận không đúng, đăng ký thất bại!");
+            }
+        }
     }
 
     /**
@@ -48,6 +81,11 @@ public class ViewDangKy extends javax.swing.JFrame {
         jLabel4.setText("Mật khẩu");
 
         btnDangKy.setText("Đăng ký");
+        btnDangKy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDangKyActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -108,7 +146,12 @@ public class ViewDangKy extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnDangKyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangKyActionPerformed
+        dangKi();
+    }//GEN-LAST:event_btnDangKyActionPerformed
 
     /**
      * @param args the command line arguments
