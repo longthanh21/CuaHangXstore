@@ -103,19 +103,7 @@
                       <Component id="jScrollPane1" min="-2" pref="458" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-                          <Component id="btnTaoHD" max="32767" attributes="0"/>
-
-                          <Component id="btnTaoHoaDon" max="32767" attributes="0"/>
-
-=======
                           <Component id="btnTao" max="32767" attributes="0"/>
->>>>>>> parent of e714cc4 (long long)
-=======
-                          <Component id="btnTao" max="32767" attributes="0"/>
->>>>>>> parent of e714cc4 (long long)
                           <Component id="btnHuy" pref="104" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -128,19 +116,7 @@
                       <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-                              <Component id="btnTaoHD" min="-2" pref="43" max="-2" attributes="0"/>
-
-                              <Component id="btnTaoHoaDon" min="-2" pref="43" max="-2" attributes="0"/>
-
-=======
                               <Component id="btnTao" min="-2" pref="43" max="-2" attributes="0"/>
->>>>>>> parent of e714cc4 (long long)
-=======
-                              <Component id="btnTao" min="-2" pref="43" max="-2" attributes="0"/>
->>>>>>> parent of e714cc4 (long long)
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="btnHuy" min="-2" pref="43" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
@@ -212,19 +188,7 @@
                 </Component>
               </SubComponents>
             </Container>
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-            <Component class="javax.swing.JButton" name="btnTaoHD">
-
-            <Component class="javax.swing.JButton" name="btnTaoHoaDon">
-
-=======
             <Component class="javax.swing.JButton" name="btnTao">
->>>>>>> parent of e714cc4 (long long)
-=======
-            <Component class="javax.swing.JButton" name="btnTao">
->>>>>>> parent of e714cc4 (long long)
               <Properties>
                 <Property name="text" type="java.lang.String" value="T&#x1ea1;o h&#xf3;a &#x111;&#x1a1;n"/>
               </Properties>
@@ -271,27 +235,9 @@
                           <Component id="txtMaHD" max="32767" attributes="0"/>
                           <Component id="txtMaNV" alignment="0" pref="194" max="32767" attributes="0"/>
                           <Component id="txtMaKH" alignment="0" pref="194" max="32767" attributes="0"/>
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-                          <Component id="cbbVoucher" alignment="0" max="32767" attributes="0"/>
-                          <Component id="txtTongTien" alignment="0" max="32767" attributes="0"/>
-                          <Component id="txtTienKD" alignment="0" max="32767" attributes="0"/>
-
-                          <Component id="cbVoucher" alignment="0" max="32767" attributes="0"/>
-                          <Component id="txtTongTien" alignment="0" max="32767" attributes="0"/>
-                          <Component id="txtTienKhachDua" alignment="0" max="32767" attributes="0"/>
-
-=======
                           <Component id="cbbVoucher" alignment="0" max="32767" attributes="0"/>
                           <Component id="txtTong" alignment="0" max="32767" attributes="0"/>
                           <Component id="txtDua" alignment="0" max="32767" attributes="0"/>
->>>>>>> parent of e714cc4 (long long)
-=======
-                          <Component id="cbbVoucher" alignment="0" max="32767" attributes="0"/>
-                          <Component id="txtTong" alignment="0" max="32767" attributes="0"/>
-                          <Component id="txtDua" alignment="0" max="32767" attributes="0"/>
->>>>>>> parent of e714cc4 (long long)
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -355,19 +301,12 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
-<<<<<<< HEAD
-<<<<<<< HEAD
 
                           <Component id="txtTienKD" alignment="3" min="-2" max="-2" attributes="0"/>
 
                           <Component id="txtTienKhachDua" alignment="3" min="-2" max="-2" attributes="0"/>
  
-=======
                           <Component id="txtDua" alignment="3" min="-2" max="-2" attributes="0"/>
->>>>>>> parent of e714cc4 (long long)
-=======
-                          <Component id="txtDua" alignment="3" min="-2" max="-2" attributes="0"/>
->>>>>>> parent of e714cc4 (long long)
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
@@ -435,19 +374,15 @@
                 <Property name="text" type="java.lang.String" value="Ti&#x1ec1;n kh&#xe1;ch &#x111;&#x1b0;a:"/>
               </Properties>
             </Component>
-<<<<<<< HEAD
-<<<<<<< HEAD
+
  
             <Component class="javax.swing.JTextField" name="txtTienKD">
 
             <Component class="javax.swing.JTextField" name="txtTienKhachDua">
  
-=======
+
             <Component class="javax.swing.JTextField" name="txtDua">
->>>>>>> parent of e714cc4 (long long)
-=======
-            <Component class="javax.swing.JTextField" name="txtDua">
->>>>>>> parent of e714cc4 (long long)
+
             </Component>
             <Component class="javax.swing.JButton" name="btnThanhToan">
               <Properties>
