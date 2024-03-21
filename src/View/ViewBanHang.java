@@ -29,7 +29,7 @@ public class ViewBanHang extends javax.swing.JFrame {
         BanHang = new javax.swing.JPanel();
         pnHoaDon = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblHoa = new javax.swing.JTable();
+        tblHoaDon = new javax.swing.JTable();
         btnTao = new javax.swing.JButton();
         btnHuy = new javax.swing.JButton();
         pnThongTin = new javax.swing.JPanel();
@@ -47,11 +47,11 @@ public class ViewBanHang extends javax.swing.JFrame {
         txtTong = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         txtDua = new javax.swing.JTextField();
-        btnThanh = new javax.swing.JButton();
-        btnIn = new javax.swing.JButton();
+        btnThanhToan = new javax.swing.JButton();
+        btnInHoaDon = new javax.swing.JButton();
         pnGioHang = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tblGio = new javax.swing.JTable();
+        tblGioHang = new javax.swing.JTable();
         pnSanPham = new javax.swing.JPanel();
         aaaa = new javax.swing.JScrollPane();
         tblSan = new javax.swing.JTable();
@@ -64,7 +64,7 @@ public class ViewBanHang extends javax.swing.JFrame {
 
         pnHoaDon.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, null), "Hóa đơn"));
 
-        tblHoa.setModel(new javax.swing.table.DefaultTableModel(
+        tblHoaDon.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -75,8 +75,8 @@ public class ViewBanHang extends javax.swing.JFrame {
                 "STT", "Mã hóa đơn", "Ngày tạo", "Mã nhân viên", "Trạng thái"
             }
         ));
-        tblHoa.setPreferredSize(new java.awt.Dimension(380, 80));
-        jScrollPane1.setViewportView(tblHoa);
+        tblHoaDon.setPreferredSize(new java.awt.Dimension(380, 80));
+        jScrollPane1.setViewportView(tblHoaDon);
 
         btnTao.setText("Tạo hóa đơn");
 
@@ -128,9 +128,9 @@ public class ViewBanHang extends javax.swing.JFrame {
 
         jLabel8.setText("Tiền khách đưa:");
 
-        btnThanh.setText("Thanh toán");
+        btnThanhToan.setText("Thanh toán");
 
-        btnIn.setText("In hóa đơn");
+        btnInHoaDon.setText("In hóa đơn");
 
         javax.swing.GroupLayout pnThongTinLayout = new javax.swing.GroupLayout(pnThongTin);
         pnThongTin.setLayout(pnThongTinLayout);
@@ -157,8 +157,8 @@ public class ViewBanHang extends javax.swing.JFrame {
                     .addComponent(txtDua))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(pnThongTinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnThanh, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnIn, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnThanhToan, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnInHoaDon, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(30, 30, 30))
         );
         pnThongTinLayout.setVerticalGroup(
@@ -168,7 +168,7 @@ public class ViewBanHang extends javax.swing.JFrame {
                 .addGroup(pnThongTinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtMaHD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnThanh, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnThanhToan, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(pnThongTinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnThongTinLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
@@ -181,7 +181,7 @@ public class ViewBanHang extends javax.swing.JFrame {
                             .addComponent(txtMaNV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(pnThongTinLayout.createSequentialGroup()
                         .addGap(26, 26, 26)
-                        .addComponent(btnIn, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnInHoaDon, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(pnThongTinLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
@@ -203,7 +203,7 @@ public class ViewBanHang extends javax.swing.JFrame {
 
         pnGioHang.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, null), "Giỏ hàng"));
 
-        tblGio.setModel(new javax.swing.table.DefaultTableModel(
+        tblGioHang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -214,8 +214,8 @@ public class ViewBanHang extends javax.swing.JFrame {
                 "STT", "Mã sản phẩm", "Tên sản phẩm", "Số lượng", "Giá bán"
             }
         ));
-        tblGio.setPreferredSize(new java.awt.Dimension(75, 80));
-        jScrollPane2.setViewportView(tblGio);
+        tblGioHang.setPreferredSize(new java.awt.Dimension(75, 80));
+        jScrollPane2.setViewportView(tblGioHang);
 
         javax.swing.GroupLayout pnGioHangLayout = new javax.swing.GroupLayout(pnGioHang);
         pnGioHang.setLayout(pnGioHangLayout);
@@ -362,9 +362,9 @@ public class ViewBanHang extends javax.swing.JFrame {
     private javax.swing.JPanel BanHang;
     private javax.swing.JScrollPane aaaa;
     private javax.swing.JButton btnHuy;
-    private javax.swing.JButton btnIn;
+    private javax.swing.JButton btnInHoaDon;
     private javax.swing.JButton btnTao;
-    private javax.swing.JButton btnThanh;
+    private javax.swing.JButton btnThanhToan;
     private javax.swing.JComboBox<String> cbbVoucher;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -380,8 +380,8 @@ public class ViewBanHang extends javax.swing.JFrame {
     private javax.swing.JPanel pnHoaDon;
     private javax.swing.JPanel pnSanPham;
     private javax.swing.JPanel pnThongTin;
-    private javax.swing.JTable tblGio;
-    private javax.swing.JTable tblHoa;
+    private javax.swing.JTable tblGioHang;
+    private javax.swing.JTable tblHoaDon;
     private javax.swing.JTable tblSan;
     private javax.swing.JTextField txtDua;
     private javax.swing.JTextField txtMaHD;
