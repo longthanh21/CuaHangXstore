@@ -5,17 +5,18 @@
 package Service;
 
 import Repository.DbConnect;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 
 /**
  *
  * @author TienBB
  */
-public class DangNhapService {
+public class DangKyService {
 
     private Connection cn;
 
-    public DangNhapService() {
+    public DangKyService() {
         try {
             cn = DbConnect.getConnection();
         } catch (Exception e) {
@@ -23,15 +24,14 @@ public class DangNhapService {
         }
     }
 
-    public boolean kiemTraDangNhap(String tenDangNhap, String matKhau) {
+    public boolean add(String tenDangNhap, String matKhau) {
         try {
-            String query = "SELECT * FROM TaiKhoan WHERE TenDangNhap = ? AND MatKhau = ?";
-            PreparedStatement ps = cn.prepareStatement(query);
+            String sql = "INSERT INTO TaiKhoan (TenDangNhap,MatKhau)" + "VALUES(?,?)";
+            PreparedStatement ps = cn.prepareStatement(sql);
             ps.setString(1, tenDangNhap);
             ps.setString(2, matKhau);
-            ResultSet rs = ps.executeQuery();
-            return rs.next();// trả về true
-        } catch (SQLException e) {
+            return ps.execute();
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
