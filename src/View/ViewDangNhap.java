@@ -21,6 +21,23 @@ public class ViewDangNhap extends javax.swing.JFrame {
     }
 
     private void login() {
+        String ten = txtTen.getText().trim();
+        String matKhau = txtMatKhau.getText().trim();
+        if (ten.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Tên không được để trống");
+        } else if (matKhau.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Mật khẩu không được để trống");
+        } else {
+            DangNhapService dangNhapService = new DangNhapService();
+            boolean loginSuccessful = dangNhapService.kiemTraDangNhap(ten, matKhau);
+            if (loginSuccessful) {
+                JOptionPane.showMessageDialog(this, "Đăng nhập thành công!");
+                new BanHangForm().setVisible(true);
+                this.setVisible(false);
+            } else {
+                JOptionPane.showMessageDialog(this, "Tên đăng nhập hoặc mật khẩu không chính xác");
+            }
+        }
 
     }
 
@@ -115,24 +132,7 @@ public class ViewDangNhap extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnDangNhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangNhapActionPerformed
-        String ten = txtTen.getText().trim();
-        String matKhau = txtMatKhau.getText().trim();
-        if (ten.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Tên không được để trống");
-        } else if (matKhau.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Mật khẩu không được để trống");
-        } else {
-            // Kiểm tra thông tin đăng nhập với cơ sở dữ liệu
-            DangNhapService dangNhapService = new DangNhapService();
-            boolean loginSuccessful = dangNhapService.kiemTraDangNhap(ten, matKhau);
-            if (loginSuccessful) {
-                JOptionPane.showMessageDialog(this, "Đăng nhập thành công!");
-                new BanHangForm().setVisible(true);
-                this.setVisible(false);
-            } else {
-                JOptionPane.showMessageDialog(this, "Tên đăng nhập hoặc mật khẩu không chính xác");
-            }
-        }
+        login();
     }//GEN-LAST:event_btnDangNhapActionPerformed
 
     /**
