@@ -30,7 +30,7 @@ public class DangNhapService {
             ps.setString(1, tenDangNhap);
             ps.setString(2, matKhau);
             ResultSet rs = ps.executeQuery();
-            return rs.next();
+            return rs.next();// trả về true
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
