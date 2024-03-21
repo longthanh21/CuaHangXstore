@@ -4,6 +4,7 @@
  */
 package Service;
 
+import Model.TaiKhoan;
 import Repository.DbConnect;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -23,17 +24,17 @@ public class DangKyService {
             e.printStackTrace();
         }
     }
-
-    public boolean add(String tenDangNhap, String matKhau) {
+ 
+    public String add(TaiKhoan tk) {
         try {
             String sql = "INSERT INTO TaiKhoan (TenDangNhap,MatKhau)" + "VALUES(?,?)";
             PreparedStatement ps = cn.prepareStatement(sql);
-            ps.setString(1, tenDangNhap);
-            ps.setString(2, matKhau);
-            return ps.execute();
+            ps.setString(1, tk.getTenDN());
+            ps.setString(2, tk.getMatKhau());
+            ps.execute();
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
         }
+        return "Thêm thành công";
     }
 }
