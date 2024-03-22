@@ -16,21 +16,22 @@ import java.util.logging.Logger;
  * @author KhanhCT
  */
 public class QuanLySanPham {
+
     ArrayList<SanPham> listSanPham = new ArrayList<>();
     ArrayList<SanPham> listCTCP = new ArrayList<>();
-    
-    public ArrayList<SanPham> getListSanPham(){
+
+    public ArrayList<SanPham> getListSanPham() {
         listSanPham.clear();
         try {
             Connection conn = DbConnect.getConnection();
             String sql = "SELECT * FROM SanPham";
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
-            while (rs.next()) {                
+            while (rs.next()) {
                 SanPham sp = new SanPham();
                 sp.setMaSanPham(rs.getString("MaSP"));
                 sp.setTenSanPham(rs.getString("TenSP"));
-                sp.setTrangThai(rs.getString("TrangThai"));
+                sp.setTrangThai(rs.getInt("TrangThai") == 1 ? "Còn hàng" : "Hết hàng");
                 listSanPham.add(sp);
             }
         } catch (SQLException ex) {
@@ -38,16 +39,16 @@ public class QuanLySanPham {
         }
         return listSanPham;
     }
-    
+
     int soLuongTong;
-    public int SoLuongTong(){
-        listCTCP.clear();
+    
+    public int SoLuongTong(String a) {
         try {
             Connection conn = DbConnect.getConnection();
-            String sql = "SELECT SoLuongTong FROM SanPham" ;
+            String sql = "SELECT SoLuongTong FROM SanPham where MaSP = " +"'"+a+"'";
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
-            while (rs.next()) {                
+            while (rs.next()) {
                 soLuongTong = rs.getInt("SoLuongTong");
             }
         } catch (SQLException ex) {
@@ -55,14 +56,43 @@ public class QuanLySanPham {
         }
         return soLuongTong;
     }
-    
-    public ArrayList<SanPham> getListCTSP(){
+
+    public void AddSP(SanPham sp) {
+        try {
+            Connection conn = DbConnect.getConnection();
+            String sql = "INSERT INTO SanPham (MaSP, TenSP, SoLuongTong, TrangThai) VALUES (?,?,?,?)";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, sp.getMaSanPham());
+            ps.setString(2, sp.getTenSanPham());
+            ps.setInt(3, 0);
+            ps.setInt(4, Integer.valueOf(sp.getTrangThai().equals("Còn hàng") ? "1" : "0"));
+            ps.executeUpdate();
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+ 
+    public void UpSoLuongTong(String a, int b) {
+        try {
+            Connection conn = DbConnect.getConnection();
+            String sql = "UPDATE SanPham SET SoLuongTong = ? where MaSP = " + "'"+a+"'";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, b);
+            ps.executeUpdate();
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public ArrayList<SanPham> getListCTSP() {
         try {
             Connection conn = DbConnect.getConnection();
             String sql = "SELECT * FROM CTSP";
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
-            while (rs.next()) {                
+            while (rs.next()) {
                 SanPham sp = new SanPham();
                 sp.setIdspct(rs.getString("IdSP"));
                 sp.setMaSanPham(rs.getString("MaSP"));
