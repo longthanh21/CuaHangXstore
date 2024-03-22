@@ -49,20 +49,20 @@ public class QuanLyKhuyenMai {
         return listvc;
     }
 
-    public void themVoucher(Voucher vc) {
-        try {
-            String sql = "INSERT INTO Voucher" + "VALUES(?,?,?,?,?,?)";
-            PreparedStatement ps = cn.prepareStatement(sql);
-            ps.setString(1, vc.getMaVC());
-            ps.setString(2, vc.getTenVC());
-            ps.setString(3, vc.getGiamGia());
-            ps.setString(4, vc.getNgayBatDau());
-            ps.setString(5, vc.getNgayKetThuc());
-            ps.setString(6, vc.getTrangThai());
-            ps.execute();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    public void themVoucher(Voucher vc) {
+//        try {
+//            String sql = "INSERT INTO Voucher" + "VALUES(?,?,?,?,?,?)";
+//            PreparedStatement ps = cn.prepareStatement(sql);
+//            ps.setString(1, vc.getMaVC());
+//            ps.setString(2, vc.getTenVC());
+//            ps.setString(3, vc.getGiamGia());
+//            ps.setString(4, vc.getNgayBatDau());
+//            ps.setString(5, vc.getNgayKetThuc());
+//            ps.setString(6, vc.getTrangThai());
+//            ps.execute();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 }
