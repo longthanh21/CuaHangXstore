@@ -46,43 +46,43 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         }
     }
 
-    public void ThemVoucher() {
-        String maVC = txtMaVC.getText().trim();
-        String ten = txtTenVC.getText().trim();
-        String giamGia = txtGiamGiaVC.getText().trim();
-        String ngaybatDau = new SimpleDateFormat("yyyy-MM-dd").format(dcBatDau.getDate());
-        String ngayKetThuc = new SimpleDateFormat("yyyy-MM-dd").format(dcHetHan.getDate());
-        String trangThai = "";
-
-        if (rbHoatDong.isSelected()) {
-            trangThai = "Hoạt động";
-        } else if (rbHetHan.isSelected()) {
-            trangThai = "Hết hạn";
-        } else {
-            // Xử lý trường hợp không có RadioButton nào được chọn (nếu cần)
-        }
-        Voucher vc = new Voucher(maVC, ten, giamGia, ngaybatDau, ngayKetThuc, trangThai);
-        // Kiểm tra ràng buộc dữ liệu
-        if (maVC.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Không được để trống mã");
-        } else if (ten.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Không được để trống tên");
-        } else if (giamGia.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Không được để trống giảm giá");
-        } else if (ngaybatDau.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Không được để trống ngày bắt đầu");
-        } else if (ngayKetThuc.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Không được để trống ngày kết thúc");
-        } else {
-            // Nếu tất cả các trường đều hợp lệ, thực hiện thêm voucher
-
-            int i = JOptionPane.showConfirmDialog(this, "Thêm voucher mới ?");
-            if (i == JOptionPane.OK_OPTION) {
-                JOptionPane.showMessageDialog(this, qlKM.themVoucher(vc));
-                LoadDataTable();
-            }
-        }
-    }
+//    public void ThemVoucher() {
+//        String maVC = txtMaVC.getText().trim();
+//        String ten = txtTenVC.getText().trim();
+//        String giamGia = txtGiamGiaVC.getText().trim();
+//        String ngaybatDau = new SimpleDateFormat("yyyy-MM-dd").format(dcBatDau.getDate());
+//        String ngayKetThuc = new SimpleDateFormat("yyyy-MM-dd").format(dcHetHan.getDate());
+//        String trangThai = "";
+//
+//        if (rbHoatDong.isSelected()) {
+//            trangThai = "Hoạt động";
+//        } else if (rbHetHan.isSelected()) {
+//            trangThai = "Hết hạn";
+//        } else {
+//            // Xử lý trường hợp không có RadioButton nào được chọn (nếu cần)
+//        }
+//        Voucher vc = new Voucher(maVC, ten, giamGia, ngaybatDau, ngayKetThuc, trangThai);
+//        // Kiểm tra ràng buộc dữ liệu
+//        if (maVC.isEmpty()) {
+//            JOptionPane.showMessageDialog(this, "Không được để trống mã");
+//        } else if (ten.isEmpty()) {
+//            JOptionPane.showMessageDialog(this, "Không được để trống tên");
+//        } else if (giamGia.isEmpty()) {
+//            JOptionPane.showMessageDialog(this, "Không được để trống giảm giá");
+//        } else if (ngaybatDau.isEmpty()) {
+//            JOptionPane.showMessageDialog(this, "Không được để trống ngày bắt đầu");
+//        } else if (ngayKetThuc.isEmpty()) {
+//            JOptionPane.showMessageDialog(this, "Không được để trống ngày kết thúc");
+//        } else {
+//            // Nếu tất cả các trường đều hợp lệ, thực hiện thêm voucher
+//
+//            int i = JOptionPane.showConfirmDialog(this, "Thêm voucher mới ?");
+//            if (i == JOptionPane.OK_OPTION) {
+//                JOptionPane.showMessageDialog(this, qlKM.themVoucher(vc));
+//                LoadDataTable();
+//            }
+//        }
+//    }
 
     /**
      * This method is called from within the constructor to initialize the form.
