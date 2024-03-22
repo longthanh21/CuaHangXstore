@@ -9,26 +9,25 @@ package Model;
  * @author KhanhCT
  */
 public class SanPham {
-
-    private int idspct;
     private String maSanPham;
+    private String idspct;
     private String tenSanPham;
     private String ngayNhap;
-    private int idMauSac;
-    private int idSize;
-    private int idChatLieu;
-    private int idHang;
-    private int soLuong;
-    private float giaNhap;
-    private float giaBan;
-    private boolean trangThai;
+    private String idMauSac;
+    private String idSize;
+    private String idChatLieu;
+    private String idHang;
+    private String soLuong;
+    private String giaNhap;
+    private String giaBan;
+    private String trangThai;
 
     public SanPham() {
     }
 
-    public SanPham(int idspct, String maSanPham, String tenSanPham, String ngayNhap, int idMauSac, int idSize, int idChatLieu, int idHang, int soLuong, float giaNhap, float giaBan, boolean trangThai) {
-        this.idspct = idspct;
+    public SanPham(String maSanPham, String idspct, String tenSanPham, String ngayNhap, String idMauSac, String idSize, String idChatLieu, String idHang, String soLuong, String giaNhap, String giaBan, String trangThai) {
         this.maSanPham = maSanPham;
+        this.idspct = idspct;
         this.tenSanPham = tenSanPham;
         this.ngayNhap = ngayNhap;
         this.idMauSac = idMauSac;
@@ -41,20 +40,20 @@ public class SanPham {
         this.trangThai = trangThai;
     }
 
-    public int getIdspct() {
-        return idspct;
-    }
-
-    public void setIdspct(int idspct) {
-        this.idspct = idspct;
-    }
-
     public String getMaSanPham() {
         return maSanPham;
     }
 
     public void setMaSanPham(String maSanPham) {
         this.maSanPham = maSanPham;
+    }
+
+    public String getIdspct() {
+        return idspct;
+    }
+
+    public void setIdspct(String idspct) {
+        this.idspct = idspct;
     }
 
     public String getTenSanPham() {
@@ -73,69 +72,70 @@ public class SanPham {
         this.ngayNhap = ngayNhap;
     }
 
-    public int getIdMauSac() {
+    public String getIdMauSac() {
         return idMauSac;
     }
 
-    public void setIdMauSac(int idMauSac) {
+    public void setIdMauSac(String idMauSac) {
         this.idMauSac = idMauSac;
     }
 
-    public int getIdSize() {
+    public String getIdSize() {
         return idSize;
     }
 
-    public void setIdSize(int idSize) {
+    public void setIdSize(String idSize) {
         this.idSize = idSize;
     }
 
-    public int getIdChatLieu() {
+    public String getIdChatLieu() {
         return idChatLieu;
     }
 
-    public void setIdChatLieu(int idChatLieu) {
+    public void setIdChatLieu(String idChatLieu) {
         this.idChatLieu = idChatLieu;
     }
 
-    public int getIdHang() {
+    public String getIdHang() {
         return idHang;
     }
 
-    public void setIdHang(int idHang) {
+    public void setIdHang(String idHang) {
         this.idHang = idHang;
     }
 
-    public int getSoLuong() {
+    public String getSoLuong() {
         return soLuong;
     }
 
-    public void setSoLuong(int soLuong) {
+    public void setSoLuong(String soLuong) {
         this.soLuong = soLuong;
     }
 
-    public float getGiaNhap() {
+    public String getGiaNhap() {
         return giaNhap;
     }
 
-    public void setGiaNhap(float giaNhap) {
+    public void setGiaNhap(String giaNhap) {
         this.giaNhap = giaNhap;
     }
 
-    public float getGiaBan() {
+    public String getGiaBan() {
         return giaBan;
     }
 
-    public void setGiaBan(float giaBan) {
+    public void setGiaBan(String giaBan) {
         this.giaBan = giaBan;
     }
 
-    public boolean isTrangThai() {
+    public String getTrangThai() {
         return trangThai;
     }
 
-    public void setTrangThai(boolean trangThai) {
+    public void setTrangThai(String trangThai) {
         this.trangThai = trangThai;
     }
 
-   
+    
+    
 }
