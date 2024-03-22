@@ -11,7 +11,6 @@ package Model;
 public class Voucher {
 
     private String maVC, tenVC, giamGia, ngayBatDau, ngayKetThuc, trangThai;
-
     public Voucher() {
     }
 

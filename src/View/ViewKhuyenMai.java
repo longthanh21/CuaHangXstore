@@ -6,8 +6,11 @@ package View;
 
 import Model.Voucher;
 import Service.QuanLyKhuyenMai;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -29,15 +32,55 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
 
     public void LoadDataTable() {
         dtm.setRowCount(0);
+
         for (Voucher e : listVC) {
+            String trangThai = e.getTrangThai().equalsIgnoreCase("0") ? "Hết hạn" : "Hoạt động";
             dtm.addRow(new Object[]{
                 e.getMaVC(),
                 e.getTenVC(),
                 e.getGiamGia(),
                 e.getNgayBatDau(),
                 e.getNgayKetThuc(),
-                e.getTrangThai()
+                trangThai
             });
+        }
+    }
+
+    public void ThemVoucher() {
+        String maVC = txtMaVC.getText().trim();
+        String ten = txtTenVC.getText().trim();
+        String giamGia = txtGiamGiaVC.getText().trim();
+        String ngaybatDau = new SimpleDateFormat("yyyy-MM-dd").format(dcBatDau.getDate());
+        String ngayKetThuc = new SimpleDateFormat("yyyy-MM-dd").format(dcHetHan.getDate());
+        String trangThai = "";
+
+        if (rbHoatDong.isSelected()) {
+            trangThai = "Hoạt động";
+        } else if (rbHetHan.isSelected()) {
+            trangThai = "Hết hạn";
+        } else {
+            // Xử lý trường hợp không có RadioButton nào được chọn (nếu cần)
+        }
+        Voucher vc = new Voucher(maVC, ten, giamGia, ngaybatDau, ngayKetThuc, trangThai);
+        // Kiểm tra ràng buộc dữ liệu
+        if (maVC.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Không được để trống mã");
+        } else if (ten.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Không được để trống tên");
+        } else if (giamGia.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Không được để trống giảm giá");
+        } else if (ngaybatDau.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Không được để trống ngày bắt đầu");
+        } else if (ngayKetThuc.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Không được để trống ngày kết thúc");
+        } else {
+            // Nếu tất cả các trường đều hợp lệ, thực hiện thêm voucher
+
+            int i = JOptionPane.showConfirmDialog(this, "Thêm voucher mới ?");
+            if (i == JOptionPane.OK_OPTION) {
+                JOptionPane.showMessageDialog(this, qlKM.themVoucher(vc));
+                LoadDataTable();
+            }
         }
     }
 
@@ -50,6 +93,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         pnKhuyenMai = new javax.swing.JTabbedPane();
         Voucher = new javax.swing.JPanel();
         btnAdd = new javax.swing.JToggleButton();
@@ -128,8 +172,10 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
 
         jLabel6.setText("Trạng thái:");
 
+        buttonGroup1.add(rbHoatDong);
         rbHoatDong.setText("Hoạt động");
 
+        buttonGroup1.add(rbHetHan);
         rbHetHan.setText("Hết hạn");
 
         jLabel15.setText("Ưu đãi riêng:");
@@ -551,6 +597,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
     private javax.swing.JButton btnHuy;
     private javax.swing.JToggleButton btnRefresh;
     private javax.swing.JToggleButton btnUpdate;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JPanel danhSachVC;
     private com.toedter.calendar.JDateChooser dcBatDau;
     private com.toedter.calendar.JDateChooser dcHetHan;
