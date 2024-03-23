@@ -6,6 +6,11 @@ package View;
 
 import Model.SanPham;
 import Service.QuanLySanPham;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -24,6 +29,9 @@ public class ViewSanPham extends javax.swing.JFrame {
         initComponents();
         loadSP();
         loadCTSP();
+        loadThuocTinh();
+//        hienThiSP();
+//        hienThiCTSP();
     }
 
     void loadSP() {
@@ -61,6 +69,26 @@ public class ViewSanPham extends javax.swing.JFrame {
         }
     }
 
+    void loadCTSPTheoMa(String a) {
+        defau = (DefaultTableModel) tblCTSP.getModel();
+        defau.setRowCount(0);
+        int i = tblCTSP.getSelectedRow();
+        for (SanPham sp : qlsp.getListCTSPTheoMaSP(a)) {
+            defau.addRow(new Object[]{
+                sp.getIdspct(),
+                sp.getMaSanPham(),
+                sp.getNgayNhap(),
+                sp.getMauSac(),
+                sp.getSize(),
+                sp.getChatLieu(),
+                sp.getHang(),
+                sp.getGiaNhap(),
+                sp.getGiaBan(),
+                sp.getSoLuong()
+            });
+        }
+    }
+
     SanPham getFormSP() {
         SanPham sp = new SanPham();
         sp.setMaSanPham(txtMaSP.getText());
@@ -75,15 +103,24 @@ public class ViewSanPham extends javax.swing.JFrame {
     }
 
     SanPham getFormCTSP() {
+        Date selectedDate = dcNgayNhap.getDate();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(selectedDate);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedDate = dateFormat.format(selectedDate);
+
         SanPham sp = new SanPham();
-        sp.setIdspct(txtIDSP.getText());
+//        sp.setIdspct(txtIDSP.getText());
         sp.setMaSanPham(txtMaSP.getText());
 
-        //sp.setNgayNhap(dcNgayNhap.getDateFormatString());
-        sp.setMauSac((String) cbbMauSac.getSelectedItem());
-        sp.setSize((String) cbbSize.getSelectedItem());
-        sp.setChatLieu((String) cbbChatLieu.getSelectedItem());
-        sp.setHang((String) cbbHang.getSelectedItem());
+        sp.setNgayNhap(formattedDate.toString());
+        sp.setMauSac((String) String.valueOf(cbbMauSac.getSelectedIndex()));
+        sp.setSize((String) String.valueOf(cbbSize.getSelectedIndex()));
+        sp.setChatLieu((String) String.valueOf(cbbChatLieu.getSelectedIndex()));
+        sp.setHang((String) String.valueOf(cbbHang.getSelectedIndex()));
+//        sp.setSize((String) cbbSize.getSelectedItem());
+//        sp.setChatLieu((String) cbbChatLieu.getSelectedItem());
+//        sp.setHang((String) cbbHang.getSelectedItem());
         sp.setGiaBan(txtGiaBan.getText());
         sp.setGiaNhap(txtGiaNhap.getText());
         sp.setSoLuong(txtSoLuong.getText());
@@ -95,7 +132,7 @@ public class ViewSanPham extends javax.swing.JFrame {
         txtMaSP.setText((String) tblSanPham.getValueAt(i, 1));
         txtTenSP.setText((String) tblSanPham.getValueAt(i, 2));
         txtSoLuongTong.setText(tblSanPham.getValueAt(i, 3).toString());
-        String tt = "";
+        String tt = (String) tblSanPham.getValueAt(i, 4);
         if (tt.equals("Còn hàng")) {
             cbConHang.setSelected(true);
         } else {
@@ -104,15 +141,100 @@ public class ViewSanPham extends javax.swing.JFrame {
     }
 
     void setFormCTSP() {
-        int i = tblSanPham.getSelectedRow();
-        txtIDSP.setText((String) tblSanPham.getValueAt(i, 1));
-        txtTenSP.setText((String) tblSanPham.getValueAt(i, 2));
-        txtSoLuongTong.setText(tblSanPham.getValueAt(i, 3).toString());
+        int i = tblCTSP.getSelectedRow();
+        txtIDSP.setText((String) tblCTSP.getValueAt(i, 0));
+        txtMaSP.setText((String) tblCTSP.getValueAt(i, 1));
+
+        String dateString = tblCTSP.getValueAt(i, 2).toString();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date selectedDate = null;
+        try {
+            selectedDate = dateFormat.parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        dcNgayNhap.setDate(selectedDate);
+
+        cbbMauSac.setSelectedItem(tblCTSP.getValueAt(i, 3).toString());
+        cbbSize.setSelectedItem(tblCTSP.getValueAt(i, 4).toString());
+        cbbChatLieu.setSelectedItem(tblCTSP.getValueAt(i, 5).toString());
+        cbbHang.setSelectedItem(tblCTSP.getValueAt(i, 6).toString());
+        txtGiaNhap.setText((String) tblCTSP.getValueAt(i, 7));
+        txtGiaBan.setText((String) tblCTSP.getValueAt(i, 8));
+        txtSoLuong.setText((String) tblCTSP.getValueAt(i, 9));
+    }
+
+    void loadThuocTinh() {
+        cbbMauSac.removeAllItems();
+        qlsp.getlistSize().clear();
+        for (SanPham sp : qlsp.getlistMauSac()) {
+            cbbMauSac.addItem(sp.getMauSac());
+        }
+
+        cbbSize.removeAllItems();
+        qlsp.getlistSize().clear();
+        for (SanPham sp : qlsp.getlistSize()) {
+            cbbSize.addItem(sp.getSize());
+        }
+
+        cbbChatLieu.removeAllItems();
+        qlsp.getlistSize().clear();
+        for (SanPham sp : qlsp.getlistChatLieu()) {
+            cbbChatLieu.addItem(sp.getChatLieu());
+        }
+
+        cbbHang.removeAllItems();
+        qlsp.getlistSize().clear();
+        for (SanPham sp : qlsp.getlistHang()) {
+            cbbHang.addItem(sp.getHang());
+        }
+    }
+
+    void hienThiSP() {
+        txtMaSP.setText((String) tblSanPham.getValueAt(1, 1));
+        txtTenSP.setText((String) tblSanPham.getValueAt(1, 2));
+        txtSoLuongTong.setText(tblSanPham.getValueAt(1, 3).toString());
         String tt = "";
         if (tt.equals("Còn hàng")) {
             cbConHang.setSelected(true);
         } else {
             cbConHang.setSelected(false);
+        }
+    }
+
+    void hienThiCTSP() {
+        txtIDSP.setText((String) tblCTSP.getValueAt(1, 0));
+        txtMaSP.setText((String) tblCTSP.getValueAt(1, 1));
+
+        String dateString = tblCTSP.getValueAt(1, 2).toString();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date selectedDate = null;
+        try {
+            selectedDate = dateFormat.parse(dateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        dcNgayNhap.setDate(selectedDate);
+
+        cbbMauSac.setSelectedItem(tblCTSP.getValueAt(1, 3).toString());
+        cbbSize.setSelectedItem(tblCTSP.getValueAt(1, 4).toString());
+        cbbChatLieu.setSelectedItem(tblCTSP.getValueAt(1, 5).toString());
+        cbbHang.setSelectedItem(tblCTSP.getValueAt(1, 6).toString());
+        txtGiaNhap.setText((String) tblCTSP.getValueAt(1, 7));
+        txtGiaBan.setText((String) tblCTSP.getValueAt(1, 8));
+        txtSoLuong.setText((String) tblCTSP.getValueAt(1, 9));
+    }
+
+    void luaChon() {
+        String[] options = {"Add SP", "Add CTSP"};
+        int a = JOptionPane.showOptionDialog(this, "", "Hãy chọn chức năng", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[0]);
+        if (a == JOptionPane.YES_OPTION) {
+            qlsp.AddSP(getFormSP());
+            qlsp.UpSoLuongTong(txtMaSP.getText(), txtSoLuongTong.getText());
+            loadSP();
+        } else {
+            qlsp.AddCTSP(getFormCTSP());
+            loadCTSP();
         }
     }
 
@@ -158,7 +280,7 @@ public class ViewSanPham extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         txtSoLuong = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        dcNgayNhap = new com.toedter.calendar.JDateChooser();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblSanPham = new javax.swing.JTable();
@@ -336,7 +458,7 @@ public class ViewSanPham extends javax.swing.JFrame {
                         .addGroup(pnLocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(cbbHang, 0, 160, Short.MAX_VALUE)
                             .addComponent(txtGiaNhap, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
-                            .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(dcNgayNhap, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(pnLocLayout.createSequentialGroup()
                         .addGroup(pnLocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -373,7 +495,7 @@ public class ViewSanPham extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(pnLocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel9)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(dcNgayNhap, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(pnLocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtGiaNhap, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -445,6 +567,11 @@ public class ViewSanPham extends javax.swing.JFrame {
                 "ID", "Mã SP", "Ngày nhập", "Màu sắc ", "Size", "Chất liệu", "Hãng", "Giá nhập", "Giá bán", "Số lượng"
             }
         ));
+        tblCTSP.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblCTSPMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(tblCTSP);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -545,6 +672,7 @@ public class ViewSanPham extends javax.swing.JFrame {
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(pnSanPhamLayout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(58, Short.MAX_VALUE))
         );
@@ -710,14 +838,19 @@ public class ViewSanPham extends javax.swing.JFrame {
     private void tblSanPhamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSanPhamMouseClicked
         // TODO add your handling code here:
         setFormSP();
+        int i = tblSanPham.getSelectedRow();
+        loadCTSPTheoMa((String) tblSanPham.getValueAt(i, 1));
     }//GEN-LAST:event_tblSanPhamMouseClicked
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // TODO add your handling code here:
-        qlsp.AddSP(getFormSP());
-        qlsp.UpSoLuongTong(txtMaSP.getText(), txtSoLuongTong.getText());
-        loadSP();
+        luaChon();
     }//GEN-LAST:event_btnAddActionPerformed
+
+    private void tblCTSPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCTSPMouseClicked
+        // TODO add your handling code here:
+        setFormCTSP();
+    }//GEN-LAST:event_tblCTSPMouseClicked
 
     /**
      * @param args the command line arguments
@@ -769,7 +902,7 @@ public class ViewSanPham extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cbbHang;
     private javax.swing.JComboBox<String> cbbMauSac;
     private javax.swing.JComboBox<String> cbbSize;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private com.toedter.calendar.JDateChooser dcNgayNhap;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
