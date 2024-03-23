@@ -65,7 +65,7 @@ public class ViewSanPham extends javax.swing.JFrame {
         SanPham sp = new SanPham();
         sp.setMaSanPham(txtMaSP.getText());
         sp.setTenSanPham(txtTenSP.getText());
-        
+
         if (cbConHang.isSelected()) {
             sp.setTrangThai("Còn hàng");
         } else {
@@ -88,6 +88,32 @@ public class ViewSanPham extends javax.swing.JFrame {
         sp.setGiaNhap(txtGiaNhap.getText());
         sp.setSoLuong(txtSoLuong.getText());
         return sp;
+    }
+
+    void setFormSP() {
+        int i = tblSanPham.getSelectedRow();
+        txtMaSP.setText((String) tblSanPham.getValueAt(i, 1));
+        txtTenSP.setText((String) tblSanPham.getValueAt(i, 2));
+        txtSoLuongTong.setText(tblSanPham.getValueAt(i, 3).toString());
+        String tt = "";
+        if (tt.equals("Còn hàng")) {
+            cbConHang.setSelected(true);
+        } else {
+            cbConHang.setSelected(false);
+        }
+    }
+
+    void setFormCTSP() {
+        int i = tblSanPham.getSelectedRow();
+        txtIDSP.setText((String) tblSanPham.getValueAt(i, 1));
+        txtTenSP.setText((String) tblSanPham.getValueAt(i, 2));
+        txtSoLuongTong.setText(tblSanPham.getValueAt(i, 3).toString());
+        String tt = "";
+        if (tt.equals("Còn hàng")) {
+            cbConHang.setSelected(true);
+        } else {
+            cbConHang.setSelected(false);
+        }
     }
 
     /**
@@ -683,13 +709,13 @@ public class ViewSanPham extends javax.swing.JFrame {
 
     private void tblSanPhamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSanPhamMouseClicked
         // TODO add your handling code here:
-
+        setFormSP();
     }//GEN-LAST:event_tblSanPhamMouseClicked
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // TODO add your handling code here:
         qlsp.AddSP(getFormSP());
-        qlsp.UpSoLuongTong(txtMaSP.getText(), Integer.parseInt(txtSoLuongTong.getText()));
+        qlsp.UpSoLuongTong(txtMaSP.getText(), txtSoLuongTong.getText());
         loadSP();
     }//GEN-LAST:event_btnAddActionPerformed
 
