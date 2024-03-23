@@ -177,6 +177,14 @@ public class ViewDangNhap extends javax.swing.JFrame {
 
     private void btnDangNhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangNhapActionPerformed
         login();
+<<<<<<< HEAD
+=======
+ //        ViewCuaSoChao view = new ViewCuaSoChao();
+//        this.hide();
+//        view.setVisible(true);
+//        view.setLocationRelativeTo(null);
+//        this.dispose();
+>>>>>>> parent of df23548 (saonv)
     }//GEN-LAST:event_btnDangNhapActionPerformed
 
     private void btnDangKyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangKyActionPerformed
