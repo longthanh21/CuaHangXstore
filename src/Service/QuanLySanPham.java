@@ -19,7 +19,6 @@ public class QuanLySanPham {
 
     ArrayList<SanPham> listSanPham = new ArrayList<>();
     ArrayList<SanPham> listCTCP = new ArrayList<>();
-    ArrayList<SanPham> listMauSac = new ArrayList<>();
 
     public ArrayList<SanPham> getListSanPham() {
         listSanPham.clear();
@@ -41,16 +40,16 @@ public class QuanLySanPham {
         return listSanPham;
     }
 
-    String soLuongTong;
-
-    public String SoLuongTong(String a) {
+    int soLuongTong;
+    
+    public int SoLuongTong(String a) {
         try {
             Connection conn = DbConnect.getConnection();
-            String sql = "SELECT SoLuongTong FROM SanPham where MaSP = " + "'" + a + "'";
+            String sql = "SELECT SoLuongTong FROM SanPham where MaSP = " +"'"+a+"'";
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {
-                soLuongTong = rs.getString("SoLuongTong");
+                soLuongTong = rs.getInt("SoLuongTong");
             }
         } catch (SQLException ex) {
             Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
@@ -73,13 +72,13 @@ public class QuanLySanPham {
             Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-    public void UpSoLuongTong(String a, String b) {
+ 
+    public void UpSoLuongTong(String a, int b) {
         try {
             Connection conn = DbConnect.getConnection();
-            String sql = "UPDATE SanPham SET SoLuongTong = ? where MaSP = " + "'" + a + "'";
+            String sql = "UPDATE SanPham SET SoLuongTong = ? where MaSP = " + "'"+a+"'";
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, Integer.valueOf(b));
+            ps.setInt(1, b);
             ps.executeUpdate();
             conn.close();
         } catch (SQLException ex) {
@@ -90,11 +89,7 @@ public class QuanLySanPham {
     public ArrayList<SanPham> getListCTSP() {
         try {
             Connection conn = DbConnect.getConnection();
-            String sql = "SELECT IdSP, MaSP, NgayNhap, TenMauSac, TenSize, TenChatLieu, TenHang, SoLuong, GiaNhap, GiaBan FROM CTSP\n"
-                    + "JOIN MauSac on MauSac.IdMauSac = CTSP.IdMauSac\n"
-                    + "JOIN Size on Size.IdSize = CTSP.IdSize\n"
-                    + "JOIN ChatLieu on ChatLieu.IdChatLieu = CTSP.IdChatLieu\n"
-                    + "JOIN Hang on Hang.IdHang = CTSP.IdHang";
+            String sql = "SELECT * FROM CTSP";
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {
@@ -102,10 +97,10 @@ public class QuanLySanPham {
                 sp.setIdspct(rs.getString("IdSP"));
                 sp.setMaSanPham(rs.getString("MaSP"));
                 sp.setNgayNhap(rs.getString("NgayNhap"));
-                sp.setIdMauSac(rs.getString("TenMauSac"));
-                sp.setIdSize(rs.getString("TenSize"));
-                sp.setIdChatLieu(rs.getString("TenChatLieu"));
-                sp.setIdHang(rs.getString("TenHang"));
+                sp.setIdMauSac(rs.getString("IdMauSac"));
+                sp.setIdSize(rs.getString("IdSize"));
+                sp.setIdChatLieu(rs.getString("IdChatLieu"));
+                sp.setIdHang(rs.getString("IdHang"));
                 sp.setGiaNhap(rs.getString("GiaNhap"));
                 sp.setGiaBan(rs.getString("GiaBan"));
                 sp.setSoLuong(rs.getString("SoLuong"));
@@ -115,23 +110,5 @@ public class QuanLySanPham {
             Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
         }
         return listCTCP;
-    }
-
-    public ArrayList<SanPham> getlistMauSac() {
-        listSanPham.clear();
-        try {
-            Connection conn = DbConnect.getConnection();
-            String sql = "SELECT * FROM MauSac";
-            Statement stm = conn.createStatement();
-            ResultSet rs = stm.executeQuery(sql);
-            while (rs.next()) {
-                SanPham sp = new SanPham();
-                sp.setIdMauSac(rs.getString("IdMauSac"));
-                listMauSac.add(sp);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return listMauSac;
     }
 }
