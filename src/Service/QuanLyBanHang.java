@@ -55,10 +55,10 @@ public class QuanLyBanHang {
                 bh.setIdspct(rs.getString("idsp"));
                 bh.setMaSanPham(rs.getString("MaSP"));
                 bh.setTenSanPham(rs.getString("TenSP"));
-                bh.setIdMauSac(rs.getString("IdMauSac"));
-                bh.setIdSize(rs.getString("IdSize"));
-                bh.setIdChatLieu(rs.getString("IdChatLieu"));
-                bh.setIdHang(rs.getString("IdHang"));
+                bh.setMauSac(rs.getString("IdMauSac"));
+                bh.setSize(rs.getString("IdSize"));
+                bh.setChatLieu(rs.getString("IdChatLieu"));
+                bh.setHang(rs.getString("IdHang"));
                 bh.setSoLuong(rs.getString("SoLuong"));
 
                 listSanPham.add(bh);

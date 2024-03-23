@@ -13,10 +13,10 @@ public class SanPham {
     private String idspct;
     private String tenSanPham;
     private String ngayNhap;
-    private String idMauSac;
-    private String idSize;
-    private String idChatLieu;
-    private String idHang;
+    private String MauSac;
+    private String Size;
+    private String ChatLieu;
+    private String Hang;
     private String soLuong;
     private String giaNhap;
     private String giaBan;
@@ -25,15 +25,15 @@ public class SanPham {
     public SanPham() {
     }
 
-    public SanPham(String maSanPham, String idspct, String tenSanPham, String ngayNhap, String idMauSac, String idSize, String idChatLieu, String idHang, String soLuong, String giaNhap, String giaBan, String trangThai) {
+    public SanPham(String maSanPham, String idspct, String tenSanPham, String ngayNhap, String MauSac, String Size, String ChatLieu, String Hang, String soLuong, String giaNhap, String giaBan, String trangThai) {
         this.maSanPham = maSanPham;
         this.idspct = idspct;
         this.tenSanPham = tenSanPham;
         this.ngayNhap = ngayNhap;
-        this.idMauSac = idMauSac;
-        this.idSize = idSize;
-        this.idChatLieu = idChatLieu;
-        this.idHang = idHang;
+        this.MauSac = MauSac;
+        this.Size = Size;
+        this.ChatLieu = ChatLieu;
+        this.Hang = Hang;
         this.soLuong = soLuong;
         this.giaNhap = giaNhap;
         this.giaBan = giaBan;
@@ -72,36 +72,36 @@ public class SanPham {
         this.ngayNhap = ngayNhap;
     }
 
-    public String getIdMauSac() {
-        return idMauSac;
+    public String getMauSac() {
+        return MauSac;
     }
 
-    public void setIdMauSac(String idMauSac) {
-        this.idMauSac = idMauSac;
+    public void setMauSac(String MauSac) {
+        this.MauSac = MauSac;
     }
 
-    public String getIdSize() {
-        return idSize;
+    public String getSize() {
+        return Size;
     }
 
-    public void setIdSize(String idSize) {
-        this.idSize = idSize;
+    public void setSize(String Size) {
+        this.Size = Size;
     }
 
-    public String getIdChatLieu() {
-        return idChatLieu;
+    public String getChatLieu() {
+        return ChatLieu;
     }
 
-    public void setIdChatLieu(String idChatLieu) {
-        this.idChatLieu = idChatLieu;
+    public void setChatLieu(String ChatLieu) {
+        this.ChatLieu = ChatLieu;
     }
 
-    public String getIdHang() {
-        return idHang;
+    public String getHang() {
+        return Hang;
     }
 
-    public void setIdHang(String idHang) {
-        this.idHang = idHang;
+    public void setHang(String Hang) {
+        this.Hang = Hang;
     }
 
     public String getSoLuong() {
@@ -136,6 +136,5 @@ public class SanPham {
         this.trangThai = trangThai;
     }
 
-    
     
 }
