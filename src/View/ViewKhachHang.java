@@ -107,7 +107,7 @@ public class ViewKhachHang extends javax.swing.JFrame {
         jLabel6.setText("Trạng Thái");
 
         buttonGroup1.add(jRadioButton1);
-        jRadioButton1.setText("Khách Hàng");
+        jRadioButton1.setText("Khách Mới");
 
         buttonGroup1.add(jRadioButton2);
         jRadioButton2.setText("Khách Vip");
