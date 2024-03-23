@@ -5,6 +5,8 @@
 package View;
 
 import Model.HoaDon;
+import Model.SanPham;
+
 import Service.QuanLyBanHang;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
@@ -24,23 +26,36 @@ public class ViewBanHang extends javax.swing.JFrame {
     public ViewBanHang() {
         initComponents();
         loadHoaDon();
+        loadSanPham();
     }
 
     void loadHoaDon() {
         model = (DefaultTableModel) tblHoaDon.getModel();
         model.setRowCount(0);
         int stt = 0;
-
         for (HoaDon hd : ql.getListHoaDon()) {
             stt++;
             model.addRow(new Object[]{
                 stt,
-                 hd.getMaHD(),
-                 hd.getNgayTao(),
-                 hd.getMaNV(),
-                 hd.getTrangThai()
+                hd.getMaHD(),
+                hd.getNgayTao(),
+                hd.getMaNV(),
+                hd.getTrangThai()
             });
+        }
+    }
 
+    void loadSanPham() {
+        model = (DefaultTableModel) tblSanPham.getModel();
+        model.setRowCount(0);
+
+        for (SanPham sp : ql.getListSanPham()) {
+            model.addRow(new Object[]{
+                sp.getIdspct(), sp.getMaSanPham(), sp.getTenSanPham(),
+                sp.getIdMauSac(), sp.getIdSize(), sp.getIdChatLieu()
+                    ,sp.getIdHang(),sp.getSoLuong(),sp.getGiaBan()
+
+            });
         }
     }
 
@@ -106,6 +121,11 @@ public class ViewBanHang extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tblHoaDon);
 
         btnTaoHD.setText("Tạo hóa đơn");
+        btnTaoHD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTaoHDActionPerformed(evt);
+            }
+        });
 
         btnHuy.setText("Hủy");
 
@@ -352,6 +372,11 @@ public class ViewBanHang extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnTaoHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaoHDActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_btnTaoHDActionPerformed
 
     /**
      * @param args the command line arguments
