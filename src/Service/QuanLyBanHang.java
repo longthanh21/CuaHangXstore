@@ -18,9 +18,9 @@ public class QuanLyBanHang {
 
     ArrayList<HoaDon> listHoaDon = new ArrayList<>();
     ArrayList<SanPham> listSanPham = new ArrayList<>();
-   // ArrayList<BanHang> listGioHang = new ArrayList<>();
+    // ArrayList<BanHang> listGioHang = new ArrayList<>();
 
-   public ArrayList<HoaDon> getListHoaDon() {
+    public ArrayList<HoaDon> getListHoaDon() {
         listHoaDon.clear();
 
         try {
@@ -42,27 +42,42 @@ public class QuanLyBanHang {
         }
         return listHoaDon;
     }
-   
-   public ArrayList<HoaDon> getListSanPham() {
-        listSanPham.clear();
 
+    public ArrayList<SanPham> getListSanPham() {
+        listSanPham.clear();
         try {
-            String sql = "select * from SanPham";
+            String sql = "select * from SanPham a join ctsp b on a.MaSP=b.MaSP";
             Connection con = DbConnect.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                HoaDon bh = new HoaDon();
-                bh.setMaHD(rs.getString("MaHD"));
-                bh.setNgayTao(rs.getString("NgayTao"));
-                bh.setMaNV(rs.getString("MaNV"));
-                bh.setTrangThai(rs.getString("TrangThai"));
-                listHoaDon.add(bh);
+                SanPham bh = new SanPham();
+                bh.setIdspct(rs.getString("idsp"));
+                bh.setMaSanPham(rs.getString("MaSP"));
+                bh.setTenSanPham(rs.getString("TenSP"));
+                bh.setIdMauSac(rs.getString("IdMauSac"));
+                bh.setIdSize(rs.getString("IdSize"));
+                bh.setIdChatLieu(rs.getString("IdChatLieu"));
+                bh.setIdHang(rs.getString("IdHang"));
+                bh.setSoLuong(rs.getString("SoLuong"));
+
+                listSanPham.add(bh);
             }
             con.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return listHoaDon;
+        return listSanPham;
+    }
+    public void themHoaDon(HoaDon h){
+        try {
+            
+        } catch (Exception e) {
+        } finally {
+        }
+        String sql="insert into HoaDon values(?,?,?,?,?,?,?)" ;
+        Connection con=DbConnect.getConnection();
+        PreparedStatement pr=con.prepareStatement(sql);
+        
     }
 }
