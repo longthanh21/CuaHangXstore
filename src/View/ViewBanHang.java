@@ -5,7 +5,6 @@
 package View;
 
 import Model.HoaDon;
-import Model.SanPham;
 import Service.QuanLyBanHang;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
@@ -25,7 +24,6 @@ public class ViewBanHang extends javax.swing.JFrame {
     public ViewBanHang() {
         initComponents();
         loadHoaDon();
-        loadSanPham();
     }
 
     void loadHoaDon() {
@@ -37,21 +35,10 @@ public class ViewBanHang extends javax.swing.JFrame {
             stt++;
             model.addRow(new Object[]{
                 stt,
-                hd.getMaHD(),
-                hd.getNgayTao(),
-                hd.getMaNV(),
-                hd.getTrangThai()
-            });
-
-        }
-    }
-
-    void loadSanPham() {
-        model = (DefaultTableModel) tblSanPham.getModel();
-        model.setRowCount(0);
-        for (SanPham sp : ql.getListSanPham()) {
-            model.addRow(new Object[]{
-                sp.getMaSanPham(), sp.getTenSanPham(), sp.getIdMauSac(), sp.getIdSize(), sp.getIdChatLieu(), sp.getIdHang(), sp.getGiaBan()
+                 hd.getMaHD(),
+                 hd.getNgayTao(),
+                 hd.getMaNV(),
+                 hd.getTrangThai()
             });
 
         }
