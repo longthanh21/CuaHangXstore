@@ -50,10 +50,10 @@ public class ViewSanPham extends javax.swing.JFrame {
                 sp.getIdspct(),
                 sp.getMaSanPham(),
                 sp.getNgayNhap(),
-                sp.getIdMauSac(),
-                sp.getIdSize(),
-                sp.getIdChatLieu(),
-                sp.getIdHang(),
+                sp.getMauSac(),
+                sp.getSize(),
+                sp.getChatLieu(),
+                sp.getHang(),
                 sp.getGiaNhap(),
                 sp.getGiaBan(),
                 sp.getSoLuong()
@@ -80,10 +80,10 @@ public class ViewSanPham extends javax.swing.JFrame {
         sp.setMaSanPham(txtMaSP.getText());
 
         //sp.setNgayNhap(dcNgayNhap.getDateFormatString());
-        sp.setIdMauSac((String) cbbMauSac.getSelectedItem());
-        sp.setIdSize((String) cbbSize.getSelectedItem());
-        sp.setIdChatLieu((String) cbbChatLieu.getSelectedItem());
-        sp.setIdHang((String) cbbHang.getSelectedItem());
+        sp.setMauSac((String) cbbMauSac.getSelectedItem());
+        sp.setSize((String) cbbSize.getSelectedItem());
+        sp.setChatLieu((String) cbbChatLieu.getSelectedItem());
+        sp.setHang((String) cbbHang.getSelectedItem());
         sp.setGiaBan(txtGiaBan.getText());
         sp.setGiaNhap(txtGiaNhap.getText());
         sp.setSoLuong(txtSoLuong.getText());

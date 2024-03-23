@@ -52,8 +52,8 @@ public class ViewBanHang extends javax.swing.JFrame {
         for (SanPham sp : ql.getListSanPham()) {
             model.addRow(new Object[]{
                 sp.getIdspct(), sp.getMaSanPham(), sp.getTenSanPham(),
-                sp.getIdMauSac(), sp.getIdSize(), sp.getIdChatLieu()
-                    ,sp.getIdHang(),sp.getSoLuong(),sp.getGiaBan()
+                sp.getMauSac(), sp.getSize(), sp.getChatLieu()
+                    ,sp.getHang(),sp.getSoLuong(),sp.getGiaBan()
 
             });
         }
