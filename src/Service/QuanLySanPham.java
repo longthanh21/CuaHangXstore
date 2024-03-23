@@ -102,10 +102,10 @@ public class QuanLySanPham {
                 sp.setIdspct(rs.getString("IdSP"));
                 sp.setMaSanPham(rs.getString("MaSP"));
                 sp.setNgayNhap(rs.getString("NgayNhap"));
-                sp.setIdMauSac(rs.getString("TenMauSac"));
-                sp.setIdSize(rs.getString("TenSize"));
-                sp.setIdChatLieu(rs.getString("TenChatLieu"));
-                sp.setIdHang(rs.getString("TenHang"));
+                sp.setMauSac(rs.getString("TenMauSac"));
+                sp.setSize(rs.getString("TenSize"));
+                sp.setChatLieu(rs.getString("TenChatLieu"));
+                sp.setHang(rs.getString("TenHang"));
                 sp.setGiaNhap(rs.getString("GiaNhap"));
                 sp.setGiaBan(rs.getString("GiaBan"));
                 sp.setSoLuong(rs.getString("SoLuong"));
@@ -126,7 +126,7 @@ public class QuanLySanPham {
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {
                 SanPham sp = new SanPham();
-                sp.setIdMauSac(rs.getString("IdMauSac"));
+                sp.setMauSac(rs.getString("IdMauSac"));
                 listMauSac.add(sp);
             }
         } catch (SQLException ex) {
