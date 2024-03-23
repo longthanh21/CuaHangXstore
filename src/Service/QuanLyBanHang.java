@@ -69,15 +69,22 @@ public class QuanLyBanHang {
         }
         return listSanPham;
     }
-    public void themHoaDon(HoaDon h){
+
+    public void themHoaDon(HoaDon h) {
         try {
-            
+            String sql = "insert into HoaDon values(?,?,?,?,?,?,?)";
+            Connection con = DbConnect.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, h.getMaHD());
+            ps.setString(2, h.getNgayTao());
+            //ps.setString(3,);
+            ps.setString(4, h.getMaNV());
+            //  ps.setString(5,);
+            ps.setString(6, h.getTrangThai());
+
         } catch (Exception e) {
         } finally {
         }
-        String sql="insert into HoaDon values(?,?,?,?,?,?,?)" ;
-        Connection con=DbConnect.getConnection();
-        PreparedStatement pr=con.prepareStatement(sql);
-        
+
     }
 }
