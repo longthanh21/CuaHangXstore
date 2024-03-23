@@ -78,7 +78,7 @@
                   <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="30" max="32767" attributes="0"/>
+                  <EmptySpace pref="26" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="pnHoaDon" alignment="1" min="-2" max="-2" attributes="0"/>
                       <Component id="pnGioHang" alignment="1" min="-2" max="-2" attributes="0"/>
@@ -240,14 +240,20 @@
                           <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
-                      <Component id="jTextField1" min="-2" pref="255" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="jTextField1" pref="255" max="32767" attributes="0"/>
+                          <Component id="jDateChooser1" max="32767" attributes="0"/>
+                      </Group>
                       <EmptySpace min="-2" pref="86" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
-                      <Component id="jTextField2" min="-2" pref="255" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="jTextField2" pref="255" max="32767" attributes="0"/>
+                          <Component id="jDateChooser2" max="32767" attributes="0"/>
+                      </Group>
                       <EmptySpace pref="287" max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -263,11 +269,15 @@
                           <Component id="jTextField2" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="jDateChooser1" min="-2" max="-2" attributes="0"/>
+                          <Component id="jDateChooser2" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="29" max="32767" attributes="0"/>
+                      <EmptySpace pref="27" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -296,6 +306,10 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Ng&#xe0;y b&#x1eaf;t &#x111;&#x1ea7;u:"/>
               </Properties>
+            </Component>
+            <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser1">
+            </Component>
+            <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser2">
             </Component>
           </SubComponents>
         </Container>
