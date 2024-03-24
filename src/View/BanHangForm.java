@@ -37,6 +37,7 @@ public class BanHangForm extends javax.swing.JFrame {
         lbBanHang = new javax.swing.JLabel();
         pnLogo = new javax.swing.JPanel();
         lbLogo = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         pnSanPham = new javax.swing.JPanel();
         lbSanPham = new javax.swing.JLabel();
         pnHoaDon = new javax.swing.JPanel();
@@ -95,17 +96,27 @@ public class BanHangForm extends javax.swing.JFrame {
         lbLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbLogo.setText("Giày Xstore");
 
+        jButton1.setBackground(new java.awt.Color(0, 255, 255));
+        jButton1.setForeground(new java.awt.Color(51, 255, 255));
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/AnhGiay/giaytrangChu.jpg"))); // NOI18N
+        jButton1.setAlignmentY(0.0F);
+
         javax.swing.GroupLayout pnLogoLayout = new javax.swing.GroupLayout(pnLogo);
         pnLogo.setLayout(pnLogoLayout);
         pnLogoLayout.setHorizontalGroup(
             pnLogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lbLogo, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+            .addComponent(lbLogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(pnLogoLayout.createSequentialGroup()
+                .addComponent(jButton1)
+                .addGap(0, 22, Short.MAX_VALUE))
         );
         pnLogoLayout.setVerticalGroup(
             pnLogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnLogoLayout.createSequentialGroup()
-                .addComponent(lbLogo, javax.swing.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE)
-                .addContainerGap())
+            .addGroup(pnLogoLayout.createSequentialGroup()
+                .addComponent(lbLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(10, 10, 10))
         );
 
         pnSanPham.setBackground(new java.awt.Color(204, 255, 255));
@@ -245,30 +256,30 @@ public class BanHangForm extends javax.swing.JFrame {
         pnKhuyenMai.setLayout(pnKhuyenMaiLayout);
         pnKhuyenMaiLayout.setHorizontalGroup(
             pnKhuyenMaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnKhuyenMaiLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lbKhuyenMai)
-                .addGap(48, 48, 48))
+            .addGroup(pnKhuyenMaiLayout.createSequentialGroup()
+                .addGap(44, 44, 44)
+                .addComponent(lbKhuyenMai, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnKhuyenMaiLayout.setVerticalGroup(
             pnKhuyenMaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnKhuyenMaiLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(pnKhuyenMaiLayout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(lbKhuyenMai)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout pnMenuLayout = new javax.swing.GroupLayout(pnMenu);
         pnMenu.setLayout(pnMenuLayout);
         pnMenuLayout.setHorizontalGroup(
             pnMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnLogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(pnBanHang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(pnSanPham, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(pnHoaDon, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(pnNhanVien, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(pnKhachHang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(pnKhuyenMai, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnLogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         pnMenuLayout.setVerticalGroup(
             pnMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -286,7 +297,7 @@ public class BanHangForm extends javax.swing.JFrame {
                 .addComponent(pnKhachHang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnKhuyenMai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 287, Short.MAX_VALUE))
+                .addGap(0, 233, Short.MAX_VALUE))
         );
 
         pnHienThi.setPreferredSize(new java.awt.Dimension(1200, 700));
@@ -295,7 +306,7 @@ public class BanHangForm extends javax.swing.JFrame {
         pnHienThi.setLayout(pnHienThiLayout);
         pnHienThiLayout.setHorizontalGroup(
             pnHienThiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1200, Short.MAX_VALUE)
+            .addGap(0, 1194, Short.MAX_VALUE)
         );
         pnHienThiLayout.setVerticalGroup(
             pnHienThiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -307,9 +318,10 @@ public class BanHangForm extends javax.swing.JFrame {
         MainLayout.setHorizontalGroup(
             MainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(MainLayout.createSequentialGroup()
-                .addComponent(pnMenu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(6, 6, 6)
-                .addComponent(pnHienThi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(pnMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnHienThi, javax.swing.GroupLayout.PREFERRED_SIZE, 1194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         MainLayout.setVerticalGroup(
             MainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -395,6 +407,7 @@ public class BanHangForm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Main;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel lbBanHang;
     private javax.swing.JLabel lbHoaDon;
     private javax.swing.JLabel lbKhachHang;
