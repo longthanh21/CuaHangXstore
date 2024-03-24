@@ -4,6 +4,7 @@
  */
 package View;
 
+import Model.KhachHang;
 import Service.QuanLyKhachHang;
 import javax.swing.table.DefaultTableModel;
 
@@ -18,11 +19,42 @@ public class ViewKhachHang extends javax.swing.JFrame {
      */
     DefaultTableModel defaultTableModel;
     QuanLyKhachHang quanLyKhachHang = new QuanLyKhachHang();
+
     public ViewKhachHang() {
         initComponents();
+        loadDataKhachHang();
+        loadDataKhachVip();
     }
-    
-    
+
+    void loadDataKhachHang() {
+        defaultTableModel = (DefaultTableModel) tblKhachHang.getModel();
+        defaultTableModel.setRowCount(0);
+        for (KhachHang khachHang : quanLyKhachHang.getAllKhachHang()) {
+            defaultTableModel.addRow(new Object[]{
+                khachHang.getMaKH(),
+                khachHang.getTenKH(),
+                khachHang.getSĐT(),
+                khachHang.isGioiTinh() ? "Nam" : "Nữ",
+                khachHang.isTrangThai() ? "Khách Vip" : "Khách Mới",
+                khachHang.getDiaChi(),});
+
+        }
+    }
+
+    void loadDataKhachVip() {
+        defaultTableModel = (DefaultTableModel) tblKhachVip.getModel();
+        defaultTableModel.setRowCount(0);
+        for (KhachHang khachHang : quanLyKhachHang.getAllKhachVip()) {
+            defaultTableModel.addRow(new Object[]{
+                khachHang.getMaKH(),
+                khachHang.getTenKH(),
+                khachHang.getSĐT(),
+                khachHang.isGioiTinh() ? "Nam" : "Nữ",
+                khachHang.isTrangThai() ? "Khách Vip" : "Khách Mới",
+                khachHang.getDiaChi(),});
+
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -38,7 +70,7 @@ public class ViewKhachHang extends javax.swing.JFrame {
         pnKhachHang = new javax.swing.JPanel();
         pnKhachVip = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tbKhachVip = new javax.swing.JTable();
+        tblKhachVip = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
@@ -72,18 +104,16 @@ public class ViewKhachHang extends javax.swing.JFrame {
 
         pnKhachVip.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, null), "Khách VIP"));
 
-        tbKhachVip.setModel(new javax.swing.table.DefaultTableModel(
+        tblKhachVip.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "MaKH", "Tên KH", "SĐT", "Địa Chỉ", "Trạng Thái"
+                "MaKH", "Tên KH", "SĐT", "Giới Tính", "Trạng Thái", "Địa Chỉ"
             }
         ));
-        jScrollPane2.setViewportView(tbKhachVip);
+        jScrollPane2.setViewportView(tblKhachVip);
 
         javax.swing.GroupLayout pnKhachVipLayout = new javax.swing.GroupLayout(pnKhachVip);
         pnKhachVip.setLayout(pnKhachVipLayout);
@@ -232,6 +262,11 @@ public class ViewKhachHang extends javax.swing.JFrame {
         );
 
         jButton1.setText("Add");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
 
         jButton2.setText("Update");
 
@@ -329,6 +364,11 @@ public class ViewKhachHang extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_jButton1MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -395,7 +435,7 @@ public class ViewKhachHang extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField4;
     private javax.swing.JPanel pnKhachHang;
     private javax.swing.JPanel pnKhachVip;
-    private javax.swing.JTable tbKhachVip;
     private javax.swing.JTable tblKhachHang;
+    private javax.swing.JTable tblKhachVip;
     // End of variables declaration//GEN-END:variables
 }

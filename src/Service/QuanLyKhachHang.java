@@ -16,6 +16,7 @@ import java.sql.*;
 public class QuanLyKhachHang {
 
     ArrayList<KhachHang> list = new ArrayList<>();
+    ArrayList<KhachHang> listKhachVip = new ArrayList<>();
 
     public ArrayList<KhachHang> getAllKhachHang() {
         list.clear();
@@ -41,27 +42,36 @@ public class QuanLyKhachHang {
     }
 
     public ArrayList<KhachHang> getAllKhachVip() {
-        list.clear();
+        listKhachVip.clear();
         try {
-            String sql = "select MaKH,TenKH,Sdt,gioiTinh,TrangThai,DiaChi from KhachHang"
-                    + "wherer TrangThai = 1";
+            String sql = "select MaKH,TenKH,Sdt,gioiTinh,TrangThai,DiaChi from KhachHang where TrangThai= 1";
+
             Connection con = DbConnect.getConnection();
             Statement stm = con.createStatement();
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {
+//                KhachHang kh = new KhachHang();
+//                kh.setMaKH(rs.getString("MaKH"));
+//                kh.setTenKH(rs.getString("TenKH"));
+//                kh.setSĐT(rs.getString("Sdt"));
+//                kh.setGioiTinh(rs.getBoolean("gioiTinh"));
+//                kh.setTrangThai(rs.getBoolean("TrangThai"));
+//                kh.setDiaChi(rs.getString("DiaChi"));
                 String ma = rs.getString(1);
                 String ten = rs.getString(2);
                 String sdt = rs.getString(3);
                 Boolean gioiTinh = rs.getBoolean(4);
                 Boolean trangThai = rs.getBoolean(5);
                 String diaChi = rs.getString(6);
-                list.add(new KhachHang(ma, ten, sdt, gioiTinh, trangThai, diaChi));
+
+                listKhachVip.add(new KhachHang(ma, ten, sdt, gioiTinh, trangThai, diaChi));
+//                listKhachVip.add(kh);
             }
             con.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return list;
+        return listKhachVip;
     }
 
     public boolean ADDKhachHang(KhachHang khachHang) {
@@ -106,15 +116,15 @@ public class QuanLyKhachHang {
                     + "where MaKH = '?'";
             Connection con = DbConnect.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1,khachHang.getTenKH());
-            ps.setString(2,khachHang.getSĐT());
+            ps.setString(1, khachHang.getTenKH());
+            ps.setString(2, khachHang.getSĐT());
             ps.setBoolean(3, khachHang.isGioiTinh());
             ps.setBoolean(4, khachHang.isTrangThai());
-            ps.setString(5,khachHang.getDiaChi());
-            ps.setString(6,khachHang.getMaKH());
-           ps.executeUpdate();
-           con.close();
-           return true;
+            ps.setString(5, khachHang.getDiaChi());
+            ps.setString(6, khachHang.getMaKH());
+            ps.executeUpdate();
+            con.close();
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
