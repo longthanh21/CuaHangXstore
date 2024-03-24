@@ -9,12 +9,12 @@ package Model;
  * @author KhanhCT
  */
 public class HoaDon {
-    private String maHD,ngayTao,maKH,maNV,maVC,tongTien,trangThai;
+    private String maHD,ngayTao,maKH,maNV,maVC,tongTien,trangThai,maSP,tenSP,soLuong,giaBan;
 
     public HoaDon() {
     }
 
-    public HoaDon(String maHD, String ngayTao, String maKH, String maNV, String maVC, String tongTien, String trangThai) {
+    public HoaDon(String maHD, String ngayTao, String maKH, String maNV, String maVC, String tongTien, String trangThai, String maSP, String tenSP, String soLuong, String giaBan) {
         this.maHD = maHD;
         this.ngayTao = ngayTao;
         this.maKH = maKH;
@@ -22,6 +22,10 @@ public class HoaDon {
         this.maVC = maVC;
         this.tongTien = tongTien;
         this.trangThai = trangThai;
+        this.maSP = maSP;
+        this.tenSP = tenSP;
+        this.soLuong = soLuong;
+        this.giaBan = giaBan;
     }
 
     public String getMaHD() {
@@ -79,6 +83,40 @@ public class HoaDon {
     public void setTrangThai(String trangThai) {
         this.trangThai = trangThai;
     }
-    
-    
+
+    public String getMaSP() {
+        return maSP;
+    }
+
+    public void setMaSP(String maSP) {
+        this.maSP = maSP;
+    }
+
+    public String getTenSP() {
+        return tenSP;
+    }
+
+    public void setTenSP(String tenSP) {
+        this.tenSP = tenSP;
+    }
+
+    public String getSoLuong() {
+        return soLuong;
+    }
+
+    public void setSoLuong(String soLuong) {
+        this.soLuong = soLuong;
+    }
+
+    public String getGiaBan() {
+        return giaBan;
+    }
+
+    public void setGiaBan(String giaBan) {
+        this.giaBan = giaBan;
+    }
+public Integer thanhTien(Integer soLuong, Integer giaBan){
+        return soLuong*giaBan;
+                }
+   
 }
