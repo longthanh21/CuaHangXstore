@@ -16,8 +16,8 @@ public class ViewKhachHang extends javax.swing.JFrame {
     /**
      * Creates new form ViewKhachHang
      */
-    DefaultTableModel defaultTableModel;
-    QuanLyKhachHang quanLyKhachHang = new QuanLyKhachHang();
+//    DefaultTableModel defaultTableModel;
+//    QuanLyKhachHang quanLyKhachHang = new QuanLyKhachHang();
     public ViewKhachHang() {
         initComponents();
     }
