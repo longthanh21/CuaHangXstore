@@ -9,12 +9,12 @@ package Model;
  * @author KhanhCT
  */
 public class HoaDon {
-    private String maHD,ngayTao,maKH,maNV,maVC,tongTien,trangThai,maSP,tenSP,soLuong,giaBan;
+    private String maHD,ngayTao,maKH,maNV,maVC,tongTien,trangThai,idSP,maSP,tenSP,soLuong,giaBan;
 
     public HoaDon() {
     }
 
-    public HoaDon(String maHD, String ngayTao, String maKH, String maNV, String maVC, String tongTien, String trangThai, String maSP, String tenSP, String soLuong, String giaBan) {
+    public HoaDon(String maHD, String ngayTao, String maKH, String maNV, String maVC, String tongTien, String trangThai, String idSP, String maSP, String tenSP, String soLuong, String giaBan) {
         this.maHD = maHD;
         this.ngayTao = ngayTao;
         this.maKH = maKH;
@@ -22,6 +22,7 @@ public class HoaDon {
         this.maVC = maVC;
         this.tongTien = tongTien;
         this.trangThai = trangThai;
+        this.idSP = idSP;
         this.maSP = maSP;
         this.tenSP = tenSP;
         this.soLuong = soLuong;
@@ -84,6 +85,14 @@ public class HoaDon {
         this.trangThai = trangThai;
     }
 
+    public String getIdSP() {
+        return idSP;
+    }
+
+    public void setIdSP(String idSP) {
+        this.idSP = idSP;
+    }
+
     public String getMaSP() {
         return maSP;
     }
@@ -115,6 +124,8 @@ public class HoaDon {
     public void setGiaBan(String giaBan) {
         this.giaBan = giaBan;
     }
+
+   
 public Integer thanhTien(Integer soLuong, Integer giaBan){
         return soLuong*giaBan;
                 }

@@ -9,6 +9,7 @@ import Model.SanPham;
 
 import Service.QuanLyBanHang;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -270,13 +271,13 @@ public class ViewBanHang extends javax.swing.JFrame {
 
         tblGioHang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "STT", "Mã sản phẩm", "Tên sản phẩm", "Số lượng", "Giá bán", "Thành tiền"
+                "STT", "Id san pham", "Mã sản phẩm", "Tên sản phẩm", "Số lượng", "Giá bán", "Thành tiền"
             }
         ));
         tblGioHang.setPreferredSize(new java.awt.Dimension(75, 80));
@@ -312,6 +313,11 @@ public class ViewBanHang extends javax.swing.JFrame {
                 "IDSP", "Mã sản phẩm", "Tên sản phẩm", "Màu sắc", "Kích cỡ", "Chất liệu", "Hãng", "Số lượng", "Giá bán"
             }
         ));
+        tblSanPham.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblSanPhamMouseClicked(evt);
+            }
+        });
         aaaa.setViewportView(tblSanPham);
 
         jLabel1.setText("Tìm kiếm theo tên");
@@ -397,7 +403,7 @@ public class ViewBanHang extends javax.swing.JFrame {
         String ngayTao = java.time.LocalDate.now().toString();
         String mnv = "NV001";
         String tt = "chờ thanh toán";
-        HoaDon h = new HoaDon(mhd, ngayTao, null, mnv, null, null, tt, null, null, null, null);
+        HoaDon h = new HoaDon(mhd, ngayTao, null, mnv, null, null, tt, null, null, null, null, null);
         ql.themHoaDon(h);
         loadHoaDon();
         txtMaHD.setText(h.getMaHD());
@@ -411,6 +417,38 @@ public class ViewBanHang extends javax.swing.JFrame {
         int i = tblHoaDon.getSelectedRow();
         loadGioHang(String.valueOf(tblHoaDon.getValueAt(i, 1)));
     }//GEN-LAST:event_tblHoaDonMouseClicked
+
+    private void tblSanPhamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSanPhamMouseClicked
+        // TODO add your handling code here:
+        int i = tblSanPham.getSelectedRow();
+        String a = JOptionPane.showInputDialog("moi nhap so luong");
+        String id = (String) tblSanPham.getValueAt(i, 0);
+        String soLuong = (String) tblSanPham.getValueAt(i, 7);
+        String giaBan = (String) tblSanPham.getValueAt(i, 8);
+
+        if (Integer.valueOf(a) <= Integer.valueOf(soLuong) && Integer.valueOf(a) > 0) {
+            Integer so = Integer.valueOf(soLuong) - Integer.valueOf(a);
+            String so2 = so.toString();
+            ql.suaSanPham(so2, id);
+            loadSanPham();
+            String maHD = txtMaHD.getText();
+            for (HoaDon h : ql.getListGioHang(maHD)) {
+                if (id.equals(h.getIdSP())) {
+                    Integer a2 = Integer.valueOf(a) + Integer.valueOf(h.getSoLuong());
+                    ql.suaGioHang(a2, id);
+                    loadGioHang(maHD);
+                    return;
+                }
+            }
+            HoaDon h = new HoaDon(maHD, null, null, null, null, null, null, id, null, null, soLuong, giaBan);
+            ql.themGioHang(h);
+            loadGioHang(maHD);
+
+//            tongTien();
+        } else {
+            JOptionPane.showMessageDialog(this, "moi nhap lai");
+        }
+    }//GEN-LAST:event_tblSanPhamMouseClicked
 
     /**
      * @param args the command line arguments

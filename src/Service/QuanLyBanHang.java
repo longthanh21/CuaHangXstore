@@ -46,7 +46,12 @@ public class QuanLyBanHang {
     public ArrayList<SanPham> getListSanPham() {
         listSanPham.clear();
         try {
-            String sql = "select * from SanPham a join ctsp b on a.MaSP=b.MaSP";
+            String sql = " SELECT * FROM CTSP\n"
+                    + "                JOIN MauSac on MauSac.IdMauSac = CTSP.IdMauSac\n"
+                    + "                JOIN Size on Size.IdSize = CTSP.IdSize\n"
+                    + "                JOIN ChatLieu on ChatLieu.IdChatLieu = CTSP.IdChatLieu\n"
+                    + "                JOIN Hang on Hang.IdHang = CTSP.IdHang\n"
+                    + "				join SanPham on SanPham.MaSP=CTSP.MaSP";
             Connection con = DbConnect.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -55,12 +60,12 @@ public class QuanLyBanHang {
                 bh.setIdspct(rs.getString("idsp"));
                 bh.setMaSanPham(rs.getString("MaSP"));
                 bh.setTenSanPham(rs.getString("TenSP"));
-                bh.setMauSac(rs.getString("IdMauSac"));
-                bh.setSize(rs.getString("IdSize"));
-                bh.setChatLieu(rs.getString("IdChatLieu"));
-                bh.setHang(rs.getString("IdHang"));
+                bh.setMauSac(rs.getString("TenMauSac"));
+                bh.setSize(rs.getString("TenSize"));
+                bh.setChatLieu(rs.getString("TenChatLieu"));
+                bh.setHang(rs.getString("TenHang"));
                 bh.setSoLuong(rs.getString("SoLuong"));
-
+                bh.setGiaBan(rs.getString("GiaBan"));
                 listSanPham.add(bh);
             }
             con.close();
@@ -99,7 +104,7 @@ public class QuanLyBanHang {
                     + "join HoaDon b on a.MaHD=b.MaHD \n"
                     + "join CTSP c on c.IdSP=a.IdSP\n"
                     + "join SanPham d on d.MaSP=c.MaSP\n"
-                    + "where a.MaHD='" + mhd + "'" ;
+                    + "where a.MaHD='" + mhd + "'";
             Connection con = DbConnect.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -119,4 +124,59 @@ public class QuanLyBanHang {
         return listGioHang;
     }
 
+    public void suaSanPham(String sl, String id) {
+        String sql = "UPDATE CTSP\n"
+                + "SET SoLuong = ?\n"
+                + " FROM CTSP\n"
+                + " JOIN SanPham ON SanPham.MaSP = CTSP.MaSP\n"
+                + "WHERE IdSP=?";
+        try {
+            Connection con = DbConnect.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, sl);
+            ps.setString(2, id);
+            ps.executeUpdate();
+            con.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void suaGioHang(int sl, String id) {
+        String sql = "UPDATE CTHD\n"
+                + "SET SoLuong = ?\n"
+                + " FROM CTHD\n"
+                + " JOIN HoaDon ON HoaDon.MaHd = CTHD.MaHD\n"
+                + "WHERE IdSP=?";
+        try {
+            Connection con = DbConnect.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, sl);
+            ps.setString(2, id);
+            ps.executeUpdate();
+            con.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void themGioHang(HoaDon h) {
+        try {
+            String sql = "insert into cthd values(?,?,?,?)";
+            Connection con = DbConnect.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, h.getMaHD());
+            ps.setString(2, h.getIdSP());
+            ps.setString(3, h.getSoLuong());
+            ps.setString(4, h.getGiaBan());
+
+            ps.executeUpdate();
+            con.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+    }
 }
