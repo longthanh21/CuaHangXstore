@@ -18,13 +18,13 @@ public class QuanLyBanHang {
 
     ArrayList<HoaDon> listHoaDon = new ArrayList<>();
     ArrayList<SanPham> listSanPham = new ArrayList<>();
-    // ArrayList<BanHang> listGioHang = new ArrayList<>();
+    ArrayList<HoaDon> listGioHang = new ArrayList<>();
 
     public ArrayList<HoaDon> getListHoaDon() {
         listHoaDon.clear();
 
         try {
-            String sql = "select * from HoaDon";
+            String sql = "select * from HoaDon where TrangThai=N'chờ thanh toán' order by CAST(SUBSTRING(MaHD, 3, LEN(MaHD)) AS INT) asc";
             Connection con = DbConnect.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -77,14 +77,46 @@ public class QuanLyBanHang {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, h.getMaHD());
             ps.setString(2, h.getNgayTao());
-            //ps.setString(3,);
+            ps.setString(3, null);
             ps.setString(4, h.getMaNV());
-            //  ps.setString(5,);
-            ps.setString(6, h.getTrangThai());
+            ps.setString(5, null);
+            ps.setString(6, null);
+            ps.setString(7, h.getTrangThai());
 
+            ps.executeUpdate();
+            con.close();
         } catch (Exception e) {
+            e.printStackTrace();
         } finally {
         }
 
     }
+
+    public ArrayList<HoaDon> getListGioHang(String mhd) {
+        listGioHang.clear();
+        try {
+            String sql = "select * from CTHD a\n"
+                    + "join HoaDon b on a.MaHD=b.MaHD \n"
+                    + "join CTSP c on c.IdSP=a.IdSP\n"
+                    + "join SanPham d on d.MaSP=c.MaSP\n"
+                    + "where a.MaHD='" + mhd + "'" ;
+            Connection con = DbConnect.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                HoaDon bh = new HoaDon();
+                bh.setMaSP(rs.getString("MaSP"));
+                bh.setTenSP(rs.getString("TenSp"));
+                bh.setSoLuong(rs.getString("SoLuong"));
+                bh.setGiaBan(rs.getString("GiaBan"));
+
+                listGioHang.add(bh);
+            }
+            con.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return listGioHang;
+    }
+
 }
