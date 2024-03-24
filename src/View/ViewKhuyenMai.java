@@ -6,6 +6,7 @@ package View;
 
 import Model.Voucher;
 import Service.QuanLyKhuyenMai;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,7 +33,22 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
 
     public void LoadDataTable() {
         dtm.setRowCount(0);
+        for (Voucher e : listVC) {
+            String trangThai = e.getTrangThai().equalsIgnoreCase("0") ? "Hết hạn" : "Hoạt động";
+            dtm.addRow(new Object[]{
+                e.getMaVC(),
+                e.getTenVC(),
+                e.getGiamGia(),
+                e.getNgayBatDau(),
+                e.getNgayKetThuc(),
+                e.getUuDai(),
+                trangThai
+            });
+        }
+    }
 
+    public void LoadDataTableTheoMa(String ma) {
+        dtm.setRowCount(0);
         for (Voucher e : listVC) {
             String trangThai = e.getTrangThai().equalsIgnoreCase("0") ? "Hết hạn" : "Hoạt động";
             dtm.addRow(new Object[]{
@@ -46,44 +62,59 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         }
     }
 
-//    public void ThemVoucher() {
-//        String maVC = txtMaVC.getText().trim();
-//        String ten = txtTenVC.getText().trim();
-//        String giamGia = txtGiamGiaVC.getText().trim();
-//        String ngaybatDau = new SimpleDateFormat("yyyy-MM-dd").format(dcBatDau.getDate());
-//        String ngayKetThuc = new SimpleDateFormat("yyyy-MM-dd").format(dcHetHan.getDate());
-//        String trangThai = "";
-//
-//        if (rbHoatDong.isSelected()) {
-//            trangThai = "Hoạt động";
-//        } else if (rbHetHan.isSelected()) {
-//            trangThai = "Hết hạn";
-//        } else {
-//            // Xử lý trường hợp không có RadioButton nào được chọn (nếu cần)
-//        }
-//        Voucher vc = new Voucher(maVC, ten, giamGia, ngaybatDau, ngayKetThuc, trangThai);
-//        // Kiểm tra ràng buộc dữ liệu
-//        if (maVC.isEmpty()) {
-//            JOptionPane.showMessageDialog(this, "Không được để trống mã");
-//        } else if (ten.isEmpty()) {
-//            JOptionPane.showMessageDialog(this, "Không được để trống tên");
-//        } else if (giamGia.isEmpty()) {
-//            JOptionPane.showMessageDialog(this, "Không được để trống giảm giá");
-//        } else if (ngaybatDau.isEmpty()) {
-//            JOptionPane.showMessageDialog(this, "Không được để trống ngày bắt đầu");
-//        } else if (ngayKetThuc.isEmpty()) {
-//            JOptionPane.showMessageDialog(this, "Không được để trống ngày kết thúc");
-//        } else {
-//            // Nếu tất cả các trường đều hợp lệ, thực hiện thêm voucher
-//
-//            int i = JOptionPane.showConfirmDialog(this, "Thêm voucher mới ?");
-//            if (i == JOptionPane.OK_OPTION) {
-//                JOptionPane.showMessageDialog(this, qlKM.themVoucher(vc));
-//                LoadDataTable();
-//            }
-//        }
-//    }
+    public void detail() {
+        int i = tbVoucher.getSelectedRow();
+        txtMaVC.setText(String.valueOf(tbVoucher.getValueAt(i, 0)));
+        txtTenVC.setText(String.valueOf(tbVoucher.getValueAt(i, 1)));
+        txtGiamGiaVC.setText(String.valueOf(tbVoucher.getValueAt(i, 2)));
+        String dateBatDau = String.valueOf(tbVoucher.getValueAt(i, 3));
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date startDate = null;
+        try {
+            startDate = dateFormat.parse(dateBatDau);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        dcBatDau.setDate(startDate);
+        String dateKetThuc = String.valueOf(tbVoucher.getValueAt(i, 4)); // Chỉ số 4 nếu ngày kết thúc được lưu trong cột khác
+        Date endDate = null;
+        try {
+            endDate = dateFormat.parse(dateKetThuc);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        dcHetHan.setDate(endDate);
+        String tt = String.valueOf(tbVoucher.getValueAt(i, 5));
+        if (tt.equalsIgnoreCase("Hoạt động")) {
+            rbHoatDong.setSelected(true);
+        } else if (tt.equalsIgnoreCase("Hết hạn")) {
+            rbHetHan.setSelected(true);
+        } else {
+            //
+        }
+    }
 
+    public Voucher getFormVoucher() {
+        Voucher vc = new Voucher();
+        vc.setMaVC(txtMaVC.getText());
+        vc.setTenVC(txtTenVC.getText());
+        vc.setGiamGia(txtGiamGiaVC.getText());
+        
+        Date ngayBatDau = dcBatDau.getDate();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String strNgayBatDau = dateFormat.format(ngayBatDau);
+        vc.setNgayBatDau(strNgayBatDau);
+
+        Date ngayKetThuc = dcHetHan.getDate();
+        String strNgayKetThuc = dateFormat.format(ngayKetThuc);
+        vc.setNgayKetThuc(strNgayKetThuc);
+        if (rbHoatDong.isSelected()) {
+            vc.setTrangThai("Hoạt động");
+        } else {
+            vc.setTrangThai("Hết hạn");
+        }
+        return vc;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -153,6 +184,11 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         Voucher.setPreferredSize(new java.awt.Dimension(1200, 700));
 
         btnAdd.setText("Add");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
         btnUpdate.setText("Update");
 
@@ -271,6 +307,11 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                 "Mã voucher", "Tên voucher", "Giảm giá", "Ngày bắt đầu", "Ngày kết thúc", "Ưu đãi riêng", "Trạng thái"
             }
         ));
+        tbVoucher.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbVoucherMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbVoucher);
 
         javax.swing.GroupLayout danhSachVCLayout = new javax.swing.GroupLayout(danhSachVC);
@@ -551,6 +592,17 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void tbVoucherMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbVoucherMouseClicked
+        detail();
+        int i = tbVoucher.getSelectedRow();
+        LoadDataTableTheoMa(String.valueOf(tbVoucher.getValueAt(i, 1)));
+    }//GEN-LAST:event_tbVoucherMouseClicked
+
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        qlKM.themVoucher(getFormVoucher());
+        LoadDataTable();
+    }//GEN-LAST:event_btnAddActionPerformed
 
     /**
      * @param args the command line arguments
