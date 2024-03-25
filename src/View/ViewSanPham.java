@@ -611,11 +611,6 @@ public class ViewSanPham extends javax.swing.JFrame {
         });
 
         btnDelete.setText("Delete");
-        btnDelete.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDeleteActionPerformed(evt);
-            }
-        });
 
         btnNew.setText("New");
 
@@ -904,7 +899,7 @@ public class ViewSanPham extends javax.swing.JFrame {
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // TODO add your handling code here:
         qlsp.AddSP(getFormSP());
-//        qlsp.UpSoLuongTong(txtMaSP.getText(), txtSoLuongTong.getText());
+        qlsp.UpSoLuongTong(txtMaSP.getText(), txtSoLuongTong.getText());
         loadSP();
     }//GEN-LAST:event_btnAddActionPerformed
 
@@ -926,11 +921,6 @@ public class ViewSanPham extends javax.swing.JFrame {
         // TODO add your handling code here:
         qlsp.AddCTSP(getFormCTSP());
         loadCTSP();
-        int i = tblSanPham.getSelectedRow();
-        String MaSP = (String) tblSanPham.getValueAt(i, 1);
-        loadCTSPTheoMa(MaSP);
-        qlsp.TongSoLuongSP(MaSP);
-        loadSP();
     }//GEN-LAST:event_btnAddCTSPActionPerformed
 
     private void btnUpdateCTSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateCTSPActionPerformed
@@ -942,12 +932,7 @@ public class ViewSanPham extends javax.swing.JFrame {
         int j = tblSanPham.getSelectedRow();
         String MaSP = (String) tblSanPham.getValueAt(j, 1);
         loadCTSPTheoMa(MaSP);
-        qlsp.TongSoLuongSP(MaSP);
     }//GEN-LAST:event_btnUpdateCTSPActionPerformed
-
-    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnDeleteActionPerformed
 
     /**
      * @param args the command line arguments

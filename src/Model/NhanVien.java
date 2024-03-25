@@ -20,9 +20,6 @@ public class NhanVien {
     private String maCL;
     private boolean trangThai;
 
-    public NhanVien() {
-    }
-
     
 
     public NhanVien(String maNV, String tenNV, String ngaySinh, boolean gioiTinh, String diaChi, String SĐT, boolean vaiTro, String maTK, String maCL, boolean trangThai) {
