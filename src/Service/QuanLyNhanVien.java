@@ -4,10 +4,17 @@
  */
 package Service;
 
+import Model.KhachHang;
+import Model.NhanVien;
+import java.util.ArrayList;
+
 /**
  *
  * @author KhanhCT
  */
 public class QuanLyNhanVien {
+    ArrayList<NhanVien> list = new ArrayList<>();
     
+    
+
 }
