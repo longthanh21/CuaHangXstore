@@ -100,7 +100,7 @@ public class QuanLyBanHang {
     public ArrayList<HoaDon> getListGioHang(String mhd) {
         listGioHang.clear();
         try {
-            String sql = "select * from CTHD a\n"
+            String sql = "select c.IdSP,d.MaSP,TenSP,a.SoLuong,a.GiaBan from CTHD a\n"
                     + "join HoaDon b on a.MaHD=b.MaHD \n"
                     + "join CTSP c on c.IdSP=a.IdSP\n"
                     + "join SanPham d on d.MaSP=c.MaSP\n"
@@ -110,6 +110,8 @@ public class QuanLyBanHang {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 HoaDon bh = new HoaDon();
+                                bh.setIdSP(rs.getString("idsp"));
+
                 bh.setMaSP(rs.getString("MaSP"));
                 bh.setTenSP(rs.getString("TenSp"));
                 bh.setSoLuong(rs.getString("SoLuong"));
@@ -143,17 +145,19 @@ public class QuanLyBanHang {
 
     }
 
-    public void suaGioHang(int sl, String id) {
+    public void suaGioHang(String sl, String id,String mhd) {
         String sql = "UPDATE CTHD\n"
                 + "SET SoLuong = ?\n"
                 + " FROM CTHD\n"
                 + " JOIN HoaDon ON HoaDon.MaHd = CTHD.MaHD\n"
-                + "WHERE IdSP=?";
+                + "WHERE IdSP=? and HoaDon.MaHD=?";
         try {
             Connection con = DbConnect.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, sl);
+            ps.setString(1, sl);
             ps.setString(2, id);
+                        ps.setString(3, mhd);
+
             ps.executeUpdate();
             con.close();
         } catch (Exception e) {
@@ -179,4 +183,19 @@ public class QuanLyBanHang {
 
         }
     }
+   public void xoaGioHang(String idsp, String maHD) {
+        String sql = "delete CTHD where IdSP=? and MaHD=?";
+        try {
+            Connection con = DbConnect.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, idsp);
+            ps.setString(2, maHD);
+            ps.executeUpdate();
+            con.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+      
+    }
+
 }

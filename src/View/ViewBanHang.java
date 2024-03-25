@@ -28,7 +28,7 @@ public class ViewBanHang extends javax.swing.JFrame {
         initComponents();
 
         loadHoaDon();
-        loadSanPham();
+        loadSanPham(ql.getListSanPham());
     }
 
     void loadHoaDon() {
@@ -46,12 +46,12 @@ public class ViewBanHang extends javax.swing.JFrame {
             });
         }
     }
-
-    void loadSanPham() {
+    
+    void loadSanPham(ArrayList<SanPham> list) {
         model = (DefaultTableModel) tblSanPham.getModel();
         model.setRowCount(0);
 
-        for (SanPham sp : ql.getListSanPham()) {
+        for (SanPham sp : list) {
             model.addRow(new Object[]{
                 sp.getIdspct(), sp.getMaSanPham(), sp.getTenSanPham(),
                 sp.getMauSac(), sp.getSize(), sp.getChatLieu(),
@@ -69,7 +69,7 @@ public class ViewBanHang extends javax.swing.JFrame {
         for (HoaDon sp : ql.getListGioHang(mhd)) {
             stt++;
             model.addRow(new Object[]{
-                stt, sp.getMaSP(), sp.getTenSP(), sp.getSoLuong(), sp.getGiaBan(), sp.thanhTien(Integer.valueOf(sp.getSoLuong()), Integer.valueOf(sp.getGiaBan()))
+                stt,sp.getIdSP(), sp.getMaSP(), sp.getTenSP(), sp.getSoLuong(), sp.getGiaBan(), sp.thanhTien(Integer.valueOf(sp.getSoLuong()), Integer.valueOf(sp.getGiaBan()))
             });
         }
     }
@@ -281,6 +281,11 @@ public class ViewBanHang extends javax.swing.JFrame {
             }
         ));
         tblGioHang.setPreferredSize(new java.awt.Dimension(75, 80));
+        tblGioHang.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblGioHangMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tblGioHang);
 
         javax.swing.GroupLayout pnGioHangLayout = new javax.swing.GroupLayout(pnGioHang);
@@ -321,6 +326,17 @@ public class ViewBanHang extends javax.swing.JFrame {
         aaaa.setViewportView(tblSanPham);
 
         jLabel1.setText("Tìm kiếm theo tên");
+
+        txtTimKiem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTimKiemActionPerformed(evt);
+            }
+        });
+        txtTimKiem.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtTimKiemKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnSanPhamLayout = new javax.swing.GroupLayout(pnSanPham);
         pnSanPham.setLayout(pnSanPhamLayout);
@@ -416,6 +432,10 @@ public class ViewBanHang extends javax.swing.JFrame {
         // TODO add your handling code here:
         int i = tblHoaDon.getSelectedRow();
         loadGioHang(String.valueOf(tblHoaDon.getValueAt(i, 1)));
+        
+        txtMaHD.setText((String) tblHoaDon.getValueAt(i, 1));
+        txtNgayTao.setText((String) tblHoaDon.getValueAt(i, 2));
+        txtMaNV.setText((String) tblHoaDon.getValueAt(i, 3));
     }//GEN-LAST:event_tblHoaDonMouseClicked
 
     private void tblSanPhamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSanPhamMouseClicked
@@ -430,17 +450,17 @@ public class ViewBanHang extends javax.swing.JFrame {
             Integer so = Integer.valueOf(soLuong) - Integer.valueOf(a);
             String so2 = so.toString();
             ql.suaSanPham(so2, id);
-            loadSanPham();
+            loadSanPham(ql.getListSanPham());
             String maHD = txtMaHD.getText();
             for (HoaDon h : ql.getListGioHang(maHD)) {
                 if (id.equals(h.getIdSP())) {
                     Integer a2 = Integer.valueOf(a) + Integer.valueOf(h.getSoLuong());
-                    ql.suaGioHang(a2, id);
+                    ql.suaGioHang(String.valueOf(a2), id,maHD);
                     loadGioHang(maHD);
                     return;
                 }
             }
-            HoaDon h = new HoaDon(maHD, null, null, null, null, null, null, id, null, null, soLuong, giaBan);
+            HoaDon h = new HoaDon(maHD, null, null, null, null, null, null, id, null, null, a, giaBan);
             ql.themGioHang(h);
             loadGioHang(maHD);
 
@@ -449,6 +469,57 @@ public class ViewBanHang extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "moi nhap lai");
         }
     }//GEN-LAST:event_tblSanPhamMouseClicked
+
+    private void tblGioHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblGioHangMouseClicked
+        // TODO add your handling code here:
+        int i=tblGioHang.getSelectedRow();
+        String mhd=txtMaHD.getText();
+            String idsp=String.valueOf(tblGioHang.getValueAt(i, 1)) ;
+        String b = JOptionPane.showInputDialog("moi ban nhap so luong");
+        String slgh=(String) tblGioHang.getValueAt(i, 4);
+        try {
+             for (SanPham s : ql.getListSanPham()) {
+            if (idsp.equals(s.getIdspct())) {
+                if (Integer.valueOf(b) > (Integer.valueOf(s.getSoLuong()) + Integer.valueOf(slgh))) {
+                    JOptionPane.showMessageDialog(this, "nhap lai so luong");
+                    return ;
+                }
+                Integer sL = Integer.valueOf(s.getSoLuong()) + Integer.valueOf(slgh) - Integer.valueOf(b);
+                String sl = sL.toString();
+                ql.suaSanPham(sl, idsp);
+                loadSanPham(ql.getListSanPham());
+            }}
+        } catch (Exception e) {
+        }
+         
+          if (Integer.valueOf(b) == 0) {
+          ql.xoaGioHang(idsp, mhd);
+              loadGioHang(mhd);
+        } else {
+            ql.suaGioHang(b, idsp,mhd);
+              loadGioHang(mhd);
+        }
+    }//GEN-LAST:event_tblGioHangMouseClicked
+
+    private void txtTimKiemKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimKiemKeyReleased
+        // TODO add your handling code here:
+         ArrayList<SanPham> list = new ArrayList<>();
+        for (SanPham s : ql.getListSanPham()) {
+            if (txtTimKiem.getText().contains(s.getMaSanPham())||txtTimKiem.getText().contains(s.getIdspct())) {
+                list.add(s);
+            }
+        }
+        if (txtTimKiem.getText().equals("")) {
+            loadSanPham(ql.getListSanPham());
+        }else{
+            loadSanPham(list);
+        }
+        
+    }//GEN-LAST:event_txtTimKiemKeyReleased
+
+    private void txtTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTimKiemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTimKiemActionPerformed
 
     /**
      * @param args the command line arguments
