@@ -9,20 +9,25 @@ package Model;
  * @author KhanhCT
  */
 public class KhachHang {
+
     private String maKH;
     private String tenKH;
-    private String diaChi;
     private String SĐT;
+    private boolean gioiTinh;
     private boolean trangThai;
+    private String diaChi;
 
-   
+    public KhachHang() {
+    }
 
-    public KhachHang(String maKH, String tenKH, String diaChi, String SĐT, boolean trangThai) {
+
+    public KhachHang(String maKH, String tenKH, String SĐT, boolean gioiTinh, boolean trangThai, String diaChi) {
         this.maKH = maKH;
         this.tenKH = tenKH;
-        this.diaChi = diaChi;
         this.SĐT = SĐT;
+        this.gioiTinh = gioiTinh;
         this.trangThai = trangThai;
+        this.diaChi = diaChi;
     }
 
     public String getMaKH() {
@@ -41,20 +46,20 @@ public class KhachHang {
         this.tenKH = tenKH;
     }
 
-    public String getDiaChi() {
-        return diaChi;
-    }
-
-    public void setDiaChi(String diaChi) {
-        this.diaChi = diaChi;
-    }
-
     public String getSĐT() {
         return SĐT;
     }
 
     public void setSĐT(String SĐT) {
         this.SĐT = SĐT;
+    }
+
+    public boolean isGioiTinh() {
+        return gioiTinh;
+    }
+
+    public void setGioiTinh(boolean gioiTinh) {
+        this.gioiTinh = gioiTinh;
     }
 
     public boolean isTrangThai() {
@@ -64,8 +69,14 @@ public class KhachHang {
     public void setTrangThai(boolean trangThai) {
         this.trangThai = trangThai;
     }
-    
-    
-    
+
+    public String getDiaChi() {
+        return diaChi;
+    }
+
+    public void setDiaChi(String diaChi) {
+        this.diaChi = diaChi;
+    }
+
     
 }
