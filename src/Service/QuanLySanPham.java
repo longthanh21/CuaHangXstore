@@ -43,14 +43,16 @@ public class QuanLySanPham {
 
     String soLuongTong;
 
-    public String SoLuongTong(String a) {
+    public String getSoLuongTong(String a) {
         try {
             Connection conn = DbConnect.getConnection();
             String sql = "SELECT SoLuongTong FROM SanPham where MaSP = " + "'" + a + "'";
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {
-                soLuongTong = rs.getString("SoLuongTong");
+                String b = rs.getString("SoLuongTong");
+                if(b == null || b.isEmpty()) soLuongTong = "0";
+                else soLuongTong = b;
             }
         } catch (SQLException ex) {
             Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
@@ -74,18 +76,32 @@ public class QuanLySanPham {
         }
     }
 
-    public void UpSoLuongTong(String a, String b) {
+    public void TongSoLuongSP(String a) {
         try {
             Connection conn = DbConnect.getConnection();
-            String sql = "UPDATE SanPham SET SoLuongTong = ? where MaSP = " + "'" + a + "'";
+            String sql = "UPDATE SANPHAM SET SoLuongTong = (SELECT sum(SoLuong) FROM CTSP WHERE MaSP = ?) WHERE MaSP = ?";
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, Integer.valueOf(b));
+            ps.setString(1, a);
+            ps.setString(2, a);
             ps.executeUpdate();
             conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+//    public void UpSoLuongTong(String a, String b) {
+//        try {
+//            Connection conn = DbConnect.getConnection();
+//            String sql = "UPDATE SanPham SET SoLuongTong = ? where MaSP = " + "'" + a + "'";
+//            PreparedStatement ps = conn.prepareStatement(sql);
+//            ps.setInt(1, Integer.valueOf(b));
+//            ps.executeUpdate();
+//            conn.close();
+//        } catch (SQLException ex) {
+//            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
 
     public ArrayList<SanPham> getListCTSP() {
         listCTCP.clear();
@@ -127,7 +143,7 @@ public class QuanLySanPham {
                     + "JOIN Size on Size.IdSize = CTSP.IdSize\n"
                     + "JOIN ChatLieu on ChatLieu.IdChatLieu = CTSP.IdChatLieu\n"
                     + "JOIN Hang on Hang.IdHang = CTSP.IdHang\n"
-                    + "WHERE CTSP.MaSP = " + "'" + a +"'";
+                    + "WHERE CTSP.MaSP = " + "'" + a + "'";
 
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
@@ -222,8 +238,8 @@ public class QuanLySanPham {
         }
         return listThuocTinh;
     }
-    
-    public void AddCTSP(SanPham sp){
+
+    public void AddCTSP(SanPham sp) {
         try {
             Connection conn = DbConnect.getConnection();
             String sql = "INSERT INTO CTSP (MaSP, NgayNhap, IdMauSac, IdSize, IdChatLieu, IdHang, SoLuong, GiaNhap, GiaBan)\n"
@@ -248,11 +264,11 @@ public class QuanLySanPham {
             Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void UpdateSP(SanPham sp, String a, String slt){
+
+    public void UpdateSP(SanPham sp, String a, String slt) {
         try {
             Connection conn = DbConnect.getConnection();
-            String sql = "UPDATE SanPham SET MaSP = ?, TenSP = ?, SoLuongTong = ?, TrangThai = ? WHERE MaSP = " + "'" + a +"'";
+            String sql = "UPDATE SanPham SET MaSP = ?, TenSP = ?, SoLuongTong = ?, TrangThai = ? WHERE MaSP = " + "'" + a + "'";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, sp.getMaSanPham());
             ps.setString(2, sp.getTenSanPham());
@@ -264,11 +280,11 @@ public class QuanLySanPham {
             Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void UpdateCTSP(SanPham sp, int a){
+
+    public void UpdateCTSP(SanPham sp, int a) {
         try {
             Connection conn = DbConnect.getConnection();
-            String sql = "UPDATE CTSP SET MaSP = ?, NgayNhap = ?, IdMauSac = ?, IdSize = ?, IdChatLieu = ?, IdHang = ?,SoLuong = ?, GiaNhap = ?, GiaBan = ? WHERE IdSP = " + a ;
+            String sql = "UPDATE CTSP SET MaSP = ?, NgayNhap = ?, IdMauSac = ?, IdSize = ?, IdChatLieu = ?, IdHang = ?,SoLuong = ?, GiaNhap = ?, GiaBan = ? WHERE IdSP = " + a;
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, sp.getMaSanPham());
             ps.setString(2, sp.getNgayNhap());
@@ -277,12 +293,46 @@ public class QuanLySanPham {
             ps.setInt(5, Integer.valueOf(sp.getChatLieu()));
             ps.setInt(6, Integer.valueOf(sp.getHang()));
             ps.setInt(7, Integer.valueOf(sp.getSoLuong()));
-            ps.setFloat(8,Float.valueOf(sp.getGiaNhap()));
-            ps.setFloat(9,Float.valueOf(sp.getGiaBan()));
+            ps.setFloat(8, Float.valueOf(sp.getGiaNhap()));
+            ps.setFloat(9, Float.valueOf(sp.getGiaBan()));
             ps.executeUpdate();
             conn.close();
         } catch (SQLException ex) {
             Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    public void dltSP(String a) {
+        try {
+            Connection conn = DbConnect.getConnection();
+            String sql = "DELETE FROM CTSP \n"
+                    + "WHERE MaSP = ?\n"
+                    + "DELETE FROM SanPham \n"
+                    + "WHERE MaSP = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, a);
+            ps.setString(2, a);
+            ps.executeUpdate();
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void dltCTSP(String a) {
+        try {
+            Connection conn = DbConnect.getConnection();
+            String sql = "DELETE FROM CTSP \n"
+                    + "WHERE MaSP = ?\n";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, a);
+            ps.executeUpdate();
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
+    
 }

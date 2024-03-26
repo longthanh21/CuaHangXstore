@@ -27,13 +27,17 @@ public class ViewSanPham extends javax.swing.JFrame {
 
     public ViewSanPham() {
         initComponents();
+        force();
         loadSP();
         loadCTSP();
         loadThuocTinh();
 //        hienThiSP();
 //        hienThiCTSP();
     }
-
+    void force(){
+        txtSoLuongTong.setEnabled(false);
+        txtIDSP.setEnabled(false);
+    }
     void loadSP() {
         defau = (DefaultTableModel) tblSanPham.getModel();
         defau.setRowCount(0);
@@ -44,7 +48,7 @@ public class ViewSanPham extends javax.swing.JFrame {
                 stt,
                 sp.getMaSanPham(),
                 sp.getTenSanPham(),
-                qlsp.SoLuongTong(sp.getMaSanPham()),
+                qlsp.getSoLuongTong(sp.getMaSanPham()),
                 sp.getTrangThai()
             });
         }
@@ -296,7 +300,7 @@ public class ViewSanPham extends javax.swing.JFrame {
         jPanel6 = new javax.swing.JPanel();
         btnAddCTSP = new javax.swing.JButton();
         btnUpdateCTSP = new javax.swing.JButton();
-        btnNew3 = new javax.swing.JButton();
+        btnDLTCTSP = new javax.swing.JButton();
         pnSanPhamChiTiet = new javax.swing.JPanel();
         pnDanhSach = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
@@ -611,8 +615,18 @@ public class ViewSanPham extends javax.swing.JFrame {
         });
 
         btnDelete.setText("Delete");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         btnNew.setText("New");
+        btnNew.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNewActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -659,7 +673,12 @@ public class ViewSanPham extends javax.swing.JFrame {
             }
         });
 
-        btnNew3.setText("Delete CTSP");
+        btnDLTCTSP.setText("Delete CTSP");
+        btnDLTCTSP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDLTCTSPActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -670,7 +689,7 @@ public class ViewSanPham extends javax.swing.JFrame {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnUpdateCTSP, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnAddCTSP, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnNew3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnDLTCTSP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
@@ -681,7 +700,7 @@ public class ViewSanPham extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnUpdateCTSP, javax.swing.GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnNew3, javax.swing.GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
+                .addComponent(btnDLTCTSP, javax.swing.GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
                 .addGap(99, 99, 99))
         );
 
@@ -899,7 +918,7 @@ public class ViewSanPham extends javax.swing.JFrame {
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // TODO add your handling code here:
         qlsp.AddSP(getFormSP());
-        qlsp.UpSoLuongTong(txtMaSP.getText(), txtSoLuongTong.getText());
+//        qlsp.UpSoLuongTong(txtMaSP.getText(), txtSoLuongTong.getText());
         loadSP();
     }//GEN-LAST:event_btnAddActionPerformed
 
@@ -921,6 +940,11 @@ public class ViewSanPham extends javax.swing.JFrame {
         // TODO add your handling code here:
         qlsp.AddCTSP(getFormCTSP());
         loadCTSP();
+        int i = tblSanPham.getSelectedRow();
+        String MaSP = (String) tblSanPham.getValueAt(i, 1);
+        loadCTSPTheoMa(MaSP);
+        qlsp.TongSoLuongSP(MaSP);
+        loadSP();
     }//GEN-LAST:event_btnAddCTSPActionPerformed
 
     private void btnUpdateCTSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateCTSPActionPerformed
@@ -932,7 +956,47 @@ public class ViewSanPham extends javax.swing.JFrame {
         int j = tblSanPham.getSelectedRow();
         String MaSP = (String) tblSanPham.getValueAt(j, 1);
         loadCTSPTheoMa(MaSP);
+        qlsp.TongSoLuongSP(MaSP);
+        loadSP();
     }//GEN-LAST:event_btnUpdateCTSPActionPerformed
+
+    private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
+        // TODO add your handling code here:
+        txtMaSP.setText("");
+        txtTenSP.setText("");
+        txtSoLuongTong.setText("");
+        cbConHang.setSelected(false);
+        txtIDSP.setText("");
+        dcNgayNhap.setDate(null);
+        cbbMauSac.setSelectedIndex(-1);
+        cbbSize.setSelectedIndex(-1);
+        cbbChatLieu.setSelectedIndex(-1);
+        cbbHang.setSelectedIndex(-1);
+        txtGiaNhap.setText((""));
+        txtGiaBan.setText("");
+        txtSoLuong.setText("");
+    }//GEN-LAST:event_btnNewActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        // TODO add your handling code here:
+        int i = tblSanPham.getSelectedRow();
+        String a = (String) tblSanPham.getValueAt(i, 1);
+        qlsp.dltSP(a);
+        loadSP();
+        loadCTSP();
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnDLTCTSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDLTCTSPActionPerformed
+        // TODO add your handling code here:
+        int i = tblCTSP.getSelectedRow();
+        String a = (String) tblCTSP.getValueAt(i, 1);
+        qlsp.dltCTSP(a);
+        loadCTSP();
+        int j = tblSanPham.getSelectedRow();
+        String MaSP = (String) tblSanPham.getValueAt(j, 1);
+        qlsp.TongSoLuongSP(MaSP);
+        loadSP();
+    }//GEN-LAST:event_btnDLTCTSPActionPerformed
 
     /**
      * @param args the command line arguments
@@ -974,9 +1038,9 @@ public class ViewSanPham extends javax.swing.JFrame {
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnAddCTSP;
     private javax.swing.JButton btnAddChiTiet;
+    private javax.swing.JButton btnDLTCTSP;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnNew;
-    private javax.swing.JButton btnNew3;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JButton btnUpdateCTSP;
     private javax.swing.JButton btnUpdateChiTiet;
