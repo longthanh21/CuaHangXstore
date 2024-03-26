@@ -136,9 +136,8 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         }
         return vc;
     }
-    
-//    ===========================COuPon==========================================
 
+//    ===========================COuPon==========================================
     public void LoadDataCoupon() {
         dtm = (DefaultTableModel) tbCoupon.getModel();
         listCP = qlKM.getAllCP();
@@ -773,7 +772,9 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         try {
             qlKM.themVoucher(getFormVoucher());
             if (cbKhachVip.isSelected()) {
-                qlKM.getKhachVIP(txtMaVC.getText());
+                for (int i = 0; i < listVC.size(); i++) {
+                    qlKM.getKhachVIP(txtMaVC.getText(), i);
+                }
             }
             LoadDataTable();
         } catch (Exception e) {
@@ -786,15 +787,15 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        try {
-            qlKM.suaVoucher(getFormVoucher());
-            if (cbKhachVip.isSelected()) {
-                qlKM.getKhachVIP(txtMaVC.getText());
-            }
-            LoadDataTable();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            qlKM.suaVoucher(getFormVoucher());
+//            if (cbKhachVip.isSelected()) {
+//                qlKM.getKhachVIP(txtMaVC.getText());
+//            }
+//            LoadDataTable();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     /**
