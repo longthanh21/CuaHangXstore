@@ -57,6 +57,7 @@ public class QuanLyKhuyenMai {
         }
         return listvc;
     }
+
     public List<Voucher> getListKhachVIP(int kv) {
         List<Voucher> listKhachVip = new ArrayList<>();
         try {
@@ -87,9 +88,22 @@ public class QuanLyKhuyenMai {
         }
         return listKhachVip;
     }
-    public void getKhachVIP(String maVC) {
+
+    public void getKhachVIP(String maVC,int a ) {
         try {
-            String sql = "exec InsertUuDai ?";
+            
+            String sql = "CREATE PROCEDURE InsertUuDai" + a +" \n"
+                    + "    @MaVoucher varchar(50)\n"
+                    + "AS\n"
+                    + "BEGIN\n"
+                    + "	declare @MaKHList table (MaKH varchar(10))\n"
+                    + "	insert into @MaKHList\n"
+                    + "	select MaKH from KhachHang WHERE TrangThai = 1\n"
+                    + "    INSERT INTO UuDai (MaVC, MaKH)\n"
+                    + "    SELECT @MaVoucher, MaKH\n"
+                    + "    FROM @MaKHList;\n"
+                    + "END;\n"
+                    + "exec InsertUuDai ?";
             PreparedStatement ps = cn.prepareStatement(sql);
             ps.setString(1, maVC);
             ps.execute();
@@ -97,7 +111,7 @@ public class QuanLyKhuyenMai {
             e.printStackTrace();
         }
     }
-    
+
     public void themVoucher(Voucher vc) {
         try {
             String sql = "INSERT INTO Voucher(MaVC, TenVC, GiamGia, NgayBatDau, NgayKetThuc, DieuKien, TrangThai)" + "VALUES(?,?,?,?,?,?,?)";
