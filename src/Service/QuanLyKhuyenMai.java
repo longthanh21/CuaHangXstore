@@ -5,6 +5,7 @@
 package Service;
 
 import Model.Coupon;
+import Model.KhachHang;
 import Model.SanPham;
 import Model.Voucher;
 import Repository.DbConnect;
@@ -31,7 +32,10 @@ public class QuanLyKhuyenMai {
     public List<Voucher> getAllVC() {
         List<Voucher> listvc = new ArrayList<>();
         try {
-            String sql = "SELECT Voucher.MaVC, TenVC, GiamGia, NgayBatDau, NgayKetThuc, DieuKien, Voucher.TrangThai AS VoucherTrangThai FROM Voucher";
+            String sql = "SELECT Voucher.MaVC, TenVC, GiamGia, NgayBatDau, NgayKetThuc, DieuKien,KhachHang.MaKH,KhachHang.TrangThai, Voucher.TrangThai FROM Voucher\n"
+                    + "left join UuDai on UuDai.MaVC = Voucher.MaVC\n"
+                    + "right join KhachHang on KhachHang.MaKH = UuDai.MaKH\n"
+                    + "group by Voucher.MaVC, TenVC, GiamGia, NgayBatDau, NgayKetThuc, DieuKien, KhachHang.MaKH,KhachHang.TrangThai, Voucher.TrangThai";
             PreparedStatement ps = cn.prepareStatement(sql);
             ps.execute();
             ResultSet rs = ps.getResultSet();
@@ -42,8 +46,10 @@ public class QuanLyKhuyenMai {
                 vc.setGiamGia(rs.getString("GiamGia"));
                 vc.setNgayBatDau(rs.getString("NgayBatDau"));
                 vc.setNgayKetThuc(rs.getString("NgayKetThuc"));
+//                String makh = rs.getString("KhachHang.MaKH");
+//                String ttKH = rs.getString("KhachHang.TrangThai");
                 vc.setDieuKien(rs.getString("DieuKien"));
-                vc.setTrangThai(rs.getString("VoucherTrangThai"));
+                vc.setTrangThai(rs.getString("TrangThai"));
                 listvc.add(vc);
             }
         } catch (Exception e) {
