@@ -9,6 +9,7 @@ package Model;
  * @author KhanhCT
  */
 public class SanPham {
+
     private String maSanPham;
     private String idspct;
     private String tenSanPham;
@@ -21,11 +22,12 @@ public class SanPham {
     private String giaNhap;
     private String giaBan;
     private String trangThai;
+    private String phanTram;
 
     public SanPham() {
     }
 
-    public SanPham(String maSanPham, String idspct, String tenSanPham, String ngayNhap, String MauSac, String Size, String ChatLieu, String Hang, String soLuong, String giaNhap, String giaBan, String trangThai) {
+    public SanPham(String maSanPham, String idspct, String tenSanPham, String ngayNhap, String MauSac, String Size, String ChatLieu, String Hang, String soLuong, String giaNhap, String giaBan, String trangThai, String phanTram) {
         this.maSanPham = maSanPham;
         this.idspct = idspct;
         this.tenSanPham = tenSanPham;
@@ -38,6 +40,7 @@ public class SanPham {
         this.giaNhap = giaNhap;
         this.giaBan = giaBan;
         this.trangThai = trangThai;
+        this.phanTram = phanTram;
     }
 
     public String getMaSanPham() {
@@ -136,5 +139,21 @@ public class SanPham {
         this.trangThai = trangThai;
     }
 
-    
+    public String getPhanTram() {
+        return phanTram;
+    }
+
+    public void setPhanTram(String phanTram) {
+        this.phanTram = phanTram;
+    }
+
+    public Integer giaSau() {
+
+        float giaBan = Float.parseFloat(this.giaBan);
+        float phanTram = Float.parseFloat(this.phanTram);
+        int giaSau = (int) (giaBan - (giaBan  *  phanTram/100));
+
+        return giaSau;
+    }
+
 }

@@ -9,12 +9,12 @@ package Model;
  * @author KhanhCT
  */
 public class HoaDon {
-    private String maHD,ngayTao,maKH,maNV,maVC,tongTien,trangThai,idSP,maSP,tenSP,soLuong,giaBan;
+    private String maHD,ngayTao,maKH,maNV,maVC,tongTien,trangThai,idSP,maSP,tenSP,soLuong,giaBan,phanTram;
 
     public HoaDon() {
     }
 
-    public HoaDon(String maHD, String ngayTao, String maKH, String maNV, String maVC, String tongTien, String trangThai, String idSP, String maSP, String tenSP, String soLuong, String giaBan) {
+    public HoaDon(String maHD, String ngayTao, String maKH, String maNV, String maVC, String tongTien, String trangThai, String idSP, String maSP, String tenSP, String soLuong, String giaBan, String phanTram) {
         this.maHD = maHD;
         this.ngayTao = ngayTao;
         this.maKH = maKH;
@@ -27,6 +27,7 @@ public class HoaDon {
         this.tenSP = tenSP;
         this.soLuong = soLuong;
         this.giaBan = giaBan;
+        this.phanTram = phanTram;
     }
 
     public String getMaHD() {
@@ -125,9 +126,25 @@ public class HoaDon {
         this.giaBan = giaBan;
     }
 
+    public String getPhanTram() {
+        return phanTram;
+    }
+
+    public void setPhanTram(String phanTram) {
+        this.phanTram = phanTram;
+    }
+
+
    
 public Integer thanhTien(Integer soLuong, Integer giaBan){
         return soLuong*giaBan;
                 }
-   
+   public Integer giaSau() {
+
+        float giaBan = Float.parseFloat(this.giaBan);
+        float phanTram = Float.parseFloat(this.phanTram);
+        int giaSau = (int) (giaBan - (giaBan  *  phanTram/100));
+
+        return giaSau;
+    }
 }
