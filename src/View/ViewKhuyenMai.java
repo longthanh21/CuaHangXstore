@@ -48,7 +48,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                 e.getGiamGia(),
                 e.getNgayBatDau(),
                 e.getNgayKetThuc(),
-                e.getUuDai(),
+                e.getDieuKien(),
                 trangThai
             });
         }
@@ -66,7 +66,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                 e.getGiamGia(),
                 e.getNgayBatDau(),
                 e.getNgayKetThuc(),
-                e.getUuDai(),
+                e.getDieuKien(),
                 trangThai
             });
         }
@@ -94,12 +94,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
             e.printStackTrace();
         }
         dcHetHan.setDate(endDate);
-        String kv = String.valueOf(tbVoucher.getValueAt(i, 5));
-        if (kv.equalsIgnoreCase("Khách VIP")) {
-            cbKhachVip.setSelected(true);
-        } else {
-            cbKhachVip.setSelected(false);
-        }
+        txtDieuKien.setText(String.valueOf(tbVoucher.getValueAt(i, 5)));
         String tt = String.valueOf(tbVoucher.getValueAt(i, 6));
         if (tt.equalsIgnoreCase("Hoạt động")) {
             rbHoatDong.setSelected(true);
@@ -232,6 +227,8 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         cbKhachVip = new javax.swing.JCheckBox();
         dcBatDau = new com.toedter.calendar.JDateChooser();
         dcHetHan = new com.toedter.calendar.JDateChooser();
+        jLabel19 = new javax.swing.JLabel();
+        txtDieuKien = new javax.swing.JTextField();
         danhSachVC = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbVoucher = new javax.swing.JTable();
@@ -322,6 +319,8 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
 
         cbKhachVip.setText("Khách VIP");
 
+        jLabel19.setText("Điều kiện");
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -359,7 +358,11 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                             .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addComponent(rbHoatDong, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(rbHetHan, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(rbHetHan, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtDieuKien)))
                 .addContainerGap(70, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
@@ -395,7 +398,11 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel15)
                     .addComponent(cbKhachVip))
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel19)
+                    .addComponent(txtDieuKien, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         danhSachVC.setBorder(javax.swing.BorderFactory.createTitledBorder("Danh sách Voucher"));
@@ -842,6 +849,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -866,6 +874,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
     private javax.swing.JTable tbCoupon;
     private javax.swing.JTable tbSanPham;
     private javax.swing.JTable tbVoucher;
+    private javax.swing.JTextField txtDieuKien;
     private javax.swing.JTextField txtGiaBan;
     private javax.swing.JTextField txtGiamGiaCP;
     private javax.swing.JTextField txtGiamGiaVC;
