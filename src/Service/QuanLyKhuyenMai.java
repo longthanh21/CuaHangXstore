@@ -32,10 +32,10 @@ public class QuanLyKhuyenMai {
     public List<Voucher> getAllVC() {
         List<Voucher> listvc = new ArrayList<>();
         try {
-            String sql = "SELECT Voucher.MaVC, TenVC, GiamGia, NgayBatDau, NgayKetThuc, DieuKien,KhachHang.MaKH,KhachHang.TrangThai, Voucher.TrangThai FROM Voucher\n"
+            String sql = "SELECT Voucher.MaVC, TenVC, GiamGia, NgayBatDau, NgayKetThuc, DieuKien, KhachHang.TrangThai AS KHTrangThai, Voucher.TrangThai AS VCTrangThai FROM Voucher\n"
                     + "left join UuDai on UuDai.MaVC = Voucher.MaVC\n"
-                    + "right join KhachHang on KhachHang.MaKH = UuDai.MaKH\n"
-                    + "group by Voucher.MaVC, TenVC, GiamGia, NgayBatDau, NgayKetThuc, DieuKien, KhachHang.MaKH,KhachHang.TrangThai, Voucher.TrangThai";
+                    + "left join KhachHang on KhachHang.MaKH = UuDai.MaKH\n"
+                    + "group by Voucher.MaVC, TenVC, GiamGia, NgayBatDau, NgayKetThuc, DieuKien, KhachHang.TrangThai, Voucher.TrangThai";
             PreparedStatement ps = cn.prepareStatement(sql);
             ps.execute();
             ResultSet rs = ps.getResultSet();
@@ -46,10 +46,10 @@ public class QuanLyKhuyenMai {
                 vc.setGiamGia(rs.getString("GiamGia"));
                 vc.setNgayBatDau(rs.getString("NgayBatDau"));
                 vc.setNgayKetThuc(rs.getString("NgayKetThuc"));
-//                String makh = rs.getString("KhachHang.MaKH");
-//                String ttKH = rs.getString("KhachHang.TrangThai");
                 vc.setDieuKien(rs.getString("DieuKien"));
-                vc.setTrangThai(rs.getString("TrangThai"));
+                int khachHangTrangThai = rs.getInt("KHTrangThai");
+                vc.setUuDai(khachHangTrangThai == 1 ? "Khách VIP" : "Không có");
+                vc.setTrangThai(rs.getString("VCTrangThai"));
                 listvc.add(vc);
             }
         } catch (Exception e) {
@@ -57,10 +57,39 @@ public class QuanLyKhuyenMai {
         }
         return listvc;
     }
-
+    public List<Voucher> getListKhachVIP(int kv) {
+        List<Voucher> listKhachVip = new ArrayList<>();
+        try {
+            String sql = "SELECT Voucher.MaVC, TenVC, GiamGia, NgayBatDau, NgayKetThuc, DieuKien, KhachHang.TrangThai AS KHTrangThai, Voucher.TrangThai AS VCTrangThai FROM Voucher\n"
+                    + "left join UuDai on UuDai.MaVC = Voucher.MaVC\n"
+                    + "left join KhachHang on KhachHang.MaKH = UuDai.MaKH\n"
+                    + "WHERE KhachHang.TrangThai = ?"
+                    + "group by Voucher.MaVC, TenVC, GiamGia, NgayBatDau, NgayKetThuc, DieuKien, KhachHang.TrangThai, Voucher.TrangThai";
+            PreparedStatement ps = cn.prepareStatement(sql);
+            ps.setInt(1, kv);
+            ps.execute();
+            ResultSet rs = ps.getResultSet();
+            while (rs.next()) {
+                Voucher vc = new Voucher();
+                vc.setMaVC(rs.getString("MaVC"));
+                vc.setTenVC(rs.getString("TenVC"));
+                vc.setGiamGia(rs.getString("GiamGia"));
+                vc.setNgayBatDau(rs.getString("NgayBatDau"));
+                vc.setNgayKetThuc(rs.getString("NgayKetThuc"));
+                vc.setDieuKien(rs.getString("DieuKien"));
+                int khachHangTrangThai = rs.getInt("KHTrangThai");
+                vc.setUuDai(khachHangTrangThai == 1 ? "Khách VIP" : "Không có");
+                vc.setTrangThai(rs.getString("VCTrangThai"));
+                listKhachVip.add(vc);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return listKhachVip;
+    }
     public void getKhachVIP(String maVC) {
         try {
-            String sql = "EXEC InsertUuDai ?, 'Khách VIP'";
+            String sql = "exec InsertUuDai ?";
             PreparedStatement ps = cn.prepareStatement(sql);
             ps.setString(1, maVC);
             ps.execute();
@@ -68,17 +97,18 @@ public class QuanLyKhuyenMai {
             e.printStackTrace();
         }
     }
-
+    
     public void themVoucher(Voucher vc) {
         try {
-            String sql = "INSERT INTO Voucher(MaVC, TenVC, GiamGia, NgayBatDau, NgayKetThuc, TrangThai)" + "VALUES(?,?,?,?,?,?)";
+            String sql = "INSERT INTO Voucher(MaVC, TenVC, GiamGia, NgayBatDau, NgayKetThuc, DieuKien, TrangThai)" + "VALUES(?,?,?,?,?,?,?)";
             PreparedStatement ps = cn.prepareStatement(sql);
             ps.setString(1, vc.getMaVC());
             ps.setString(2, vc.getTenVC());
             ps.setString(3, vc.getGiamGia());
             ps.setString(4, vc.getNgayBatDau());
             ps.setString(5, vc.getNgayKetThuc());
-            ps.setInt(6, vc.getTrangThai().equals("Hoạt động") ? 1 : 0);
+            ps.setString(6, vc.getDieuKien());
+            ps.setInt(7, vc.getTrangThai().equals("Hoạt động") ? 1 : 0);
             ps.execute();
         } catch (Exception e) {
             e.printStackTrace();
@@ -87,14 +117,15 @@ public class QuanLyKhuyenMai {
 
     public void suaVoucher(Voucher vc) {
         try {
-            String sql = "UPDATE Voucher SET TenVC = ?, GiamGia = ?, NgayBatDau = ?, NgayKetThuc = ?, TrangThai = ? WHERE MaVC = ?";
+            String sql = "UPDATE Voucher SET TenVC = ?, GiamGia = ?, NgayBatDau = ?, NgayKetThuc = ?, DieuKien = ?, TrangThai = ? WHERE MaVC = ?";
             PreparedStatement ps = cn.prepareStatement(sql);
             ps.setString(1, vc.getTenVC());
             ps.setString(2, vc.getGiamGia());
             ps.setDate(3, java.sql.Date.valueOf(vc.getNgayBatDau()));
             ps.setDate(4, java.sql.Date.valueOf(vc.getNgayKetThuc()));
-            ps.setInt(5, vc.getTrangThai().equals("Hoạt động") ? 1 : 0);
-            ps.setString(6, vc.getMaVC());
+            ps.setString(5, vc.getDieuKien());
+            ps.setInt(6, vc.getTrangThai().equals("Hoạt động") ? 1 : 0);
+            ps.setString(7, vc.getMaVC());
             ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
