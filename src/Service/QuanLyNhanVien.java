@@ -148,4 +148,38 @@ public class QuanLyNhanVien {
             return false;
         }
     }
+
+    public boolean DeleteTaiKhoan(String ma) {
+        try {
+            String sql = "delete from TaiKhoan where MaTK = ?";
+            Connection con = DbConnect.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, ma);
+            ps.executeUpdate();
+            con.close();
+            return true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    public boolean UpDateTaiKhoan(TaiKhoan taiKhoan){
+           try {
+            String sql = "UPDATE TaiKhoan set TenDangNhap = ? ,  MatKhau = ?, MaNV = ? where MaTK = ?";
+            Connection con = DbConnect.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, taiKhoan.getTenDN());
+            ps.setString(2, taiKhoan.getMatKhau());
+            ps.setString(3, taiKhoan.getMaNV());
+            ps.setString(4, taiKhoan.getMaTK());
+            ps.executeUpdate();
+            con.close();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
