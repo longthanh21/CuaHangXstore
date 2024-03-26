@@ -6,6 +6,7 @@ package View;
 
 import Model.KhachHang;
 import Service.QuanLyKhachHang;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -95,8 +96,8 @@ public class ViewKhachHang extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblKhachHang = new javax.swing.JTable();
         btnAdd = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnUpDate = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
@@ -284,11 +285,26 @@ public class ViewKhachHang extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Update");
+        btnUpDate.setText("Update");
+        btnUpDate.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnUpDateMouseClicked(evt);
+            }
+        });
 
-        jButton3.setText("Delete");
+        btnDelete.setText("Delete");
+        btnDelete.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnDeleteMouseClicked(evt);
+            }
+        });
 
         jButton4.setText("New");
+        jButton4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton4MouseClicked(evt);
+            }
+        });
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Tìm Kiếm"));
 
@@ -327,9 +343,9 @@ public class ViewKhachHang extends javax.swing.JFrame {
                         .addGroup(pnKhachHangLayout.createSequentialGroup()
                             .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(18, 18, 18)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnUpDate, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(18, 18, 18)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(18, 18, 18)
                             .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(pnKhachHangLayout.createSequentialGroup()
@@ -356,8 +372,8 @@ public class ViewKhachHang extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addGroup(pnKhachHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnUpDate, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(155, 155, 155))
         );
@@ -383,7 +399,49 @@ public class ViewKhachHang extends javax.swing.JFrame {
     private void btnAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseClicked
         // TODO add your handling code here:
         String ma = txtMaKH.getText();
+        if (ma.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Không Bỏ Trống Mã Khách Hàng ");
+            return;
+        }
+         String ten = txtTenKH.getText();
+        if (ten.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Không Bỏ Trống Tên");
+            return;
+        }
+       
         
+        Boolean gioiTinh;
+        if (rdNam.isSelected()) {
+            gioiTinh = true;
+        } else if (rdNu.isSelected()) {
+            gioiTinh = false;
+        } else {
+            JOptionPane.showMessageDialog(this, "Không Bỏ Trống Giới Tính");
+            return;
+        }
+        String diaChi = txtDiaChi.getText();
+        if (diaChi.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Không Bỏ Trống Địa Chỉ");
+            return;
+        }
+        String sdt = txtDienThoai.getText();
+        if (sdt.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Không Bỏ Trống Số Diện Thoại");
+            return;
+        }
+        Boolean trangThai;
+        if (rdKhachVip.isSelected()) {
+            trangThai = true;
+        } else if (rdKhachThuong.isSelected()) {
+            trangThai = false;
+        } else {
+            JOptionPane.showMessageDialog(this, "Không Bỏ Trống Trạng Thái");
+            return;
+        }
+        KhachHang khachHang = new KhachHang(ma, ten, sdt, gioiTinh, trangThai, diaChi);
+        quanLyKhachHang.ADDKhachHang(khachHang);
+        loadDataKhachHang();
+        loadDataKhachVip();
     }//GEN-LAST:event_btnAddMouseClicked
 
     private void tblKhachHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblKhachHangMouseClicked
@@ -436,6 +494,76 @@ public class ViewKhachHang extends javax.swing.JFrame {
         txtDiaChi.setText(diaChi);
     }//GEN-LAST:event_tblKhachVipMouseClicked
 
+    private void btnUpDateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpDateMouseClicked
+        // TODO add your handling code here:
+        String ma = txtMaKH.getText();
+        if (ma.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Không Bỏ Trống Mã Khách Hàng ");
+            return;
+        }
+         String ten = txtTenKH.getText();
+        if (ten.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Không Bỏ Trống Tên");
+            return;
+        }
+       
+        
+        Boolean gioiTinh;
+        if (rdNam.isSelected()) {
+            gioiTinh = true;
+        } else if (rdNu.isSelected()) {
+            gioiTinh = false;
+        } else {
+            JOptionPane.showMessageDialog(this, "Không Bỏ Trống Giới Tính");
+            return;
+        }
+        String diaChi = txtDiaChi.getText();
+        if (diaChi.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Không Bỏ Trống Địa Chỉ");
+            return;
+        }
+        String sdt = txtDienThoai.getText();
+        if (sdt.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Không Bỏ Trống Số Diện Thoại");
+            return;
+        }
+        Boolean trangThai;
+        if (rdKhachVip.isSelected()) {
+            trangThai = true;
+        } else if (rdKhachThuong.isSelected()) {
+            trangThai = false;
+        } else {
+            JOptionPane.showMessageDialog(this, "Không Bỏ Trống Trạng Thái");
+            return;
+        }
+        KhachHang khachHang = new KhachHang(ma, ten, sdt, gioiTinh, trangThai, diaChi);
+        quanLyKhachHang.upDate(khachHang);
+        loadDataKhachHang();
+        loadDataKhachVip();
+    }//GEN-LAST:event_btnUpDateMouseClicked
+
+    private void btnDeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteMouseClicked
+        // TODO add your handling code here:
+          String ma = txtMaKH.getText();
+        if (ma.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Không Bỏ Trống Mã Khách Hàng ");
+            return;
+        }
+        quanLyKhachHang.deleteKhachHang(ma);
+        loadDataKhachHang();
+        loadDataKhachVip();
+    }//GEN-LAST:event_btnDeleteMouseClicked
+
+    private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseClicked
+        // TODO add your handling code here:
+        txtDiaChi.setText("");
+        txtDienThoai.setText("");
+        txtTenKH.setText("");
+        txtMaKH.setText("");
+        buttonGroup1.clearSelection();
+        buttonGroup2.clearSelection();
+    }//GEN-LAST:event_jButton4MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -473,10 +601,10 @@ public class ViewKhachHang extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnUpDate;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
