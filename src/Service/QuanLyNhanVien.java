@@ -33,9 +33,9 @@ public class QuanLyNhanVien {
                 Boolean GioiTinh = rs.getBoolean(4);
                 String DiaChi = rs.getString(5);
                 String Sdt = rs.getString(6);
-                Boolean VaiTro = rs.getBoolean(7);
+                String VaiTro = rs.getString(7);
                 String MaCL = rs.getString(8);
-                Boolean TrangThai = rs.getBoolean(9);
+                String TrangThai = rs.getString(9);
                 list.add(new NhanVien(Ma, Ten, NgaySinh, GioiTinh, DiaChi, Sdt, VaiTro, MaCL, MaCL, TrangThai));
             }
             con.close();
@@ -56,9 +56,9 @@ public class QuanLyNhanVien {
             ps.setBoolean(4, nhanVien.isGioiTinh());
             ps.setString(5, nhanVien.getDiaChi());
             ps.setString(6, nhanVien.getSĐT());
-            ps.setBoolean(7, nhanVien.isVaiTro());
+            ps.setString(7, nhanVien.getVaiTro());
             ps.setString(8, nhanVien.getMaCL());
-            ps.setBoolean(9, nhanVien.isTrangThai());
+            ps.setString(9, nhanVien.getTrangThai());
             ps.executeUpdate();
             con.close();
             return true;
@@ -94,9 +94,9 @@ public class QuanLyNhanVien {
             ps.setBoolean(3, nhanVien.isGioiTinh());
             ps.setString(4, nhanVien.getDiaChi());
             ps.setString(5, nhanVien.getSĐT());
-            ps.setBoolean(6, nhanVien.isVaiTro());
+            ps.setString(6, nhanVien.getVaiTro());
             ps.setString(7, nhanVien.getMaCL());
-            ps.setBoolean(8, nhanVien.isTrangThai());
+            ps.setString(8, nhanVien.getTrangThai());
             ps.setString(9, nhanVien.getMaNV());
             ps.executeUpdate();
             con.close();
@@ -164,9 +164,9 @@ public class QuanLyNhanVien {
             return false;
         }
     }
-    
-    public boolean UpDateTaiKhoan(TaiKhoan taiKhoan){
-           try {
+
+    public boolean UpDateTaiKhoan(TaiKhoan taiKhoan) {
+        try {
             String sql = "UPDATE TaiKhoan set TenDangNhap = ? ,  MatKhau = ?, MaNV = ? where MaTK = ?";
             Connection con = DbConnect.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
@@ -174,6 +174,84 @@ public class QuanLyNhanVien {
             ps.setString(2, taiKhoan.getMatKhau());
             ps.setString(3, taiKhoan.getMaNV());
             ps.setString(4, taiKhoan.getMaTK());
+            ps.executeUpdate();
+            con.close();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+//-----------------------------------------Phần Ca Làm------------------------------ 
+    ArrayList<TaiKhoan> listCaLam = new ArrayList<>();
+
+    public ArrayList<TaiKhoan> getAllCaLam() {
+        listCaLam.clear();
+        try {
+            String sql = "SELECT MaCL , TenCL,GioBatDau,GioKetThuc,GhiChu from CaLam";
+            Connection con = DbConnect.getConnection();
+            Statement stm = con.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            while (rs.next()) {
+                String ma = rs.getString(1);
+                String ten = rs.getString(2);
+                String gioBatDau = rs.getString(3);
+                String gioKetThuc = rs.getString(4);
+                String ghichu = rs.getString(5);
+                listCaLam.add(new TaiKhoan(ma, ten, gioBatDau, gioKetThuc, ghichu));
+            }
+            con.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return listCaLam;
+    }
+     public boolean AddCaLam(TaiKhoan taiKhoan) {
+        try {
+            String sql = "INSERT INTO CaLam (MaCL, TenCL, GioBatDau, GioKetThuc, GhiChu) VALUES(?,?,?,?,?)";
+            Connection con = DbConnect.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, taiKhoan.getMaCL());
+            ps.setString(2, taiKhoan.getTenCL());
+            ps.setString(3, taiKhoan.getGioBatDau());
+            ps.setString(4, taiKhoan.getGioKetThuc());
+            ps.setString(5, taiKhoan.getGhiChu());
+            ps.executeUpdate();
+            con.close();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean DeleteCaLam(String ma) {
+        try {
+            String sql = "delete from CaLam where MaCL = ?";
+            Connection con = DbConnect.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, ma);
+            ps.executeUpdate();
+            con.close();
+            return true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean UpDateCaLam(TaiKhoan taiKhoan) {
+        try {
+            String sql = "UPDATE CaLam set  TenCL = ?, GioBatDau =? , GioKetThuc = ? , GhiChu = ?  where MaCL = ? ";
+            Connection con = DbConnect.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, taiKhoan.getTenCL());
+            ps.setString(2, taiKhoan.getGioBatDau());
+            ps.setString(3, taiKhoan.getGioKetThuc());
+            ps.setString(4, taiKhoan.getGhiChu());
+            ps.setString(5, taiKhoan.getMaCL());
             ps.executeUpdate();
             con.close();
             return true;
