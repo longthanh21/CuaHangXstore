@@ -94,13 +94,16 @@ public class QuanLyKhachHang {
             return false;
         }
     }
-
     public boolean deleteKhachHang(String maKh) {
         try {
-            String sql = "delete from KhachHang where MaKH = '?'";
+            String sql = "delete from UuDai where MaKH = ? "
+                    + "delete from HoaDon where MaKH = ? "
+                    + "delete from KhachHang where MaKH = ?;";
             Connection con = DbConnect.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, maKh);
+            ps.setString(2, maKh);
+            ps.setString(3, maKh);
             ps.executeUpdate();
             con.close();
             return true;
@@ -112,8 +115,7 @@ public class QuanLyKhachHang {
 
     public boolean upDate(KhachHang khachHang) {
         try {
-            String sql = "update from KhachHang set TenKH='?' , Sdt='?' , gioiTinh= ? , TrangThai= ? , DiaChi='?'\n"
-                    + "where MaKH = '?'";
+            String sql = "update KhachHang set TenKH= ? , Sdt= ? , gioiTinh= ? , TrangThai= ? , DiaChi= ? where MaKH = ?";
             Connection con = DbConnect.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, khachHang.getTenKH());
