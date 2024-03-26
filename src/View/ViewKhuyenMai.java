@@ -180,20 +180,20 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
     }
 //    ============================SAnPham========================================
 
-//    public void LoadDataSanPham() {
-//        dtm = (DefaultTableModel) tbSanPham.getModel();
-//        listSP = qlKM.getAllSP();
-//        dtm.setRowCount(0);
-//        for (SanPham e : listSP) {
-//            dtm.addRow(new Object[]{
-//                e.getIdspct(),
-//                e.getMaSanPham(),
-//                e.getTenSanPham(),
-//                e.getSoLuong(),
-//                e.getGiaBan()
-//            });
-//        }
-//    }
+    public void LoadDataSanPham() {
+        dtm = (DefaultTableModel) tbSanPham.getModel();
+        listSP = qlKM.getAllSP();
+        dtm.setRowCount(0);
+        for (SanPham e : listSP) {
+            dtm.addRow(new Object[]{
+                e.getIdspct(),
+                e.getMaSanPham(),
+                e.getTenSanPham(),
+                e.getSoLuong(),
+                e.getGiaBan()
+            });
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
