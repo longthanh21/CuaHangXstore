@@ -58,52 +58,53 @@ public class QuanLyKhuyenMai {
         return listvc;
     }
 
-    public List<Voucher> getListKhachVIP(int kv) {
-        List<Voucher> listKhachVip = new ArrayList<>();
+//    public List<Voucher> getListKhachVIP(int kv) {
+//        List<Voucher> listKhachVip = new ArrayList<>();
+//        try {
+//            String sql = "SELECT Voucher.MaVC, TenVC, GiamGia, NgayBatDau, NgayKetThuc, DieuKien, KhachHang.TrangThai AS KHTrangThai, Voucher.TrangThai AS VCTrangThai FROM Voucher\n"
+//                    + "left join UuDai on UuDai.MaVC = Voucher.MaVC\n"
+//                    + "left join KhachHang on KhachHang.MaKH = UuDai.MaKH\n"
+//                    + "WHERE KhachHang.TrangThai = ?"
+//                    + "group by Voucher.MaVC, TenVC, GiamGia, NgayBatDau, NgayKetThuc, DieuKien, KhachHang.TrangThai, Voucher.TrangThai";
+//            PreparedStatement ps = cn.prepareStatement(sql);
+//            ps.setInt(1, kv);
+//            ps.execute();
+//            ResultSet rs = ps.getResultSet();
+//            while (rs.next()) {
+//                Voucher vc = new Voucher();
+//                vc.setMaVC(rs.getString("MaVC"));
+//                vc.setTenVC(rs.getString("TenVC"));
+//                vc.setGiamGia(rs.getString("GiamGia"));
+//                vc.setNgayBatDau(rs.getString("NgayBatDau"));
+//                vc.setNgayKetThuc(rs.getString("NgayKetThuc"));
+//                vc.setDieuKien(rs.getString("DieuKien"));
+//                int khachHangTrangThai = rs.getInt("KHTrangThai");
+//                vc.setUuDai(khachHangTrangThai == 1 ? "Khách VIP" : "Không có");
+//                vc.setTrangThai(rs.getString("VCTrangThai"));
+//                listKhachVip.add(vc);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return listKhachVip;
+//    }
+
+    public void addKhachVIP(String maVC) {
         try {
-            String sql = "SELECT Voucher.MaVC, TenVC, GiamGia, NgayBatDau, NgayKetThuc, DieuKien, KhachHang.TrangThai AS KHTrangThai, Voucher.TrangThai AS VCTrangThai FROM Voucher\n"
-                    + "left join UuDai on UuDai.MaVC = Voucher.MaVC\n"
-                    + "left join KhachHang on KhachHang.MaKH = UuDai.MaKH\n"
-                    + "WHERE KhachHang.TrangThai = ?"
-                    + "group by Voucher.MaVC, TenVC, GiamGia, NgayBatDau, NgayKetThuc, DieuKien, KhachHang.TrangThai, Voucher.TrangThai";
+            String sql = "INSERT INTO UuDai(MaVC, MaKH) \n"
+                    + "SELECT ?, MaKH from KhachHang WHERE TrangThai =  1";
             PreparedStatement ps = cn.prepareStatement(sql);
-            ps.setInt(1, kv);
+            ps.setString(1, maVC);
             ps.execute();
-            ResultSet rs = ps.getResultSet();
-            while (rs.next()) {
-                Voucher vc = new Voucher();
-                vc.setMaVC(rs.getString("MaVC"));
-                vc.setTenVC(rs.getString("TenVC"));
-                vc.setGiamGia(rs.getString("GiamGia"));
-                vc.setNgayBatDau(rs.getString("NgayBatDau"));
-                vc.setNgayKetThuc(rs.getString("NgayKetThuc"));
-                vc.setDieuKien(rs.getString("DieuKien"));
-                int khachHangTrangThai = rs.getInt("KHTrangThai");
-                vc.setUuDai(khachHangTrangThai == 1 ? "Khách VIP" : "Không có");
-                vc.setTrangThai(rs.getString("VCTrangThai"));
-                listKhachVip.add(vc);
-            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return listKhachVip;
     }
 
-    public void getKhachVIP(String maVC,int a ) {
+    public void dltKhachVIP(String maVC) {
         try {
-            
-            String sql = "CREATE PROCEDURE InsertUuDai" + a +" \n"
-                    + "    @MaVoucher varchar(50)\n"
-                    + "AS\n"
-                    + "BEGIN\n"
-                    + "	declare @MaKHList table (MaKH varchar(10))\n"
-                    + "	insert into @MaKHList\n"
-                    + "	select MaKH from KhachHang WHERE TrangThai = 1\n"
-                    + "    INSERT INTO UuDai (MaVC, MaKH)\n"
-                    + "    SELECT @MaVoucher, MaKH\n"
-                    + "    FROM @MaKHList;\n"
-                    + "END;\n"
-                    + "exec InsertUuDai ?";
+            String sql = "DELETE FROM UuDai\n"
+                    + "WHERE MaVC = ?\n";
             PreparedStatement ps = cn.prepareStatement(sql);
             ps.setString(1, maVC);
             ps.execute();
