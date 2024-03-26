@@ -12,7 +12,7 @@ import java.sql.*;
 public class DbConnect {
     static String url = "jdbc:sqlserver://;serverName=localhost;databaseName=GiayXstore;encrypt=true;trustServerCertificate=true";
     static String name = "sa";
-    static String pass = "Khanh2601";
+    static String pass = "123";
 
     public static Connection getConnection() throws SQLException {
         try {
