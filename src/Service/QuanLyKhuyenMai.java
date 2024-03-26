@@ -4,6 +4,8 @@
  */
 package Service;
 
+import Model.Coupon;
+import Model.SanPham;
 import Model.Voucher;
 import Repository.DbConnect;
 import java.sql.*;
@@ -27,11 +29,11 @@ public class QuanLyKhuyenMai {
     }
 
     public List<Voucher> getAllVC() {
-        ArrayList<Voucher> listvc = new ArrayList<>();
+        List<Voucher> listvc = new ArrayList<>();
         try {
-            String sql = "SELECT Voucher.MaVC, TenVC, GiamGia, NgayBatDau, NgayKetThuc,MaKH , TrangThai\n"
-                    + "FROM Voucher\n"
-                    + "LEFT JOIN UuDai ON Voucher.MaVC = UuDai.MaVC";
+            String sql = "SELECT Voucher.MaVC, TenVC, GiamGia, NgayBatDau, NgayKetThuc, UuDai.TrangThai AS UuDaiTrangThai, Voucher.TrangThai AS VoucherTrangThai FROM Voucher\n"
+                    + "LEFT JOIN UuDai ON Voucher.MaVC = UuDai.MaVC\n"
+                    + "group by Voucher.MaVC, TenVC, GiamGia, NgayBatDau, NgayKetThuc,UuDai.TrangThai, Voucher.TrangThai";
             PreparedStatement ps = cn.prepareStatement(sql);
             ps.execute();
             ResultSet rs = ps.getResultSet();
@@ -42,13 +44,13 @@ public class QuanLyKhuyenMai {
                 vc.setGiamGia(rs.getString("GiamGia"));
                 vc.setNgayBatDau(rs.getString("NgayBatDau"));
                 vc.setNgayKetThuc(rs.getString("NgayKetThuc"));
-                String maKH = rs.getString("MaKH");
-                if (maKH == null || maKH.isEmpty()) {
+                String trangThai = rs.getString("UuDaiTrangThai");
+                if (trangThai == null || trangThai.isEmpty()) {
                     vc.setUuDai("Không có");
                 } else {
                     vc.setUuDai("Khách VIP");
                 }
-                vc.setTrangThai(rs.getString("TrangThai"));
+                vc.setTrangThai(rs.getString("VoucherTrangThai"));
                 listvc.add(vc);
             }
         } catch (Exception e) {
@@ -56,20 +58,17 @@ public class QuanLyKhuyenMai {
         }
         return listvc;
     }
-//    String khachVip;
-//    public String khachVIP(String ma){
-//        try {
-//            String sql = "SELECT KhachVip From UuDai WHERE MaVC = ?";
-//            PreparedStatement ps = cn.prepareStatement(sql);
-//            ps.setString(1, ma);
-//            ps.execute();
-//            ResultSet rs = ps.getResultSet();
-//            while(rs.next()){
-//                
-//            }
-//        } catch (Exception e) {
-//        }
-//    }
+
+    public void getKhachVIP(String maVC) {
+        try {
+            String sql = "EXEC InsertUuDai ?, 'Khách VIP'";
+            PreparedStatement ps = cn.prepareStatement(sql);
+            ps.setString(1, maVC);
+            ps.execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public void themVoucher(Voucher vc) {
         try {
@@ -87,4 +86,67 @@ public class QuanLyKhuyenMai {
         }
     }
 
+    public void suaVoucher(Voucher vc) {
+        try {
+            String sql = "UPDATE Voucher SET TenVC = ?, GiamGia = ?, NgayBatDau = ?, NgayKetThuc = ?, TrangThai = ? WHERE MaVC = ?";
+            PreparedStatement ps = cn.prepareStatement(sql);
+            ps.setString(1, vc.getTenVC());
+            ps.setString(2, vc.getGiamGia());
+            ps.setDate(3, java.sql.Date.valueOf(vc.getNgayBatDau()));
+            ps.setDate(4, java.sql.Date.valueOf(vc.getNgayKetThuc()));
+            ps.setInt(5, vc.getTrangThai().equals("Hoạt động") ? 1 : 0);
+            ps.setString(6, vc.getMaVC());
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+//===============================Coupon===================
+
+    public List<Coupon> getAllCP() {
+        List<Coupon> listcp = new ArrayList<>();
+        try {
+            String sql = "Select Coupon.MaCP, TenCP,GiamGiaSP.IdSP , Coupon.PhamTram, NgayBatDau, NgayKetThuc, TrangThai FROM Coupon\n"
+                    + "LEFT JOIN GiamGiaSP ON GiamGiaSP.MaCP = Coupon.MaCP";
+            PreparedStatement ps = cn.prepareStatement(sql);
+            ps.execute();
+            ResultSet rs = ps.getResultSet();
+            while (rs.next()) {
+                Coupon cp = new Coupon();
+                cp.setMaCP(rs.getString("MaCP"));
+                cp.setTenCP(rs.getString("TenCP"));
+                cp.setIdSP(rs.getString("IdSP"));
+                cp.setPhanTram(rs.getString("PhamTram"));
+                cp.setNgayBatDau(rs.getString("NgayBatDau"));
+                cp.setNgayKetThuc(rs.getString("NgayKetThuc"));
+                cp.setTrangThai(rs.getString("TrangThai"));
+                listcp.add(cp);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return listcp;
+    }
+
+    public List<SanPham> getAllSP() {
+        List<SanPham> listsp = new ArrayList<>();
+        try {
+            String sql = "Select  CTSP.IdSP, SanPham.MaSP,SanPham.TenSP, SanPham.SoLuongTong,CTSP.GiaBan FROM SanPham\n"
+                    + "LEFT JOIN CTSP ON CTSP.MaSP = SanPham.MaSP";
+            PreparedStatement ps = cn.prepareStatement(sql);
+            ps.execute();
+            ResultSet rs = ps.getResultSet();
+            while (rs.next()) {
+                SanPham sp = new SanPham();
+                sp.setIdspct(rs.getString("IdSP"));
+                sp.setMaSanPham(rs.getString("MaSP"));
+                sp.setTenSanPham(rs.getString("TenSP"));
+                sp.setSoLuong(rs.getString("SoLuongTong"));
+                sp.setGiaBan(rs.getString("GiaBan"));
+                listsp.add(sp);
+            }
+        } catch (Exception e) {
+        }
+        return listsp;
+    }
 }
