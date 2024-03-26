@@ -5,6 +5,7 @@
 package View;
 
 import Model.Coupon;
+import Model.KhachHang;
 import Model.SanPham;
 import Model.Voucher;
 import Service.QuanLyKhuyenMai;
@@ -28,7 +29,6 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
 
     List<Coupon> listCP = new ArrayList<>();
     List<SanPham> listSP = new ArrayList<>();
-
     public ViewKhuyenMai() {
         initComponents();
         LoadDataTable();
@@ -409,13 +409,13 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
 
         tbVoucher.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Mã voucher", "Tên voucher", "Giảm giá", "Ngày bắt đầu", "Ngày kết thúc", "Ưu đãi riêng", "Trạng thái"
+                "Mã voucher", "Tên voucher", "Giảm giá", "Ngày bắt đầu", "Ngày kết thúc", "Mã Khách Hàng", "Trạng thái KH", "Trạng thái"
             }
         ));
         tbVoucher.addMouseListener(new java.awt.event.MouseAdapter() {
