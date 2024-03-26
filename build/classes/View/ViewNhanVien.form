@@ -823,14 +823,14 @@
                                   <Component id="txtMaNVDKi" alignment="0" pref="261" max="32767" attributes="0"/>
                                   <Component id="txtMatKhau" alignment="0" max="32767" attributes="0"/>
                                   <Component id="txtDangNhapDKi" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="txtMaCaLamDki" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="txtMaTaiKhoanDki" alignment="0" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="64" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="jButton1" max="32767" attributes="0"/>
-                                  <Component id="jButton2" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="jButton3" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="jButton4" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="btnAddDKi" max="32767" attributes="0"/>
+                                  <Component id="btnUpDateDKi" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="btnDeleteDKi" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="btnNewDangKi" alignment="0" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="32767" attributes="0"/>
                           </Group>
@@ -842,26 +842,26 @@
                               <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabel12" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="txtMaCaLamDki" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtMaTaiKhoanDki" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btnAddDKi" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabel13" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="txtDangNhapDKi" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btnUpDateDKi" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabel14" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="txtMatKhau" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jButton3" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btnDeleteDKi" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabel15" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="txtMaNVDKi" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jButton4" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="btnNewDangKi" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace pref="45" max="32767" attributes="0"/>
                           </Group>
@@ -889,7 +889,7 @@
                         <Property name="text" type="java.lang.String" value="M&#xe3; NV"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JTextField" name="txtMaCaLamDki">
+                    <Component class="javax.swing.JTextField" name="txtMaTaiKhoanDki">
                     </Component>
                     <Component class="javax.swing.JTextField" name="txtDangNhapDKi">
                     </Component>
@@ -897,28 +897,37 @@
                     </Component>
                     <Component class="javax.swing.JTextField" name="txtMaNVDKi">
                     </Component>
-                    <Component class="javax.swing.JButton" name="jButton1">
+                    <Component class="javax.swing.JButton" name="btnAddDKi">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="ADD"/>
                       </Properties>
                       <Events>
-                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButton1MouseClicked"/>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnAddDKiMouseClicked"/>
                       </Events>
                     </Component>
-                    <Component class="javax.swing.JButton" name="jButton2">
+                    <Component class="javax.swing.JButton" name="btnUpDateDKi">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="UpDate"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnUpDateDKiMouseClicked"/>
+                      </Events>
                     </Component>
-                    <Component class="javax.swing.JButton" name="jButton3">
+                    <Component class="javax.swing.JButton" name="btnDeleteDKi">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Delete"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnDeleteDKiMouseClicked"/>
+                      </Events>
                     </Component>
-                    <Component class="javax.swing.JButton" name="jButton4">
+                    <Component class="javax.swing.JButton" name="btnNewDangKi">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="New"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnNewDangKiMouseClicked"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -1003,6 +1012,9 @@
                               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                             </Property>
                           </Properties>
+                          <Events>
+                            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tblTaiKhoanDKiMouseClicked"/>
+                          </Events>
                         </Component>
                       </SubComponents>
                     </Container>
