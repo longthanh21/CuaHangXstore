@@ -767,15 +767,11 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         detail();
         LoadDataTableTheoMa(String.valueOf(tbVoucher.getValueAt(i, 1)));
     }//GEN-LAST:event_tbVoucherMouseClicked
-
+    
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         try {
             qlKM.themVoucher(getFormVoucher());
-            if (cbKhachVip.isSelected()) {
-                for (int i = 0; i < listVC.size(); i++) {
-                    qlKM.getKhachVIP(txtMaVC.getText(), i);
-                }
-            }
+            if(cbKhachVip.isSelected()) qlKM.addKhachVIP(txtMaVC.getText());
             LoadDataTable();
         } catch (Exception e) {
             e.printStackTrace();
@@ -787,15 +783,17 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-//        try {
-//            qlKM.suaVoucher(getFormVoucher());
-//            if (cbKhachVip.isSelected()) {
-//                qlKM.getKhachVIP(txtMaVC.getText());
-//            }
-//            LoadDataTable();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        try {
+            qlKM.suaVoucher(getFormVoucher());
+            int i = tbVoucher.getSelectedRow();
+            String trangThai = (String) tbVoucher.getValueAt(i, 6);
+            if(cbKhachVip.isSelected() && !trangThai.equals("Khách VIP")) qlKM.addKhachVIP(txtMaVC.getText());
+            else if(cbKhachVip.isSelected() && trangThai.equals("Khách VIP")) JOptionPane.showMessageDialog(this, "Mã VC đã Áp dụng cho Khách VIP");
+            else qlKM.dltKhachVIP(txtMaVC.getText());
+            LoadDataTable();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     /**
