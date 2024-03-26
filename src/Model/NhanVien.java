@@ -15,14 +15,15 @@ public class NhanVien {
     private boolean gioiTinh;
     private String diaChi;
     private String SĐT;
-    private boolean vaiTro;
+    private String vaiTro;
     private String maTK;
     private String maCL;
-    private boolean trangThai;
+    private String trangThai;
 
-    
+    public NhanVien() {
+    }
 
-    public NhanVien(String maNV, String tenNV, String ngaySinh, boolean gioiTinh, String diaChi, String SĐT, boolean vaiTro, String maTK, String maCL, boolean trangThai) {
+    public NhanVien(String maNV, String tenNV, String ngaySinh, boolean gioiTinh, String diaChi, String SĐT, String vaiTro, String maTK, String maCL, String trangThai) {
         this.maNV = maNV;
         this.tenNV = tenNV;
         this.ngaySinh = ngaySinh;
@@ -83,11 +84,11 @@ public class NhanVien {
         this.SĐT = SĐT;
     }
 
-    public boolean isVaiTro() {
+    public String getVaiTro() {
         return vaiTro;
     }
 
-    public void setVaiTro(boolean vaiTro) {
+    public void setVaiTro(String vaiTro) {
         this.vaiTro = vaiTro;
     }
 
@@ -107,14 +108,17 @@ public class NhanVien {
         this.maCL = maCL;
     }
 
-    public boolean isTrangThai() {
+    public String getTrangThai() {
         return trangThai;
     }
 
-    public void setTrangThai(boolean trangThai) {
+    public void setTrangThai(String trangThai) {
         this.trangThai = trangThai;
     }
+
     
     
+    
+
     
 }
