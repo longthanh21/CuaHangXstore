@@ -50,7 +50,7 @@ public class ViewBanHang extends javax.swing.JFrame {
         String a=cbVoucher.getSelectedItem().toString();
         txtTongTien.setText(String.valueOf(tongTien));
         txtTienKD.setText("");
-        txtTienThua.setText(a);
+        txtTienThua.setText("");
     }
 
     void loadHoaDon() {
