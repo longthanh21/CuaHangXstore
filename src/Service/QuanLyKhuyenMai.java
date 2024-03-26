@@ -31,9 +31,7 @@ public class QuanLyKhuyenMai {
     public List<Voucher> getAllVC() {
         List<Voucher> listvc = new ArrayList<>();
         try {
-            String sql = "SELECT Voucher.MaVC, TenVC, GiamGia, NgayBatDau, NgayKetThuc, UuDai.TrangThai AS UuDaiTrangThai, Voucher.TrangThai AS VoucherTrangThai FROM Voucher\n"
-                    + "LEFT JOIN UuDai ON Voucher.MaVC = UuDai.MaVC\n"
-                    + "group by Voucher.MaVC, TenVC, GiamGia, NgayBatDau, NgayKetThuc,UuDai.TrangThai, Voucher.TrangThai";
+            String sql = "SELECT Voucher.MaVC, TenVC, GiamGia, NgayBatDau, NgayKetThuc, DieuKien, Voucher.TrangThai AS VoucherTrangThai FROM Voucher";
             PreparedStatement ps = cn.prepareStatement(sql);
             ps.execute();
             ResultSet rs = ps.getResultSet();
@@ -44,12 +42,7 @@ public class QuanLyKhuyenMai {
                 vc.setGiamGia(rs.getString("GiamGia"));
                 vc.setNgayBatDau(rs.getString("NgayBatDau"));
                 vc.setNgayKetThuc(rs.getString("NgayKetThuc"));
-                String trangThai = rs.getString("UuDaiTrangThai");
-                if (trangThai == null || trangThai.isEmpty()) {
-                    vc.setUuDai("Không có");
-                } else {
-                    vc.setUuDai("Khách VIP");
-                }
+                vc.setDieuKien(rs.getString("DieuKien"));
                 vc.setTrangThai(rs.getString("VoucherTrangThai"));
                 listvc.add(vc);
             }

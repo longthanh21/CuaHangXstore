@@ -10,18 +10,18 @@ package Model;
  */
 public class Voucher {
 
-    private String maVC, tenVC, giamGia, ngayBatDau, ngayKetThuc, uuDai, trangThai;
+    private String maVC, tenVC, giamGia, ngayBatDau, ngayKetThuc, dieuKien, trangThai;
 
     public Voucher() {
     }
 
-    public Voucher(String maVC, String tenVC, String giamGia, String ngayBatDau, String ngayKetThuc, String uuDai, String trangThai) {
+    public Voucher(String maVC, String tenVC, String giamGia, String ngayBatDau, String ngayKetThuc, String dieuKien, String trangThai) {
         this.maVC = maVC;
         this.tenVC = tenVC;
         this.giamGia = giamGia;
         this.ngayBatDau = ngayBatDau;
         this.ngayKetThuc = ngayKetThuc;
-        this.uuDai = uuDai;
+        this.dieuKien = dieuKien;
         this.trangThai = trangThai;
     }
 
@@ -65,12 +65,12 @@ public class Voucher {
         this.ngayKetThuc = ngayKetThuc;
     }
 
-    public String getUuDai() {
-        return uuDai;
+    public String getDieuKien() {
+        return dieuKien;
     }
 
-    public void setUuDai(String uuDai) {
-        this.uuDai = uuDai;
+    public void setDieuKien(String dieuKien) {
+        this.dieuKien = dieuKien;
     }
 
     public String getTrangThai() {
