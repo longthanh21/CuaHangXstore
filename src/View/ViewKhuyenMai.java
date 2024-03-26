@@ -29,6 +29,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
 
     List<Coupon> listCP = new ArrayList<>();
     List<SanPham> listSP = new ArrayList<>();
+
     public ViewKhuyenMai() {
         initComponents();
         LoadDataTable();
@@ -49,6 +50,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                 e.getNgayBatDau(),
                 e.getNgayKetThuc(),
                 e.getDieuKien(),
+                e.getUuDai(),
                 trangThai
             });
         }
@@ -67,6 +69,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                 e.getNgayBatDau(),
                 e.getNgayKetThuc(),
                 e.getDieuKien(),
+                e.getUuDai(),
                 trangThai
             });
         }
@@ -95,7 +98,13 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         }
         dcHetHan.setDate(endDate);
         txtDieuKien.setText(String.valueOf(tbVoucher.getValueAt(i, 5)));
-        String tt = String.valueOf(tbVoucher.getValueAt(i, 6));
+        String ttKH = String.valueOf(tbVoucher.getValueAt(i, 6));
+        if (ttKH.equalsIgnoreCase("Khách VIP")) {
+            cbKhachVip.setSelected(true);
+        } else {
+            cbKhachVip.setSelected(false);
+        }
+        String tt = String.valueOf(tbVoucher.getValueAt(i, 7));
         if (tt.equalsIgnoreCase("Hoạt động")) {
             rbHoatDong.setSelected(true);
         } else if (tt.equalsIgnoreCase("Hết hạn")) {
@@ -119,6 +128,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         Date ngayKetThuc = dcHetHan.getDate();
         String strNgayKetThuc = dateFormat.format(ngayKetThuc);
         vc.setNgayKetThuc(strNgayKetThuc);
+        vc.setDieuKien(txtDieuKien.getText());
         if (rbHoatDong.isSelected()) {
             vc.setTrangThai("Hoạt động");
         } else {
@@ -126,6 +136,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         }
         return vc;
     }
+    
 //    ===========================COuPon==========================================
 
     public void LoadDataCoupon() {
@@ -148,12 +159,12 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
 
     public void DetailCouPon() {
         int i = tbCoupon.getSelectedRow();
-        
+
         txtMaCP.setText(String.valueOf(tbCoupon.getValueAt(i, 0)));
         txtTenCP.setText(String.valueOf(tbCoupon.getValueAt(i, 1)));
         txtIDSanPham.setText(String.valueOf(tbCoupon.getValueAt(i, 2)));
         txtGiamGiaCP.setText(String.valueOf(tbCoupon.getValueAt(i, 3)));
-        
+
         String dateBatDau = String.valueOf(tbCoupon.getValueAt(i, 4));
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date startDate = null;
@@ -163,8 +174,8 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
             e.printStackTrace();
         }
         dcBatDau.setDate(startDate);
-        
-        String dateKetThuc = String.valueOf(tbCoupon.getValueAt(i, 5)); 
+
+        String dateKetThuc = String.valueOf(tbCoupon.getValueAt(i, 5));
         Date endDate = null;
         try {
             endDate = dateFormat.parse(dateKetThuc);
@@ -172,7 +183,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
             e.printStackTrace();
         }
         dcHetHan.setDate(endDate);
-        
+
 //        String tt = String.valueOf(tbCoupon.getValueAt(i, 6);
 //        if(tt.equalsIgnoreCase("Hoạt động")){
 //            rbCPHoatDong.setSelected(true);
@@ -415,7 +426,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Mã voucher", "Tên voucher", "Giảm giá", "Ngày bắt đầu", "Ngày kết thúc", "Mã Khách Hàng", "Trạng thái KH", "Trạng thái"
+                "Mã voucher", "Tên voucher", "Giảm giá", "Ngày bắt đầu", "Ngày kết thúc", "Điều kiện", "Trạng thái KH", "Trạng thái"
             }
         ));
         tbVoucher.addMouseListener(new java.awt.event.MouseAdapter() {
