@@ -4,6 +4,7 @@
  */
 package View;
 
+import Model.GioHang;
 import Model.HoaDon;
 import Model.SanPham;
 import Model.Voucher;
@@ -46,9 +47,10 @@ public class ViewBanHang extends javax.swing.JFrame {
         for (HoaDon h : ql.getListGioHang(mhd)) {
             tongTien += h.thanhTien(Integer.valueOf(h.getSoLuong()), h.giaSau());
         }
+        String a=cbVoucher.getSelectedItem().toString();
         txtTongTien.setText(String.valueOf(tongTien));
         txtTienKD.setText("");
-        txtTienThua.setText("");
+        txtTienThua.setText(a);
     }
 
     void loadHoaDon() {
@@ -227,6 +229,12 @@ public class ViewBanHang extends javax.swing.JFrame {
 
         jLabel6.setText("Voucher:");
 
+        cbVoucher.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbVoucherActionPerformed(evt);
+            }
+        });
+
         jLabel7.setText("Tổng tiền:");
 
         jLabel8.setText("Tiền khách đưa:");
@@ -322,10 +330,7 @@ public class ViewBanHang extends javax.swing.JFrame {
 
         tblGioHang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "STT", "Id san pham", "Mã sản phẩm", "Tên sản phẩm", "Số lượng", "Giá bán", "Thành tiền"
@@ -490,70 +495,93 @@ public class ViewBanHang extends javax.swing.JFrame {
         txtMaNV.setText((String) tblHoaDon.getValueAt(i, 3));
         tongTien();
     }//GEN-LAST:event_tblHoaDonMouseClicked
-
+    int checkSP() {
+        if (txtMaHD.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Mời chọn hóa đơn");
+            return 2;
+        }
+        return 3;
+    }
     private void tblSanPhamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSanPhamMouseClicked
         // TODO add your handling code here:
-        int i = tblSanPham.getSelectedRow();
-        String a = JOptionPane.showInputDialog("moi nhap so luong");
-        String id = (String) tblSanPham.getValueAt(i, 0);
-        String soLuong = (String) tblSanPham.getValueAt(i, 7);
-        String giaBan = String.valueOf(tblSanPham.getValueAt(i, 8));
-
-        if (Integer.valueOf(a) <= Integer.valueOf(soLuong) && Integer.valueOf(a) > 0) {
-            Integer so = Integer.valueOf(soLuong) - Integer.valueOf(a);
-            String so2 = so.toString();
-            ql.suaSanPham(so2, id);
-            loadSanPham(ql.getListSanPham());
-            String maHD = txtMaHD.getText();
-            for (HoaDon h : ql.getListGioHang(maHD)) {
-                if (id.equals(h.getIdSP())) {
-                    Integer a2 = Integer.valueOf(a) + Integer.valueOf(h.getSoLuong());
-                    ql.suaGioHang(String.valueOf(a2), id, maHD);
-                    loadGioHang(maHD);
-                    return;
-                }
-            }
-            HoaDon h = new HoaDon(maHD, null, null, null, null, null, null, id, null, null, a, giaBan, null);
-            ql.themGioHang(h);
-            loadGioHang(maHD);
-
-        } else {
-            JOptionPane.showMessageDialog(this, "moi nhap lai");
+        if (checkSP() == 2) {
+            return;
         }
-        tongTien();
+        try {
+            int i = tblSanPham.getSelectedRow();
+            String a = JOptionPane.showInputDialog("moi nhap so luong");
+            String id = (String) tblSanPham.getValueAt(i, 0);
+            String soLuong = (String) tblSanPham.getValueAt(i, 7);
+            String giaBan = String.valueOf(tblSanPham.getValueAt(i, 8));
+
+            if (Integer.valueOf(a) <= Integer.valueOf(soLuong) && Integer.valueOf(a) > 0) {
+                Integer so = Integer.valueOf(soLuong) - Integer.valueOf(a);
+                String so2 = so.toString();
+                ql.suaSanPham(so2, id);
+                loadSanPham(ql.getListSanPham());
+                String maHD = txtMaHD.getText();
+                for (HoaDon h : ql.getListGioHang(maHD)) {
+                    if (id.equals(h.getIdSP())) {
+                        Integer a2 = Integer.valueOf(a) + Integer.valueOf(h.getSoLuong());
+                        ql.suaGioHang(String.valueOf(a2), id, maHD);
+                        loadGioHang(maHD);
+                        return;
+                    }
+                }
+                HoaDon h = new HoaDon(maHD, null, null, null, null, null, null, id, null, null, a, giaBan, null);
+                ql.themGioHang(h);
+                loadGioHang(maHD);
+
+            } else {
+                JOptionPane.showMessageDialog(this, "moi nhap lai");
+            }
+            tongTien();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lỗi thao tác. Bé Khánh đừng nghịch nhé(^_^)");
+
+        }
+
     }//GEN-LAST:event_tblSanPhamMouseClicked
 
     private void tblGioHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblGioHangMouseClicked
         // TODO add your handling code here:
-        int i = tblGioHang.getSelectedRow();
-        String mhd = txtMaHD.getText();
-        String idsp = String.valueOf(tblGioHang.getValueAt(i, 1));
-        String b = JOptionPane.showInputDialog("moi ban nhap so luong");
-        String slgh = (String) tblGioHang.getValueAt(i, 4);
+
         try {
-            for (SanPham s : ql.getListSanPham()) {
-                if (idsp.equals(s.getIdspct())) {
-                    if (Integer.valueOf(b) > (Integer.valueOf(s.getSoLuong()) + Integer.valueOf(slgh))) {
-                        JOptionPane.showMessageDialog(this, "nhap lai so luong");
-                        return;
+            int i = tblGioHang.getSelectedRow();
+            String mhd = txtMaHD.getText();
+            String idsp = String.valueOf(tblGioHang.getValueAt(i, 1));
+
+            String b = JOptionPane.showInputDialog("moi ban nhap so luong");
+
+            String slgh = (String) tblGioHang.getValueAt(i, 4);
+            try {
+                for (SanPham s : ql.getListSanPham()) {
+                    if (idsp.equals(s.getIdspct())) {
+                        if (Integer.valueOf(b) > (Integer.valueOf(s.getSoLuong()) + Integer.valueOf(slgh))) {
+                            JOptionPane.showMessageDialog(this, "nhap lai so luong");
+                            return;
+                        }
+                        Integer sL = Integer.valueOf(s.getSoLuong()) + Integer.valueOf(slgh) - Integer.valueOf(b);
+                        String sl = sL.toString();
+                        ql.suaSanPham(sl, idsp);
+                        loadSanPham(ql.getListSanPham());
                     }
-                    Integer sL = Integer.valueOf(s.getSoLuong()) + Integer.valueOf(slgh) - Integer.valueOf(b);
-                    String sl = sL.toString();
-                    ql.suaSanPham(sl, idsp);
-                    loadSanPham(ql.getListSanPham());
                 }
+            } catch (Exception e) {
             }
+
+            if (Integer.valueOf(b) == 0) {
+                ql.xoaGioHang(idsp, mhd);
+                loadGioHang(mhd);
+            } else {
+                ql.suaGioHang(b, idsp, mhd);
+                loadGioHang(mhd);
+            }
+            tongTien();
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lỗi thao tác. Bé Khánh đừng nghịch nhé(^_^)");
         }
 
-        if (Integer.valueOf(b) == 0) {
-            ql.xoaGioHang(idsp, mhd);
-            loadGioHang(mhd);
-        } else {
-            ql.suaGioHang(b, idsp, mhd);
-            loadGioHang(mhd);
-        }
-        tongTien();
     }//GEN-LAST:event_tblGioHangMouseClicked
 
     private void txtTimKiemKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimKiemKeyReleased
@@ -575,12 +603,30 @@ public class ViewBanHang extends javax.swing.JFrame {
     private void txtTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTimKiemActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTimKiemActionPerformed
+    int checkHuy(String mhd) {
+        ArrayList<HoaDon> list = ql.getListGioHang(mhd);
+        for (HoaDon g : list) {
+            if (list.size() > 0) {
+                JOptionPane.showMessageDialog(this, "Mời bỏ hết sản phẩm ra giỏ hàng");
+                return 1;
+            }
+        }
 
+        return 2;
+    }
     private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
         // TODO add your handling code here:
+
         int i = tblHoaDon.getSelectedRow();
+        if (i == -1) {
+            JOptionPane.showMessageDialog(this, "Mời chọn hóa đơn cần hủy");
+            return;
+        }
         String mhd = (String) tblHoaDon.getValueAt(i, 1);
         // String trangThai = "Đã thanh toán";
+        if (checkHuy(mhd) == 1) {
+            return;
+        }
         Boolean checkHuyHD = ql.huyHoaDon(mhd);
         if (checkHuyHD) {
             JOptionPane.showMessageDialog(this, "Huỷ thành công");
@@ -591,6 +637,8 @@ public class ViewBanHang extends javax.swing.JFrame {
         loadHoaDon();
         loadGioHang(mhd);
         tongTien();
+
+
     }//GEN-LAST:event_btnHuyActionPerformed
 
     private void txtMaNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMaNVActionPerformed
@@ -604,6 +652,11 @@ public class ViewBanHang extends javax.swing.JFrame {
         int tienThua = Integer.valueOf(tienKD) - Integer.valueOf(tongTien);
         txtTienThua.setText(tienThua + "");
     }//GEN-LAST:event_txtTienKDKeyReleased
+
+    private void cbVoucherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbVoucherActionPerformed
+        // TODO add your handling code here:
+        tongTien();
+    }//GEN-LAST:event_cbVoucherActionPerformed
 
     /**
      * @param args the command line arguments
