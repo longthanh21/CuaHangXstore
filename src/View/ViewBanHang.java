@@ -27,16 +27,30 @@ public class ViewBanHang extends javax.swing.JFrame {
 
     public ViewBanHang() {
         initComponents();
-loadcbVC();
+        txtTongTien.setEnabled(false);
+        txtTienThua.setEnabled(false);
+        loadcbVC();
         loadHoaDon();
         loadSanPham(ql.getListSanPham());
     }
-void loadcbVC(){
-    for (Voucher v : ql.getListV()) {
-        cbVoucher.addItem(v.getTenVC());
+
+    void loadcbVC() {
+        for (Voucher v : ql.getListV()) {
+            cbVoucher.addItem(v.getTenVC());
+        }
     }
-    
-}
+
+    void tongTien() {
+        String mhd = txtMaHD.getText();
+        int tongTien = 0;
+        for (HoaDon h : ql.getListGioHang(mhd)) {
+            tongTien += h.thanhTien(Integer.valueOf(h.getSoLuong()), h.giaSau());
+        }
+        txtTongTien.setText(String.valueOf(tongTien));
+        txtTienKD.setText("");
+        txtTienThua.setText("");
+    }
+
     void loadHoaDon() {
         model = (DefaultTableModel) tblHoaDon.getModel();
         model.setRowCount(0);
@@ -65,7 +79,7 @@ void loadcbVC(){
                 sp.getIdspct(), sp.getMaSanPham(), sp.getTenSanPham(),
                 sp.getMauSac(), sp.getSize(), sp.getChatLieu(),
                 sp.getHang(), sp.getSoLuong(), Double.valueOf(sp.getGiaBan()).intValue(),
-               Float.valueOf(sp.getPhanTram()).intValue() , sp.giaSau()
+                Float.valueOf(sp.getPhanTram()).intValue(), sp.giaSau()
             });
         }
     }
@@ -78,10 +92,10 @@ void loadcbVC(){
         for (HoaDon sp : ql.getListGioHang(mhd)) {
             stt++;
             model.addRow(new Object[]{
-                stt, sp.getIdSP(), sp.getMaSP(), sp.getTenSP(), sp.getSoLuong(), 
+                stt, sp.getIdSP(), sp.getMaSP(), sp.getTenSP(), sp.getSoLuong(),
                 Float.valueOf(sp.giaSau()).intValue(),
                 sp.thanhTien(Integer.valueOf(sp.getSoLuong()),
-                        sp.giaSau())
+                sp.giaSau())
             });
         }
     }
@@ -216,6 +230,12 @@ void loadcbVC(){
         jLabel7.setText("Tổng tiền:");
 
         jLabel8.setText("Tiền khách đưa:");
+
+        txtTienKD.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtTienKDKeyReleased(evt);
+            }
+        });
 
         btnThanhToan.setText("Thanh toán");
 
@@ -423,7 +443,7 @@ void loadcbVC(){
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(BanHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(pnThongTin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pnSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(pnSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, 380, Short.MAX_VALUE))
                 .addGap(92, 92, 92))
         );
 
@@ -456,7 +476,8 @@ void loadcbVC(){
         txtMaHD.setText(h.getMaHD());
         txtNgayTao.setText(h.getNgayTao());
         txtMaNV.setText(h.getMaNV());
-
+        loadGioHang(mhd);
+        tongTien();
     }//GEN-LAST:event_btnTaoHDActionPerformed
 
     private void tblHoaDonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHoaDonMouseClicked
@@ -467,6 +488,7 @@ void loadcbVC(){
         txtMaHD.setText((String) tblHoaDon.getValueAt(i, 1));
         txtNgayTao.setText((String) tblHoaDon.getValueAt(i, 2));
         txtMaNV.setText((String) tblHoaDon.getValueAt(i, 3));
+        tongTien();
     }//GEN-LAST:event_tblHoaDonMouseClicked
 
     private void tblSanPhamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSanPhamMouseClicked
@@ -495,10 +517,10 @@ void loadcbVC(){
             ql.themGioHang(h);
             loadGioHang(maHD);
 
-//            tongTien();
         } else {
             JOptionPane.showMessageDialog(this, "moi nhap lai");
         }
+        tongTien();
     }//GEN-LAST:event_tblSanPhamMouseClicked
 
     private void tblGioHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblGioHangMouseClicked
@@ -531,6 +553,7 @@ void loadcbVC(){
             ql.suaGioHang(b, idsp, mhd);
             loadGioHang(mhd);
         }
+        tongTien();
     }//GEN-LAST:event_tblGioHangMouseClicked
 
     private void txtTimKiemKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimKiemKeyReleased
@@ -566,11 +589,21 @@ void loadcbVC(){
 
         }
         loadHoaDon();
+        loadGioHang(mhd);
+        tongTien();
     }//GEN-LAST:event_btnHuyActionPerformed
 
     private void txtMaNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMaNVActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtMaNVActionPerformed
+
+    private void txtTienKDKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTienKDKeyReleased
+        // TODO add your handling code here
+        String tienKD = txtTienKD.getText();
+        String tongTien = txtTongTien.getText();
+        int tienThua = Integer.valueOf(tienKD) - Integer.valueOf(tongTien);
+        txtTienThua.setText(tienThua + "");
+    }//GEN-LAST:event_txtTienKDKeyReleased
 
     /**
      * @param args the command line arguments
