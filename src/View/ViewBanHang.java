@@ -6,6 +6,7 @@ package View;
 
 import Model.GioHang;
 import Model.HoaDon;
+import Model.KhachHang;
 import Model.SanPham;
 import Model.Voucher;
 
@@ -33,9 +34,12 @@ public class ViewBanHang extends javax.swing.JFrame {
         loadcbVC();
         loadHoaDon();
         loadSanPham(ql.getListSanPham());
+        txtTongTien.setText("");
     }
 
     void loadcbVC() {
+        cbVoucher.removeAllItems();
+        cbVoucher.addItem("Khum");
         for (Voucher v : ql.getListV()) {
             cbVoucher.addItem(v.getTenVC());
         }
@@ -47,7 +51,19 @@ public class ViewBanHang extends javax.swing.JFrame {
         for (HoaDon h : ql.getListGioHang(mhd)) {
             tongTien += h.thanhTien(Integer.valueOf(h.getSoLuong()), h.giaSau());
         }
-        String a=cbVoucher.getSelectedItem().toString();
+        String a = cbVoucher.getSelectedItem() + "";
+        for (Voucher v : ql.getListV()) {
+            if (v.getTenVC().equals(a)) {
+                tongTien -= Float.valueOf(v.getGiamGia()).intValue();
+                break;
+            }
+        }
+        for (Voucher v : ql.getListVV(txtMaKH.getText())) {
+            if (v.getTenVC().equals(a)) {
+                tongTien -= Float.valueOf(v.getGiamGia()).intValue();
+                break;
+            }
+        }
         txtTongTien.setText(String.valueOf(tongTien));
         txtTienKD.setText("");
         txtTienThua.setText("");
@@ -227,6 +243,17 @@ public class ViewBanHang extends javax.swing.JFrame {
 
         jLabel5.setText("Mã KH:");
 
+        txtMaKH.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtMaKHActionPerformed(evt);
+            }
+        });
+        txtMaKH.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtMaKHKeyReleased(evt);
+            }
+        });
+
         jLabel6.setText("Voucher:");
 
         cbVoucher.addActionListener(new java.awt.event.ActionListener() {
@@ -246,6 +273,11 @@ public class ViewBanHang extends javax.swing.JFrame {
         });
 
         btnThanhToan.setText("Thanh toán");
+        btnThanhToan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThanhToanActionPerformed(evt);
+            }
+        });
 
         btnInHD.setText("In hóa đơn");
 
@@ -650,13 +682,97 @@ public class ViewBanHang extends javax.swing.JFrame {
         String tienKD = txtTienKD.getText();
         String tongTien = txtTongTien.getText();
         int tienThua = Integer.valueOf(tienKD) - Integer.valueOf(tongTien);
-        txtTienThua.setText(tienThua + "");
+        txtTienThua.setText(String.valueOf(tienThua));
     }//GEN-LAST:event_txtTienKDKeyReleased
 
     private void cbVoucherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbVoucherActionPerformed
         // TODO add your handling code here:
         tongTien();
     }//GEN-LAST:event_cbVoucherActionPerformed
+
+    private void txtMaKHKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaKHKeyReleased
+        // TODO add your handling code here:
+        for (KhachHang k : ql.getKhachHang()) {
+            if (txtMaKH.getText().equals(k.getMaKH())) {
+                cbVoucher.removeAllItems();
+                cbVoucher.addItem("Khum");
+                for (Voucher v : ql.getListVV(k.getMaKH())) {
+                    cbVoucher.addItem(v.getTenVC());
+                }
+                if (ql.getListVV(txtMaKH.getText()).size()==0) {
+                    loadcbVC();
+                }
+                return;
+            }
+
+        }
+        loadcbVC();
+    }//GEN-LAST:event_txtMaKHKeyReleased
+
+    private void txtMaKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMaKHActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtMaKHActionPerformed
+    int checkThanhToan() {
+        if (txtMaHD.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Mời chọn hóa đơn");
+            return 0;
+        } else if (ql.getListGioHang(txtMaHD.getText()).size() == 0) {
+            JOptionPane.showMessageDialog(this, "Giỏ hàng không có gì");
+            return 0;
+        } else if (txtTienKD.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Chưa có tiền khách đưa");
+            return 0;
+        } else if (Integer.valueOf(txtTienThua.getText()) < 0) {
+            JOptionPane.showMessageDialog(this, "Tiền khách đưa chưa đủ");
+            return 0;
+        }
+        return 1;
+    }
+    private void btnThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThanhToanActionPerformed
+        // TODO add your handling code here:
+        if (checkThanhToan() == 0) {
+            return;
+        }
+        String maVC = null;
+        for (Voucher v : ql.getListV()) {
+            String a = cbVoucher.getSelectedItem() + "";
+
+            if (v.getTenVC().equals(a)) {
+                maVC = v.getMaVC();
+                break;
+            }
+        }
+        for (Voucher v : ql.getListVV(txtMaHD.getText())) {
+            String a = cbVoucher.getSelectedItem() + "";
+
+            if (v.getTenVC().equals(a)) {
+                maVC = v.getMaVC();
+                break;
+            }
+        }
+
+        String maKH = null;
+        if (!txtMaKH.getText().equals("")) {
+            maKH = txtMaKH.getText();
+        }
+        HoaDon h = new HoaDon(txtMaHD.getText(), txtNgayTao.getText(), maKH, txtMaNV.getText(), maVC, txtTongTien.getText(), null, null, null, null, null, null, null);
+        if (ql.ThanhToan(h)) {
+            JOptionPane.showMessageDialog(this, "Thanh toán thành công");
+            txtMaHD.setText("");
+            txtNgayTao.setText("");
+            txtMaNV.setText("");
+            txtMaKH.setText("");
+            txtTongTien.setText("");
+            txtTienKD.setText("");
+            txtTienThua.setText("");
+            cbVoucher.setSelectedIndex(1);
+        } else {
+            JOptionPane.showMessageDialog(this, "Thanh toán thất bại");
+
+        }
+        loadHoaDon();
+        loadGioHang(txtMaHD.getText());
+    }//GEN-LAST:event_btnThanhToanActionPerformed
 
     /**
      * @param args the command line arguments

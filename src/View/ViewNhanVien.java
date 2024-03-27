@@ -49,6 +49,24 @@ public class ViewNhanVien extends javax.swing.JFrame {
                 nhanVien.getTrangThai(),});
         }
     }
+    void SeachNhanVien(String maa) {
+        defaultTableModel = (DefaultTableModel) tblNhanVien.getModel();
+        defaultTableModel.setRowCount(0);
+        int i = 1;
+        for (NhanVien nhanVien : quanLyNhanVien.seachNhanVien(maa)) {
+            defaultTableModel.addRow(new Object[]{
+                i++,
+                nhanVien.getMaNV(),
+                nhanVien.getTenNV(),
+                nhanVien.getNgaySinh(),
+                nhanVien.isGioiTinh() ? "Nam" : "Nữ",
+                nhanVien.getDiaChi(),
+                nhanVien.getSĐT(),
+                nhanVien.getVaiTro(),
+                nhanVien.getMaCL(),
+                nhanVien.getTrangThai(),});
+        }
+    }
 
     void loadTaiKhoanDKi() {
         defaultTableModel = (DefaultTableModel) tblTaiKhoanDKi.getModel();
@@ -242,6 +260,20 @@ public class ViewNhanVien extends javax.swing.JFrame {
         pnNhanVien.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, null), "Nhân viên"));
 
         jLabel9.setText("Tìm Kiếm Nhân Viên");
+
+        txtTimKiem.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtTimKiemMouseClicked(evt);
+            }
+        });
+        txtTimKiem.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtTimKiemKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtTimKiemKeyReleased(evt);
+            }
+        });
 
         tblNhanVien.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -1282,6 +1314,40 @@ public class ViewNhanVien extends javax.swing.JFrame {
         loadCaLamDKi();
         loadCaLamNhanVien();
     }//GEN-LAST:event_btnDeleteCaLamMouseClicked
+
+    private void txtTimKiemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtTimKiemMouseClicked
+        // TODO add your handling code here:
+//         String ma = txtMaTaiKhoanDki.getText();
+////        if (ma.isEmpty()) {
+////            JOptionPane.showMessageDialog(this, "Không Bỏ Trống Mã Đăng Kí ");
+////            return;
+////        }
+//            quanLyNhanVien.seachNhanVien(ma);
+//            loadNhanVien();
+        
+    }//GEN-LAST:event_txtTimKiemMouseClicked
+
+    private void txtTimKiemKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimKiemKeyPressed
+        // TODO add your handling code here:
+//          String ma = txtTimKiem.getText();
+////        if (ma.isEmpty()) {
+////            JOptionPane.showMessageDialog(this, "Không Bỏ Trống Mã Đăng Kí ");
+////            return;
+////        }
+//            quanLyNhanVien.seachNhanVien(ma);
+//            loadNhanVien();
+    }//GEN-LAST:event_txtTimKiemKeyPressed
+
+    private void txtTimKiemKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimKiemKeyReleased
+        // TODO add your handling code here:
+         String ma = txtTimKiem.getText();
+//        if (ma.isEmpty()) {
+//            JOptionPane.showMessageDialog(this, "Không Bỏ Trống Mã Đăng Kí ");
+//            return;
+//        }
+            quanLyNhanVien.seachNhanVien(ma);
+            SeachNhanVien(ma);
+    }//GEN-LAST:event_txtTimKiemKeyReleased
 
     /**
      * @param args the command line arguments

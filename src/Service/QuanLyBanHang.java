@@ -7,7 +7,7 @@ package Service;
 import Model.HoaDon;
 import Model.SanPham;
 import Model.Voucher;
-
+import Model.KhachHang;
 import Repository.DbConnect;
 import java.util.ArrayList;
 import java.sql.*;
@@ -232,10 +232,35 @@ public class QuanLyBanHang {
         return true;
     }
 
+    public Boolean ThanhToan(HoaDon h) {
+        try {
+            String sql = "update HoaDon set Trangthai=N'Đã thanh toán' "
+                    + ", makh=?,mavc=?,tongtien=? where mahd=?";
+            Connection con = DbConnect.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, h.getMaKH());
+            ps.setString(2, h.getMaVC());
+            ps.setString(3, h.getTongTien());
+            ps.setString(4, h.getMaHD());
+
+            ps.executeUpdate();
+            con.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
     public ArrayList<Voucher> getListV() {
         ArrayList<Voucher> listV = new ArrayList<Voucher>();
+
         try {
-            String sql = "select * from Voucher where TrangThai=1";
+            String sql = "SELECT a.MaKH, a.TrangThai, c.MaVC, TenVC, GiamGia \n"
+                    + "FROM KhachHang a\n"
+                    + "JOIN UuDai b ON a.MaKH = b.MaKH\n"
+                    + "RIGHT JOIN Voucher c ON b.MaVC = c.MaVC\n"
+                    + "WHERE c.TrangThai = 1 AND a.MaKH IS NULL;";
             Connection con = DbConnect.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -244,6 +269,7 @@ public class QuanLyBanHang {
                 v.setMaVC(rs.getString("mavc"));
                 v.setTenVC(rs.getString("TenVC"));
                 v.setGiamGia(rs.getString("GiamGia"));
+
                 listV.add(v);
             }
             con.close();
@@ -251,5 +277,58 @@ public class QuanLyBanHang {
             e.printStackTrace();
         }
         return listV;
+    }
+
+    public ArrayList<Voucher> getListVV(String mkh) {
+        ArrayList<Voucher> listVV = new ArrayList<Voucher>();
+
+        try {
+            String sql = "SELECT a.MaKH, a.TrangThai, c.MaVC, TenVC, GiamGia \n"
+                    + "FROM KhachHang a\n"
+                    + "JOIN UuDai b ON a.MaKH = b.MaKH\n"
+                    + "RIGHT JOIN Voucher c ON b.MaVC = c.MaVC\n"
+                    + "WHERE c.TrangThai = 1 AND a.MaKH ='" + mkh + "'";
+            Connection con = DbConnect.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Voucher v = new Voucher();
+                v.setMaVC(rs.getString("mavc"));
+                v.setTenVC(rs.getString("TenVC"));
+                v.setGiamGia(rs.getString("GiamGia"));
+
+                listVV.add(v);
+            }
+            con.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return listVV;
+    }
+
+    public ArrayList<KhachHang> getKhachHang() {
+        ArrayList<KhachHang> listK = new ArrayList<KhachHang>();
+
+        try {
+            String sql = "select * from khachhang";
+            Connection con = DbConnect.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                KhachHang k = new KhachHang();
+                k.setMaKH(rs.getString("makh"));
+                if (rs.getString("trangthai").equals("1")) {
+                    k.setTrangThai(true);
+                } else {
+                    k.setTrangThai(false);
+                }
+
+                listK.add(k);
+            }
+            con.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return listK;
     }
 }
