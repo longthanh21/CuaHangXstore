@@ -14,6 +14,10 @@ public class SanPham {
     private String idspct;
     private String tenSanPham;
     private String ngayNhap;
+    private String idMauSac;
+    private String idSize;
+    private String idChatLieu;
+    private String idHang;
     private String MauSac;
     private String Size;
     private String ChatLieu;
@@ -27,11 +31,15 @@ public class SanPham {
     public SanPham() {
     }
 
-    public SanPham(String maSanPham, String idspct, String tenSanPham, String ngayNhap, String MauSac, String Size, String ChatLieu, String Hang, String soLuong, String giaNhap, String giaBan, String trangThai, String phanTram) {
+    public SanPham(String maSanPham, String idspct, String tenSanPham, String ngayNhap, String idMauSac, String idSize, String idChatLieu, String idHang, String MauSac, String Size, String ChatLieu, String Hang, String soLuong, String giaNhap, String giaBan, String trangThai, String phanTram) {
         this.maSanPham = maSanPham;
         this.idspct = idspct;
         this.tenSanPham = tenSanPham;
         this.ngayNhap = ngayNhap;
+        this.idMauSac = idMauSac;
+        this.idSize = idSize;
+        this.idChatLieu = idChatLieu;
+        this.idHang = idHang;
         this.MauSac = MauSac;
         this.Size = Size;
         this.ChatLieu = ChatLieu;
@@ -73,6 +81,38 @@ public class SanPham {
 
     public void setNgayNhap(String ngayNhap) {
         this.ngayNhap = ngayNhap;
+    }
+
+    public String getIdMauSac() {
+        return idMauSac;
+    }
+
+    public void setIdMauSac(String idMauSac) {
+        this.idMauSac = idMauSac;
+    }
+
+    public String getIdSize() {
+        return idSize;
+    }
+
+    public void setIdSize(String idSize) {
+        this.idSize = idSize;
+    }
+
+    public String getIdChatLieu() {
+        return idChatLieu;
+    }
+
+    public void setIdChatLieu(String idChatLieu) {
+        this.idChatLieu = idChatLieu;
+    }
+
+    public String getIdHang() {
+        return idHang;
+    }
+
+    public void setIdHang(String idHang) {
+        this.idHang = idHang;
     }
 
     public String getMauSac() {
@@ -147,6 +187,8 @@ public class SanPham {
         this.phanTram = phanTram;
     }
 
+    
+
     public Integer giaSau() {
 
         float giaBan = Float.parseFloat(this.giaBan);
@@ -155,5 +197,6 @@ public class SanPham {
 
         return giaSau;
     }
+    
 
 }
