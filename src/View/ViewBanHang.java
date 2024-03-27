@@ -6,6 +6,7 @@ package View;
 
 import Model.GioHang;
 import Model.HoaDon;
+import Model.KhachHang;
 import Model.SanPham;
 import Model.Voucher;
 
@@ -33,9 +34,12 @@ public class ViewBanHang extends javax.swing.JFrame {
         loadcbVC();
         loadHoaDon();
         loadSanPham(ql.getListSanPham());
+        txtTongTien.setText("");
     }
 
     void loadcbVC() {
+        cbVoucher.removeAllItems();
+           cbVoucher.addItem("Khum có (^_^)");
         for (Voucher v : ql.getListV()) {
             cbVoucher.addItem(v.getTenVC());
         }
@@ -47,7 +51,19 @@ public class ViewBanHang extends javax.swing.JFrame {
         for (HoaDon h : ql.getListGioHang(mhd)) {
             tongTien += h.thanhTien(Integer.valueOf(h.getSoLuong()), h.giaSau());
         }
-        String a=cbVoucher.getSelectedItem().toString();
+        String a = cbVoucher.getSelectedItem()+"";
+        for (Voucher v : ql.getListV()) {
+            if (v.getTenVC().equals(a)) {
+              tongTien-= Float.valueOf(v.getGiamGia()).intValue() ;
+              break;
+            }
+        }
+        for (Voucher v : ql.getListVV(txtMaKH.getText())) {
+            if (v.getTenVC().equals(a)) {
+               tongTien-= Float.valueOf(v.getGiamGia()).intValue() ;
+              break;
+            }
+        }
         txtTongTien.setText(String.valueOf(tongTien));
         txtTienKD.setText("");
         txtTienThua.setText("");
@@ -226,6 +242,17 @@ public class ViewBanHang extends javax.swing.JFrame {
         });
 
         jLabel5.setText("Mã KH:");
+
+        txtMaKH.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtMaKHActionPerformed(evt);
+            }
+        });
+        txtMaKH.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtMaKHKeyReleased(evt);
+            }
+        });
 
         jLabel6.setText("Voucher:");
 
@@ -657,6 +684,28 @@ public class ViewBanHang extends javax.swing.JFrame {
         // TODO add your handling code here:
         tongTien();
     }//GEN-LAST:event_cbVoucherActionPerformed
+
+    private void txtMaKHKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaKHKeyReleased
+        // TODO add your handling code here:
+        for (KhachHang k : ql.getKhachHang()) {
+            if (txtMaKH.getText().equals(k.getMaKH())) {
+                cbVoucher.removeAllItems();
+                   cbVoucher.addItem("Khum có (^_^)");
+                for (Voucher v : ql.getListVV(k.getMaKH())) {
+
+                    cbVoucher.addItem(v.getTenVC());
+
+                }
+                return;
+            }
+
+        }
+        loadcbVC();
+    }//GEN-LAST:event_txtMaKHKeyReleased
+
+    private void txtMaKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMaKHActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtMaKHActionPerformed
 
     /**
      * @param args the command line arguments
