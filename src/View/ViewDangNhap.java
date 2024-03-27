@@ -25,7 +25,7 @@ public class ViewDangNhap extends javax.swing.JFrame {
 
     public void login() {
         try {
-            cn = DbConnect.getConnection();
+            cn = DbConnect.getConnection(); // Tạo connect
         } catch (Exception e) {
             e.printStackTrace();
         }
