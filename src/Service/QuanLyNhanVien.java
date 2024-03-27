@@ -107,6 +107,33 @@ public class QuanLyNhanVien {
         }
     }
 
+    public ArrayList<NhanVien> seachNhanVien(String maa) {
+//        ArrayList<NhanVien> listSeach = new ArrayList<>();
+        list.clear();
+        try {
+            String sql = "select MaNV, TenNV, NgaySinh, GioiTinh, DiaChi, Sdt, VaiTro, MaCL, TrangThai from NhanVien where MaNV like ?";
+            Connection con = DbConnect.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, maa);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String Ma = rs.getString(1);
+                String Ten = rs.getString(2);
+                String NgaySinh = rs.getString(3);
+                Boolean GioiTinh = rs.getBoolean(4);
+                String DiaChi = rs.getString(5);
+                String Sdt = rs.getString(6);
+                String VaiTro = rs.getString(7);
+                String MaCL = rs.getString(8);
+                String TrangThai = rs.getString(9);
+                list.add(new NhanVien(Ma, Ten, NgaySinh, GioiTinh, DiaChi, Sdt, VaiTro, MaCL, MaCL, TrangThai));
+            }
+            con.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 //--------------------------------------------Phần Tai Khoan--------------------------------------------------
     ArrayList<TaiKhoan> listTaiKhoan = new ArrayList<>();
 
@@ -207,7 +234,8 @@ public class QuanLyNhanVien {
         }
         return listCaLam;
     }
-     public boolean AddCaLam(TaiKhoan taiKhoan) {
+
+    public boolean AddCaLam(TaiKhoan taiKhoan) {
         try {
             String sql = "INSERT INTO CaLam (MaCL, TenCL, GioBatDau, GioKetThuc, GhiChu) VALUES(?,?,?,?,?)";
             Connection con = DbConnect.getConnection();
