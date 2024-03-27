@@ -232,6 +232,26 @@ public class QuanLyBanHang {
         return true;
     }
 
+    public Boolean ThanhToan(HoaDon h) {
+        try {
+            String sql = "update HoaDon set Trangthai=N'Đã thanh toán' "
+                    + ", makh=?,mavc=?,tongtien=? where mahd=?";
+            Connection con = DbConnect.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, h.getMaKH());
+            ps.setString(2, h.getMaVC());
+            ps.setString(3, h.getTongTien());
+            ps.setString(4, h.getMaHD());
+
+            ps.executeUpdate();
+            con.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
     public ArrayList<Voucher> getListV() {
         ArrayList<Voucher> listV = new ArrayList<Voucher>();
 
@@ -258,7 +278,8 @@ public class QuanLyBanHang {
         }
         return listV;
     }
-public ArrayList<Voucher> getListVV(String mkh) {
+
+    public ArrayList<Voucher> getListVV(String mkh) {
         ArrayList<Voucher> listVV = new ArrayList<Voucher>();
 
         try {
@@ -266,7 +287,7 @@ public ArrayList<Voucher> getListVV(String mkh) {
                     + "FROM KhachHang a\n"
                     + "JOIN UuDai b ON a.MaKH = b.MaKH\n"
                     + "RIGHT JOIN Voucher c ON b.MaVC = c.MaVC\n"
-                    + "WHERE c.TrangThai = 1 AND a.MaKH ='"+mkh+"'";
+                    + "WHERE c.TrangThai = 1 AND a.MaKH ='" + mkh + "'";
             Connection con = DbConnect.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -284,6 +305,7 @@ public ArrayList<Voucher> getListVV(String mkh) {
         }
         return listVV;
     }
+
     public ArrayList<KhachHang> getKhachHang() {
         ArrayList<KhachHang> listK = new ArrayList<KhachHang>();
 
@@ -296,11 +318,10 @@ public ArrayList<Voucher> getListVV(String mkh) {
                 KhachHang k = new KhachHang();
                 k.setMaKH(rs.getString("makh"));
                 if (rs.getString("trangthai").equals("1")) {
-                    k.setTrangThai( true);
-                }else{
-                    k.setTrangThai( false);
+                    k.setTrangThai(true);
+                } else {
+                    k.setTrangThai(false);
                 }
-             
 
                 listK.add(k);
             }
