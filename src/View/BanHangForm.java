@@ -37,7 +37,9 @@ public class BanHangForm extends javax.swing.JFrame {
         }
         this.tenTK = tenTK;
         try {
-            String sql = "SELECT NhanVien.MaNV, NhanVien.TenNV FROM NhanVien JOIN TaiKhoan ON TaiKhoan.MaNV = NhanVien.MaNV WHERE TaiKhoan.TenDangNhap = ?";
+            String sql = "SELECT NhanVien.MaNV, NhanVien.TenNV "
+                    + "FROM NhanVien JOIN TaiKhoan ON TaiKhoan.MaNV = NhanVien.MaNV "
+                    + "WHERE TaiKhoan.TenDangNhap = ?";
             PreparedStatement ps = cn.prepareStatement(sql);
             ps.setString(1, tenTK);
             ResultSet rs = ps.executeQuery();
