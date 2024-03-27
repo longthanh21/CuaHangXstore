@@ -167,15 +167,16 @@ public class QuanLySanPham {
         return listCTCP;
     }
 
-    public ArrayList<SanPham> getlistMauSac() {
+    public ArrayList<SanPham> getSelectMauSac() {
         listThuocTinh.clear();
         try {
             Connection conn = DbConnect.getConnection();
-            String sql = "SELECT TenMauSac FROM MauSac";
+            String sql = "SELECT IdMauSac, TenMauSac FROM MauSac";
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {
                 SanPham sp = new SanPham();
+                sp.setIdMauSac(rs.getString("IdMauSac"));
                 sp.setMauSac(rs.getString("TenMauSac"));
                 listThuocTinh.add(sp);
             }
@@ -185,15 +186,16 @@ public class QuanLySanPham {
         return listThuocTinh;
     }
 
-    public ArrayList<SanPham> getlistSize() {
+    public ArrayList<SanPham> getSelectSize() {
         listThuocTinh.clear();
         try {
             Connection conn = DbConnect.getConnection();
-            String sql = "SELECT TenSize FROM Size";
+            String sql = "SELECT IdSize, TenSize FROM Size";
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {
                 SanPham sp = new SanPham();
+                sp.setIdSize(rs.getString("IdSize"));
                 sp.setSize(rs.getString("TenSize"));
                 listThuocTinh.add(sp);
             }
@@ -203,15 +205,16 @@ public class QuanLySanPham {
         return listThuocTinh;
     }
 
-    public ArrayList<SanPham> getlistChatLieu() {
+    public ArrayList<SanPham> getSelectChatLieu() {
         listThuocTinh.clear();
         try {
             Connection conn = DbConnect.getConnection();
-            String sql = "SELECT TenChatLieu FROM ChatLieu";
+            String sql = "SELECT IdChatLieu, TenChatLieu FROM ChatLieu";
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {
                 SanPham sp = new SanPham();
+                sp.setIdChatLieu(rs.getString("IdChatLieu"));
                 sp.setChatLieu(rs.getString("TenChatLieu"));
                 listThuocTinh.add(sp);
             }
@@ -221,15 +224,16 @@ public class QuanLySanPham {
         return listThuocTinh;
     }
 
-    public ArrayList<SanPham> getlistHang() {
+    public ArrayList<SanPham> getSelectHang() {
         listSanPham.clear();
         try {
             Connection conn = DbConnect.getConnection();
-            String sql = "SELECT TenHang FROM Hang";
+            String sql = "SELECT IdHang, TenHang FROM Hang";
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {
                 SanPham sp = new SanPham();
+                sp.setIdHang(rs.getString("IdHang"));
                 sp.setHang(rs.getString("TenHang"));
                 listThuocTinh.add(sp);
             }

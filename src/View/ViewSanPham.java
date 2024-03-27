@@ -169,26 +169,26 @@ public class ViewSanPham extends javax.swing.JFrame {
 
     void loadThuocTinh() {
         cbbMauSac.removeAllItems();
-        qlsp.getlistSize().clear();
-        for (SanPham sp : qlsp.getlistMauSac()) {
+        qlsp.getSelectMauSac().clear();
+        for (SanPham sp : qlsp.getSelectMauSac()) {
             cbbMauSac.addItem(sp.getMauSac());
         }
 
         cbbSize.removeAllItems();
-        qlsp.getlistSize().clear();
-        for (SanPham sp : qlsp.getlistSize()) {
+        qlsp.getSelectSize().clear();
+        for (SanPham sp : qlsp.getSelectSize()) {
             cbbSize.addItem(sp.getSize());
         }
 
         cbbChatLieu.removeAllItems();
-        qlsp.getlistSize().clear();
-        for (SanPham sp : qlsp.getlistChatLieu()) {
+        qlsp.getSelectChatLieu().clear();
+        for (SanPham sp : qlsp.getSelectChatLieu()) {
             cbbChatLieu.addItem(sp.getChatLieu());
         }
 
         cbbHang.removeAllItems();
-        qlsp.getlistSize().clear();
-        for (SanPham sp : qlsp.getlistHang()) {
+        qlsp.getSelectHang().clear();
+        for (SanPham sp : qlsp.getSelectHang()) {
             cbbHang.addItem(sp.getHang());
         }
     }
@@ -306,18 +306,20 @@ public class ViewSanPham extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         txtTimKiem = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tbChiTietSanPham = new javax.swing.JTable();
-        btnAddChiTiet = new javax.swing.JButton();
-        btnUpdateChiTiet = new javax.swing.JButton();
+        tblThuocTinh = new javax.swing.JTable();
+        btnAddTT = new javax.swing.JButton();
+        btnUpdateTT = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jTextField10 = new javax.swing.JTextField();
         jTextField11 = new javax.swing.JTextField();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jRadioButton3 = new javax.swing.JRadioButton();
-        jRadioButton4 = new javax.swing.JRadioButton();
+        rdMauSac = new javax.swing.JRadioButton();
+        rdSize = new javax.swing.JRadioButton();
+        rdChatLieu = new javax.swing.JRadioButton();
+        rdHang = new javax.swing.JRadioButton();
+        btnDeleteTT = new javax.swing.JButton();
+        btnNewTT = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -756,7 +758,7 @@ public class ViewSanPham extends javax.swing.JFrame {
 
         jLabel6.setText("Tìm Kiếm");
 
-        tbChiTietSanPham.setModel(new javax.swing.table.DefaultTableModel(
+        tblThuocTinh.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -764,7 +766,7 @@ public class ViewSanPham extends javax.swing.JFrame {
                 "ID thuộc tính", "Tên thuộc tính", "Ghi chú"
             }
         ));
-        jScrollPane2.setViewportView(tbChiTietSanPham);
+        jScrollPane2.setViewportView(tblThuocTinh);
 
         javax.swing.GroupLayout pnDanhSachLayout = new javax.swing.GroupLayout(pnDanhSach);
         pnDanhSach.setLayout(pnDanhSachLayout);
@@ -793,9 +795,9 @@ public class ViewSanPham extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        btnAddChiTiet.setText("Add");
+        btnAddTT.setText("Add");
 
-        btnUpdateChiTiet.setText("Update");
+        btnUpdateTT.setText("Update");
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Màu sắc"));
 
@@ -803,17 +805,17 @@ public class ViewSanPham extends javax.swing.JFrame {
 
         jLabel2.setText("Tên thuộc tính:");
 
-        buttonGroup1.add(jRadioButton1);
-        jRadioButton1.setText("Màu sắc");
+        buttonGroup1.add(rdMauSac);
+        rdMauSac.setText("Màu sắc");
 
-        buttonGroup1.add(jRadioButton2);
-        jRadioButton2.setText("Size");
+        buttonGroup1.add(rdSize);
+        rdSize.setText("Size");
 
-        buttonGroup1.add(jRadioButton3);
-        jRadioButton3.setText("Chất liệu");
+        buttonGroup1.add(rdChatLieu);
+        rdChatLieu.setText("Chất liệu");
 
-        buttonGroup1.add(jRadioButton4);
-        jRadioButton4.setText("Hãng");
+        buttonGroup1.add(rdHang);
+        rdHang.setText("Hãng");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -823,13 +825,13 @@ public class ViewSanPham extends javax.swing.JFrame {
                 .addGap(29, 29, 29)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jRadioButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(rdMauSac, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(64, 64, 64)
-                        .addComponent(jRadioButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(rdSize, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(81, 81, 81)
-                        .addComponent(jRadioButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(rdChatLieu, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(88, 88, 88)
-                        .addComponent(jRadioButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(rdHang, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -846,10 +848,10 @@ public class ViewSanPham extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(12, 12, 12)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jRadioButton1)
-                    .addComponent(jRadioButton2)
-                    .addComponent(jRadioButton3)
-                    .addComponent(jRadioButton4))
+                    .addComponent(rdMauSac)
+                    .addComponent(rdSize)
+                    .addComponent(rdChatLieu)
+                    .addComponent(rdHang))
                 .addGap(20, 20, 20)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
@@ -859,6 +861,10 @@ public class ViewSanPham extends javax.swing.JFrame {
                 .addContainerGap(25, Short.MAX_VALUE))
         );
 
+        btnDeleteTT.setText("Delete");
+
+        btnNewTT.setText("New");
+
         javax.swing.GroupLayout pnSanPhamChiTietLayout = new javax.swing.GroupLayout(pnSanPhamChiTiet);
         pnSanPhamChiTiet.setLayout(pnSanPhamChiTietLayout);
         pnSanPhamChiTietLayout.setHorizontalGroup(
@@ -867,9 +873,13 @@ public class ViewSanPham extends javax.swing.JFrame {
                 .addGap(16, 16, 16)
                 .addGroup(pnSanPhamChiTietLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(pnSanPhamChiTietLayout.createSequentialGroup()
-                        .addComponent(btnAddChiTiet, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnAddTT, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnUpdateChiTiet, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnUpdateTT, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnDeleteTT, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnNewTT, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(pnDanhSach, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(251, Short.MAX_VALUE))
@@ -881,8 +891,10 @@ public class ViewSanPham extends javax.swing.JFrame {
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnSanPhamChiTietLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAddChiTiet, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnUpdateChiTiet, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnAddTT, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnUpdateTT, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnDeleteTT, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnNewTT, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addComponent(pnDanhSach, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29))
@@ -1037,13 +1049,15 @@ public class ViewSanPham extends javax.swing.JFrame {
     private javax.swing.JTabbedPane Sanpham;
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnAddCTSP;
-    private javax.swing.JButton btnAddChiTiet;
+    private javax.swing.JButton btnAddTT;
     private javax.swing.JButton btnDLTCTSP;
     private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnDeleteTT;
     private javax.swing.JButton btnNew;
+    private javax.swing.JButton btnNewTT;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JButton btnUpdateCTSP;
-    private javax.swing.JButton btnUpdateChiTiet;
+    private javax.swing.JButton btnUpdateTT;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JCheckBox cbConHang;
@@ -1076,10 +1090,6 @@ public class ViewSanPham extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButton jRadioButton3;
-    private javax.swing.JRadioButton jRadioButton4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -1091,9 +1101,13 @@ public class ViewSanPham extends javax.swing.JFrame {
     private javax.swing.JPanel pnSanPham;
     private javax.swing.JPanel pnSanPhamChiTiet;
     private javax.swing.JPanel pnThongTin;
-    private javax.swing.JTable tbChiTietSanPham;
+    private javax.swing.JRadioButton rdChatLieu;
+    private javax.swing.JRadioButton rdHang;
+    private javax.swing.JRadioButton rdMauSac;
+    private javax.swing.JRadioButton rdSize;
     private javax.swing.JTable tblCTSP;
     private javax.swing.JTable tblSanPham;
+    private javax.swing.JTable tblThuocTinh;
     private javax.swing.JTextField txtGiaBan;
     private javax.swing.JTextField txtGiaNhap;
     private javax.swing.JTextField txtIDSP;
