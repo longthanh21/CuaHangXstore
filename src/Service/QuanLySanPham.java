@@ -51,8 +51,11 @@ public class QuanLySanPham {
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {
                 String b = rs.getString("SoLuongTong");
-                if(b == null || b.isEmpty()) soLuongTong = "0";
-                else soLuongTong = b;
+                if (b == null || b.isEmpty()) {
+                    soLuongTong = "0";
+                } else {
+                    soLuongTong = b;
+                }
             }
         } catch (SQLException ex) {
             Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
@@ -89,7 +92,7 @@ public class QuanLySanPham {
             Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
 //    public void UpSoLuongTong(String a, String b) {
 //        try {
 //            Connection conn = DbConnect.getConnection();
@@ -102,7 +105,6 @@ public class QuanLySanPham {
 //            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
 //        }
 //    }
-
     public ArrayList<SanPham> getListCTSP() {
         listCTCP.clear();
         try {
@@ -225,7 +227,7 @@ public class QuanLySanPham {
     }
 
     public ArrayList<SanPham> getSelectHang() {
-        listSanPham.clear();
+        listThuocTinh.clear();
         try {
             Connection conn = DbConnect.getConnection();
             String sql = "SELECT IdHang, TenHang FROM Hang";
@@ -336,7 +338,58 @@ public class QuanLySanPham {
             Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    public void addMauSac(SanPham sp) {
+        try {
+            Connection conn = DbConnect.getConnection();
+            String sql = "INSERT INTO MauSac (TenMauSac) VALUES (?)";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, sp.getMauSac());
+            ps.executeUpdate();
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
+    public void addSize(SanPham sp) {
+        try {
+            Connection conn = DbConnect.getConnection();
+            String sql = "INSERT INTO Size (TenSize) VALUES (?)";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, sp.getMauSac());
+            ps.executeUpdate();
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
+    public void addChatLieu(SanPham sp) {
+        try {
+            Connection conn = DbConnect.getConnection();
+            String sql = "INSERT INTO ChatLieu (TenChatLieu) VALUES (?)";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, sp.getChatLieu());
+            ps.executeUpdate();
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
+    public void addHang(SanPham sp) {
+        try {
+            Connection conn = DbConnect.getConnection();
+            String sql = "INSERT INTO Hang (TenHang) VALUES (?)";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, sp.getHang());
+            ps.executeUpdate();
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+
 }
