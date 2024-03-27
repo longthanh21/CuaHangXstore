@@ -51,8 +51,11 @@ public class QuanLySanPham {
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {
                 String b = rs.getString("SoLuongTong");
-                if(b == null || b.isEmpty()) soLuongTong = "0";
-                else soLuongTong = b;
+                if (b == null || b.isEmpty()) {
+                    soLuongTong = "0";
+                } else {
+                    soLuongTong = b;
+                }
             }
         } catch (SQLException ex) {
             Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
@@ -89,7 +92,7 @@ public class QuanLySanPham {
             Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
 //    public void UpSoLuongTong(String a, String b) {
 //        try {
 //            Connection conn = DbConnect.getConnection();
@@ -102,7 +105,6 @@ public class QuanLySanPham {
 //            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
 //        }
 //    }
-
     public ArrayList<SanPham> getListCTSP() {
         listCTCP.clear();
         try {
@@ -167,15 +169,16 @@ public class QuanLySanPham {
         return listCTCP;
     }
 
-    public ArrayList<SanPham> getlistMauSac() {
+    public ArrayList<SanPham> getSelectMauSac() {
         listThuocTinh.clear();
         try {
             Connection conn = DbConnect.getConnection();
-            String sql = "SELECT TenMauSac FROM MauSac";
+            String sql = "SELECT IdMauSac, TenMauSac FROM MauSac";
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {
                 SanPham sp = new SanPham();
+                sp.setIdMauSac(rs.getString("IdMauSac"));
                 sp.setMauSac(rs.getString("TenMauSac"));
                 listThuocTinh.add(sp);
             }
@@ -185,15 +188,16 @@ public class QuanLySanPham {
         return listThuocTinh;
     }
 
-    public ArrayList<SanPham> getlistSize() {
+    public ArrayList<SanPham> getSelectSize() {
         listThuocTinh.clear();
         try {
             Connection conn = DbConnect.getConnection();
-            String sql = "SELECT TenSize FROM Size";
+            String sql = "SELECT IdSize, TenSize FROM Size";
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {
                 SanPham sp = new SanPham();
+                sp.setIdSize(rs.getString("IdSize"));
                 sp.setSize(rs.getString("TenSize"));
                 listThuocTinh.add(sp);
             }
@@ -203,15 +207,16 @@ public class QuanLySanPham {
         return listThuocTinh;
     }
 
-    public ArrayList<SanPham> getlistChatLieu() {
+    public ArrayList<SanPham> getSelectChatLieu() {
         listThuocTinh.clear();
         try {
             Connection conn = DbConnect.getConnection();
-            String sql = "SELECT TenChatLieu FROM ChatLieu";
+            String sql = "SELECT IdChatLieu, TenChatLieu FROM ChatLieu";
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {
                 SanPham sp = new SanPham();
+                sp.setIdChatLieu(rs.getString("IdChatLieu"));
                 sp.setChatLieu(rs.getString("TenChatLieu"));
                 listThuocTinh.add(sp);
             }
@@ -221,15 +226,16 @@ public class QuanLySanPham {
         return listThuocTinh;
     }
 
-    public ArrayList<SanPham> getlistHang() {
-        listSanPham.clear();
+    public ArrayList<SanPham> getSelectHang() {
+        listThuocTinh.clear();
         try {
             Connection conn = DbConnect.getConnection();
-            String sql = "SELECT TenHang FROM Hang";
+            String sql = "SELECT IdHang, TenHang FROM Hang";
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {
                 SanPham sp = new SanPham();
+                sp.setIdHang(rs.getString("IdHang"));
                 sp.setHang(rs.getString("TenHang"));
                 listThuocTinh.add(sp);
             }
@@ -332,7 +338,58 @@ public class QuanLySanPham {
             Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    public void addMauSac(SanPham sp) {
+        try {
+            Connection conn = DbConnect.getConnection();
+            String sql = "INSERT INTO MauSac (TenMauSac) VALUES (?)";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, sp.getMauSac());
+            ps.executeUpdate();
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
+    public void addSize(SanPham sp) {
+        try {
+            Connection conn = DbConnect.getConnection();
+            String sql = "INSERT INTO Size (TenSize) VALUES (?)";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, sp.getMauSac());
+            ps.executeUpdate();
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
+    public void addChatLieu(SanPham sp) {
+        try {
+            Connection conn = DbConnect.getConnection();
+            String sql = "INSERT INTO ChatLieu (TenChatLieu) VALUES (?)";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, sp.getChatLieu());
+            ps.executeUpdate();
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
+    public void addHang(SanPham sp) {
+        try {
+            Connection conn = DbConnect.getConnection();
+            String sql = "INSERT INTO Hang (TenHang) VALUES (?)";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, sp.getHang());
+            ps.executeUpdate();
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+
 }

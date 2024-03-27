@@ -48,6 +48,8 @@ public class BanHangForm extends javax.swing.JFrame {
         lbKhachHang = new javax.swing.JLabel();
         pnKhuyenMai = new javax.swing.JPanel();
         lbKhuyenMai = new javax.swing.JLabel();
+        pnDoanhThu = new javax.swing.JPanel();
+        lbDoanhThu = new javax.swing.JLabel();
         pnHienThi = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -259,13 +261,43 @@ public class BanHangForm extends javax.swing.JFrame {
             .addGroup(pnKhuyenMaiLayout.createSequentialGroup()
                 .addGap(44, 44, 44)
                 .addComponent(lbKhuyenMai, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(53, Short.MAX_VALUE))
         );
         pnKhuyenMaiLayout.setVerticalGroup(
             pnKhuyenMaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnKhuyenMaiLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lbKhuyenMai)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        pnDoanhThu.setBackground(new java.awt.Color(204, 255, 255));
+        pnDoanhThu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pnDoanhThuMouseClicked(evt);
+            }
+        });
+
+        lbDoanhThu.setBackground(new java.awt.Color(255, 255, 204));
+        lbDoanhThu.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lbDoanhThu.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbDoanhThu.setText("Doanh Thu");
+        lbDoanhThu.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
+        javax.swing.GroupLayout pnDoanhThuLayout = new javax.swing.GroupLayout(pnDoanhThu);
+        pnDoanhThu.setLayout(pnDoanhThuLayout);
+        pnDoanhThuLayout.setHorizontalGroup(
+            pnDoanhThuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnDoanhThuLayout.createSequentialGroup()
+                .addGap(44, 44, 44)
+                .addComponent(lbDoanhThu, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        pnDoanhThuLayout.setVerticalGroup(
+            pnDoanhThuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnDoanhThuLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lbDoanhThu)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -280,6 +312,7 @@ public class BanHangForm extends javax.swing.JFrame {
             .addComponent(pnKhachHang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(pnKhuyenMai, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(pnLogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnDoanhThu, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         pnMenuLayout.setVerticalGroup(
             pnMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -297,7 +330,9 @@ public class BanHangForm extends javax.swing.JFrame {
                 .addComponent(pnKhachHang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnKhuyenMai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 233, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnDoanhThu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 190, Short.MAX_VALUE))
         );
 
         pnHienThi.setPreferredSize(new java.awt.Dimension(1200, 700));
@@ -370,6 +405,10 @@ public class BanHangForm extends javax.swing.JFrame {
         showFrame(new ViewNhanVien());
     }//GEN-LAST:event_pnNhanVienMouseClicked
 
+    private void pnDoanhThuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnDoanhThuMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pnDoanhThuMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -409,6 +448,7 @@ public class BanHangForm extends javax.swing.JFrame {
     private javax.swing.JPanel Main;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel lbBanHang;
+    private javax.swing.JLabel lbDoanhThu;
     private javax.swing.JLabel lbHoaDon;
     private javax.swing.JLabel lbKhachHang;
     private javax.swing.JLabel lbKhuyenMai;
@@ -416,6 +456,7 @@ public class BanHangForm extends javax.swing.JFrame {
     private javax.swing.JLabel lbNhanVien;
     private javax.swing.JLabel lbSanPham;
     private javax.swing.JPanel pnBanHang;
+    private javax.swing.JPanel pnDoanhThu;
     private javax.swing.JPanel pnHienThi;
     private javax.swing.JPanel pnHoaDon;
     private javax.swing.JPanel pnKhachHang;
