@@ -36,4 +36,14 @@ public class DangNhapService {
             return false;
         }
     }
+
+//    public String tenDN(String maNV, String tenNV) {
+//        try {
+//            String sql = "SELECT NhanVien.MaNV, NhanVien.TenNV \n"
+//                    + "FROM NhanVien \n"
+//                    + "JOIN TaiKhoan ON TaiKhoan.MaNV = NhanVien.MaNV \n"
+//                    + "WHERE TaiKhoan.MaNV = 'NV001' ";
+//        } catch (Exception e) {
+//        }
+//    }
 }
