@@ -4,9 +4,14 @@
  */
 package View;
 
+import Repository.DbConnect;
 import java.awt.Color;
+import javax.crypto.AEADBadTagException;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import View.ViewDangNhap;
+import java.sql.*;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -14,18 +19,39 @@ import javax.swing.JLabel;
  */
 public class BanHangForm extends javax.swing.JFrame {
 
-    /**
-     * Creates new form BanHangForm
-     */
+    private String ma, ten, tenTK;
+
+    Connection cn;
+
     public BanHangForm() {
         initComponents();
         showFrame(new ViewBanHang());
-        force();
     }
-    void force(){
-        txtMaNV.setEnabled(false);
-        txtTenNV.setEnabled(false);
+
+    public BanHangForm(String maNV, String tenNV, String tenTK) {
+        initComponents();
+        try {
+            cn = DbConnect.getConnection();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        this.tenTK = tenTK;
+        try {
+            String sql = "SELECT NhanVien.MaNV, NhanVien.TenNV FROM NhanVien JOIN TaiKhoan ON TaiKhoan.MaNV = NhanVien.MaNV WHERE TaiKhoan.TenDangNhap = ?";
+            PreparedStatement ps = cn.prepareStatement(sql);
+            ps.setString(1, tenTK);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                ma = rs.getString("MaNV");
+                ten = rs.getString("TenNV");
+                txtMaNV.setText(ma);
+                txtTenNV.setText(ten);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
