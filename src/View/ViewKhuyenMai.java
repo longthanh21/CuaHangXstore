@@ -5,6 +5,7 @@
 package View;
 
 import Model.Coupon;
+import Model.KhachHang;
 import Model.SanPham;
 import Model.Voucher;
 import Service.QuanLyKhuyenMai;
@@ -48,6 +49,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                 e.getGiamGia(),
                 e.getNgayBatDau(),
                 e.getNgayKetThuc(),
+                e.getDieuKien(),
                 e.getUuDai(),
                 trangThai
             });
@@ -66,6 +68,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                 e.getGiamGia(),
                 e.getNgayBatDau(),
                 e.getNgayKetThuc(),
+                e.getDieuKien(),
                 e.getUuDai(),
                 trangThai
             });
@@ -94,13 +97,14 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
             e.printStackTrace();
         }
         dcHetHan.setDate(endDate);
-        String kv = String.valueOf(tbVoucher.getValueAt(i, 5));
-        if (kv.equalsIgnoreCase("Khách VIP")) {
+        txtDieuKien.setText(String.valueOf(tbVoucher.getValueAt(i, 5)));
+        String ttKH = String.valueOf(tbVoucher.getValueAt(i, 6));
+        if (ttKH.equalsIgnoreCase("Khách VIP")) {
             cbKhachVip.setSelected(true);
         } else {
             cbKhachVip.setSelected(false);
         }
-        String tt = String.valueOf(tbVoucher.getValueAt(i, 6));
+        String tt = String.valueOf(tbVoucher.getValueAt(i, 7));
         if (tt.equalsIgnoreCase("Hoạt động")) {
             rbHoatDong.setSelected(true);
         } else if (tt.equalsIgnoreCase("Hết hạn")) {
@@ -124,6 +128,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         Date ngayKetThuc = dcHetHan.getDate();
         String strNgayKetThuc = dateFormat.format(ngayKetThuc);
         vc.setNgayKetThuc(strNgayKetThuc);
+        vc.setDieuKien(txtDieuKien.getText());
         if (rbHoatDong.isSelected()) {
             vc.setTrangThai("Hoạt động");
         } else {
@@ -131,8 +136,8 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         }
         return vc;
     }
-//    ===========================COuPon==========================================
 
+//    ===========================COuPon==========================================
     public void LoadDataCoupon() {
         dtm = (DefaultTableModel) tbCoupon.getModel();
         listCP = qlKM.getAllCP();
@@ -153,12 +158,12 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
 
     public void DetailCouPon() {
         int i = tbCoupon.getSelectedRow();
-        
+
         txtMaCP.setText(String.valueOf(tbCoupon.getValueAt(i, 0)));
         txtTenCP.setText(String.valueOf(tbCoupon.getValueAt(i, 1)));
         txtIDSanPham.setText(String.valueOf(tbCoupon.getValueAt(i, 2)));
         txtGiamGiaCP.setText(String.valueOf(tbCoupon.getValueAt(i, 3)));
-        
+
         String dateBatDau = String.valueOf(tbCoupon.getValueAt(i, 4));
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date startDate = null;
@@ -168,8 +173,8 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
             e.printStackTrace();
         }
         dcBatDau.setDate(startDate);
-        
-        String dateKetThuc = String.valueOf(tbCoupon.getValueAt(i, 5)); 
+
+        String dateKetThuc = String.valueOf(tbCoupon.getValueAt(i, 5));
         Date endDate = null;
         try {
             endDate = dateFormat.parse(dateKetThuc);
@@ -177,7 +182,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
             e.printStackTrace();
         }
         dcHetHan.setDate(endDate);
-        
+
 //        String tt = String.valueOf(tbCoupon.getValueAt(i, 6);
 //        if(tt.equalsIgnoreCase("Hoạt động")){
 //            rbCPHoatDong.setSelected(true);
@@ -232,6 +237,8 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         cbKhachVip = new javax.swing.JCheckBox();
         dcBatDau = new com.toedter.calendar.JDateChooser();
         dcHetHan = new com.toedter.calendar.JDateChooser();
+        jLabel19 = new javax.swing.JLabel();
+        txtDieuKien = new javax.swing.JTextField();
         danhSachVC = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbVoucher = new javax.swing.JTable();
@@ -322,6 +329,8 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
 
         cbKhachVip.setText("Khách VIP");
 
+        jLabel19.setText("Điều kiện");
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -359,7 +368,11 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                             .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addComponent(rbHoatDong, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(rbHetHan, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(rbHetHan, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtDieuKien)))
                 .addContainerGap(70, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
@@ -395,20 +408,24 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel15)
                     .addComponent(cbKhachVip))
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel19)
+                    .addComponent(txtDieuKien, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         danhSachVC.setBorder(javax.swing.BorderFactory.createTitledBorder("Danh sách Voucher"));
 
         tbVoucher.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Mã voucher", "Tên voucher", "Giảm giá", "Ngày bắt đầu", "Ngày kết thúc", "Ưu đãi riêng", "Trạng thái"
+                "Mã voucher", "Tên voucher", "Giảm giá", "Ngày bắt đầu", "Ngày kết thúc", "Điều kiện", "Trạng thái KH", "Trạng thái"
             }
         ));
         tbVoucher.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -750,13 +767,11 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         detail();
         LoadDataTableTheoMa(String.valueOf(tbVoucher.getValueAt(i, 1)));
     }//GEN-LAST:event_tbVoucherMouseClicked
-
+    
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         try {
             qlKM.themVoucher(getFormVoucher());
-            if (cbKhachVip.isSelected()) {
-                qlKM.getKhachVIP(txtMaVC.getText());
-            }
+            if(cbKhachVip.isSelected()) qlKM.addKhachVIP(txtMaVC.getText());
             LoadDataTable();
         } catch (Exception e) {
             e.printStackTrace();
@@ -770,9 +785,11 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         try {
             qlKM.suaVoucher(getFormVoucher());
-            if (cbKhachVip.isSelected()) {
-                qlKM.getKhachVIP(txtMaVC.getText());
-            }
+            int i = tbVoucher.getSelectedRow();
+            String trangThai = (String) tbVoucher.getValueAt(i, 6);
+            if(cbKhachVip.isSelected() && !trangThai.equals("Khách VIP")) qlKM.addKhachVIP(txtMaVC.getText());
+            else if(cbKhachVip.isSelected() && trangThai.equals("Khách VIP")) JOptionPane.showMessageDialog(this, "Mã VC đã Áp dụng cho Khách VIP");
+            else qlKM.dltKhachVIP(txtMaVC.getText());
             LoadDataTable();
         } catch (Exception e) {
             e.printStackTrace();
@@ -842,6 +859,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -866,6 +884,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
     private javax.swing.JTable tbCoupon;
     private javax.swing.JTable tbSanPham;
     private javax.swing.JTable tbVoucher;
+    private javax.swing.JTextField txtDieuKien;
     private javax.swing.JTextField txtGiaBan;
     private javax.swing.JTextField txtGiamGiaCP;
     private javax.swing.JTextField txtGiamGiaVC;
