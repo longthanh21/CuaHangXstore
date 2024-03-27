@@ -26,8 +26,12 @@ public class BanHangForm extends javax.swing.JFrame {
     public BanHangForm() {
         initComponents();
         showFrame(new ViewBanHang());
+        force();
     }
-
+    void force(){
+        txtMaNV.setEnabled(false);
+        txtTenNV.setEnabled(false);
+    }
     public BanHangForm(String maNV, String tenNV, String tenTK) {
         initComponents();
         try {
@@ -49,9 +53,11 @@ public class BanHangForm extends javax.swing.JFrame {
                 txtMaNV.setText(ma);
                 txtTenNV.setText(ten);
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+        showFrame(new ViewBanHang());
     }
 
     /**
