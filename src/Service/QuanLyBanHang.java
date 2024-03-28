@@ -17,14 +17,14 @@ import java.sql.*;
  * @author KhanhCT
  */
 public class QuanLyBanHang {
-
+    
     ArrayList<HoaDon> listHoaDon = new ArrayList<>();
     ArrayList<SanPham> listSanPham = new ArrayList<>();
     ArrayList<HoaDon> listGioHang = new ArrayList<>();
-
+    
     public ArrayList<HoaDon> getListHoaDon() {
         listHoaDon.clear();
-
+        
         try {
             String sql = "select * from HoaDon  order by CAST(SUBSTRING(MaHD, 3, LEN(MaHD)) AS INT) asc";
             Connection con = DbConnect.getConnection();
@@ -36,7 +36,7 @@ public class QuanLyBanHang {
                 bh.setNgayTao(rs.getString("NgayTao"));
                 bh.setMaNV(rs.getString("MaNV"));
                 bh.setTrangThai(rs.getString("TrangThai"));
-
+                
                 listHoaDon.add(bh);
             }
             con.close();
@@ -45,7 +45,7 @@ public class QuanLyBanHang {
         }
         return listHoaDon;
     }
-
+    
     public ArrayList<SanPham> getListSanPham() {
         listSanPham.clear();
         try {
@@ -77,7 +77,7 @@ public class QuanLyBanHang {
                 } else {
                     bh.setPhanTram(phamTram);
                 }
-
+                
                 listSanPham.add(bh);
             }
             con.close();
@@ -86,7 +86,7 @@ public class QuanLyBanHang {
         }
         return listSanPham;
     }
-
+    
     public void themHoaDon(HoaDon h) {
         try {
             String sql = "insert into HoaDon values(?,?,?,?,?,?,?)";
@@ -99,16 +99,16 @@ public class QuanLyBanHang {
             ps.setString(5, null);
             ps.setString(6, null);
             ps.setString(7, h.getTrangThai());
-
+            
             ps.executeUpdate();
             con.close();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
         }
-
+        
     }
-
+    
     public ArrayList<HoaDon> getListGioHang(String mhd) {
         listGioHang.clear();
         try {
@@ -125,7 +125,7 @@ public class QuanLyBanHang {
             while (rs.next()) {
                 HoaDon bh = new HoaDon();
                 bh.setIdSP(rs.getString("idsp"));
-
+                
                 bh.setMaSP(rs.getString("MaSP"));
                 bh.setTenSP(rs.getString("TenSp"));
                 bh.setSoLuong(rs.getString("SoLuong"));
@@ -144,7 +144,7 @@ public class QuanLyBanHang {
         }
         return listGioHang;
     }
-
+    
     public void suaSanPham(String sl, String id) {
         String sql = "UPDATE CTSP\n"
                 + "SET SoLuong = ?\n"
@@ -161,9 +161,9 @@ public class QuanLyBanHang {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        
     }
-
+    
     public void suaGioHang(String sl, String id, String mhd) {
         String sql = "UPDATE CTHD\n"
                 + "SET SoLuong = ?\n"
@@ -176,15 +176,15 @@ public class QuanLyBanHang {
             ps.setString(1, sl);
             ps.setString(2, id);
             ps.setString(3, mhd);
-
+            
             ps.executeUpdate();
             con.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        
     }
-
+    
     public void themGioHang(HoaDon h) {
         try {
             String sql = "insert into cthd values(?,?,?,?)";
@@ -194,15 +194,15 @@ public class QuanLyBanHang {
             ps.setString(2, h.getIdSP());
             ps.setString(3, h.getSoLuong());
             ps.setString(4, h.getGiaBan());
-
+            
             ps.executeUpdate();
             con.close();
         } catch (Exception e) {
             e.printStackTrace();
-
+            
         }
     }
-
+    
     public void xoaGioHang(String idsp, String maHD) {
         String sql = "delete CTHD where IdSP=? and MaHD=?";
         try {
@@ -215,9 +215,9 @@ public class QuanLyBanHang {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        
     }
-
+    
     public Boolean huyHoaDon(String mhd) {
         try {
             String sql = "update HoaDon set Trangthai=N'Đã hủy' where mahd='" + mhd + "'";
@@ -231,7 +231,7 @@ public class QuanLyBanHang {
         }
         return true;
     }
-
+    
     public Boolean ThanhToan(HoaDon h) {
         try {
             String sql = "update HoaDon set Trangthai=N'Đã thanh toán' "
@@ -242,7 +242,7 @@ public class QuanLyBanHang {
             ps.setString(2, h.getMaVC());
             ps.setString(3, h.getTongTien());
             ps.setString(4, h.getMaHD());
-
+            
             ps.executeUpdate();
             con.close();
         } catch (Exception e) {
@@ -251,12 +251,12 @@ public class QuanLyBanHang {
         }
         return true;
     }
-
+    
     public ArrayList<Voucher> getListV() {
         ArrayList<Voucher> listV = new ArrayList<Voucher>();
-
+        
         try {
-            String sql = "SELECT a.MaKH, a.TrangThai, c.MaVC, TenVC, GiamGia \n"
+            String sql = "SELECT a.MaKH, a.TrangThai, c.MaVC, TenVC, GiamGia,DieuKien \n"
                     + "FROM KhachHang a\n"
                     + "JOIN UuDai b ON a.MaKH = b.MaKH\n"
                     + "RIGHT JOIN Voucher c ON b.MaVC = c.MaVC\n"
@@ -269,7 +269,7 @@ public class QuanLyBanHang {
                 v.setMaVC(rs.getString("mavc"));
                 v.setTenVC(rs.getString("TenVC"));
                 v.setGiamGia(rs.getString("GiamGia"));
-
+                v.setDieuKien(rs.getString("DieuKien"));
                 listV.add(v);
             }
             con.close();
@@ -278,12 +278,12 @@ public class QuanLyBanHang {
         }
         return listV;
     }
-
+    
     public ArrayList<Voucher> getListVV(String mkh) {
         ArrayList<Voucher> listVV = new ArrayList<Voucher>();
-
+        
         try {
-            String sql = "SELECT a.MaKH, a.TrangThai, c.MaVC, TenVC, GiamGia \n"
+            String sql = "SELECT a.MaKH, a.TrangThai, c.MaVC, TenVC, GiamGia,DieuKien \n"
                     + "FROM KhachHang a\n"
                     + "JOIN UuDai b ON a.MaKH = b.MaKH\n"
                     + "RIGHT JOIN Voucher c ON b.MaVC = c.MaVC\n"
@@ -296,7 +296,7 @@ public class QuanLyBanHang {
                 v.setMaVC(rs.getString("mavc"));
                 v.setTenVC(rs.getString("TenVC"));
                 v.setGiamGia(rs.getString("GiamGia"));
-
+                v.setDieuKien(rs.getString("DieuKien"));
                 listVV.add(v);
             }
             con.close();
@@ -305,10 +305,10 @@ public class QuanLyBanHang {
         }
         return listVV;
     }
-
+    
     public ArrayList<KhachHang> getKhachHang() {
         ArrayList<KhachHang> listK = new ArrayList<KhachHang>();
-
+        
         try {
             String sql = "select * from khachhang";
             Connection con = DbConnect.getConnection();
@@ -322,7 +322,7 @@ public class QuanLyBanHang {
                 } else {
                     k.setTrangThai(false);
                 }
-
+                
                 listK.add(k);
             }
             con.close();
@@ -331,4 +331,5 @@ public class QuanLyBanHang {
         }
         return listK;
     }
+    
 }
