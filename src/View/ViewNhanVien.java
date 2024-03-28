@@ -1316,37 +1316,25 @@ public class ViewNhanVien extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDeleteCaLamMouseClicked
 
     private void txtTimKiemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtTimKiemMouseClicked
-        // TODO add your handling code here:
-//         String ma = txtMaTaiKhoanDki.getText();
-////        if (ma.isEmpty()) {
-////            JOptionPane.showMessageDialog(this, "Không Bỏ Trống Mã Đăng Kí ");
-////            return;
-////        }
-//            quanLyNhanVien.seachNhanVien(ma);
-//            loadNhanVien();
+
         
     }//GEN-LAST:event_txtTimKiemMouseClicked
 
     private void txtTimKiemKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimKiemKeyPressed
-        // TODO add your handling code here:
-//          String ma = txtTimKiem.getText();
-////        if (ma.isEmpty()) {
-////            JOptionPane.showMessageDialog(this, "Không Bỏ Trống Mã Đăng Kí ");
-////            return;
-////        }
-//            quanLyNhanVien.seachNhanVien(ma);
-//            loadNhanVien();
+       
     }//GEN-LAST:event_txtTimKiemKeyPressed
 
     private void txtTimKiemKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimKiemKeyReleased
         // TODO add your handling code here:
          String ma = txtTimKiem.getText();
-//        if (ma.isEmpty()) {
-//            JOptionPane.showMessageDialog(this, "Không Bỏ Trống Mã Đăng Kí ");
-//            return;
-//        }
+        if (ma.isEmpty()) {
+           loadNhanVien();
+        }else{
+            
+        
             quanLyNhanVien.seachNhanVien(ma);
             SeachNhanVien(ma);
+            }
     }//GEN-LAST:event_txtTimKiemKeyReleased
 
     /**
