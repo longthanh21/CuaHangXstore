@@ -378,7 +378,7 @@
                                   <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
                                   <Component id="btnUpdate" min="-2" pref="119" max="-2" attributes="0"/>
                                   <EmptySpace pref="47" max="32767" attributes="0"/>
-                                  <Component id="btnDelete" min="-2" pref="119" max="-2" attributes="0"/>
+                                  <Component id="btnNghiLam" min="-2" pref="119" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
                                   <Component id="btnNew" min="-2" pref="119" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
@@ -399,7 +399,7 @@
                                       <Component id="btnAdd" alignment="3" min="-2" pref="45" max="-2" attributes="0"/>
                                       <Component id="btnNew" alignment="3" min="-2" pref="45" max="-2" attributes="0"/>
                                       <Component id="btnUpdate" alignment="3" min="-2" pref="45" max="-2" attributes="0"/>
-                                      <Component id="btnDelete" alignment="3" min="-2" pref="45" max="-2" attributes="0"/>
+                                      <Component id="btnNghiLam" alignment="3" min="-2" pref="45" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <Component id="jScrollPane4" min="-2" pref="265" max="-2" attributes="0"/>
@@ -616,17 +616,17 @@
                     <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnAddMouseClicked"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JButton" name="btnDelete">
+                <Component class="javax.swing.JButton" name="btnNghiLam">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Delete"/>
+                    <Property name="text" type="java.lang.String" value="Think Do"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnDeleteMouseClicked"/>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnNghiLamMouseClicked"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="btnNew">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="new"/>
+                    <Property name="text" type="java.lang.String" value="New"/>
                   </Properties>
                   <Events>
                     <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnNewMouseClicked"/>
@@ -1011,7 +1011,7 @@
                               <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
                               <Component id="jLabel16" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="jTextField5" min="-2" pref="257" max="-2" attributes="0"/>
+                              <Component id="txtTimKiemTaiKhoan" min="-2" pref="257" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
                           </Group>
                       </Group>
@@ -1021,7 +1021,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jTextField5" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtTimKiemTaiKhoan" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel16" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace pref="32" max="32767" attributes="0"/>
@@ -1035,7 +1035,10 @@
                         <Property name="text" type="java.lang.String" value="T&#xec;m Ki&#x1ebf;m T&#xe0;i Kho&#x1ea3;n"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JTextField" name="jTextField5">
+                    <Component class="javax.swing.JTextField" name="txtTimKiemTaiKhoan">
+                      <Events>
+                        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtTimKiemTaiKhoanKeyReleased"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -1100,7 +1103,7 @@
                               <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
                               <Component id="jLabel17" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
-                              <Component id="jTextField6" min="-2" pref="282" max="-2" attributes="0"/>
+                              <Component id="txtTiemKiemCaLam" min="-2" pref="282" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
                           </Group>
                       </Group>
@@ -1111,7 +1114,7 @@
                               <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
                                   <Component id="jLabel17" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jTextField6" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="txtTiemKiemCaLam" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace pref="30" max="32767" attributes="0"/>
                           </Group>
@@ -1124,7 +1127,10 @@
                         <Property name="text" type="java.lang.String" value="T&#xec;m Ki&#x1ebf;m Ca L&#xe0;m"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JTextField" name="jTextField6">
+                    <Component class="javax.swing.JTextField" name="txtTiemKiemCaLam">
+                      <Events>
+                        <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtTiemKiemCaLamKeyReleased"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>

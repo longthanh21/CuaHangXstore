@@ -49,6 +49,7 @@ public class ViewNhanVien extends javax.swing.JFrame {
                 nhanVien.getTrangThai(),});
         }
     }
+
     void SeachNhanVien(String maa) {
         defaultTableModel = (DefaultTableModel) tblNhanVien.getModel();
         defaultTableModel.setRowCount(0);
@@ -83,6 +84,36 @@ public class ViewNhanVien extends javax.swing.JFrame {
 
     }
 
+    void loadSeachDKi(String ma) {
+        defaultTableModel = (DefaultTableModel) tblTaiKhoanDKi.getModel();
+        defaultTableModel.setRowCount(0);
+        int i = 1;
+        for (TaiKhoan taiKhoan : quanLyNhanVien.SeachTaiKhoan(ma)) {
+            defaultTableModel.addRow(new Object[]{
+                i++,
+                taiKhoan.getMaTK(),
+                taiKhoan.getTenDN(),
+                taiKhoan.getMatKhau(),
+                taiKhoan.getMaNV(),});
+        }
+
+    }
+
+    void loadSeachTaiKhoanNV(String ma) {
+        defaultTableModel = (DefaultTableModel) tblQuanLyTaiKhoan.getModel();
+        defaultTableModel.setRowCount(0);
+        int i = 1;
+        for (TaiKhoan taiKhoan : quanLyNhanVien.SeachTKhoanNhanVien(ma)) {
+            defaultTableModel.addRow(new Object[]{
+                i++,
+                taiKhoan.getMaTK(),
+                taiKhoan.getTenDN(),
+                taiKhoan.getMatKhau(),
+                taiKhoan.getMaNV(),});
+        }
+
+    }
+
     void loadQuanLyTaiKhoan() {
         defaultTableModel = (DefaultTableModel) tblQuanLyTaiKhoan.getModel();
         defaultTableModel.setRowCount(0);
@@ -102,6 +133,38 @@ public class ViewNhanVien extends javax.swing.JFrame {
         defaultTableModel.setRowCount(0);
         int i = 1;
         for (TaiKhoan taiKhoan : quanLyNhanVien.getAllCaLam()) {
+            defaultTableModel.addRow(new Object[]{
+                i++,
+                taiKhoan.getMaCL(),
+                taiKhoan.getTenCL(),
+                taiKhoan.getGioBatDau(),
+                taiKhoan.getGioKetThuc(),
+                taiKhoan.getGhiChu()
+            });
+        }
+    }
+
+    void loadSeachCaLamDki(String maa) {
+        defaultTableModel = (DefaultTableModel) tblCaLamDki.getModel();
+        defaultTableModel.setRowCount(0);
+        int i = 1;
+        for (TaiKhoan taiKhoan : quanLyNhanVien.SeachCaLam(maa)) {
+            defaultTableModel.addRow(new Object[]{
+                i++,
+                taiKhoan.getMaCL(),
+                taiKhoan.getTenCL(),
+                taiKhoan.getGioBatDau(),
+                taiKhoan.getGioKetThuc(),
+                taiKhoan.getGhiChu()
+            });
+        }
+    }
+
+    void loadSeachCaLamNV(String maa) {
+        defaultTableModel = (DefaultTableModel) tblCaLam.getModel();
+        defaultTableModel.setRowCount(0);
+        int i = 1;
+        for (TaiKhoan taiKhoan : quanLyNhanVien.SeachCaLam(maa)) {
             defaultTableModel.addRow(new Object[]{
                 i++,
                 taiKhoan.getMaCL(),
@@ -173,7 +236,7 @@ public class ViewNhanVien extends javax.swing.JFrame {
         txtVaiTro = new javax.swing.JTextField();
         txtTrangThai = new javax.swing.JTextField();
         btnAdd = new javax.swing.JButton();
-        btnDelete = new javax.swing.JButton();
+        btnNghiLam = new javax.swing.JButton();
         btnNew = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
         tblQuanLyTaiKhoan = new javax.swing.JTable();
@@ -198,11 +261,11 @@ public class ViewNhanVien extends javax.swing.JFrame {
         tblTaiKhoanDKi = new javax.swing.JTable();
         jPanel7 = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
+        txtTimKiemTaiKhoan = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
         jLabel17 = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
+        txtTiemKiemCaLam = new javax.swing.JTextField();
         jPanel9 = new javax.swing.JPanel();
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
@@ -438,14 +501,14 @@ public class ViewNhanVien extends javax.swing.JFrame {
             }
         });
 
-        btnDelete.setText("Delete");
-        btnDelete.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnNghiLam.setText("Think Do");
+        btnNghiLam.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnDeleteMouseClicked(evt);
+                btnNghiLamMouseClicked(evt);
             }
         });
 
-        btnNew.setText("new");
+        btnNew.setText("New");
         btnNew.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnNewMouseClicked(evt);
@@ -487,7 +550,7 @@ public class ViewNhanVien extends javax.swing.JFrame {
                         .addGap(46, 46, 46)
                         .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
-                        .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnNghiLam, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(56, 56, 56)
                         .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(56, 56, 56))))
@@ -504,7 +567,7 @@ public class ViewNhanVien extends javax.swing.JFrame {
                             .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(btnNghiLam, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
@@ -666,6 +729,12 @@ public class ViewNhanVien extends javax.swing.JFrame {
 
         jLabel16.setText("Tìm Kiếm Tài Khoản");
 
+        txtTimKiemTaiKhoan.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtTimKiemTaiKhoanKeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
@@ -674,7 +743,7 @@ public class ViewNhanVien extends javax.swing.JFrame {
                 .addGap(37, 37, 37)
                 .addComponent(jLabel16)
                 .addGap(18, 18, 18)
-                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtTimKiemTaiKhoan, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
@@ -682,7 +751,7 @@ public class ViewNhanVien extends javax.swing.JFrame {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGap(31, 31, 31)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTimKiemTaiKhoan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel16))
                 .addContainerGap(32, Short.MAX_VALUE))
         );
@@ -717,6 +786,12 @@ public class ViewNhanVien extends javax.swing.JFrame {
 
         jLabel17.setText("Tìm Kiếm Ca Làm");
 
+        txtTiemKiemCaLam.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtTiemKiemCaLamKeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
@@ -725,7 +800,7 @@ public class ViewNhanVien extends javax.swing.JFrame {
                 .addGap(37, 37, 37)
                 .addComponent(jLabel17)
                 .addGap(40, 40, 40)
-                .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtTiemKiemCaLam, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
@@ -734,7 +809,7 @@ public class ViewNhanVien extends javax.swing.JFrame {
                 .addGap(28, 28, 28)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel17)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtTiemKiemCaLam, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(30, Short.MAX_VALUE))
         );
 
@@ -1002,7 +1077,7 @@ public class ViewNhanVien extends javax.swing.JFrame {
         loadNhanVien();
     }//GEN-LAST:event_btnAddMouseClicked
 
-    private void btnDeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteMouseClicked
+    private void btnNghiLamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNghiLamMouseClicked
         // TODO add your handling code here:
         String ma = txtMaNhanVien.getText();
         if (ma.isEmpty()) {
@@ -1010,9 +1085,9 @@ public class ViewNhanVien extends javax.swing.JFrame {
             return;
         }
         quanLyNhanVien.deleteNhanVien(ma);
-        JOptionPane.showMessageDialog(this, "Xoá Nhân Viên Thành Công");
+        JOptionPane.showMessageDialog(this, "Cập Nhật Nhân Viên Nghỉ Làm");
         loadNhanVien();
-    }//GEN-LAST:event_btnDeleteMouseClicked
+    }//GEN-LAST:event_btnNghiLamMouseClicked
 
     private void tblNhanVienMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblNhanVienMouseClicked
         // TODO add your handling code here:
@@ -1047,6 +1122,17 @@ public class ViewNhanVien extends javax.swing.JFrame {
 
         String trangThai = (String) tblNhanVien.getValueAt(i, 9);
         txtTrangThai.setText(trangThai);
+
+        if (i == 0) {
+            String MaCL = (String) tblNhanVien.getValueAt(0, 8);
+            String MaTK = (String) tblNhanVien.getValueAt(0, 1);
+            loadSeachCaLamNV(MaCL);
+            loadSeachTaiKhoanNV(MaTK);
+//            System.out.println(MaTK);
+        } else {
+            loadSeachCaLamNV(maCL);
+            loadSeachTaiKhoanNV(ma);
+        }
     }//GEN-LAST:event_tblNhanVienMouseClicked
 
     private void btnUpdateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpdateMouseClicked
@@ -1125,6 +1211,9 @@ public class ViewNhanVien extends javax.swing.JFrame {
         buttonGroup1.clearSelection();
         buttonGroup2.clearSelection();
         buttonGroup3.clearSelection();
+        loadCaLamNhanVien();
+        loadQuanLyTaiKhoan();
+        loadNhanVien();
 
     }//GEN-LAST:event_btnNewMouseClicked
 //-------------------------------Phần Đăng Kí--------------------------------------------------------
@@ -1313,29 +1402,52 @@ public class ViewNhanVien extends javax.swing.JFrame {
         quanLyNhanVien.DeleteCaLam(ma);
         loadCaLamDKi();
         loadCaLamNhanVien();
+        loadNhanVien();
     }//GEN-LAST:event_btnDeleteCaLamMouseClicked
 
     private void txtTimKiemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtTimKiemMouseClicked
 
-        
+
     }//GEN-LAST:event_txtTimKiemMouseClicked
 
     private void txtTimKiemKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimKiemKeyPressed
-       
+
     }//GEN-LAST:event_txtTimKiemKeyPressed
 
     private void txtTimKiemKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimKiemKeyReleased
         // TODO add your handling code here:
-         String ma = txtTimKiem.getText();
+        String ma = txtTimKiem.getText();
         if (ma.isEmpty()) {
-           loadNhanVien();
-        }else{
-            
-        
+            loadNhanVien();
+        } else {
+
             quanLyNhanVien.seachNhanVien(ma);
             SeachNhanVien(ma);
-            }
+        }
     }//GEN-LAST:event_txtTimKiemKeyReleased
+
+    private void txtTimKiemTaiKhoanKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimKiemTaiKhoanKeyReleased
+        // TODO add your handling code here:
+        String ma = txtTimKiemTaiKhoan.getText();
+
+        if (ma.isEmpty()) {
+            loadTaiKhoanDKi();
+        } else {
+            quanLyNhanVien.SeachTaiKhoan(ma);
+            loadSeachDKi(ma);
+        }
+    }//GEN-LAST:event_txtTimKiemTaiKhoanKeyReleased
+
+    private void txtTiemKiemCaLamKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTiemKiemCaLamKeyReleased
+        // TODO add your handling code here:
+        String ma = txtTiemKiemCaLam.getText();
+        if (ma.isEmpty()) {
+            loadCaLamDKi();
+        } else {
+            quanLyNhanVien.SeachCaLam(ma);
+            loadSeachCaLamDki(ma);
+        }
+    }//GEN-LAST:event_txtTiemKiemCaLamKeyReleased
 
     /**
      * @param args the command line arguments
@@ -1378,12 +1490,12 @@ public class ViewNhanVien extends javax.swing.JFrame {
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnAddCaLam;
     private javax.swing.JButton btnAddDKi;
-    private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnDeleteCaLam;
     private javax.swing.JButton btnDeleteDKi;
     private javax.swing.JButton btnNew;
     private javax.swing.JButton btnNewCaLam;
     private javax.swing.JButton btnNewDangKi;
+    private javax.swing.JButton btnNghiLam;
     private javax.swing.JButton btnUpDateCalLam;
     private javax.swing.JButton btnUpDateDKi;
     private javax.swing.JButton btnUpdate;
@@ -1428,8 +1540,6 @@ public class ViewNhanVien extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
     private javax.swing.JPanel pnCaLam;
     private javax.swing.JPanel pnNhanVien;
     private javax.swing.JPanel pnQuanLyTK;
@@ -1455,7 +1565,9 @@ public class ViewNhanVien extends javax.swing.JFrame {
     private javax.swing.JTextField txtSoDienThoai;
     private javax.swing.JTextField txtTenCaLam;
     private javax.swing.JTextField txtTenNhanVien;
+    private javax.swing.JTextField txtTiemKiemCaLam;
     private javax.swing.JTextField txtTimKiem;
+    private javax.swing.JTextField txtTimKiemTaiKhoan;
     private javax.swing.JTextField txtTrangThai;
     private javax.swing.JTextField txtVaiTro;
     // End of variables declaration//GEN-END:variables
