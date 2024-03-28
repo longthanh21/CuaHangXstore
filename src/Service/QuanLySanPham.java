@@ -32,7 +32,13 @@ public class QuanLySanPham {
                 SanPham sp = new SanPham();
                 sp.setMaSanPham(rs.getString("MaSP"));
                 sp.setTenSanPham(rs.getString("TenSP"));
-                sp.setTrangThai(rs.getInt("TrangThai") == 1 ? "Còn hàng" : "Hết hàng");
+                String a = rs.getString("SoLuongTong");
+                if(a == null || a.isEmpty()){
+                    sp.setTrangThai("Hết hàng");
+                }else{
+                    sp.setTrangThai("Còn hàng");
+                }
+//                sp.setTrangThai(rs.getInt("TrangThai") == 1 ? "Còn hàng" : "Hết hàng");
                 listSanPham.add(sp);
             }
         } catch (SQLException ex) {
@@ -62,7 +68,20 @@ public class QuanLySanPham {
         }
         return soLuongTong;
     }
-
+    
+//    public void conHang(String ma, String b) {
+//        try {
+//            Connection conn = DbConnect.getConnection();
+//            String sql = "UPDATE SanPham SET TrangThai =  ? WHERE MaSP = "+"'"+ma+"'";
+//            PreparedStatement ps = conn.prepareStatement(sql);
+//            ps.setInt(1, Integer.valueOf(b) == 0 ? 0 : 1);
+//            ps.executeUpdate();
+//            conn.close();
+//        } catch (SQLException ex) {
+//            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
+    
     public void AddSP(SanPham sp) {
         try {
             Connection conn = DbConnect.getConnection();
@@ -82,7 +101,7 @@ public class QuanLySanPham {
     public void TongSoLuongSP(String a) {
         try {
             Connection conn = DbConnect.getConnection();
-            String sql = "UPDATE SANPHAM SET SoLuongTong = (SELECT sum(SoLuong) FROM CTSP WHERE MaSP = ?) WHERE MaSP = ?";
+            String sql = "UPDATE SanPham SET SoLuongTong = (SELECT sum(SoLuong) FROM CTSP WHERE MaSP = ?) WHERE MaSP = ?";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, a);
             ps.setString(2, a);
@@ -92,7 +111,8 @@ public class QuanLySanPham {
             Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
+    
 //    public void UpSoLuongTong(String a, String b) {
 //        try {
 //            Connection conn = DbConnect.getConnection();
@@ -325,13 +345,13 @@ public class QuanLySanPham {
         }
     }
 
-    public void dltCTSP(String a) {
+    public void dltCTSP(int a) {
         try {
             Connection conn = DbConnect.getConnection();
             String sql = "DELETE FROM CTSP \n"
-                    + "WHERE MaSP = ?\n";
+                    + "WHERE IdSP = ?\n";
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, a);
+            ps.setInt(1, a);
             ps.executeUpdate();
             conn.close();
         } catch (SQLException ex) {
@@ -391,5 +411,52 @@ public class QuanLySanPham {
         }
     }
     
-
+    public void UpMauSac(SanPham sp, String a){
+        try {
+            Connection conn = DbConnect.getConnection(); 
+            String sql = "UPDATE MauSac SET TenMauSac = ? WHERE IdMauSac = " + a;
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, sp.getMauSac());
+            ps.executeUpdate();
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public void UpMSize(SanPham sp, String a){
+        try {
+            Connection conn = DbConnect.getConnection(); 
+            String sql = "UPDATE Size SET TenSize = ? WHERE IdSize = " + a;
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, sp.getSize());
+            ps.executeUpdate();
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public void UpChatLieu(SanPham sp, String a){
+        try {
+            Connection conn = DbConnect.getConnection(); 
+            String sql = "UPDATE ChatLieu SET TenChatLieu = ? WHERE IdChatLieu= " + a;
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, sp.getChatLieu());
+            ps.executeUpdate();
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public void UpHang(SanPham sp, String a){
+        try {
+            Connection conn = DbConnect.getConnection(); 
+            String sql = "UPDATE Hang SET TenHang = ? WHERE IdHang = " + a;
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, sp.getHang());
+            ps.executeUpdate();
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
