@@ -26,8 +26,12 @@ public class BanHangForm extends javax.swing.JFrame {
     public BanHangForm() {
         initComponents();
         showFrame(new ViewBanHang());
+        force();
     }
-
+    void force(){
+        txtMaNV.setEnabled(false);
+        txtTenNV.setEnabled(false);
+    }
     public BanHangForm(String maNV, String tenNV, String tenTK) {
         initComponents();
         try {
@@ -37,7 +41,9 @@ public class BanHangForm extends javax.swing.JFrame {
         }
         this.tenTK = tenTK;
         try {
-            String sql = "SELECT NhanVien.MaNV, NhanVien.TenNV FROM NhanVien JOIN TaiKhoan ON TaiKhoan.MaNV = NhanVien.MaNV WHERE TaiKhoan.TenDangNhap = ?";
+            String sql = "SELECT NhanVien.MaNV, NhanVien.TenNV "
+                    + "FROM NhanVien JOIN TaiKhoan ON TaiKhoan.MaNV = NhanVien.MaNV "
+                    + "WHERE TaiKhoan.TenDangNhap = ?";
             PreparedStatement ps = cn.prepareStatement(sql);
             ps.setString(1, tenTK);
             ResultSet rs = ps.executeQuery();
@@ -47,9 +53,11 @@ public class BanHangForm extends javax.swing.JFrame {
                 txtMaNV.setText(ma);
                 txtTenNV.setText(ten);
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+        showFrame(new ViewBanHang());
     }
 
     /**

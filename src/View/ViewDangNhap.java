@@ -25,7 +25,7 @@ public class ViewDangNhap extends javax.swing.JFrame {
 
     public void login() {
         try {
-            cn = DbConnect.getConnection();
+            cn = DbConnect.getConnection(); // Tạo connect
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -37,7 +37,10 @@ public class ViewDangNhap extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Mật khẩu không được để trống");
         } else {
             try {
-                String sql = "SELECT NhanVien.MaNV, NhanVien.TenNV FROM TaiKhoan JOIN NhanVien ON TaiKhoan.MaNV = NhanVien.MaNV WHERE TaiKhoan.TenDangNhap = ? AND TaiKhoan.MatKhau = ?";
+                String sql = "SELECT NhanVien.MaNV, NhanVien.TenNV "
+                        + "FROM TaiKhoan "
+                        + "JOIN NhanVien ON TaiKhoan.MaNV = NhanVien.MaNV "
+                        + "WHERE TaiKhoan.TenDangNhap = ? AND TaiKhoan.MatKhau = ?";
                 PreparedStatement ps = cn.prepareStatement(sql);
                 ps.setString(1, ten);
                 ps.setString(2, matKhau);
