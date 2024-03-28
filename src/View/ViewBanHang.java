@@ -27,8 +27,10 @@ public class ViewBanHang extends javax.swing.JFrame {
     DefaultTableModel model;
     QuanLyBanHang ql = new QuanLyBanHang();
 
-    public ViewBanHang() {
+    public ViewBanHang(String layMaNV) {
         initComponents();
+        txtMaNV.setText(layMaNV);
+        txtMaNV.setEnabled(false);
         txtTongTien.setEnabled(false);
         txtTienThua.setEnabled(false);
         loadcbVC();
@@ -37,9 +39,13 @@ public class ViewBanHang extends javax.swing.JFrame {
         txtTongTien.setText("");
     }
 
+    private ViewBanHang() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
     void loadcbVC() {
         cbVoucher.removeAllItems();
-        cbVoucher.addItem("Khum");
+        cbVoucher.addItem("Mời chọn");
         for (Voucher v : ql.getListV()) {
             cbVoucher.addItem(v.getTenVC());
         }
@@ -51,17 +57,22 @@ public class ViewBanHang extends javax.swing.JFrame {
         for (HoaDon h : ql.getListGioHang(mhd)) {
             tongTien += h.thanhTien(Integer.valueOf(h.getSoLuong()), h.giaSau());
         }
-        String a = cbVoucher.getSelectedItem() + "";
+        String a = cbVoucher.getSelectedItem().toString();
         for (Voucher v : ql.getListV()) {
+
             if (v.getTenVC().equals(a)) {
+
                 tongTien -= Float.valueOf(v.getGiamGia()).intValue();
                 break;
+
             }
         }
         for (Voucher v : ql.getListVV(txtMaKH.getText())) {
+
             if (v.getTenVC().equals(a)) {
                 tongTien -= Float.valueOf(v.getGiamGia()).intValue();
                 break;
+
             }
         }
         txtTongTien.setText(String.valueOf(tongTien));
@@ -505,7 +516,7 @@ public class ViewBanHang extends javax.swing.JFrame {
         // TODO add your handling code here:
         String mhd = "HD" + (ql.getListHoaDon().size() + 1);
         String ngayTao = java.time.LocalDate.now().toString();
-        String mnv = "NV001";
+        String mnv = txtMaNV.getText();
         String tt = "Chờ thanh toán";
         HoaDon h = new HoaDon(mhd, ngayTao, null, mnv, null, null, tt, null, null, null, null, null, null);
         ql.themHoaDon(h);
@@ -687,7 +698,31 @@ public class ViewBanHang extends javax.swing.JFrame {
 
     private void cbVoucherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbVoucherActionPerformed
         // TODO add your handling code here:
-        tongTien();
+        if (txtMaHD.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Mời chọn hóa đơn");
+            return;
+        }
+
+        for (Voucher v : ql.getListV()) {
+            int a = Integer.valueOf(v.getDieuKien());
+            int b = Integer.valueOf(txtTongTien.getText());
+            if (a > b) {
+                JOptionPane.showMessageDialog(this, "Không đủ điều kiện");
+                cbVoucher.setSelectedIndex(0);
+                return;
+            }
+        }
+        String mKH = txtMaKH.getText();
+        for (Voucher v : ql.getListVV(mKH)) {
+            if (Integer.valueOf(v.getDieuKien()) > Integer.valueOf(txtTongTien.getText())) {
+                JOptionPane.showMessageDialog(this, "Không đủ điều kiện");
+                cbVoucher.setSelectedIndex(0);
+                return;
+
+            }
+
+            tongTien();
+        }
     }//GEN-LAST:event_cbVoucherActionPerformed
 
     private void txtMaKHKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaKHKeyReleased
@@ -695,11 +730,11 @@ public class ViewBanHang extends javax.swing.JFrame {
         for (KhachHang k : ql.getKhachHang()) {
             if (txtMaKH.getText().equals(k.getMaKH())) {
                 cbVoucher.removeAllItems();
-                cbVoucher.addItem("Khum");
+                cbVoucher.addItem("Mời chọn");
                 for (Voucher v : ql.getListVV(k.getMaKH())) {
                     cbVoucher.addItem(v.getTenVC());
                 }
-                if (ql.getListVV(txtMaKH.getText()).size()==0) {
+                if (ql.getListVV(txtMaKH.getText()).size() == 0) {
                     loadcbVC();
                 }
                 return;
@@ -755,6 +790,7 @@ public class ViewBanHang extends javax.swing.JFrame {
         if (!txtMaKH.getText().equals("")) {
             maKH = txtMaKH.getText();
         }
+
         HoaDon h = new HoaDon(txtMaHD.getText(), txtNgayTao.getText(), maKH, txtMaNV.getText(), maVC, txtTongTien.getText(), null, null, null, null, null, null, null);
         if (ql.ThanhToan(h)) {
             JOptionPane.showMessageDialog(this, "Thanh toán thành công");
