@@ -19,16 +19,17 @@ public class ViewHoaDon extends javax.swing.JFrame {
      */
     DefaultTableModel defaultTableModel;
     QuanLyHoaDon quanLyHoaDon = new QuanLyHoaDon();
-    
+
     public ViewHoaDon() {
         initComponents();
         loadDataHoaDon();
         loadDataHoaDonChiTiet();
     }
-    void loadDataHoaDon(){
+
+    void loadDataHoaDon() {
         defaultTableModel = (DefaultTableModel) tblHoaDon.getModel();
         defaultTableModel.setRowCount(0);
-        int stt =1;
+        int stt = 1;
         for (HoaDon hoaDon : quanLyHoaDon.loadMaHoaDon()) {
             defaultTableModel.addRow(new Object[]{
                 stt++,
@@ -38,14 +39,14 @@ public class ViewHoaDon extends javax.swing.JFrame {
                 hoaDon.getMaVC(),
                 hoaDon.getNgayTao(),
                 hoaDon.getTongTien(),
-                hoaDon.getTrangThai(),
-            });
+                hoaDon.getTrangThai(),});
         }
     }
-    void loadMaHDDataHoaDonChiTiet(String MaHDD){
+
+    void loadMaHDDataHoaDonChiTiet(String MaHDD) {
         defaultTableModel = (DefaultTableModel) tblHoaDonChiTiet.getModel();
         defaultTableModel.setRowCount(0);
-        int stt =1;
+        int stt = 1;
         for (HoaDon hoaDon1 : quanLyHoaDon.loadMaHDSeachHDCT(MaHDD)) {
             defaultTableModel.addRow(new Object[]{
                 stt++,
@@ -55,14 +56,30 @@ public class ViewHoaDon extends javax.swing.JFrame {
                 hoaDon1.getSoLuong(),
                 hoaDon1.getGiaBan(),
                 hoaDon1.getPhanTram(),
-                hoaDon1.getTongTien(),
-            });
+                hoaDon1.getTongTien(),});
         }
     }
-    void loadDataHoaDonChiTiet(){
+    void loadMaSPDataHoaDonChiTiet(String MaSP) {
         defaultTableModel = (DefaultTableModel) tblHoaDonChiTiet.getModel();
         defaultTableModel.setRowCount(0);
-        int stt =1;
+        int stt = 1;
+        for (HoaDon hoaDon1 : quanLyHoaDon.loadMaSPSeachHDCT(MaSP)) {
+            defaultTableModel.addRow(new Object[]{
+                stt++,
+                hoaDon1.getMaHD(),
+                hoaDon1.getMaSP(),
+                hoaDon1.getTenSP(),
+                hoaDon1.getSoLuong(),
+                hoaDon1.getGiaBan(),
+                hoaDon1.getPhanTram(),
+                hoaDon1.getTongTien(),});
+        }
+    }
+
+    void loadDataHoaDonChiTiet() {
+        defaultTableModel = (DefaultTableModel) tblHoaDonChiTiet.getModel();
+        defaultTableModel.setRowCount(0);
+        int stt = 1;
         for (HoaDon hoaDon : quanLyHoaDon.loadHoaDonChiTiet()) {
             defaultTableModel.addRow(new Object[]{
                 stt++,
@@ -72,15 +89,14 @@ public class ViewHoaDon extends javax.swing.JFrame {
                 hoaDon.getSoLuong(),
                 hoaDon.getGiaBan(),
                 hoaDon.getPhanTram(),
-                hoaDon.getTongTien(),
-            });
+                hoaDon.getTongTien(),});
         }
     }
-    
-    void loadDaThanhToan(){
+
+    void loadDaThanhToan() {
         defaultTableModel = (DefaultTableModel) tblHoaDon.getModel();
         defaultTableModel.setRowCount(0);
-        int stt =1;
+        int stt = 1;
         for (HoaDon hoaDon : quanLyHoaDon.loadSeachDaThanhToan()) {
             defaultTableModel.addRow(new Object[]{
                 stt++,
@@ -90,14 +106,14 @@ public class ViewHoaDon extends javax.swing.JFrame {
                 hoaDon.getMaVC(),
                 hoaDon.getNgayTao(),
                 hoaDon.getTongTien(),
-                hoaDon.getTrangThai(),
-            });
+                hoaDon.getTrangThai(),});
         }
     }
-    void loadDaHuy(){
+
+    void loadDaHuy() {
         defaultTableModel = (DefaultTableModel) tblHoaDon.getModel();
         defaultTableModel.setRowCount(0);
-        int stt =1;
+        int stt = 1;
         for (HoaDon hoaDon : quanLyHoaDon.loadSeachDaHuy()) {
             defaultTableModel.addRow(new Object[]{
                 stt++,
@@ -107,14 +123,14 @@ public class ViewHoaDon extends javax.swing.JFrame {
                 hoaDon.getMaVC(),
                 hoaDon.getNgayTao(),
                 hoaDon.getTongTien(),
-                hoaDon.getTrangThai(),
-            });
+                hoaDon.getTrangThai(),});
         }
     }
-    void loadChoThanhToan(){
+
+    void loadChoThanhToan() {
         defaultTableModel = (DefaultTableModel) tblHoaDon.getModel();
         defaultTableModel.setRowCount(0);
-        int stt =1;
+        int stt = 1;
         for (HoaDon hoaDon : quanLyHoaDon.loadSeachChoThanhToan()) {
             defaultTableModel.addRow(new Object[]{
                 stt++,
@@ -124,14 +140,14 @@ public class ViewHoaDon extends javax.swing.JFrame {
                 hoaDon.getMaVC(),
                 hoaDon.getNgayTao(),
                 hoaDon.getTongTien(),
-                hoaDon.getTrangThai(),
-            });
+                hoaDon.getTrangThai(),});
         }
     }
-    void loadSeachMaHoaDon(String maHD){
+
+    void loadSeachMaHoaDon(String maHD) {
         defaultTableModel = (DefaultTableModel) tblHoaDon.getModel();
         defaultTableModel.setRowCount(0);
-        int stt =1;
+        int stt = 1;
         for (HoaDon hoaDon : quanLyHoaDon.loadSeachMaHoaDon(maHD)) {
             defaultTableModel.addRow(new Object[]{
                 stt++,
@@ -141,14 +157,14 @@ public class ViewHoaDon extends javax.swing.JFrame {
                 hoaDon.getMaVC(),
                 hoaDon.getNgayTao(),
                 hoaDon.getTongTien(),
-                hoaDon.getTrangThai(),
-            });
+                hoaDon.getTrangThai(),});
         }
     }
-    void loadSeachMaNhanVien(String maNV){
+
+    void loadSeachMaNhanVien(String maNV) {
         defaultTableModel = (DefaultTableModel) tblHoaDon.getModel();
         defaultTableModel.setRowCount(0);
-        int stt =0;
+        int stt = 0;
         for (HoaDon hoaDon : quanLyHoaDon.loadSeachMaNhanVien(maNV)) {
             defaultTableModel.addRow(new Object[]{
                 stt++,
@@ -158,10 +174,10 @@ public class ViewHoaDon extends javax.swing.JFrame {
                 hoaDon.getMaVC(),
                 hoaDon.getNgayTao(),
                 hoaDon.getTongTien(),
-                hoaDon.getTrangThai(),
-            });
+                hoaDon.getTrangThai(),});
         }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -211,6 +227,11 @@ public class ViewHoaDon extends javax.swing.JFrame {
             }
         ));
         tblHoaDon.setPreferredSize(new java.awt.Dimension(380, 80));
+        tblHoaDon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblHoaDonMouseClicked(evt);
+            }
+        });
         aaaa.setViewportView(tblHoaDon);
 
         javax.swing.GroupLayout pnHoaDonLayout = new javax.swing.GroupLayout(pnHoaDon);
@@ -237,7 +258,7 @@ public class ViewHoaDon extends javax.swing.JFrame {
 
             },
             new String [] {
-                "STT", "Mã HD", "Mã SP", "Tên sản phẩm", "Số lượng", "Giá bán", "Giảm Giá", "Tổng Tiền"
+                "STT", "Mã HD", "Mã SP", "Tên SP", "Số lượng", "Giá bán", "Giảm Giá", "Tổng Tiền"
             }
         ));
         tblHoaDonChiTiet.setPreferredSize(new java.awt.Dimension(75, 80));
@@ -270,7 +291,7 @@ public class ViewHoaDon extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setText("Tìm theo Mã NV:");
+        jLabel2.setText("Tìm theo Mã NV ");
 
         txtMaNhanVien.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -280,7 +301,7 @@ public class ViewHoaDon extends javax.swing.JFrame {
 
         jLabel3.setText("Ngày bắt đầu:");
 
-        jLabel4.setText("Ngày bắt đầu:");
+        jLabel4.setText("Ngày kết thúc: ");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -303,7 +324,7 @@ public class ViewHoaDon extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txtMaNhanVien, javax.swing.GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE)
                     .addComponent(jDateChooser2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(287, Short.MAX_VALUE))
+                .addContainerGap(294, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -321,7 +342,7 @@ public class ViewHoaDon extends javax.swing.JFrame {
                         .addComponent(jLabel4))
                     .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Loại hóa đơn"));
@@ -385,12 +406,13 @@ public class ViewHoaDon extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rdTatCa)
-                    .addComponent(rdDaHuy)
-                    .addComponent(rdDaThanhToan)
-                    .addComponent(rdChoThanhToán)
-                    .addComponent(jRadioButton1))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jRadioButton1)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(rdTatCa)
+                        .addComponent(rdDaHuy)
+                        .addComponent(rdDaThanhToan)
+                        .addComponent(rdChoThanhToán)))
                 .addContainerGap(26, Short.MAX_VALUE))
         );
 
@@ -420,7 +442,7 @@ public class ViewHoaDon extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addGroup(hoaDonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pnHoaDon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(pnGioHang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -448,25 +470,34 @@ public class ViewHoaDon extends javax.swing.JFrame {
     private void txtMaHoaDonKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaHoaDonKeyReleased
         // TODO add your handling code here:
         String maHD = txtMaHoaDon.getText();
-       quanLyHoaDon.loadSeachMaHoaDon(maHD);
-       quanLyHoaDon.loadMaHDSeachHDCT(maHD);
+        quanLyHoaDon.loadSeachMaHoaDon(maHD);
+        quanLyHoaDon.loadMaHDSeachHDCT(maHD);
         loadSeachMaHoaDon(maHD);
         loadMaHDDataHoaDonChiTiet(maHD);
     }//GEN-LAST:event_txtMaHoaDonKeyReleased
 
     private void rdTatCaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rdTatCaMouseClicked
         // TODO add your handling code here:
-        
+
 //        if (rdDaThanhToan.isSelected()) {
-            loadDataHoaDon();
-            loadDataHoaDonChiTiet();
+        loadDataHoaDon();
+        loadDataHoaDonChiTiet();
 //        }
     }//GEN-LAST:event_rdTatCaMouseClicked
 
     private void txtMaNhanVienKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaNhanVienKeyReleased
         // TODO add your handling code here:
         String maNV = txtMaNhanVien.getText();
+//        String maSP = txtMaNhanVien.getText();
+//        for (HoaDon hoaDon1 : quanLyHoaDon.loadMaHoaDon()) {
+//            if (hoaDon1.getMaNV().equals(maNV)) {
+        quanLyHoaDon.loadSeachMaNhanVien(maNV);
         loadSeachMaNhanVien(maNV);
+//            } else {
+//                quanLyHoaDon.loadMaSPSeachHDCT(maSP);
+//                loadMaSPDataHoaDonChiTiet(maSP);
+//            }
+//        }
     }//GEN-LAST:event_txtMaNhanVienKeyReleased
 
     private void rdDaThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdDaThanhToanActionPerformed
@@ -488,6 +519,18 @@ public class ViewHoaDon extends javax.swing.JFrame {
         // TODO add your handling code here:
         loadChoThanhToan();
     }//GEN-LAST:event_rdChoThanhToánActionPerformed
+
+    private void tblHoaDonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHoaDonMouseClicked
+        // TODO add your handling code here:\
+        int i = tblHoaDon.getSelectedRow();
+        if (i == -1) {
+            loadDataHoaDonChiTiet();
+        } else {
+            String maHD = (String) tblHoaDon.getValueAt(i, 1);
+            loadMaHDDataHoaDonChiTiet(maHD);
+        }
+
+    }//GEN-LAST:event_tblHoaDonMouseClicked
 
     /**
      * @param args the command line arguments

@@ -43,6 +43,38 @@ public class ViewKhachHang extends javax.swing.JFrame {
 
         }
     }
+    void loadSeachKhachHang(String maKH) {
+        defaultTableModel = (DefaultTableModel) tblKhachHang.getModel();
+        defaultTableModel.setRowCount(0);
+        int i=1;
+        for (KhachHang khachHang : quanLyKhachHang.loadSeachKhachHang(maKH)) {
+            defaultTableModel.addRow(new Object[]{
+                i++,
+                khachHang.getMaKH(),
+                khachHang.getTenKH(),
+                khachHang.getSĐT(),
+                khachHang.isGioiTinh() ? "Nam" : "Nữ",
+                khachHang.isTrangThai() ? "Khách Vip" : "Khách Thường",
+                khachHang.getDiaChi(),});
+
+        }
+    }
+    void loadSeachKhachVip(String maKH) {
+        defaultTableModel = (DefaultTableModel) tblKhachVip.getModel();
+        defaultTableModel.setRowCount(0);
+        int i=1;
+        for (KhachHang khachHang : quanLyKhachHang.loadSeachKhachVip(maKH)) {
+            defaultTableModel.addRow(new Object[]{
+                i++,
+                khachHang.getMaKH(),
+                khachHang.getTenKH(),
+                khachHang.getSĐT(),
+                khachHang.isGioiTinh() ? "Nam" : "Nữ",
+                khachHang.isTrangThai() ? "Khách Vip" : "Khách Thường",
+                khachHang.getDiaChi(),});
+
+        }
+    }
 
     void loadDataKhachVip() {
         defaultTableModel = (DefaultTableModel) tblKhachVip.getModel();
@@ -101,7 +133,7 @@ public class ViewKhachHang extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        txtSeachKHang = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -310,6 +342,12 @@ public class ViewKhachHang extends javax.swing.JFrame {
 
         jLabel5.setText("Tìm Theo Mã KH");
 
+        txtSeachKHang.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSeachKHangKeyReleased(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -318,7 +356,7 @@ public class ViewKhachHang extends javax.swing.JFrame {
                 .addGap(47, 47, 47)
                 .addComponent(jLabel5)
                 .addGap(39, 39, 39)
-                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtSeachKHang, javax.swing.GroupLayout.PREFERRED_SIZE, 295, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -326,7 +364,7 @@ public class ViewKhachHang extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(34, 34, 34)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtSeachKHang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -564,6 +602,22 @@ public class ViewKhachHang extends javax.swing.JFrame {
         buttonGroup2.clearSelection();
     }//GEN-LAST:event_jButton4MouseClicked
 
+    private void txtSeachKHangKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSeachKHangKeyReleased
+        // TODO add your handling code here:
+        
+        String maKH = txtSeachKHang.getText();
+        if (maKH.trim().isEmpty()) {
+            loadDataKhachHang();
+            loadDataKhachVip();
+        }else{
+            quanLyKhachHang.loadSeachKhachHang(maKH);
+        loadSeachKhachHang(maKH);
+        loadSeachKhachVip(maKH);
+        }
+
+        
+    }//GEN-LAST:event_txtSeachKHangKeyReleased
+
     /**
      * @param args the command line arguments
      */
@@ -619,7 +673,6 @@ public class ViewKhachHang extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTextField jTextField4;
     private javax.swing.JPanel pnKhachHang;
     private javax.swing.JPanel pnKhachVip;
     private javax.swing.JRadioButton rdKhachThuong;
@@ -631,6 +684,7 @@ public class ViewKhachHang extends javax.swing.JFrame {
     private javax.swing.JTextArea txtDiaChi;
     private javax.swing.JTextField txtDienThoai;
     private javax.swing.JTextField txtMaKH;
+    private javax.swing.JTextField txtSeachKHang;
     private javax.swing.JTextField txtTenKH;
     // End of variables declaration//GEN-END:variables
 }
