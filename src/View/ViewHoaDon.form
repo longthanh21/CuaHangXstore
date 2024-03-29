@@ -84,7 +84,7 @@
                   <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="42" max="32767" attributes="0"/>
+                  <EmptySpace pref="27" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="pnHoaDon" min="-2" max="-2" attributes="0"/>
                       <Component id="pnGioHang" min="-2" max="-2" attributes="0"/>
@@ -204,6 +204,9 @@
                       <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tblHoaDonMouseClicked"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -260,7 +263,7 @@
                         <Column editable="true" title="STT" type="java.lang.Object"/>
                         <Column editable="true" title="M&#xe3; HD" type="java.lang.Object"/>
                         <Column editable="true" title="M&#xe3; SP" type="java.lang.Object"/>
-                        <Column editable="true" title="T&#xea;n s&#x1ea3;n ph&#x1ea9;m" type="java.lang.Object"/>
+                        <Column editable="true" title="T&#xea;n SP" type="java.lang.Object"/>
                         <Column editable="true" title="S&#x1ed1; l&#x1b0;&#x1ee3;ng" type="java.lang.Object"/>
                         <Column editable="true" title="Gi&#xe1; b&#xe1;n" type="java.lang.Object"/>
                         <Column editable="true" title="Gi&#x1ea3;m Gi&#xe1;" type="java.lang.Object"/>
@@ -356,7 +359,7 @@
                           <Component id="txtMaNhanVien" pref="255" max="32767" attributes="0"/>
                           <Component id="jDateChooser2" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="287" max="32767" attributes="0"/>
+                      <EmptySpace pref="294" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -379,7 +382,7 @@
                           <Component id="jDateChooser1" min="-2" max="-2" attributes="0"/>
                           <Component id="jDateChooser2" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="27" max="32767" attributes="0"/>
+                      <EmptySpace pref="42" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -397,7 +400,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel2">
               <Properties>
-                <Property name="text" type="java.lang.String" value="T&#xec;m theo M&#xe3; NV:"/>
+                <Property name="text" type="java.lang.String" value="T&#xec;m theo M&#xe3; NV "/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtMaNhanVien">
@@ -412,7 +415,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel4">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Ng&#xe0;y b&#x1eaf;t &#x111;&#x1ea7;u:"/>
+                <Property name="text" type="java.lang.String" value="Ng&#xe0;y k&#x1ebf;t th&#xfa;c: "/>
               </Properties>
             </Component>
             <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser1">
@@ -452,12 +455,14 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="rdTatCa" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="rdDaHuy" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="rdDaThanhToan" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="rdChoThanhToán" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jRadioButton1" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="rdTatCa" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="rdDaHuy" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="rdDaThanhToan" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="rdChoThanhToán" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                       <EmptySpace pref="26" max="32767" attributes="0"/>
                   </Group>
