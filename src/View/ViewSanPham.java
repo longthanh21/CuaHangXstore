@@ -6,10 +6,19 @@ package View;
 
 import Model.SanPham;
 import Service.QuanLySanPham;
+import java.awt.Dimension;
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -24,6 +33,7 @@ public class ViewSanPham extends javax.swing.JFrame {
      */
     DefaultTableModel defau;
     QuanLySanPham qlsp = new QuanLySanPham();
+    String loadImg = null;
 
     public ViewSanPham() {
         initComponents();
@@ -72,7 +82,8 @@ public class ViewSanPham extends javax.swing.JFrame {
                 sp.getHang(),
                 sp.getGiaNhap(),
                 sp.getGiaBan(),
-                sp.getSoLuong()
+                sp.getSoLuong(),
+                sp.getHinhAnh()
             });
         }
     }
@@ -92,7 +103,8 @@ public class ViewSanPham extends javax.swing.JFrame {
                 sp.getHang(),
                 sp.getGiaNhap(),
                 sp.getGiaBan(),
-                sp.getSoLuong()
+                sp.getSoLuong(),
+                sp.getHinhAnh()
             });
         }
     }
@@ -131,6 +143,7 @@ public class ViewSanPham extends javax.swing.JFrame {
         sp.setGiaBan(txtGiaBan.getText());
         sp.setGiaNhap(txtGiaNhap.getText());
         sp.setSoLuong(txtSoLuong.getText());
+        sp.setHinhAnh(loadImg);
         return sp;
     }
 
@@ -169,6 +182,13 @@ public class ViewSanPham extends javax.swing.JFrame {
         txtGiaNhap.setText((String) tblCTSP.getValueAt(i, 7));
         txtGiaBan.setText((String) tblCTSP.getValueAt(i, 8));
         txtSoLuong.setText((String) tblCTSP.getValueAt(i, 9));
+        lbHinhAnh.setText("");
+        String a = (String) tblCTSP.getValueAt(i, 10);
+        ImageIcon imgIcon = new ImageIcon(getClass().getResource("/GiayTheThaoList/" + a));
+        Image img = imgIcon.getImage();
+        img.getScaledInstance(lbHinhAnh.getWidth(), lbHinhAnh.getHeight(), 0);
+        ImageIcon imageIcon = new ImageIcon(a);
+        lbHinhAnh.setIcon(imgIcon);
     }
 
     void loadSelectThuocTinh() {
@@ -263,7 +283,7 @@ public class ViewSanPham extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         txtTenSP = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
-        jLabel27 = new javax.swing.JLabel();
+        lbHinhAnh = new javax.swing.JLabel();
         txtSoLuongTong = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
@@ -335,8 +355,13 @@ public class ViewSanPham extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel27.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel27.setText("ảnh");
+        lbHinhAnh.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbHinhAnh.setText("ảnh");
+        lbHinhAnh.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbHinhAnhMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -344,11 +369,11 @@ public class ViewSanPham extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(lbHinhAnh, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel27, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+            .addComponent(lbHinhAnh, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
         );
 
         jLabel8.setText("Số lượng Tổng:");
@@ -573,7 +598,7 @@ public class ViewSanPham extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Mã SP", "Ngày nhập", "Màu sắc ", "Size", "Chất liệu", "Hãng", "Giá nhập", "Giá bán", "Số lượng"
+                "ID", "Mã SP", "Ngày nhập", "Màu sắc ", "Size", "Chất liệu", "Hãng", "Giá nhập", "Giá bán", "Số lượng", "Hình ảnh"
             }
         ));
         tblCTSP.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -957,6 +982,7 @@ public class ViewSanPham extends javax.swing.JFrame {
         loadCTSPTheoMa((String) tblSanPham.getValueAt(i, 1));
         if (Integer.valueOf((String) tblSanPham.getValueAt(i, 3)) != 0) {
             tblCTSP.setRowSelectionInterval(0, 0);
+            int j = tblCTSP.getSelectedRow();
             setFormCTSP();
         }
     }//GEN-LAST:event_tblSanPhamMouseClicked
@@ -1012,8 +1038,12 @@ public class ViewSanPham extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "So Luong chi duoc go so");
             return false;
         }
-        if(cbbMauSac.getSelectedItem() == null || cbbSize.getSelectedItem() == null || cbbChatLieu.getSelectedItem() == null || cbbHang.getSelectedItem() == null){
+        if (cbbMauSac.getSelectedItem() == null || cbbSize.getSelectedItem() == null || cbbChatLieu.getSelectedItem() == null || cbbHang.getSelectedItem() == null) {
             JOptionPane.showMessageDialog(this, "Vui long chon du thuoc tinh");
+            return false;
+        }
+        if(lbHinhAnh == null){
+            JOptionPane.showMessageDialog(this, "Vui long chon anh");
             return false;
         }
         return true;
@@ -1043,6 +1073,7 @@ public class ViewSanPham extends javax.swing.JFrame {
             qlsp.AddSP(getFormSP());
 //          qlsp.UpSoLuongTong(txtMaSP.getText(), txtSoLuongTong.getText());
             JOptionPane.showMessageDialog(this, "Them thanh cong");
+            qlsp.TongSoLuongSP(txtMaSP.getText());
             loadSP();
         }
 
@@ -1050,7 +1081,13 @@ public class ViewSanPham extends javax.swing.JFrame {
 
     private void tblCTSPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCTSPMouseClicked
         // TODO add your handling code here:
-        setFormCTSP();
+        int i = tblSanPham.getSelectedRow();
+        if (i < 0) {
+            JOptionPane.showMessageDialog(this, "Vui long chon SP");
+        } else {
+            setFormCTSP();
+        }
+
 
     }//GEN-LAST:event_tblCTSPMouseClicked
 
@@ -1315,6 +1352,27 @@ public class ViewSanPham extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnUpdateTTActionPerformed
 
+    private void lbHinhAnhMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbHinhAnhMouseClicked
+        try {
+            // TODO add your handling code here:
+
+            JFileChooser jfc = new JFileChooser("C:\\Users\\LongThank\\Documents\\NetBeansProjects\\CuaHangXstore\\src\\GiayTheThaoList");
+            jfc.showOpenDialog(null);
+            if (jfc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+                File file = jfc.getSelectedFile();
+                Image img = ImageIO.read(file);
+                loadImg = file.getName();
+                lbHinhAnh.setText("");
+                int width = lbHinhAnh.getWidth();
+                int height = lbHinhAnh.getHeight();
+                lbHinhAnh.setIcon(new ImageIcon(img.getScaledInstance(width, height, 0)));
+            } else {
+                System.out.println("Chua chon anh");
+            }
+        } catch (IOException ex) {
+        }
+    }//GEN-LAST:event_lbHinhAnhMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -1380,7 +1438,6 @@ public class ViewSanPham extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1398,6 +1455,7 @@ public class ViewSanPham extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextField jTextField9;
+    private javax.swing.JLabel lbHinhAnh;
     private javax.swing.JPanel pnDanhSach;
     private javax.swing.JPanel pnLoc;
     private javax.swing.JPanel pnSanPham;
