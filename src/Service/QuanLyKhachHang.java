@@ -41,6 +41,30 @@ public class QuanLyKhachHang {
         return list;
     }
 
+    public ArrayList<KhachHang> loadSeachKhachHang(String maKH) {
+        list.clear();
+        try {
+            String sql = "select MaKH,TenKH,Sdt,gioiTinh,TrangThai,DiaChi from KhachHang WHERE MaKH = ?";
+            Connection con = DbConnect.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, maKH);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String ma = rs.getString(1);
+                String ten = rs.getString(2);
+                String sdt = rs.getString(3);
+                Boolean gioiTinh = rs.getBoolean(4);
+                Boolean trangThai = rs.getBoolean(5);
+                String diaChi = rs.getString(6);
+                list.add(new KhachHang(ma, ten, sdt, gioiTinh, trangThai, diaChi));
+            }
+            con.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
     public ArrayList<KhachHang> getAllKhachVip() {
         listKhachVip.clear();
         try {
@@ -50,13 +74,33 @@ public class QuanLyKhachHang {
             Statement stm = con.createStatement();
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {
-//                KhachHang kh = new KhachHang();
-//                kh.setMaKH(rs.getString("MaKH"));
-//                kh.setTenKH(rs.getString("TenKH"));
-//                kh.setSĐT(rs.getString("Sdt"));
-//                kh.setGioiTinh(rs.getBoolean("gioiTinh"));
-//                kh.setTrangThai(rs.getBoolean("TrangThai"));
-//                kh.setDiaChi(rs.getString("DiaChi"));
+                String ma = rs.getString(1);
+                String ten = rs.getString(2);
+                String sdt = rs.getString(3);
+                Boolean gioiTinh = rs.getBoolean(4);
+                Boolean trangThai = rs.getBoolean(5);
+                String diaChi = rs.getString(6);
+
+                listKhachVip.add(new KhachHang(ma, ten, sdt, gioiTinh, trangThai, diaChi));
+//                listKhachVip.add(kh);
+            }
+            con.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return listKhachVip;
+    }
+
+    public ArrayList<KhachHang> loadSeachKhachVip(String maKH) {
+        listKhachVip.clear();
+        try {
+            String sql = "select MaKH,TenKH,Sdt,gioiTinh,TrangThai,DiaChi from KhachHang where MaKH =? and TrangThai= 1";
+
+            Connection con = DbConnect.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, maKH);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
                 String ma = rs.getString(1);
                 String ten = rs.getString(2);
                 String sdt = rs.getString(3);
@@ -94,6 +138,7 @@ public class QuanLyKhachHang {
             return false;
         }
     }
+
     public boolean deleteKhachHang(String maKh) {
         try {
             String sql = "delete from UuDai where MaKH = ? "
