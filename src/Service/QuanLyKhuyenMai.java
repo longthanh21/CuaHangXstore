@@ -58,37 +58,6 @@ public class QuanLyKhuyenMai {
         return listvc;
     }
 
-//    public List<Voucher> getListKhachVIP(int kv) {
-//        List<Voucher> listKhachVip = new ArrayList<>();
-//        try {
-//            String sql = "SELECT Voucher.MaVC, TenVC, GiamGia, NgayBatDau, NgayKetThuc, DieuKien, KhachHang.TrangThai AS KHTrangThai, Voucher.TrangThai AS VCTrangThai FROM Voucher\n"
-//                    + "left join UuDai on UuDai.MaVC = Voucher.MaVC\n"
-//                    + "left join KhachHang on KhachHang.MaKH = UuDai.MaKH\n"
-//                    + "WHERE KhachHang.TrangThai = ?"
-//                    + "group by Voucher.MaVC, TenVC, GiamGia, NgayBatDau, NgayKetThuc, DieuKien, KhachHang.TrangThai, Voucher.TrangThai";
-//            PreparedStatement ps = cn.prepareStatement(sql);
-//            ps.setInt(1, kv);
-//            ps.execute();
-//            ResultSet rs = ps.getResultSet();
-//            while (rs.next()) {
-//                Voucher vc = new Voucher();
-//                vc.setMaVC(rs.getString("MaVC"));
-//                vc.setTenVC(rs.getString("TenVC"));
-//                vc.setGiamGia(rs.getString("GiamGia"));
-//                vc.setNgayBatDau(rs.getString("NgayBatDau"));
-//                vc.setNgayKetThuc(rs.getString("NgayKetThuc"));
-//                vc.setDieuKien(rs.getString("DieuKien"));
-//                int khachHangTrangThai = rs.getInt("KHTrangThai");
-//                vc.setUuDai(khachHangTrangThai == 1 ? "Khách VIP" : "Không có");
-//                vc.setTrangThai(rs.getString("VCTrangThai"));
-//                listKhachVip.add(vc);
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return listKhachVip;
-//    }
-
     public void addKhachVIP(String maVC) {
         try {
             String sql = "INSERT INTO UuDai(MaVC, MaKH) \n"
@@ -191,6 +160,79 @@ public class QuanLyKhuyenMai {
                 listsp.add(sp);
             }
         } catch (Exception e) {
+        }
+        return listsp;
+    }
+
+    public void getSPtheoCP(String maCP) {
+        try {
+            String sql = "SELECT CTSP.IdSP, SanPham.MaSP, SanPham.TenSP, CTSP.SoLuong, CTSP.GiaBan \n"
+                    + "FROM CTSP \n"
+                    + "JOIN SanPham ON SanPham.MaSP = CTSP.MaSP\n"
+                    + "WHERE CTSP.IdSP IN (\n"
+                    + "    SELECT IdSP \n"
+                    + "    FROM GiamGiaSP \n"
+                    + "    WHERE MaCP = ?\n"
+                    + ")";
+            PreparedStatement ps = cn.prepareStatement(sql);
+            ps.setString(1, maCP);
+            ps.execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addCoupontoSP(Coupon cp) {
+        try {
+            String sql = "INSERT INTO GiamGiaSP (MaCP, IdSP) " + "VALUES(?, ?),";
+            PreparedStatement ps = cn.prepareStatement(sql);
+            ps.setString(1, cp.getIdSP());
+            ps.setString(2, cp.getMaCP());
+            ps.execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addCP(Coupon cp) {
+        try {
+            String sql = "INSERT INTO Coupon (MaCP, TenCP, PhamTram, NgayBatDau, NgayKetThuc, TrangThai) "
+                    + "VALUES\n"
+                    + "(?, ?, ?, ?, ?, ?)";
+            PreparedStatement ps = cn.prepareStatement(sql);
+            ps.setString(1, cp.getMaCP());
+            ps.setString(2, cp.getTenCP());
+            ps.setString(3, cp.getPhanTram());
+            ps.setString(4, cp.getNgayBatDau());
+            ps.setString(5, cp.getNgayKetThuc());
+            ps.setInt(6, cp.getTrangThai().equals("Hoạt động") ? 1 : 0);
+            ps.execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public List<SanPham> selectSPbyID(int id) {
+        List<SanPham> listsp = new ArrayList<>(); // Initialize the list locally
+        try {
+            String sql = "SELECT CTSP.IdSP, SanPham.MaSP, SanPham.TenSP, CTSP.SoLuong, CTSP.GiaBan \n"
+                    + "FROM CTSP \n"
+                    + "JOIN SanPham ON SanPham.MaSP = CTSP.MaSP\n"
+                    + "WHERE CTSP.IdSP = ?";
+            PreparedStatement ps = cn.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                SanPham sp = new SanPham();
+                sp.setMaSanPham(rs.getString("MaSP"));
+                sp.setTenSanPham(rs.getString("TenSP"));
+                sp.setSoLuong(rs.getString("SoLuong"));
+                sp.setGiaBan(rs.getString("GiaBan"));
+                listsp.add(sp);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Handle the exception
         }
         return listsp;
     }
