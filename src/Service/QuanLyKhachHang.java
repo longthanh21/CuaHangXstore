@@ -21,7 +21,7 @@ public class QuanLyKhachHang {
     public ArrayList<KhachHang> getAllKhachHang() {
         list.clear();
         try {
-            String sql = "select MaKH,TenKH,Sdt,gioiTinh,TrangThai,DiaChi from KhachHang";
+            String sql = "select MaKH,TenKH,Sdt,NgayTao,gioiTinh,TrangThai,DiaChi from KhachHang";
             Connection con = DbConnect.getConnection();
             Statement stm = con.createStatement();
             ResultSet rs = stm.executeQuery(sql);
@@ -29,10 +29,11 @@ public class QuanLyKhachHang {
                 String ma = rs.getString(1);
                 String ten = rs.getString(2);
                 String sdt = rs.getString(3);
-                Boolean gioiTinh = rs.getBoolean(4);
-                Boolean trangThai = rs.getBoolean(5);
-                String diaChi = rs.getString(6);
-                list.add(new KhachHang(ma, ten, sdt, gioiTinh, trangThai, diaChi));
+               String NgayTao = rs.getString(4);
+                Boolean gioiTinh = rs.getBoolean(5);
+                Boolean trangThai = rs.getBoolean(6);
+                String diaChi = rs.getString(7);
+                list.add(new KhachHang(ma, ten, sdt,NgayTao, gioiTinh, trangThai, diaChi));
             }
             con.close();
         } catch (Exception e) {
@@ -44,7 +45,7 @@ public class QuanLyKhachHang {
     public ArrayList<KhachHang> loadSeachKhachHang(String maKH) {
         list.clear();
         try {
-            String sql = "select MaKH,TenKH,Sdt,gioiTinh,TrangThai,DiaChi from KhachHang WHERE MaKH = ?";
+            String sql = "select MaKH,TenKH,Sdt,NgayTao,gioiTinh,TrangThai,DiaChi from KhachHang WHERE MaKH = ?";
             Connection con = DbConnect.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, maKH);
@@ -53,10 +54,11 @@ public class QuanLyKhachHang {
                 String ma = rs.getString(1);
                 String ten = rs.getString(2);
                 String sdt = rs.getString(3);
-                Boolean gioiTinh = rs.getBoolean(4);
-                Boolean trangThai = rs.getBoolean(5);
-                String diaChi = rs.getString(6);
-                list.add(new KhachHang(ma, ten, sdt, gioiTinh, trangThai, diaChi));
+                String NgayTao = rs.getString(4);
+                Boolean gioiTinh = rs.getBoolean(5);
+                Boolean trangThai = rs.getBoolean(6);
+                String diaChi = rs.getString(7);
+                list.add(new KhachHang(ma, ten, sdt,NgayTao, gioiTinh, trangThai, diaChi));
             }
             con.close();
         } catch (Exception e) {
@@ -68,7 +70,7 @@ public class QuanLyKhachHang {
     public ArrayList<KhachHang> getAllKhachVip() {
         listKhachVip.clear();
         try {
-            String sql = "select MaKH,TenKH,Sdt,gioiTinh,TrangThai,DiaChi from KhachHang where TrangThai= 1";
+            String sql = "select MaKH,TenKH,Sdt,NgayTao,gioiTinh,TrangThai,DiaChi from KhachHang where TrangThai= 1";
 
             Connection con = DbConnect.getConnection();
             Statement stm = con.createStatement();
@@ -77,11 +79,12 @@ public class QuanLyKhachHang {
                 String ma = rs.getString(1);
                 String ten = rs.getString(2);
                 String sdt = rs.getString(3);
-                Boolean gioiTinh = rs.getBoolean(4);
-                Boolean trangThai = rs.getBoolean(5);
-                String diaChi = rs.getString(6);
+                String NgayTao = rs.getString(4);
+                Boolean gioiTinh = rs.getBoolean(5);
+                Boolean trangThai = rs.getBoolean(6);
+                String diaChi = rs.getString(7);
 
-                listKhachVip.add(new KhachHang(ma, ten, sdt, gioiTinh, trangThai, diaChi));
+                listKhachVip.add(new KhachHang(ma, ten, sdt, NgayTao, gioiTinh, trangThai, diaChi));
 //                listKhachVip.add(kh);
             }
             con.close();
@@ -94,7 +97,7 @@ public class QuanLyKhachHang {
     public ArrayList<KhachHang> loadSeachKhachVip(String maKH) {
         listKhachVip.clear();
         try {
-            String sql = "select MaKH,TenKH,Sdt,gioiTinh,TrangThai,DiaChi from KhachHang where MaKH =? and TrangThai= 1";
+            String sql = "select MaKH,TenKH,Sdt,NgayTao,gioiTinh,TrangThai,DiaChi from KhachHang where MaKH =? and TrangThai= 1";
 
             Connection con = DbConnect.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
@@ -104,11 +107,12 @@ public class QuanLyKhachHang {
                 String ma = rs.getString(1);
                 String ten = rs.getString(2);
                 String sdt = rs.getString(3);
-                Boolean gioiTinh = rs.getBoolean(4);
-                Boolean trangThai = rs.getBoolean(5);
-                String diaChi = rs.getString(6);
+                String NgayTao = rs.getString(4);
+                Boolean gioiTinh = rs.getBoolean(5);
+                Boolean trangThai = rs.getBoolean(6);
+                String diaChi = rs.getString(7);
 
-                listKhachVip.add(new KhachHang(ma, ten, sdt, gioiTinh, trangThai, diaChi));
+                listKhachVip.add(new KhachHang(maKH, ten, sdt, NgayTao, gioiTinh, trangThai, diaChi));
 //                listKhachVip.add(kh);
             }
             con.close();

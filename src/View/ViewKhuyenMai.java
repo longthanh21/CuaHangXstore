@@ -156,24 +156,77 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         }
     }
 
+    public void LoadDataCouponTheoMa(String ma) {
+        dtm = (DefaultTableModel) tbCoupon.getModel();
+        listCP = qlKM.getAllCP();
+        dtm.setRowCount(0);
+        for (Coupon e : listCP) {
+            String tt = e.getTrangThai().equalsIgnoreCase("0") ? "Hết hạn" : "Hoạt động";
+            dtm.addRow(new Object[]{
+                e.getMaCP(),
+                e.getTenCP(),
+                e.getIdSP(),
+                e.getPhanTram(),
+                e.getNgayBatDau(),
+                e.getNgayKetThuc(),
+                tt
+            });
+        }
+    }
+
     public void DetailCouPon() {
         int i = tbCoupon.getSelectedRow();
-
         txtMaCP.setText(String.valueOf(tbCoupon.getValueAt(i, 0)));
         txtTenCP.setText(String.valueOf(tbCoupon.getValueAt(i, 1)));
-        txtIDSanPham.setText(String.valueOf(tbCoupon.getValueAt(i, 2)));
+
+        try {
+            String idSP = String.valueOf(tbCoupon.getValueAt(i, 2));
+            if (!idSP.isEmpty() && !idSP.equals("null")) {
+                int id = Integer.parseInt(idSP);
+                List<SanPham> spList = qlKM.selectSPbyID(id);
+                String maSP = "";
+                String tenSP = "";
+                String soLuong = "";
+                String giaBan = "";
+
+                for (SanPham sp : spList) {
+                    maSP = sp.getMaSanPham();
+                    tenSP = sp.getTenSanPham();
+                    soLuong = sp.getSoLuong();
+                    giaBan = sp.getGiaBan();
+                }
+
+                txtIDSanPham.setText(idSP);
+                txtMaSP.setText(maSP);
+                txtTenSP.setText(tenSP);
+                txtSoLuong.setText(soLuong);
+                txtGiaBan.setText(giaBan);
+            } else {
+                // Handle the case when idSP is empty
+                txtIDSanPham.setText("");
+                txtMaSP.setText("");
+                txtTenSP.setText("");
+                txtSoLuong.setText("");
+                txtGiaBan.setText("");
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid idSP format");
+            e.printStackTrace();
+        }
+
         txtGiamGiaCP.setText(String.valueOf(tbCoupon.getValueAt(i, 3)));
 
-        String dateBatDau = String.valueOf(tbCoupon.getValueAt(i, 4));
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        // detail ngay ket thuc
+        String dateBatDau = String.valueOf(tbCoupon.getValueAt(i, 4));
         Date startDate = null;
         try {
             startDate = dateFormat.parse(dateBatDau);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        dcBatDau.setDate(startDate);
-
+        dcNgayDatBau.setDate(startDate);
+        // detail ngay ket thuc
         String dateKetThuc = String.valueOf(tbCoupon.getValueAt(i, 5));
         Date endDate = null;
         try {
@@ -181,14 +234,57 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        dcHetHan.setDate(endDate);
+        dcNgayKetThuc.setDate(endDate);
 
-//        String tt = String.valueOf(tbCoupon.getValueAt(i, 6);
-//        if(tt.equalsIgnoreCase("Hoạt động")){
-//            rbCPHoatDong.setSelected(true);
-//        }else
+        String tt = String.valueOf(tbCoupon.getValueAt(i, 6));
+        if (tt.equalsIgnoreCase("Hoạt động")) {
+            rbCPHoatDong.setSelected(true);
+        } else if (tt.equalsIgnoreCase("Hết hạn")) {
+            rbCPHetHan.setSelected(true);
+        } else {
+
+        }
     }
-//    ============================SAnPham========================================
+
+    public void getPTheoMaCP(String ma) {
+
+    }
+
+    public Coupon getFormCoupon() {
+        Coupon cp = new Coupon();
+        cp.setMaCP(txtMaCP.getText());
+        cp.setTenCP(txtTenCP.getText());
+        cp.setPhanTram(txtGiamGiaCP.getText());
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        Date ngayBatDau = dcNgayDatBau.getDate();
+        String strNgayBatDau = dateFormat.format(ngayBatDau);
+        cp.setNgayBatDau(strNgayBatDau);
+
+        Date ngayKetThuc = dcNgayKetThuc.getDate();
+        String strNgayKetThuc = dateFormat.format(ngayKetThuc);
+        cp.setNgayKetThuc(strNgayKetThuc);
+
+        if (rbCPHoatDong.isSelected()) {
+            cp.setTrangThai("Hoạt động");
+        } else {
+            cp.setTrangThai("Hết hạn");
+        }
+        return cp;
+    }
+
+    public void addCoupon() {
+        qlKM.addCP(getFormCoupon());
+    }
+
+    public void apDungSanPhamToCoupon() {
+        Coupon cp = new Coupon();
+        cp.setIdSP(txtIDSanPham.getText());
+        cp.setMaCP(txtMaCP.getText());
+        qlKM.addCoupontoSP(cp);
+    }
+//    ============================SanPham========================================
 
     public void LoadDataSanPham() {
         dtm = (DefaultTableModel) tbSanPham.getModel();
@@ -203,6 +299,15 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                 e.getGiaBan()
             });
         }
+    }
+
+    public void DetailSanPham() {
+        int i = tbSanPham.getSelectedRow();
+        txtIDSanPham.setText(String.valueOf(tbSanPham.getValueAt(i, 0)));
+        txtMaSP.setText(String.valueOf(tbSanPham.getValueAt(i, 1)));
+        txtTenSP.setText(String.valueOf(tbSanPham.getValueAt(i, 2)));
+        txtSoLuong.setText(String.valueOf(tbSanPham.getValueAt(i, 3)));
+        txtGiaBan.setText(String.valueOf(tbSanPham.getValueAt(i, 4)));
     }
 
     /**
@@ -644,6 +749,11 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                 "Mã Coupon", "Tên Coupon", "ID SP", "Giảm giá ", "Ngày bắt đầu", "Ngày kết thúc", "Trạng thái"
             }
         ));
+        tbCoupon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbCouponMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tbCoupon);
 
         javax.swing.GroupLayout pnCouponLayout = new javax.swing.GroupLayout(pnCoupon);
@@ -673,6 +783,11 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                 "IDSP", "Mã SP", "Tên sản phẩm", "Số lượng", "Giá bán"
             }
         ));
+        tbSanPham.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbSanPhamMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(tbSanPham);
 
         javax.swing.GroupLayout pnSanPhamLayout = new javax.swing.GroupLayout(pnSanPham);
@@ -693,10 +808,20 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         );
 
         btnApDung.setText("Áp dụng");
+        btnApDung.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnApDungActionPerformed(evt);
+            }
+        });
 
         btnHuy.setText("Hủy");
 
         btnAddCoupon.setText("New Coupon");
+        btnAddCoupon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddCouponActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout CouponLayout = new javax.swing.GroupLayout(Coupon);
         Coupon.setLayout(CouponLayout);
@@ -767,11 +892,13 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         detail();
         LoadDataTableTheoMa(String.valueOf(tbVoucher.getValueAt(i, 1)));
     }//GEN-LAST:event_tbVoucherMouseClicked
-    
+
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         try {
             qlKM.themVoucher(getFormVoucher());
-            if(cbKhachVip.isSelected()) qlKM.addKhachVIP(txtMaVC.getText());
+            if (cbKhachVip.isSelected()) {
+                qlKM.addKhachVIP(txtMaVC.getText());
+            }
             LoadDataTable();
         } catch (Exception e) {
             e.printStackTrace();
@@ -787,14 +914,43 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
             qlKM.suaVoucher(getFormVoucher());
             int i = tbVoucher.getSelectedRow();
             String trangThai = (String) tbVoucher.getValueAt(i, 6);
-            if(cbKhachVip.isSelected() && !trangThai.equals("Khách VIP")) qlKM.addKhachVIP(txtMaVC.getText());
-            else if(cbKhachVip.isSelected() && trangThai.equals("Khách VIP")) JOptionPane.showMessageDialog(this, "Mã VC đã Áp dụng cho Khách VIP");
-            else qlKM.dltKhachVIP(txtMaVC.getText());
+            if (cbKhachVip.isSelected() && !trangThai.equals("Khách VIP")) {
+                qlKM.addKhachVIP(txtMaVC.getText());
+            } else if (cbKhachVip.isSelected() && trangThai.equals("Khách VIP")) {
+                JOptionPane.showMessageDialog(this, "Mã VC đã Áp dụng cho Khách VIP");
+            } else {
+                qlKM.dltKhachVIP(txtMaVC.getText());
+            }
             LoadDataTable();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void tbCouponMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbCouponMouseClicked
+        try {
+            int i = tbCoupon.getSelectedRow();
+            DetailCouPon();
+            LoadDataCouponTheoMa(String.valueOf(tbCoupon.getValueAt(i, 0)));
+        } catch (Exception e) {
+            System.out.println("loi");
+        }
+    }//GEN-LAST:event_tbCouponMouseClicked
+
+    private void tbSanPhamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbSanPhamMouseClicked
+        int i = tbSanPham.getSelectedRow();
+        DetailSanPham();
+    }//GEN-LAST:event_tbSanPhamMouseClicked
+
+    private void btnAddCouponActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCouponActionPerformed
+        addCoupon();
+        LoadDataCoupon();
+    }//GEN-LAST:event_btnAddCouponActionPerformed
+
+    private void btnApDungActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApDungActionPerformed
+        apDungSanPhamToCoupon();
+        LoadDataCoupon();
+    }//GEN-LAST:event_btnApDungActionPerformed
 
     /**
      * @param args the command line arguments
