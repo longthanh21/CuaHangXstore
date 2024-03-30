@@ -23,7 +23,6 @@ public class SanPham {
     private String ChatLieu;
     private String Hang;
     private String soLuong;
-    private String giaNhap;
     private String giaBan;
     private String trangThai;
     private String phanTram;
@@ -33,7 +32,7 @@ public class SanPham {
     public SanPham() {
     }
 
-    public SanPham(String maSanPham, String idspct, String tenSanPham, String ngayNhap, String idMauSac, String idSize, String idChatLieu, String idHang, String MauSac, String Size, String ChatLieu, String Hang, String soLuong, String giaNhap, String giaBan, String trangThai, String phanTram, String hinhAnh) {
+    public SanPham(String maSanPham, String idspct, String tenSanPham, String ngayNhap, String idMauSac, String idSize, String idChatLieu, String idHang, String MauSac, String Size, String ChatLieu, String Hang, String soLuong, String giaBan, String trangThai, String phanTram, String hinhAnh) {
         this.maSanPham = maSanPham;
         this.idspct = idspct;
         this.tenSanPham = tenSanPham;
@@ -47,7 +46,6 @@ public class SanPham {
         this.ChatLieu = ChatLieu;
         this.Hang = Hang;
         this.soLuong = soLuong;
-        this.giaNhap = giaNhap;
         this.giaBan = giaBan;
         this.trangThai = trangThai;
         this.phanTram = phanTram;
@@ -158,14 +156,6 @@ public class SanPham {
         this.soLuong = soLuong;
     }
 
-    public String getGiaNhap() {
-        return giaNhap;
-    }
-
-    public void setGiaNhap(String giaNhap) {
-        this.giaNhap = giaNhap;
-    }
-
     public String getGiaBan() {
         return giaBan;
     }
@@ -198,6 +188,7 @@ public class SanPham {
         this.hinhAnh = hinhAnh;
     }
 
+    
     
 
     public Integer giaSau() {
