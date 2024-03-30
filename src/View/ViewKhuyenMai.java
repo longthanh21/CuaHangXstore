@@ -184,14 +184,23 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
             if (!idSP.isEmpty() && !idSP.equals("null")) {
                 int id = Integer.parseInt(idSP);
                 List<SanPham> spList = qlKM.selectSPbyID(id);
-                for (int a = 0; a < spList.size(); a++) {
-                    SanPham sp = spList.get(a);
-                    txtIDSanPham.setText(idSP);
-                    txtMaSP.setText(sp.getMaSanPham());
-                    txtTenSP.setText(sp.getTenSanPham());
-                    txtSoLuong.setText(sp.getSoLuong());
-                    txtGiaBan.setText(sp.getGiaBan());
+                String maSP = "";
+                String tenSP = "";
+                String soLuong = "";
+                String giaBan = "";
+
+                for (SanPham sp : spList) {
+                    maSP = sp.getMaSanPham();
+                    tenSP = sp.getTenSanPham();
+                    soLuong = sp.getSoLuong();
+                    giaBan = sp.getGiaBan();
                 }
+
+                txtIDSanPham.setText(idSP);
+                txtMaSP.setText(maSP);
+                txtTenSP.setText(tenSP);
+                txtSoLuong.setText(soLuong);
+                txtGiaBan.setText(giaBan);
             } else {
                 // Handle the case when idSP is empty
                 txtIDSanPham.setText("");
@@ -268,6 +277,13 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
     public void addCoupon() {
         qlKM.addCP(getFormCoupon());
     }
+
+    public void apDungSanPhamToCoupon() {
+        Coupon cp = new Coupon();
+        cp.setIdSP(txtIDSanPham.getText());
+        cp.setMaCP(txtMaCP.getText());
+        qlKM.addCoupontoSP(cp);
+    }
 //    ============================SanPham========================================
 
     public void LoadDataSanPham() {
@@ -294,17 +310,6 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         txtGiaBan.setText(String.valueOf(tbSanPham.getValueAt(i, 4)));
     }
 
-//    public SanPham selectSPbyID(String id) {
-//        SanPham sp = new SanPham();
-//        id = txtIDSanPham.getText();
-//        txtIDSanPham.setText(id);
-//        txtMaSP.setText(sp.getMaSanPham());
-//        txtTenSP.setText(sp.getTenSanPham());
-//        txtSoLuong.setText(sp.getSoLuong());
-//        txtGiaBan.setText(sp.getGiaBan());
-//        qlKM.selectSPbyID(id);
-//        return sp;
-//    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -803,6 +808,11 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         );
 
         btnApDung.setText("Áp dụng");
+        btnApDung.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnApDungActionPerformed(evt);
+            }
+        });
 
         btnHuy.setText("Hủy");
 
@@ -936,6 +946,11 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         addCoupon();
         LoadDataCoupon();
     }//GEN-LAST:event_btnAddCouponActionPerformed
+
+    private void btnApDungActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApDungActionPerformed
+        apDungSanPhamToCoupon();
+        LoadDataCoupon();
+    }//GEN-LAST:event_btnApDungActionPerformed
 
     /**
      * @param args the command line arguments

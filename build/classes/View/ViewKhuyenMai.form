@@ -944,6 +944,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="&#xc1;p d&#x1ee5;ng"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnApDungActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnHuy">
               <Properties>
