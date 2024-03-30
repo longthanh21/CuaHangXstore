@@ -15,6 +15,7 @@ public class NhanVien {
     private boolean gioiTinh;
     private String diaChi;
     private String SĐT;
+    private String NgayVaoLam;
     private String vaiTro;
     private String maTK;
     private String maCL;
@@ -23,18 +24,22 @@ public class NhanVien {
     public NhanVien() {
     }
 
-    public NhanVien(String maNV, String tenNV, String ngaySinh, boolean gioiTinh, String diaChi, String SĐT, String vaiTro, String maTK, String maCL, String trangThai) {
+    public NhanVien(String maNV, String tenNV, String ngaySinh, boolean gioiTinh, String diaChi, String SĐT, String NgayVaoLam, String vaiTro, String maTK, String maCL, String trangThai) {
         this.maNV = maNV;
         this.tenNV = tenNV;
         this.ngaySinh = ngaySinh;
         this.gioiTinh = gioiTinh;
         this.diaChi = diaChi;
         this.SĐT = SĐT;
+        this.NgayVaoLam = NgayVaoLam;
         this.vaiTro = vaiTro;
         this.maTK = maTK;
         this.maCL = maCL;
         this.trangThai = trangThai;
     }
+
+    
+    
 
     public String getMaNV() {
         return maNV;
@@ -82,6 +87,14 @@ public class NhanVien {
 
     public void setSĐT(String SĐT) {
         this.SĐT = SĐT;
+    }
+
+    public String getNgayVaoLam() {
+        return NgayVaoLam;
+    }
+
+    public void setNgayVaoLam(String NgayVaoLam) {
+        this.NgayVaoLam = NgayVaoLam;
     }
 
     public String getVaiTro() {

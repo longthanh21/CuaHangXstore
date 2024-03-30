@@ -6,6 +6,9 @@ package View;
 
 import Model.KhachHang;
 import Service.QuanLyKhachHang;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -30,45 +33,50 @@ public class ViewKhachHang extends javax.swing.JFrame {
     void loadDataKhachHang() {
         defaultTableModel = (DefaultTableModel) tblKhachHang.getModel();
         defaultTableModel.setRowCount(0);
-        int i=1;
+        int i = 1;
         for (KhachHang khachHang : quanLyKhachHang.getAllKhachHang()) {
             defaultTableModel.addRow(new Object[]{
                 i++,
                 khachHang.getMaKH(),
                 khachHang.getTenKH(),
                 khachHang.getSĐT(),
+                khachHang.getNgayTao(),
                 khachHang.isGioiTinh() ? "Nam" : "Nữ",
                 khachHang.isTrangThai() ? "Khách Vip" : "Khách Thường",
                 khachHang.getDiaChi(),});
 
         }
     }
+
     void loadSeachKhachHang(String maKH) {
         defaultTableModel = (DefaultTableModel) tblKhachHang.getModel();
         defaultTableModel.setRowCount(0);
-        int i=1;
+        int i = 1;
         for (KhachHang khachHang : quanLyKhachHang.loadSeachKhachHang(maKH)) {
             defaultTableModel.addRow(new Object[]{
                 i++,
                 khachHang.getMaKH(),
                 khachHang.getTenKH(),
                 khachHang.getSĐT(),
+                khachHang.getNgayTao(),
                 khachHang.isGioiTinh() ? "Nam" : "Nữ",
                 khachHang.isTrangThai() ? "Khách Vip" : "Khách Thường",
                 khachHang.getDiaChi(),});
 
         }
     }
+
     void loadSeachKhachVip(String maKH) {
         defaultTableModel = (DefaultTableModel) tblKhachVip.getModel();
         defaultTableModel.setRowCount(0);
-        int i=1;
+        int i = 1;
         for (KhachHang khachHang : quanLyKhachHang.loadSeachKhachVip(maKH)) {
             defaultTableModel.addRow(new Object[]{
                 i++,
                 khachHang.getMaKH(),
                 khachHang.getTenKH(),
                 khachHang.getSĐT(),
+                khachHang.getNgayTao(),
                 khachHang.isGioiTinh() ? "Nam" : "Nữ",
                 khachHang.isTrangThai() ? "Khách Vip" : "Khách Thường",
                 khachHang.getDiaChi(),});
@@ -79,13 +87,14 @@ public class ViewKhachHang extends javax.swing.JFrame {
     void loadDataKhachVip() {
         defaultTableModel = (DefaultTableModel) tblKhachVip.getModel();
         defaultTableModel.setRowCount(0);
-        int i =1;
+        int i = 1;
         for (KhachHang khachHang : quanLyKhachHang.getAllKhachVip()) {
             defaultTableModel.addRow(new Object[]{
                 i++,
                 khachHang.getMaKH(),
                 khachHang.getTenKH(),
                 khachHang.getSĐT(),
+                khachHang.getNgayTao(),
                 khachHang.isGioiTinh() ? "Nam" : "Nữ",
                 khachHang.isTrangThai() ? "Khách Vip" : "Khách Thường",
                 khachHang.getDiaChi(),});
@@ -124,6 +133,8 @@ public class ViewKhachHang extends javax.swing.JFrame {
         rdNam = new javax.swing.JRadioButton();
         rdNu = new javax.swing.JRadioButton();
         rdKhachVip = new javax.swing.JRadioButton();
+        jLabel8 = new javax.swing.JLabel();
+        txtNgayTao = new com.toedter.calendar.JDateChooser();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblKhachHang = new javax.swing.JTable();
@@ -143,11 +154,11 @@ public class ViewKhachHang extends javax.swing.JFrame {
 
         tblKhachVip.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Stt", "MaKH", "Tên KH", "SĐT", "Giới Tính", "Trạng Thái", "Địa Chỉ"
+                "Stt", "MaKH", "Tên KH", "SĐT", "Ngày Tạo", "Giới Tính", "Trạng Thái", "Địa Chỉ"
             }
         ));
         tblKhachVip.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -187,12 +198,12 @@ public class ViewKhachHang extends javax.swing.JFrame {
         txtDiaChi.setRows(5);
         jScrollPane3.setViewportView(txtDiaChi);
 
-        jLabel6.setText("Trạng Thái");
+        jLabel6.setText("Trạng Thái: ");
 
         buttonGroup1.add(rdKhachThuong);
         rdKhachThuong.setText("Khách Thường");
 
-        jLabel7.setText("Giới Tính");
+        jLabel7.setText("Giới Tính:");
 
         buttonGroup2.add(rdNam);
         rdNam.setText("Nam");
@@ -202,6 +213,8 @@ public class ViewKhachHang extends javax.swing.JFrame {
 
         buttonGroup1.add(rdKhachVip);
         rdKhachVip.setText("Khách Vip");
+
+        jLabel8.setText("Ngày Tạo: ");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -230,7 +243,8 @@ public class ViewKhachHang extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel7))
+                                .addComponent(jLabel7)
+                                .addComponent(jLabel8))
                             .addGap(18, 18, 18)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(txtDienThoai)
@@ -240,7 +254,8 @@ public class ViewKhachHang extends javax.swing.JFrame {
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(rdKhachVip, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(rdNu))
-                                    .addGap(0, 0, Short.MAX_VALUE))))))
+                                    .addGap(0, 0, Short.MAX_VALUE))
+                                .addComponent(txtNgayTao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addContainerGap(29, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -258,7 +273,11 @@ public class ViewKhachHang extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtDienThoai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(24, 24, 24)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel8)
+                    .addComponent(txtNgayTao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(21, 21, 21)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(rdNam)
                     .addComponent(rdNu)
@@ -273,17 +292,17 @@ public class ViewKhachHang extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(34, 34, 34))
+                .addGap(42, 42, 42))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Danh sách khách hàng gần đây"));
 
         tblKhachHang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Stt", "MaKH", "Tên KH", "SĐT", "Giới Tính", "Trạng Thái", "Địa Chỉ"
+                "Stt", "MaKH", "Tên KH", "SĐT", "Ngày Tạo", "Giới Tính", "Trạng Thái", "Địa Chỉ"
             }
         ));
         tblKhachHang.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -407,7 +426,7 @@ public class ViewKhachHang extends javax.swing.JFrame {
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20)
+                .addGap(35, 35, 35)
                 .addGroup(pnKhachHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnUpDate, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -441,13 +460,12 @@ public class ViewKhachHang extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Mã Khách Hàng ");
             return;
         }
-         String ten = txtTenKH.getText();
+        String ten = txtTenKH.getText();
         if (ten.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Tên");
             return;
         }
-       
-        
+
         Boolean gioiTinh;
         if (rdNam.isSelected()) {
             gioiTinh = true;
@@ -476,7 +494,7 @@ public class ViewKhachHang extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Trạng Thái");
             return;
         }
-        KhachHang khachHang = new KhachHang(ma, ten, sdt, gioiTinh, trangThai, diaChi);
+        KhachHang khachHang = new KhachHang(ma, ten, sdt,null, gioiTinh, trangThai, diaChi);
         quanLyKhachHang.ADDKhachHang(khachHang);
         loadDataKhachHang();
         loadDataKhachVip();
@@ -491,44 +509,64 @@ public class ViewKhachHang extends javax.swing.JFrame {
         txtTenKH.setText(ten);
         String sdt = (String) tblKhachHang.getValueAt(i, 3);
         txtDienThoai.setText(sdt);
-        String gioiTinh = (String) tblKhachHang.getValueAt(i, 4);
+        String NgayTao = (String) tblKhachHang.getValueAt(i, 4);
+        SimpleDateFormat dateNgayTao = new SimpleDateFormat("yyyy-MM-dd");
+        Date startNgayTao = null;
+          try {          
+              startNgayTao = dateNgayTao.parse(NgayTao);
+        } catch (ParseException e) {
+            startNgayTao = null;
+            e.printStackTrace();
+        }
+          txtNgayTao.setDate(startNgayTao);
+        String gioiTinh = (String) tblKhachHang.getValueAt(i, 5);
         if (gioiTinh.equals("Nam")) {
             rdNam.setSelected(true);
-        }else{
-        rdNu.setSelected(true);
+        } else {
+            rdNu.setSelected(true);
         }
-        String trangThai = (String) tblKhachHang.getValueAt(i, 5);
+        String trangThai = (String) tblKhachHang.getValueAt(i, 6);
         if (trangThai.equals("Khách Thường")) {
             rdKhachThuong.setSelected(true);
-        }else{
+        } else {
             rdKhachVip.setSelected(true);
         }
-        String diaChi = (String) tblKhachHang.getValueAt(i, 6);
+        String diaChi = (String) tblKhachHang.getValueAt(i,7);
         txtDiaChi.setText(diaChi);
     }//GEN-LAST:event_tblKhachHangMouseClicked
 
     private void tblKhachVipMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblKhachVipMouseClicked
         // TODO add your handling code here:
         int i = tblKhachVip.getSelectedRow();
-        String ma = (String) tblKhachHang.getValueAt(i, 1);
+        String ma = (String) tblKhachVip.getValueAt(i, 1);
         txtMaKH.setText(ma);
-        String ten = (String) tblKhachHang.getValueAt(i, 2);
+        String ten = (String) tblKhachVip.getValueAt(i, 2);
         txtTenKH.setText(ten);
-        String sdt = (String) tblKhachHang.getValueAt(i, 3);
+        String sdt = (String) tblKhachVip.getValueAt(i, 3);
         txtDienThoai.setText(sdt);
-        String gioiTinh = (String) tblKhachHang.getValueAt(i, 4);
+        String NgayTao = (String) tblKhachVip.getValueAt(i, 4);
+        SimpleDateFormat dateNgayTao = new SimpleDateFormat("yyyy-MM-dd");
+        Date startNgayTao = null;
+          try {          
+              startNgayTao = dateNgayTao.parse(NgayTao);
+        } catch (ParseException e) {
+            startNgayTao = null;
+            e.printStackTrace();
+        }
+          txtNgayTao.setDate(startNgayTao);
+        String gioiTinh = (String) tblKhachVip.getValueAt(i, 5);
         if (gioiTinh.equals("Nam")) {
             rdNam.setSelected(true);
-        }else{
-        rdNu.setSelected(true);
+        } else {
+            rdNu.setSelected(true);
         }
-        String trangThai = (String) tblKhachHang.getValueAt(i, 5);
-        if (trangThai.equals("Khách Vip")) {
+        String trangThai = (String) tblKhachVip.getValueAt(i, 6);
+        if (trangThai.equals("Khách Thường")) {
+            rdKhachThuong.setSelected(true);
+        } else {
             rdKhachVip.setSelected(true);
-        }else{
-            return;
         }
-        String diaChi = (String) tblKhachHang.getValueAt(i, 6);
+        String diaChi = (String) tblKhachVip.getValueAt(i,7);
         txtDiaChi.setText(diaChi);
     }//GEN-LAST:event_tblKhachVipMouseClicked
 
@@ -539,13 +577,12 @@ public class ViewKhachHang extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Mã Khách Hàng ");
             return;
         }
-         String ten = txtTenKH.getText();
+        String ten = txtTenKH.getText();
         if (ten.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Tên");
             return;
         }
-       
-        
+
         Boolean gioiTinh;
         if (rdNam.isSelected()) {
             gioiTinh = true;
@@ -574,7 +611,7 @@ public class ViewKhachHang extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Trạng Thái");
             return;
         }
-        KhachHang khachHang = new KhachHang(ma, ten, sdt, gioiTinh, trangThai, diaChi);
+        KhachHang khachHang = new KhachHang(ma, ten, sdt,null, gioiTinh, trangThai, diaChi);
         quanLyKhachHang.upDate(khachHang);
         loadDataKhachHang();
         loadDataKhachVip();
@@ -582,7 +619,7 @@ public class ViewKhachHang extends javax.swing.JFrame {
 
     private void btnDeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteMouseClicked
         // TODO add your handling code here:
-          String ma = txtMaKH.getText();
+        String ma = txtMaKH.getText();
         if (ma.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Mã Khách Hàng ");
             return;
@@ -598,24 +635,25 @@ public class ViewKhachHang extends javax.swing.JFrame {
         txtDienThoai.setText("");
         txtTenKH.setText("");
         txtMaKH.setText("");
+        txtNgayTao.setDate(null);
         buttonGroup1.clearSelection();
         buttonGroup2.clearSelection();
     }//GEN-LAST:event_jButton4MouseClicked
 
     private void txtSeachKHangKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSeachKHangKeyReleased
         // TODO add your handling code here:
-        
+
         String maKH = txtSeachKHang.getText();
         if (maKH.trim().isEmpty()) {
             loadDataKhachHang();
             loadDataKhachVip();
-        }else{
+        } else {
             quanLyKhachHang.loadSeachKhachHang(maKH);
-        loadSeachKhachHang(maKH);
-        loadSeachKhachVip(maKH);
+            loadSeachKhachHang(maKH);
+            loadSeachKhachVip(maKH);
         }
 
-        
+
     }//GEN-LAST:event_txtSeachKHangKeyReleased
 
     /**
@@ -667,6 +705,7 @@ public class ViewKhachHang extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -684,6 +723,7 @@ public class ViewKhachHang extends javax.swing.JFrame {
     private javax.swing.JTextArea txtDiaChi;
     private javax.swing.JTextField txtDienThoai;
     private javax.swing.JTextField txtMaKH;
+    private com.toedter.calendar.JDateChooser txtNgayTao;
     private javax.swing.JTextField txtSeachKHang;
     private javax.swing.JTextField txtTenKH;
     // End of variables declaration//GEN-END:variables
