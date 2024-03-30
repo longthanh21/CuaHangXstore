@@ -97,7 +97,7 @@
                   <Component id="jPanel3" max="32767" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="btnAdd" alignment="3" min="-2" pref="41" max="-2" attributes="0"/>
                       <Component id="btnUpDate" alignment="3" min="-2" pref="41" max="-2" attributes="0"/>
@@ -155,11 +155,12 @@
                 <Component class="javax.swing.JTable" name="tblKhachVip">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="7" rowCount="2">
+                      <Table columnCount="8" rowCount="2">
                         <Column editable="true" title="Stt" type="java.lang.Object"/>
                         <Column editable="true" title="MaKH" type="java.lang.Object"/>
                         <Column editable="true" title="T&#xea;n KH" type="java.lang.Object"/>
                         <Column editable="true" title="S&#x110;T" type="java.lang.Object"/>
+                        <Column editable="true" title="Ng&#xe0;y T&#x1ea1;o" type="java.lang.Object"/>
                         <Column editable="true" title="Gi&#x1edb;i T&#xed;nh" type="java.lang.Object"/>
                         <Column editable="true" title="Tr&#x1ea1;ng Th&#xe1;i" type="java.lang.Object"/>
                         <Column editable="true" title="&#x110;&#x1ecb;a Ch&#x1ec9;" type="java.lang.Object"/>
@@ -167,6 +168,11 @@
                     </Property>
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                       <TableColumnModel selectionModel="0">
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer/>
+                        </Column>
                         <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                           <Title/>
                           <Editor/>
@@ -256,6 +262,7 @@
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="jLabel3" alignment="0" min="-2" pref="90" max="-2" attributes="0"/>
                                       <Component id="jLabel7" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jLabel8" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
@@ -269,6 +276,7 @@
                                           </Group>
                                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                       </Group>
+                                      <Component id="txtNgayTao" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -295,7 +303,12 @@
                           <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="txtDienThoai" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtNgayTao" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="rdNam" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="rdNu" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -314,7 +327,7 @@
                           <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                           <Component id="jScrollPane3" min="-2" pref="114" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -363,7 +376,7 @@
             </Container>
             <Component class="javax.swing.JLabel" name="jLabel6">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Tr&#x1ea1;ng Th&#xe1;i"/>
+                <Property name="text" type="java.lang.String" value="Tr&#x1ea1;ng Th&#xe1;i: "/>
               </Properties>
             </Component>
             <Component class="javax.swing.JRadioButton" name="rdKhachThuong">
@@ -376,7 +389,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel7">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Gi&#x1edb;i T&#xed;nh"/>
+                <Property name="text" type="java.lang.String" value="Gi&#x1edb;i T&#xed;nh:"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JRadioButton" name="rdNam">
@@ -402,6 +415,13 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Kh&#xe1;ch Vip"/>
               </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="jLabel8">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Ng&#xe0;y T&#x1ea1;o: "/>
+              </Properties>
+            </Component>
+            <Component class="com.toedter.calendar.JDateChooser" name="txtNgayTao">
             </Component>
           </SubComponents>
         </Container>
@@ -445,11 +465,12 @@
                 <Component class="javax.swing.JTable" name="tblKhachHang">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="7" rowCount="1">
+                      <Table columnCount="8" rowCount="1">
                         <Column editable="true" title="Stt" type="java.lang.Object"/>
                         <Column editable="true" title="MaKH" type="java.lang.Object"/>
                         <Column editable="true" title="T&#xea;n KH" type="java.lang.Object"/>
                         <Column editable="true" title="S&#x110;T" type="java.lang.Object"/>
+                        <Column editable="true" title="Ng&#xe0;y T&#x1ea1;o" type="java.lang.Object"/>
                         <Column editable="true" title="Gi&#x1edb;i T&#xed;nh" type="java.lang.Object"/>
                         <Column editable="true" title="Tr&#x1ea1;ng Th&#xe1;i" type="java.lang.Object"/>
                         <Column editable="true" title="&#x110;&#x1ecb;a Ch&#x1ec9;" type="java.lang.Object"/>
@@ -457,6 +478,11 @@
                     </Property>
                     <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                       <TableColumnModel selectionModel="0">
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer/>
+                        </Column>
                         <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                           <Title/>
                           <Editor/>
@@ -554,7 +580,7 @@
                       <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
                       <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
-                      <Component id="jTextField4" min="-2" pref="295" max="-2" attributes="0"/>
+                      <Component id="txtSeachKHang" min="-2" pref="295" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -564,7 +590,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jTextField4" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtSeachKHang" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
@@ -578,7 +604,10 @@
                 <Property name="text" type="java.lang.String" value="T&#xec;m Theo M&#xe3; KH"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextField4">
+            <Component class="javax.swing.JTextField" name="txtSeachKHang">
+              <Events>
+                <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtSeachKHangKeyReleased"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

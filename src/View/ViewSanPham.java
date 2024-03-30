@@ -6,10 +6,19 @@ package View;
 
 import Model.SanPham;
 import Service.QuanLySanPham;
+import java.awt.Dimension;
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -24,6 +33,7 @@ public class ViewSanPham extends javax.swing.JFrame {
      */
     DefaultTableModel defau;
     QuanLySanPham qlsp = new QuanLySanPham();
+    String loadImg = null;
 
     public ViewSanPham() {
         initComponents();
@@ -55,6 +65,7 @@ public class ViewSanPham extends javax.swing.JFrame {
                 sp.getTrangThai()
             });
         }
+
     }
 
     void loadCTSP() {
@@ -71,7 +82,8 @@ public class ViewSanPham extends javax.swing.JFrame {
                 sp.getHang(),
                 sp.getGiaNhap(),
                 sp.getGiaBan(),
-                sp.getSoLuong()
+                sp.getSoLuong(),
+                sp.getHinhAnh()
             });
         }
     }
@@ -91,7 +103,8 @@ public class ViewSanPham extends javax.swing.JFrame {
                 sp.getHang(),
                 sp.getGiaNhap(),
                 sp.getGiaBan(),
-                sp.getSoLuong()
+                sp.getSoLuong(),
+                sp.getHinhAnh()
             });
         }
     }
@@ -130,6 +143,11 @@ public class ViewSanPham extends javax.swing.JFrame {
         sp.setGiaBan(txtGiaBan.getText());
         sp.setGiaNhap(txtGiaNhap.getText());
         sp.setSoLuong(txtSoLuong.getText());
+        if (loadImg == null) {
+            sp.setHinhAnh("No_img");
+        } else {
+            sp.setHinhAnh(loadImg);
+        }
         return sp;
     }
 
@@ -168,6 +186,18 @@ public class ViewSanPham extends javax.swing.JFrame {
         txtGiaNhap.setText((String) tblCTSP.getValueAt(i, 7));
         txtGiaBan.setText((String) tblCTSP.getValueAt(i, 8));
         txtSoLuong.setText((String) tblCTSP.getValueAt(i, 9));
+        lbHinhAnh.setText("");
+        String a = (String) tblCTSP.getValueAt(i, 10);
+        if (a.equalsIgnoreCase("No_img")) {
+            lbHinhAnh.setText("No_img");
+            lbHinhAnh.setIcon(null);
+        } else {
+            ImageIcon imgIcon = new ImageIcon(getClass().getResource("/GiayTheThaoList/" + a));
+//            Image img = imgIcon.getImage();
+//            img.getScaledInstance(lbHinhAnh.getWidth(), lbHinhAnh.getHeight(), 0);
+//            ImageIcon imageIcon = new ImageIcon(a);
+            lbHinhAnh.setIcon(imgIcon);
+        }
     }
 
     void loadSelectThuocTinh() {
@@ -262,7 +292,7 @@ public class ViewSanPham extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         txtTenSP = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
-        jLabel27 = new javax.swing.JLabel();
+        lbHinhAnh = new javax.swing.JLabel();
         txtSoLuongTong = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
@@ -334,8 +364,13 @@ public class ViewSanPham extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel27.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel27.setText("ảnh");
+        lbHinhAnh.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbHinhAnh.setText("ảnh");
+        lbHinhAnh.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbHinhAnhMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -343,13 +378,11 @@ public class ViewSanPham extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(lbHinhAnh, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 3, Short.MAX_VALUE))
+            .addComponent(lbHinhAnh, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
         );
 
         jLabel8.setText("Số lượng Tổng:");
@@ -382,7 +415,7 @@ public class ViewSanPham extends javax.swing.JFrame {
                             .addComponent(txtSoLuongTong, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(cbConHang, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(33, 33, 33)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnThongTinLayout.setVerticalGroup(
@@ -407,7 +440,7 @@ public class ViewSanPham extends javax.swing.JFrame {
                             .addComponent(jLabel16)
                             .addComponent(cbConHang)))
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(7, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pnLoc.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, null), "Chi tiết SP"));
@@ -574,7 +607,7 @@ public class ViewSanPham extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Mã SP", "Ngày nhập", "Màu sắc ", "Size", "Chất liệu", "Hãng", "Giá nhập", "Giá bán", "Số lượng"
+                "ID", "Mã SP", "Ngày nhập", "Màu sắc ", "Size", "Chất liệu", "Hãng", "Giá nhập", "Giá bán", "Số lượng", "Hình ảnh"
             }
         ));
         tblCTSP.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -767,6 +800,11 @@ public class ViewSanPham extends javax.swing.JFrame {
                 "ID thuộc tính", "Tên thuộc tính", "Ghi chú"
             }
         ));
+        tblThuocTinh.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblThuocTinhMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tblThuocTinh);
 
         javax.swing.GroupLayout pnDanhSachLayout = new javax.swing.GroupLayout(pnDanhSach);
@@ -804,6 +842,11 @@ public class ViewSanPham extends javax.swing.JFrame {
         });
 
         btnUpdateTT.setText("Update");
+        btnUpdateTT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateTTActionPerformed(evt);
+            }
+        });
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Màu sắc"));
 
@@ -946,53 +989,162 @@ public class ViewSanPham extends javax.swing.JFrame {
         setFormSP();
         int i = tblSanPham.getSelectedRow();
         loadCTSPTheoMa((String) tblSanPham.getValueAt(i, 1));
-        tblCTSP.setRowSelectionInterval(0, 0);
-        setFormCTSP();
+        if (Integer.valueOf((String) tblSanPham.getValueAt(i, 3)) != 0) {
+            tblCTSP.setRowSelectionInterval(0, 0);
+            int j = tblCTSP.getSelectedRow();
+            setFormCTSP();
+        }
     }//GEN-LAST:event_tblSanPhamMouseClicked
+
+    Boolean checkAdd() {
+        for (SanPham sp : qlsp.getListSanPham()) {
+            if (txtMaSP.getText().equals(sp.getMaSanPham())) {
+                JOptionPane.showMessageDialog(this, "Trung ma");
+                return false;
+            }
+        }
+        if (txtMaSP.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Ma SP khong duoc de trong");
+            return false;
+        }
+        if (txtTenSP.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Ten SP khong duoc de trong");
+            return false;
+        }
+        return true;
+    }
+
+    Boolean checkAddCTSP() {
+        if (txtMaSP.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Khong the Them SP khi chua co Ma");
+            return false;
+        }
+        if (dcNgayNhap.getDate() == null) {
+            JOptionPane.showMessageDialog(this, "Ngay Nhap khong duoc de trong");
+            return false;
+        }
+        if (txtGiaNhap.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Gia Nhap khong duoc de trong");
+            return false;
+        }
+        if (txtGiaNhap.getText().matches("\\D+")) {
+            JOptionPane.showMessageDialog(this, "Gia Nhap chi duoc go so");
+            return false;
+        }
+        if (txtGiaBan.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Gia Ban khong duoc de trong");
+            return false;
+        }
+        if (txtGiaBan.getText().matches("\\D+")) {
+            JOptionPane.showMessageDialog(this, "Gia Ban chi duoc go so");
+            return false;
+        }
+        if (txtSoLuong.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "So Luong khong duoc de trong");
+            return false;
+        }
+        if (txtSoLuong.getText().matches("\\D+")) {
+            JOptionPane.showMessageDialog(this, "So Luong chi duoc go so");
+            return false;
+        }
+        if (cbbMauSac.getSelectedItem() == null || cbbSize.getSelectedItem() == null || cbbChatLieu.getSelectedItem() == null || cbbHang.getSelectedItem() == null) {
+            JOptionPane.showMessageDialog(this, "Vui long chon du thuoc tinh");
+            return false;
+        }
+        if (lbHinhAnh == null) {
+            JOptionPane.showMessageDialog(this, "Vui long chon anh");
+            return false;
+        }
+        return true;
+    }
+
+    Boolean checkTTSP() {
+        int i = tblSanPham.getSelectedRow();
+        String a;
+        for (SanPham sp : qlsp.getListCTSP()) {
+            a = sp.getMaSanPham();
+            if (cbbMauSac.getSelectedItem().equals(sp.getMauSac())
+                    && cbbMauSac.getSelectedItem().equals(sp.getMauSac())
+                    && cbbSize.getSelectedItem().equals(sp.getSize())
+                    && cbbChatLieu.getSelectedItem().equals(sp.getChatLieu())
+                    && cbbHang.getSelectedItem().equals(sp.getHang())
+                    && txtMaSP.getText().equals(a)
+                    && lbHinhAnh.getIcon().equals(sp.getHinhAnh())) {
+                JOptionPane.showMessageDialog(this, "Trùng lặp khi có IdSP đã cso các thuộc tính trên!!!");
+                return false;
+            }
+        }
+        return true;
+    }
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // TODO add your handling code here:
-        qlsp.AddSP(getFormSP());
-//        qlsp.UpSoLuongTong(txtMaSP.getText(), txtSoLuongTong.getText());
-        loadSP();
+        if (checkAdd()) {
+            qlsp.AddSP(getFormSP());
+//          qlsp.UpSoLuongTong(txtMaSP.getText(), txtSoLuongTong.getText());
+            JOptionPane.showMessageDialog(this, "Them thanh cong");
+            qlsp.TongSoLuongSP(txtMaSP.getText());
+            loadSP();
+        }
+
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void tblCTSPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCTSPMouseClicked
         // TODO add your handling code here:
-        setFormCTSP();
+        int i = tblSanPham.getSelectedRow();
+        if (i < 0) {
+            JOptionPane.showMessageDialog(this, "Vui long chon SP");
+        } else {
+            setFormCTSP();
+        }
+
+
     }//GEN-LAST:event_tblCTSPMouseClicked
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
-        int i = tblSanPham.getSelectedRow();
-        String MaSP = (String) tblSanPham.getValueAt(i, 1);
-        qlsp.UpdateSP(getFormSP(), MaSP, txtSoLuongTong.getText());
-        loadSP();
-        loadCTSPTheoMa(MaSP);
+        if (checkAdd()) {
+            int i = tblSanPham.getSelectedRow();
+            String MaSP = (String) tblSanPham.getValueAt(i, 1);
+            qlsp.UpdateSP(getFormSP(), MaSP, txtSoLuongTong.getText());
+            JOptionPane.showMessageDialog(this, "Sua thanh cong");
+            loadSP();
+            loadCTSPTheoMa(MaSP);
+        }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnAddCTSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCTSPActionPerformed
         // TODO add your handling code here:
-        qlsp.AddCTSP(getFormCTSP());
-        loadCTSP();
-//        int i = tblSanPham.getSelectedRow();
-//        String MaSP = (String) tblSanPham.getValueAt(i, 1);
-        loadCTSPTheoMa(txtMaSP.getText());
-        qlsp.TongSoLuongSP(txtMaSP.getText());
-        loadSP();
+        if (checkAddCTSP()) {
+            if (checkTTSP()) {
+                qlsp.AddCTSP(getFormCTSP());
+                loadCTSP();
+//              int i = tblSanPham.getSelectedRow();
+//              String MaSP = (String) tblSanPham.getValueAt(i, 1);
+                loadCTSPTheoMa(txtMaSP.getText());
+                qlsp.TongSoLuongSP(txtMaSP.getText());
+                JOptionPane.showMessageDialog(this, "Them thanh cong");
+                loadSP();
+            }
+        }
     }//GEN-LAST:event_btnAddCTSPActionPerformed
 
     private void btnUpdateCTSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateCTSPActionPerformed
         // TODO add your handling code here:
-        int i = tblCTSP.getSelectedRow();
-        int IdSP = (int) Integer.valueOf((String) tblCTSP.getValueAt(i, 0));
-        qlsp.UpdateCTSP(getFormCTSP(), IdSP);
-        loadCTSP();
-        int j = tblSanPham.getSelectedRow();
-        String MaSP = (String) tblSanPham.getValueAt(j, 1);
-        loadCTSPTheoMa(MaSP);
-        qlsp.TongSoLuongSP(MaSP);
-        loadSP();
+        if (checkAddCTSP()) {
+            if (checkTTSP()) {
+                int i = tblCTSP.getSelectedRow();
+                int IdSP = (int) Integer.valueOf((String) tblCTSP.getValueAt(i, 0));
+                qlsp.UpdateCTSP(getFormCTSP(), IdSP);
+                loadCTSP();
+                loadCTSPTheoMa(txtMaSP.getText());
+                qlsp.TongSoLuongSP(txtMaSP.getText());
+                loadSP();
+                JOptionPane.showMessageDialog(this, "Sua thanh cong");
+            }
+        }
+
+
     }//GEN-LAST:event_btnUpdateCTSPActionPerformed
 
     private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
@@ -1015,22 +1167,29 @@ public class ViewSanPham extends javax.swing.JFrame {
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
         int i = tblSanPham.getSelectedRow();
-        String a = (String) tblSanPham.getValueAt(i, 1);
-        qlsp.dltSP(a);
-        loadSP();
-        loadCTSP();
+        if (i > -1) {
+            String a = (String) tblSanPham.getValueAt(i, 1);
+            qlsp.dltSP(a);
+            JOptionPane.showMessageDialog(this, "Xoa thanh cong");
+            loadSP();
+            loadCTSP();
+        }
+
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnDLTCTSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDLTCTSPActionPerformed
         // TODO add your handling code here:
         int i = tblCTSP.getSelectedRow();
-        String a = (String) tblCTSP.getValueAt(i, 1);
-        qlsp.dltCTSP(a);
-        loadCTSP();
-        int j = tblSanPham.getSelectedRow();
-        String MaSP = (String) tblSanPham.getValueAt(j, 1);
-        qlsp.TongSoLuongSP(MaSP);
-        loadSP();
+        if (i > -1) {
+            String a = (String) tblCTSP.getValueAt(i, 0);
+            qlsp.dltCTSP(Integer.valueOf(a));
+            loadCTSP();
+            loadCTSPTheoMa(txtMaSP.getText());
+            qlsp.TongSoLuongSP(txtMaSP.getText());
+            loadSP();
+            JOptionPane.showMessageDialog(this, "Xoa thanh cong");
+        }
+
     }//GEN-LAST:event_btnDLTCTSPActionPerformed
 
     void loadTblMauSac() {
@@ -1100,31 +1259,128 @@ public class ViewSanPham extends javax.swing.JFrame {
             sp.setSize(txtTenThuocTinh.getText());
         } else if (rdChatLieu.isSelected()) {
             sp.setChatLieu(txtTenThuocTinh.getText());
-        }else{
+        } else {
             sp.setHang(txtTenThuocTinh.getText());
         }
         return sp;
     }
+
+    void setFormTT() {
+        int i = tblThuocTinh.getSelectedRow();
+        txtIdThuocTinh.setText((String) tblThuocTinh.getValueAt(i, 0));
+        txtTenThuocTinh.setText((String) tblThuocTinh.getValueAt(i, 1));
+    }
+
+    Boolean checkTT() {
+        if (!rdMauSac.isSelected() && !rdSize.isSelected() && !rdChatLieu.isSelected() && !rdHang.isSelected()) {
+            JOptionPane.showMessageDialog(this, "Vui long chon thuoc tinh");
+            return false;
+        }
+        if (txtTenThuocTinh.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Ten Thuoc Tinh khong duoc de trong");
+            return false;
+        }
+        for (SanPham sp : qlsp.getSelectMauSac()) {
+            if (txtTenThuocTinh.getText().equals(sp.getMauSac())) {
+                JOptionPane.showMessageDialog(this, "Ten Mau Sac da ton tai");
+                return false;
+            }
+        }
+        for (SanPham sp : qlsp.getSelectSize()) {
+            if (txtTenThuocTinh.getText().equals(sp.getSize())) {
+                JOptionPane.showMessageDialog(this, "Ten Size da ton tai");
+                return false;
+            }
+        }
+        for (SanPham sp : qlsp.getSelectChatLieu()) {
+            if (txtTenThuocTinh.getText().equals(sp.getChatLieu())) {
+                JOptionPane.showMessageDialog(this, "Ten Chat Lieu da ton tai");
+                return false;
+            }
+        }
+        for (SanPham sp : qlsp.getSelectHang()) {
+            if (txtTenThuocTinh.getText().equals(sp.getHang())) {
+                JOptionPane.showMessageDialog(this, "Ten Hang da ton tai");
+                return false;
+            }
+        }
+        if (txtTenThuocTinh.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Ten Thuoc Tinh khong duoc de trong");
+            return false;
+        }
+        return true;
+    }
+
     private void btnAddTTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddTTActionPerformed
         // TODO add your handling code here:
-        if (rdMauSac.isSelected()) {
-            qlsp.addMauSac(getFormTT());
-            loadTblMauSac();
-            loadSelectThuocTinh();
-        } else if (rdSize.isSelected()) {
-            qlsp.addSize(getFormTT());
-            loadTblSize();
-            loadSelectThuocTinh();
-        } else if (rdChatLieu.isSelected()) {
-            qlsp.addChatLieu(getFormTT());
-            loadTblChatLieu();
-            loadSelectThuocTinh();
-        } else {
-            qlsp.addHang(getFormTT());
-            loadTblHang();
-            loadSelectThuocTinh();
+        if (checkTT()) {
+            if (rdMauSac.isSelected()) {
+                qlsp.addMauSac(getFormTT());
+                loadTblMauSac();
+                loadSelectThuocTinh();
+            } else if (rdSize.isSelected()) {
+                qlsp.addSize(getFormTT());
+                loadTblSize();
+                loadSelectThuocTinh();
+            } else if (rdChatLieu.isSelected()) {
+                qlsp.addChatLieu(getFormTT());
+                loadTblChatLieu();
+                loadSelectThuocTinh();
+            } else {
+                qlsp.addHang(getFormTT());
+                loadTblHang();
+                loadSelectThuocTinh();
+            }
         }
     }//GEN-LAST:event_btnAddTTActionPerformed
+
+    private void tblThuocTinhMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblThuocTinhMouseClicked
+        // TODO add your handling code here:
+        setFormTT();
+    }//GEN-LAST:event_tblThuocTinhMouseClicked
+
+    private void btnUpdateTTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateTTActionPerformed
+        // TODO add your handling code here:
+        if (checkTT()) {
+            if (rdMauSac.isSelected()) {
+                qlsp.UpMauSac(getFormTT(), txtIdThuocTinh.getText());
+                loadTblMauSac();
+                loadSelectThuocTinh();
+            } else if (rdSize.isSelected()) {
+                qlsp.UpMSize(getFormTT(), txtIdThuocTinh.getText());
+                loadTblSize();
+                loadSelectThuocTinh();
+            } else if (rdChatLieu.isSelected()) {
+                qlsp.UpChatLieu(getFormTT(), txtIdThuocTinh.getText());
+                loadTblChatLieu();
+                loadSelectThuocTinh();
+            } else {
+                qlsp.UpHang(getFormTT(), txtIdThuocTinh.getText());
+                loadTblHang();
+                loadSelectThuocTinh();
+            }
+        }
+    }//GEN-LAST:event_btnUpdateTTActionPerformed
+
+    private void lbHinhAnhMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbHinhAnhMouseClicked
+        try {
+            // TODO add your handling code here:
+            JFileChooser jfc = new JFileChooser("C:\\Users\\LongThank\\Documents\\NetBeansProjects\\CuaHangXstore\\src\\GiayTheThaoList");
+//            jfc.showOpenDialog(null);
+            if (jfc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+                File file = jfc.getSelectedFile();
+                Image img = ImageIO.read(file);
+                loadImg = file.getName();
+                lbHinhAnh.setText("");
+                int width = lbHinhAnh.getWidth();
+                int height = lbHinhAnh.getHeight();
+                lbHinhAnh.setIcon(new ImageIcon(img.getScaledInstance(width, height, 0)));
+            } else {
+                System.out.println("Chua chon anh");
+            }
+        } catch (IOException ex) {
+        }
+    }//GEN-LAST:event_lbHinhAnhMouseClicked
 
     /**
      * @param args the command line arguments
@@ -1191,7 +1447,6 @@ public class ViewSanPham extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1209,6 +1464,7 @@ public class ViewSanPham extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextField jTextField9;
+    private javax.swing.JLabel lbHinhAnh;
     private javax.swing.JPanel pnDanhSach;
     private javax.swing.JPanel pnLoc;
     private javax.swing.JPanel pnSanPham;

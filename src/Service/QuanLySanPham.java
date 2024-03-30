@@ -32,7 +32,13 @@ public class QuanLySanPham {
                 SanPham sp = new SanPham();
                 sp.setMaSanPham(rs.getString("MaSP"));
                 sp.setTenSanPham(rs.getString("TenSP"));
-                sp.setTrangThai(rs.getInt("TrangThai") == 1 ? "Còn hàng" : "Hết hàng");
+                String a = rs.getString("SoLuongTong");
+                if(a == null || a.isEmpty()){
+                    sp.setTrangThai("Hết hàng");
+                }else{
+                    sp.setTrangThai("Còn hàng");
+                }
+//                sp.setTrangThai(rs.getInt("TrangThai") == 1 ? "Còn hàng" : "Hết hàng");
                 listSanPham.add(sp);
             }
         } catch (SQLException ex) {
@@ -62,7 +68,20 @@ public class QuanLySanPham {
         }
         return soLuongTong;
     }
-
+    
+//    public void conHang(String ma, String b) {
+//        try {
+//            Connection conn = DbConnect.getConnection();
+//            String sql = "UPDATE SanPham SET TrangThai =  ? WHERE MaSP = "+"'"+ma+"'";
+//            PreparedStatement ps = conn.prepareStatement(sql);
+//            ps.setInt(1, Integer.valueOf(b) == 0 ? 0 : 1);
+//            ps.executeUpdate();
+//            conn.close();
+//        } catch (SQLException ex) {
+//            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
+    
     public void AddSP(SanPham sp) {
         try {
             Connection conn = DbConnect.getConnection();
@@ -82,7 +101,7 @@ public class QuanLySanPham {
     public void TongSoLuongSP(String a) {
         try {
             Connection conn = DbConnect.getConnection();
-            String sql = "UPDATE SANPHAM SET SoLuongTong = (SELECT sum(SoLuong) FROM CTSP WHERE MaSP = ?) WHERE MaSP = ?";
+            String sql = "UPDATE SanPham SET SoLuongTong = (SELECT sum(SoLuong) FROM CTSP WHERE MaSP = ?) WHERE MaSP = ?";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, a);
             ps.setString(2, a);
@@ -92,7 +111,8 @@ public class QuanLySanPham {
             Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
+    
 //    public void UpSoLuongTong(String a, String b) {
 //        try {
 //            Connection conn = DbConnect.getConnection();
@@ -109,7 +129,7 @@ public class QuanLySanPham {
         listCTCP.clear();
         try {
             Connection conn = DbConnect.getConnection();
-            String sql = "SELECT IdSP, MaSP, NgayNhap, TenMauSac, TenSize, TenChatLieu, TenHang, SoLuong, GiaNhap, GiaBan FROM CTSP\n"
+            String sql = "SELECT IdSP, MaSP, NgayNhap, TenMauSac, TenSize, TenChatLieu, TenHang, SoLuong, GiaNhap, GiaBan, HinhAnh FROM CTSP\n"
                     + "JOIN MauSac on MauSac.IdMauSac = CTSP.IdMauSac\n"
                     + "JOIN Size on Size.IdSize = CTSP.IdSize\n"
                     + "JOIN ChatLieu on ChatLieu.IdChatLieu = CTSP.IdChatLieu\n"
@@ -128,6 +148,7 @@ public class QuanLySanPham {
                 sp.setGiaNhap(rs.getString("GiaNhap"));
                 sp.setGiaBan(rs.getString("GiaBan"));
                 sp.setSoLuong(rs.getString("SoLuong"));
+                sp.setHinhAnh(rs.getString("HinhAnh"));
                 listCTCP.add(sp);
             }
         } catch (SQLException ex) {
@@ -140,7 +161,7 @@ public class QuanLySanPham {
         listCTCP.clear();
         try {
             Connection conn = DbConnect.getConnection();
-            String sql = "SELECT IdSP, CTSP.MaSP, NgayNhap, TenMauSac, TenSize, TenChatLieu, TenHang, SoLuong, GiaNhap, GiaBan FROM CTSP\n"
+            String sql = "SELECT IdSP, CTSP.MaSP, NgayNhap, TenMauSac, TenSize, TenChatLieu, TenHang, SoLuong, GiaNhap, GiaBan, HinhAnh FROM CTSP\n"
                     + "JOIN MauSac on MauSac.IdMauSac = CTSP.IdMauSac\n"
                     + "JOIN Size on Size.IdSize = CTSP.IdSize\n"
                     + "JOIN ChatLieu on ChatLieu.IdChatLieu = CTSP.IdChatLieu\n"
@@ -161,6 +182,7 @@ public class QuanLySanPham {
                 sp.setGiaNhap(rs.getString("GiaNhap"));
                 sp.setGiaBan(rs.getString("GiaBan"));
                 sp.setSoLuong(rs.getString("SoLuong"));
+                sp.setHinhAnh(rs.getString("HinhAnh"));
                 listCTCP.add(sp);
             }
         } catch (SQLException ex) {
@@ -168,7 +190,7 @@ public class QuanLySanPham {
         }
         return listCTCP;
     }
-
+    
     public ArrayList<SanPham> getSelectMauSac() {
         listThuocTinh.clear();
         try {
@@ -248,8 +270,8 @@ public class QuanLySanPham {
     public void AddCTSP(SanPham sp) {
         try {
             Connection conn = DbConnect.getConnection();
-            String sql = "INSERT INTO CTSP (MaSP, NgayNhap, IdMauSac, IdSize, IdChatLieu, IdHang, SoLuong, GiaNhap, GiaBan)\n"
-                    + "VALUES (?,?,?,?,?,?,?,?,?)";
+            String sql = "INSERT INTO CTSP (MaSP, NgayNhap, IdMauSac, IdSize, IdChatLieu, IdHang, SoLuong, GiaNhap, GiaBan, HinhAnh)\n"
+                    + "VALUES (?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement ps = conn.prepareStatement(sql);
 //            ps.setInt(1, Integer.valueOf(sp.getIdspct()));
             ps.setString(1, sp.getMaSanPham());
@@ -258,12 +280,10 @@ public class QuanLySanPham {
             ps.setInt(4, Integer.valueOf(sp.getSize()));
             ps.setInt(5, Integer.valueOf(sp.getChatLieu()));
             ps.setInt(6, Integer.valueOf(sp.getHang()));
-//            ps.setString(4, sp.getSize());
-//            ps.setString(5, sp.getChatLieu());
-//            ps.setString(6, sp.getHang());
             ps.setInt(7, Integer.valueOf(sp.getSoLuong()));
             ps.setFloat(8, Float.valueOf(sp.getGiaNhap()));
             ps.setFloat(9, Float.valueOf(sp.getGiaBan()));
+            ps.setString(10, sp.getHinhAnh());
             ps.executeUpdate();
             conn.close();
         } catch (SQLException ex) {
@@ -290,7 +310,7 @@ public class QuanLySanPham {
     public void UpdateCTSP(SanPham sp, int a) {
         try {
             Connection conn = DbConnect.getConnection();
-            String sql = "UPDATE CTSP SET MaSP = ?, NgayNhap = ?, IdMauSac = ?, IdSize = ?, IdChatLieu = ?, IdHang = ?,SoLuong = ?, GiaNhap = ?, GiaBan = ? WHERE IdSP = " + a;
+            String sql = "UPDATE CTSP SET MaSP = ?, NgayNhap = ?, IdMauSac = ?, IdSize = ?, IdChatLieu = ?, IdHang = ?,SoLuong = ?, GiaNhap = ?, GiaBan = ?, HinhAnh = ? WHERE IdSP = " + a;
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, sp.getMaSanPham());
             ps.setString(2, sp.getNgayNhap());
@@ -301,6 +321,7 @@ public class QuanLySanPham {
             ps.setInt(7, Integer.valueOf(sp.getSoLuong()));
             ps.setFloat(8, Float.valueOf(sp.getGiaNhap()));
             ps.setFloat(9, Float.valueOf(sp.getGiaBan()));
+            ps.setString(10, sp.getHinhAnh());
             ps.executeUpdate();
             conn.close();
         } catch (SQLException ex) {
@@ -325,13 +346,13 @@ public class QuanLySanPham {
         }
     }
 
-    public void dltCTSP(String a) {
+    public void dltCTSP(int a) {
         try {
             Connection conn = DbConnect.getConnection();
             String sql = "DELETE FROM CTSP \n"
-                    + "WHERE MaSP = ?\n";
+                    + "WHERE IdSP = ?\n";
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, a);
+            ps.setInt(1, a);
             ps.executeUpdate();
             conn.close();
         } catch (SQLException ex) {
@@ -391,5 +412,52 @@ public class QuanLySanPham {
         }
     }
     
-
+    public void UpMauSac(SanPham sp, String a){
+        try {
+            Connection conn = DbConnect.getConnection(); 
+            String sql = "UPDATE MauSac SET TenMauSac = ? WHERE IdMauSac = " + a;
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, sp.getMauSac());
+            ps.executeUpdate();
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public void UpMSize(SanPham sp, String a){
+        try {
+            Connection conn = DbConnect.getConnection(); 
+            String sql = "UPDATE Size SET TenSize = ? WHERE IdSize = " + a;
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, sp.getSize());
+            ps.executeUpdate();
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public void UpChatLieu(SanPham sp, String a){
+        try {
+            Connection conn = DbConnect.getConnection(); 
+            String sql = "UPDATE ChatLieu SET TenChatLieu = ? WHERE IdChatLieu= " + a;
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, sp.getChatLieu());
+            ps.executeUpdate();
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public void UpHang(SanPham sp, String a){
+        try {
+            Connection conn = DbConnect.getConnection(); 
+            String sql = "UPDATE Hang SET TenHang = ? WHERE IdHang = " + a;
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, sp.getHang());
+            ps.executeUpdate();
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

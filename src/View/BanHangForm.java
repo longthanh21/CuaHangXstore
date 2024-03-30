@@ -25,9 +25,13 @@ public class BanHangForm extends javax.swing.JFrame {
 
     public BanHangForm() {
         initComponents();
-        showFrame(new ViewBanHang());
+        showFrame(new ViewBanHang(txtMaNV.getText()));
+        force();
     }
-
+    void force(){
+        txtMaNV.setEnabled(false);
+        txtTenNV.setEnabled(false);
+    }
     public BanHangForm(String maNV, String tenNV, String tenTK) {
         initComponents();
         try {
@@ -49,9 +53,11 @@ public class BanHangForm extends javax.swing.JFrame {
                 txtMaNV.setText(ma);
                 txtTenNV.setText(ten);
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+        showFrame(new ViewBanHang(txtMaNV.getText()));
     }
 
     /**
@@ -471,7 +477,7 @@ public class BanHangForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void pnBanHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnBanHangMouseClicked
-        showFrame(new ViewBanHang());
+        showFrame(new ViewBanHang(txtMaNV.getText()));
     }//GEN-LAST:event_pnBanHangMouseClicked
 
     private void pnSanPhamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnSanPhamMouseClicked
