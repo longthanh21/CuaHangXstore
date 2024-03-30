@@ -145,8 +145,10 @@ public class QuanLyKhuyenMai {
     public List<SanPham> getAllSP() {
         List<SanPham> listsp = new ArrayList<>();
         try {
-            String sql = "Select  CTSP.IdSP, SanPham.MaSP,SanPham.TenSP, SanPham.SoLuongTong,CTSP.GiaBan FROM SanPham\n"
-                    + "LEFT JOIN CTSP ON CTSP.MaSP = SanPham.MaSP";
+            String sql = "SELECT CTSP.IdSP, SanPham.MaSP, SanPham.TenSP, SanPham.SoLuongTong, Gia.GiaBan "
+                    + "FROM CTSP "
+                    + "LEFT JOIN SanPham ON CTSP.MaSP = SanPham.MaSP "
+                    + "JOIN Gia ON Gia.IdSP = CTSP.IdSP";
             PreparedStatement ps = cn.prepareStatement(sql);
             ps.execute();
             ResultSet rs = ps.getResultSet();
@@ -164,27 +166,9 @@ public class QuanLyKhuyenMai {
         return listsp;
     }
 
-    public void getSPtheoCP(String maCP) {
-        try {
-            String sql = "SELECT CTSP.IdSP, SanPham.MaSP, SanPham.TenSP, CTSP.SoLuong, CTSP.GiaBan \n"
-                    + "FROM CTSP \n"
-                    + "JOIN SanPham ON SanPham.MaSP = CTSP.MaSP\n"
-                    + "WHERE CTSP.IdSP IN (\n"
-                    + "    SELECT IdSP \n"
-                    + "    FROM GiamGiaSP \n"
-                    + "    WHERE MaCP = ?\n"
-                    + ")";
-            PreparedStatement ps = cn.prepareStatement(sql);
-            ps.setString(1, maCP);
-            ps.execute();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     public void addCoupontoSP(Coupon cp) {
         try {
-            String sql = "INSERT INTO GiamGiaSP (MaCP, IdSP) " + "VALUES(?, ?),";
+            String sql = "UPDATE GiamGiaSP SET IdSP = ? WHERE MaCP = ?";
             PreparedStatement ps = cn.prepareStatement(sql);
             ps.setString(1, cp.getIdSP());
             ps.setString(2, cp.getMaCP());
@@ -213,11 +197,12 @@ public class QuanLyKhuyenMai {
     }
 
     public List<SanPham> selectSPbyID(int id) {
-        List<SanPham> listsp = new ArrayList<>(); // Initialize the list locally
+        List<SanPham> listsp = new ArrayList<>();
         try {
-            String sql = "SELECT CTSP.IdSP, SanPham.MaSP, SanPham.TenSP, CTSP.SoLuong, CTSP.GiaBan \n"
+            String sql = "SELECT CTSP.IdSP, SanPham.MaSP, SanPham.TenSP, CTSP.SoLuong, Gia.GiaBan \n"
                     + "FROM CTSP \n"
-                    + "JOIN SanPham ON SanPham.MaSP = CTSP.MaSP\n"
+                    + "JOIN SanPham ON SanPham.MaSP = CTSP.MaSP \n"
+                    + "JOIN Gia ON Gia.IdSP = CTSP.IdSP "
                     + "WHERE CTSP.IdSP = ?";
             PreparedStatement ps = cn.prepareStatement(sql);
             ps.setInt(1, id);
@@ -232,7 +217,6 @@ public class QuanLyKhuyenMai {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            // Handle the exception
         }
         return listsp;
     }
