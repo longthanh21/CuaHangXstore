@@ -143,7 +143,11 @@ public class ViewSanPham extends javax.swing.JFrame {
         sp.setGiaBan(txtGiaBan.getText());
         sp.setGiaNhap(txtGiaNhap.getText());
         sp.setSoLuong(txtSoLuong.getText());
-        sp.setHinhAnh(loadImg);
+        if (loadImg == null) {
+            sp.setHinhAnh("No_img");
+        } else {
+            sp.setHinhAnh(loadImg);
+        }
         return sp;
     }
 
@@ -184,11 +188,16 @@ public class ViewSanPham extends javax.swing.JFrame {
         txtSoLuong.setText((String) tblCTSP.getValueAt(i, 9));
         lbHinhAnh.setText("");
         String a = (String) tblCTSP.getValueAt(i, 10);
-        ImageIcon imgIcon = new ImageIcon(getClass().getResource("/GiayTheThaoList/" + a));
-        Image img = imgIcon.getImage();
-        img.getScaledInstance(lbHinhAnh.getWidth(), lbHinhAnh.getHeight(), 0);
-        ImageIcon imageIcon = new ImageIcon(a);
-        lbHinhAnh.setIcon(imgIcon);
+        if (a.equalsIgnoreCase("No_img")) {
+            lbHinhAnh.setText("No_img");
+            lbHinhAnh.setIcon(null);
+        } else {
+            ImageIcon imgIcon = new ImageIcon(getClass().getResource("/GiayTheThaoList/" + a));
+//            Image img = imgIcon.getImage();
+//            img.getScaledInstance(lbHinhAnh.getWidth(), lbHinhAnh.getHeight(), 0);
+//            ImageIcon imageIcon = new ImageIcon(a);
+            lbHinhAnh.setIcon(imgIcon);
+        }
     }
 
     void loadSelectThuocTinh() {
@@ -1042,7 +1051,7 @@ public class ViewSanPham extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Vui long chon du thuoc tinh");
             return false;
         }
-        if(lbHinhAnh == null){
+        if (lbHinhAnh == null) {
             JOptionPane.showMessageDialog(this, "Vui long chon anh");
             return false;
         }
@@ -1059,7 +1068,8 @@ public class ViewSanPham extends javax.swing.JFrame {
                     && cbbSize.getSelectedItem().equals(sp.getSize())
                     && cbbChatLieu.getSelectedItem().equals(sp.getChatLieu())
                     && cbbHang.getSelectedItem().equals(sp.getHang())
-                    && txtMaSP.getText().equals(a)) {
+                    && txtMaSP.getText().equals(a)
+                    && lbHinhAnh.getIcon().equals(sp.getHinhAnh())) {
                 JOptionPane.showMessageDialog(this, "Trùng lặp khi có IdSP đã cso các thuộc tính trên!!!");
                 return false;
             }
@@ -1355,9 +1365,8 @@ public class ViewSanPham extends javax.swing.JFrame {
     private void lbHinhAnhMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbHinhAnhMouseClicked
         try {
             // TODO add your handling code here:
-
             JFileChooser jfc = new JFileChooser("C:\\Users\\LongThank\\Documents\\NetBeansProjects\\CuaHangXstore\\src\\GiayTheThaoList");
-            jfc.showOpenDialog(null);
+//            jfc.showOpenDialog(null);
             if (jfc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
                 File file = jfc.getSelectedFile();
                 Image img = ImageIO.read(file);
