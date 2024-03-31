@@ -42,10 +42,11 @@ public class QuanLyHoaDon {
         }
         return listHD;
     }
+
     public ArrayList<HoaDon> loadSeachNgayBD(String NgayTaoo) {
         listHD.clear();
         try {
-                String sql = "SELECT MaHD,MaNV,MaKH,MaVC,NgayTao,TongTien,TrangThai FROM HoaDon WHERE NgayTao >= ? ";
+            String sql = "SELECT MaHD,MaNV,MaKH,MaVC,NgayTao,TongTien,TrangThai FROM HoaDon WHERE NgayTao >= ? ";
             Connection con = DbConnect.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, NgayTaoo);
@@ -261,6 +262,7 @@ public class QuanLyHoaDon {
         }
         return listHD;
     }
+
     public ArrayList<HoaDon> loadMaSPSeachHDCT(String maSP) {
         listHDCT.clear();
         listHD.clear();
@@ -292,6 +294,34 @@ public class QuanLyHoaDon {
                 listHD.add(bh);
             }
             con.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return listHD;
+    }
+
+    public ArrayList<HoaDon> timKiemTheoNgay(String ngayBatDau, String ngayKetThuc) {
+        listHDCT.clear();
+        listHD.clear();
+
+        try {
+            String sql = "SELECT MaHD,MaNV,MaKH,MaVC,NgayTao,TongTien,TrangThai FROM HoaDon a\n"
+                    + "WHERE (NgayTao IS NULL OR NgayTao >= ?) AND (NgayTao IS NULL OR NgayTao <= ?)";
+            Connection con = DbConnect.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, ngayBatDau);
+            ps.setString(2, ngayKetThuc);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String MaHD = rs.getString(1);
+                String MaNV = rs.getString(2);
+                String MaKH = rs.getString(3);
+                String MaVC = rs.getString(4);
+                String NgayTao = rs.getString(5);
+                String TongTien = rs.getString(6);
+                String TrangThai = rs.getString(7);
+                listHD.add(new HoaDon(MaHD, NgayTao, MaKH, MaNV, MaVC, TongTien, TrangThai, null, null, null, null, null, null));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
