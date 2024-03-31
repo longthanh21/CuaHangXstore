@@ -166,12 +166,14 @@ public class QuanLyKhuyenMai {
         return listsp;
     }
 
-    public void addCoupontoSP(Coupon cp) {
+    public void addCoupontoSP(String maCP, int idSP) {
         try {
-            String sql = "UPDATE GiamGiaSP SET IdSP = ? WHERE MaCP = ?";
+//            String sql = "UPDATE GiamGiaSP SET IdSP = ? WHERE MaCP = ?";
+            String sql = "INSERT INTO GiamGiaSP (MaCP, IdSP) "
+                    + "VALUES (?, ?)";
             PreparedStatement ps = cn.prepareStatement(sql);
-            ps.setString(1, cp.getIdSP());
-            ps.setString(2, cp.getMaCP());
+            ps.setString(1, maCP);
+            ps.setInt(2, idSP);
             ps.execute();
         } catch (Exception e) {
             e.printStackTrace();
