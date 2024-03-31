@@ -190,6 +190,12 @@ public class ViewKhachHang extends javax.swing.JFrame {
 
         jLabel2.setText("Tên Khách Hàng:");
 
+        txtTenKH.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtTenKHKeyReleased(evt);
+            }
+        });
+
         jLabel3.setText("Số điện thoại:");
 
         jLabel4.setText("Địa chỉ:");
@@ -524,6 +530,9 @@ public class ViewKhachHang extends javax.swing.JFrame {
         String sdt = (String) tblKhachHang.getValueAt(i, 3);
         txtDienThoai.setText(sdt);
         String NgayTao = (String) tblKhachHang.getValueAt(i, 4);
+        if (NgayTao==null) {
+            txtNgayTao.setDate(null);
+        }else{
         SimpleDateFormat dateNgayTao = new SimpleDateFormat("yyyy-MM-dd");
         Date startNgayTao = null;
         try {
@@ -533,6 +542,7 @@ public class ViewKhachHang extends javax.swing.JFrame {
             e.printStackTrace();
         }
         txtNgayTao.setDate(startNgayTao);
+       }
         String gioiTinh = (String) tblKhachHang.getValueAt(i, 5);
         if (gioiTinh.equals("Nam")) {
             rdNam.setSelected(true);
@@ -559,6 +569,9 @@ public class ViewKhachHang extends javax.swing.JFrame {
         String sdt = (String) tblKhachVip.getValueAt(i, 3);
         txtDienThoai.setText(sdt);
         String NgayTao = (String) tblKhachVip.getValueAt(i, 4);
+        if (NgayTao==null) {
+            txtNgayTao.setDate(null);
+        }else{
         SimpleDateFormat dateNgayTao = new SimpleDateFormat("yyyy-MM-dd");
         Date startNgayTao = null;
         try {
@@ -568,6 +581,7 @@ public class ViewKhachHang extends javax.swing.JFrame {
             e.printStackTrace();
         }
         txtNgayTao.setDate(startNgayTao);
+       }
         String gioiTinh = (String) tblKhachVip.getValueAt(i, 5);
         if (gioiTinh.equals("Nam")) {
             rdNam.setSelected(true);
@@ -677,6 +691,10 @@ public class ViewKhachHang extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_txtSeachKHangKeyReleased
+
+    private void txtTenKHKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTenKHKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTenKHKeyReleased
 
     /**
      * @param args the command line arguments
