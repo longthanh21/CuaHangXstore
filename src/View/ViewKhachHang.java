@@ -460,6 +460,12 @@ public class ViewKhachHang extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Mã Khách Hàng ");
             return;
         }
+        for (KhachHang khachHang : quanLyKhachHang.getAllKhachHang()) {
+            if (khachHang.getMaKH().equals(ma)) {
+                JOptionPane.showMessageDialog(this, "Không Trùng Mã Khách Hàng ");
+                return;
+            }
+        }
         String ten = txtTenKH.getText();
         if (ten.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Tên");
@@ -485,6 +491,14 @@ public class ViewKhachHang extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Số Diện Thoại");
             return;
         }
+        Date NgayTao = txtNgayTao.getDate();
+        if (txtNgayTao.getDate() == null) {
+            JOptionPane.showMessageDialog(this, "Không Bỏ Trống Ngay Tao");
+            return;
+        }
+        SimpleDateFormat dateNgayTao = new SimpleDateFormat("yyyy-MM-dd");
+        String strNgayTao = dateNgayTao.format(NgayTao);
+
         Boolean trangThai;
         if (rdKhachVip.isSelected()) {
             trangThai = true;
@@ -494,7 +508,7 @@ public class ViewKhachHang extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Trạng Thái");
             return;
         }
-        KhachHang khachHang = new KhachHang(ma, ten, sdt,null, gioiTinh, trangThai, diaChi);
+        KhachHang khachHang = new KhachHang(ma, ten, sdt, strNgayTao, gioiTinh, trangThai, diaChi);
         quanLyKhachHang.ADDKhachHang(khachHang);
         loadDataKhachHang();
         loadDataKhachVip();
@@ -512,13 +526,13 @@ public class ViewKhachHang extends javax.swing.JFrame {
         String NgayTao = (String) tblKhachHang.getValueAt(i, 4);
         SimpleDateFormat dateNgayTao = new SimpleDateFormat("yyyy-MM-dd");
         Date startNgayTao = null;
-          try {          
-              startNgayTao = dateNgayTao.parse(NgayTao);
+        try {
+            startNgayTao = dateNgayTao.parse(NgayTao);
         } catch (ParseException e) {
             startNgayTao = null;
             e.printStackTrace();
         }
-          txtNgayTao.setDate(startNgayTao);
+        txtNgayTao.setDate(startNgayTao);
         String gioiTinh = (String) tblKhachHang.getValueAt(i, 5);
         if (gioiTinh.equals("Nam")) {
             rdNam.setSelected(true);
@@ -531,7 +545,7 @@ public class ViewKhachHang extends javax.swing.JFrame {
         } else {
             rdKhachVip.setSelected(true);
         }
-        String diaChi = (String) tblKhachHang.getValueAt(i,7);
+        String diaChi = (String) tblKhachHang.getValueAt(i, 7);
         txtDiaChi.setText(diaChi);
     }//GEN-LAST:event_tblKhachHangMouseClicked
 
@@ -547,13 +561,13 @@ public class ViewKhachHang extends javax.swing.JFrame {
         String NgayTao = (String) tblKhachVip.getValueAt(i, 4);
         SimpleDateFormat dateNgayTao = new SimpleDateFormat("yyyy-MM-dd");
         Date startNgayTao = null;
-          try {          
-              startNgayTao = dateNgayTao.parse(NgayTao);
+        try {
+            startNgayTao = dateNgayTao.parse(NgayTao);
         } catch (ParseException e) {
             startNgayTao = null;
             e.printStackTrace();
         }
-          txtNgayTao.setDate(startNgayTao);
+        txtNgayTao.setDate(startNgayTao);
         String gioiTinh = (String) tblKhachVip.getValueAt(i, 5);
         if (gioiTinh.equals("Nam")) {
             rdNam.setSelected(true);
@@ -566,7 +580,7 @@ public class ViewKhachHang extends javax.swing.JFrame {
         } else {
             rdKhachVip.setSelected(true);
         }
-        String diaChi = (String) tblKhachVip.getValueAt(i,7);
+        String diaChi = (String) tblKhachVip.getValueAt(i, 7);
         txtDiaChi.setText(diaChi);
     }//GEN-LAST:event_tblKhachVipMouseClicked
 
@@ -592,6 +606,14 @@ public class ViewKhachHang extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Giới Tính");
             return;
         }
+        Date NgayTao = txtNgayTao.getDate();
+        if (txtNgayTao.getDate() == null) {
+            JOptionPane.showMessageDialog(this, "Không Bỏ Trống Ngay Tao");
+            return;
+        }
+        SimpleDateFormat dateNgayTao = new SimpleDateFormat("yyyy-MM-dd");
+        String strNgayTao = dateNgayTao.format(NgayTao);
+
         String diaChi = txtDiaChi.getText();
         if (diaChi.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Địa Chỉ");
@@ -611,7 +633,7 @@ public class ViewKhachHang extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Trạng Thái");
             return;
         }
-        KhachHang khachHang = new KhachHang(ma, ten, sdt,null, gioiTinh, trangThai, diaChi);
+        KhachHang khachHang = new KhachHang(ma, ten, sdt, strNgayTao, gioiTinh, trangThai, diaChi);
         quanLyKhachHang.upDate(khachHang);
         loadDataKhachHang();
         loadDataKhachVip();
