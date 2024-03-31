@@ -49,12 +49,13 @@ public class QuanLyBanHang {
     public ArrayList<SanPham> getListSanPham() {
         listSanPham.clear();
         try {
-            String sql = "SELECT CTSP.idsp,ctsp.MaSP,TenSP,TenMauSac,TenSize,TenChatLieu,TenHang,SoLuong,GiaBan,PhamTram,coupon.TrangThai FROM CTSP \n"
+            String sql = "SELECT CTSP.idsp,ctsp.MaSP,TenSP,TenMauSac,TenSize,TenChatLieu,TenHang,SoLuong,Gia.GiaBan,PhamTram,coupon.TrangThai FROM CTSP \n"
                     + "     JOIN MauSac  on MauSac.IdMauSac = CTSP.IdMauSac\n"
                     + "     JOIN Size  on Size.IdSize = CTSP.IdSize\n"
                     + "     JOIN ChatLieu  on ChatLieu.IdChatLieu = CTSP.IdChatLieu\n"
                     + "     JOIN Hang  on  Hang.IdHang = CTSP.IdHang\n"
                     + "     join SanPham  on SanPham.MaSP=CTSP.MaSP\n"
+                    + "     JOIN (SELECT IdSP, MAX(GiaBan) AS GiaBan FROM Gia WHERE NgayBatDau <= GETDATE() GROUP BY IdSP) AS Gia ON Gia.IdSP = CTSP.IdSP"
                     + "	left join GiamGiaSP  on CTSP.idsp=GiamGiaSP.idsp\n"
                     + "	left join  Coupon  on Coupon.macp=GiamGiaSP.macp";
             Connection con = DbConnect.getConnection();

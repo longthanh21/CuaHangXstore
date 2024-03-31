@@ -586,14 +586,7 @@ System.out.println("hhhhhhhhhhhhhhh");
 
     private void txtNgayBatDauAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_txtNgayBatDauAncestorAdded
         // TODO add your handling code here:
-        System.out.println("lllllllllllllll");
-         Date ngayBatDau = txtNgayBatDau.getDate();
-         System.out.println(ngayBatDau);
-//        SimpleDateFormat dateNgayBD = new SimpleDateFormat("yyyy-MM-dd");
-//        String strNgayBD = dateNgayBD.format(ngayBatDau);
-//        quanLyHoaDon.loadSeachNgayBD(strNgayBD);
-//        loadSeachNgayBatDau(strNgayBD);
-//        System.out.println(strNgayBD);
+        
     }//GEN-LAST:event_txtNgayBatDauAncestorAdded
 
     private void txtNgayBatDauKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNgayBatDauKeyPressed
