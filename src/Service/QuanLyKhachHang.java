@@ -124,16 +124,17 @@ public class QuanLyKhachHang {
 
     public boolean ADDKhachHang(KhachHang khachHang) {
         try {
-            String sql = "insert into KhachHang(MaKH,TenKH,Sdt,gioiTinh,TrangThai,DiaChi)\n"
-                    + "values (?,?,?,?,?,?);";
+            String sql = "insert into KhachHang(MaKH,TenKH,Sdt,NgayTao,gioiTinh,TrangThai,DiaChi)\n"
+                    + "values (?,?,?,?,?,?,?);";
             Connection con = DbConnect.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, khachHang.getMaKH());
             ps.setString(2, khachHang.getTenKH());
             ps.setString(3, khachHang.getSĐT());
-            ps.setBoolean(4, khachHang.isGioiTinh());
-            ps.setBoolean(5, khachHang.isTrangThai());
-            ps.setString(6, khachHang.getDiaChi());
+            ps.setString(4, khachHang.getNgayTao());
+            ps.setBoolean(5, khachHang.isGioiTinh());
+            ps.setBoolean(6, khachHang.isTrangThai());
+            ps.setString(7, khachHang.getDiaChi());
             ps.executeUpdate();
             con.close();
             return true;
@@ -164,15 +165,16 @@ public class QuanLyKhachHang {
 
     public boolean upDate(KhachHang khachHang) {
         try {
-            String sql = "update KhachHang set TenKH= ? , Sdt= ? , gioiTinh= ? , TrangThai= ? , DiaChi= ? where MaKH = ?";
+            String sql = "update KhachHang set TenKH= ? , Sdt= ?,NgayTao = ? , gioiTinh= ? , TrangThai= ? , DiaChi= ? where MaKH = ?";
             Connection con = DbConnect.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, khachHang.getTenKH());
             ps.setString(2, khachHang.getSĐT());
-            ps.setBoolean(3, khachHang.isGioiTinh());
-            ps.setBoolean(4, khachHang.isTrangThai());
-            ps.setString(5, khachHang.getDiaChi());
-            ps.setString(6, khachHang.getMaKH());
+            ps.setString(3, khachHang.getNgayTao());
+            ps.setBoolean(4, khachHang.isGioiTinh());
+            ps.setBoolean(5, khachHang.isTrangThai());
+            ps.setString(6, khachHang.getDiaChi());
+            ps.setString(7, khachHang.getMaKH());
             ps.executeUpdate();
             con.close();
             return true;
