@@ -40,7 +40,6 @@ public class QuanLySanPham {
                 } else {
                     sp.setTrangThai("Còn hàng");
                 }
-//                sp.setTrangThai(rs.getInt("TrangThai") == 1 ? "Còn hàng" : "Hết hàng");
                 listSanPham.add(sp);
             }
         } catch (SQLException ex) {
@@ -495,5 +494,108 @@ public class QuanLySanPham {
         } catch (SQLException ex) {
             Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public ArrayList<SanPham> timKiem(String ma) {
+        listSanPham.clear();
+        try {
+            Connection conn = DbConnect.getConnection();
+            String sql = "SELECT * FROM SanPham WHERE MaSP like  " + "'%" + ma + "%'";
+            Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            while (rs.next()) {
+                SanPham sp = new SanPham();
+                sp.setMaSanPham(rs.getString("MaSP"));
+                sp.setTenSanPham(rs.getString("TenSP"));
+                String a = rs.getString("SoLuongTong");
+                if (a == null || a.isEmpty()) {
+                    sp.setTrangThai("Hết hàng");
+                } else {
+                    sp.setTrangThai("Còn hàng");
+                }
+                listSanPham.add(sp);
+            }
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listSanPham;
+    }
+    
+    public ArrayList<SanPham> timKiemMauSac(String id) {
+        listThuocTinh.clear();
+        try {
+            Connection conn = DbConnect.getConnection();
+            String sql = "SELECT * FROM MauSac WHERE IdMauSac like  " + "'%" + id + "%' or TenMauSac like " + "N'%" + id + "%'";
+            Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            while (rs.next()) {
+                SanPham sp = new SanPham();
+                sp.setIdMauSac(rs.getString("IdMauSac"));
+                sp.setMauSac(rs.getString("TenMauSac"));
+                listThuocTinh.add(sp);
+            }
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listThuocTinh;
+    }
+    public ArrayList<SanPham> timKiemSize(String id) {
+        listThuocTinh.clear();
+        try {
+            Connection conn = DbConnect.getConnection();
+            String sql = "SELECT * FROM Size WHERE IdSize like  " + "'%" + id + "%'  or TenSize like " + "N'%" + id + "%'";
+            Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            while (rs.next()) {
+                SanPham sp = new SanPham();
+                sp.setIdSize(rs.getString("IdSize"));
+                sp.setSize(rs.getString("TenSize"));
+                listThuocTinh.add(sp);
+            }
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listThuocTinh;
+    }
+    public ArrayList<SanPham> timKiemChatLieu(String id) {
+        listThuocTinh.clear();
+        try {
+            Connection conn = DbConnect.getConnection();
+            String sql = "SELECT * FROM ChatLieu WHERE IdChatLieu like  " + "'%" + id + "%' or TenChatLieu like " + "N'%" + id + "%'";
+            Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            while (rs.next()) {
+                SanPham sp = new SanPham();
+                sp.setIdChatLieu(rs.getString("IdChatLieu"));
+                sp.setChatLieu(rs.getString("TenChatlieu"));
+                listThuocTinh.add(sp);
+            }
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listThuocTinh;
+    }
+    public ArrayList<SanPham> timKiemHang(String id) {
+        listThuocTinh.clear();
+        try {
+            Connection conn = DbConnect.getConnection();
+            String sql = "SELECT * FROM Hang WHERE IdHang like  " + "'%" + id + "%' or TenHang like " + "N'%" + id + "%'";
+            Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            while (rs.next()) {
+                SanPham sp = new SanPham();
+                sp.setIdHang(rs.getString("IdHang"));
+                sp.setHang(rs.getString("TenHang"));
+                listThuocTinh.add(sp);
+            }
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listThuocTinh;
     }
 }
