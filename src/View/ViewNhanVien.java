@@ -24,7 +24,7 @@ public class ViewNhanVien extends javax.swing.JFrame {
      */
     DefaultTableModel defaultTableModel;
     QuanLyNhanVien quanLyNhanVien = new QuanLyNhanVien();
-
+    
     public ViewNhanVien() {
         initComponents();
         loadNhanVien();
@@ -33,7 +33,7 @@ public class ViewNhanVien extends javax.swing.JFrame {
         loadCaLamDKi();
         loadCaLamNhanVien();
     }
-
+    
     void loadNhanVien() {
         defaultTableModel = (DefaultTableModel) tblNhanVien.getModel();
         defaultTableModel.setRowCount(0);
@@ -53,7 +53,7 @@ public class ViewNhanVien extends javax.swing.JFrame {
                 nhanVien.getTrangThai(),});
         }
     }
-
+    
     void SeachNhanVien(String maa) {
         defaultTableModel = (DefaultTableModel) tblNhanVien.getModel();
         defaultTableModel.setRowCount(0);
@@ -74,6 +74,26 @@ public class ViewNhanVien extends javax.swing.JFrame {
         }
     }
 
+    void SeachMaCLNhanVien(String maa) {
+        defaultTableModel = (DefaultTableModel) tblNhanVien.getModel();
+        defaultTableModel.setRowCount(0);
+        int i = 1;
+        for (NhanVien nhanVien : quanLyNhanVien.seachMaCLNhanVien(maa)) {
+            defaultTableModel.addRow(new Object[]{
+                i++,
+                nhanVien.getMaNV(),
+                nhanVien.getTenNV(),
+                nhanVien.getNgaySinh(),
+                nhanVien.isGioiTinh() ? "Nam" : "Nữ",
+                nhanVien.getDiaChi(),
+                nhanVien.getSĐT(),
+                nhanVien.getNgayVaoLam(),
+                nhanVien.getVaiTro(),
+                nhanVien.getMaCL(),
+                nhanVien.getTrangThai(),});
+        }
+    }
+    
     void loadTaiKhoanDKi() {
         defaultTableModel = (DefaultTableModel) tblTaiKhoanDKi.getModel();
         defaultTableModel.setRowCount(0);
@@ -86,9 +106,9 @@ public class ViewNhanVien extends javax.swing.JFrame {
                 taiKhoan.getMatKhau(),
                 taiKhoan.getMaNV(),});
         }
-
+        
     }
-
+    
     void loadSeachDKi(String ma) {
         defaultTableModel = (DefaultTableModel) tblTaiKhoanDKi.getModel();
         defaultTableModel.setRowCount(0);
@@ -101,9 +121,9 @@ public class ViewNhanVien extends javax.swing.JFrame {
                 taiKhoan.getMatKhau(),
                 taiKhoan.getMaNV(),});
         }
-
+        
     }
-
+    
     void loadSeachTaiKhoanNV(String ma) {
         defaultTableModel = (DefaultTableModel) tblQuanLyTaiKhoan.getModel();
         defaultTableModel.setRowCount(0);
@@ -116,9 +136,9 @@ public class ViewNhanVien extends javax.swing.JFrame {
                 taiKhoan.getMatKhau(),
                 taiKhoan.getMaNV(),});
         }
-
+        
     }
-
+    
     void loadQuanLyTaiKhoan() {
         defaultTableModel = (DefaultTableModel) tblQuanLyTaiKhoan.getModel();
         defaultTableModel.setRowCount(0);
@@ -132,7 +152,7 @@ public class ViewNhanVien extends javax.swing.JFrame {
                 taiKhoan.getMaNV(),});
         }
     }
-
+    
     void loadCaLamDKi() {
         defaultTableModel = (DefaultTableModel) tblCaLamDki.getModel();
         defaultTableModel.setRowCount(0);
@@ -148,7 +168,7 @@ public class ViewNhanVien extends javax.swing.JFrame {
             });
         }
     }
-
+    
     void loadSeachCaLamDki(String maa) {
         defaultTableModel = (DefaultTableModel) tblCaLamDki.getModel();
         defaultTableModel.setRowCount(0);
@@ -164,7 +184,7 @@ public class ViewNhanVien extends javax.swing.JFrame {
             });
         }
     }
-
+    
     void loadSeachCaLamNV(String maa) {
         defaultTableModel = (DefaultTableModel) tblCaLam.getModel();
         defaultTableModel.setRowCount(0);
@@ -180,7 +200,7 @@ public class ViewNhanVien extends javax.swing.JFrame {
             });
         }
     }
-
+    
     void loadCaLamNhanVien() {
         defaultTableModel = (DefaultTableModel) tblCaLam.getModel();
         defaultTableModel.setRowCount(0);
@@ -309,6 +329,11 @@ public class ViewNhanVien extends javax.swing.JFrame {
                 "Stt", "Ma CL", "Tên Ca Làm", "Giờ Bắt Đầu", "Giờ Kết Thúc", "Ghi Chú"
             }
         ));
+        tblCaLam.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblCaLamMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblCaLam);
 
         javax.swing.GroupLayout pnCaLamLayout = new javax.swing.GroupLayout(pnCaLam);
@@ -545,6 +570,11 @@ public class ViewNhanVien extends javax.swing.JFrame {
                 "Stt", "Mã TK", "Tên Đăng Nhập", "Mật Khẩu", "Mã NV"
             }
         ));
+        tblQuanLyTaiKhoan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblQuanLyTaiKhoanMouseClicked(evt);
+            }
+        });
         jScrollPane4.setViewportView(tblQuanLyTaiKhoan);
 
         btnUpdate.setText("Update");
@@ -1097,7 +1127,7 @@ public class ViewNhanVien extends javax.swing.JFrame {
         System.out.println(NgayVaoLam);
         String vaiTro = txtVaiTro.getText();
         if (vaiTro.isEmpty()) {
-
+            
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Vai Trò");
             return;
         }
@@ -1108,7 +1138,7 @@ public class ViewNhanVien extends javax.swing.JFrame {
         }
         String trangThai = txtTrangThai.getText();
         if (trangThai.isEmpty()) {
-
+            
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Trạng Thái");
             return;
         }
@@ -1133,18 +1163,18 @@ public class ViewNhanVien extends javax.swing.JFrame {
     private void tblNhanVienMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblNhanVienMouseClicked
         // TODO add your handling code here:
         int i = tblNhanVien.getSelectedRow();
-
+        
         String ma = (String) tblNhanVien.getValueAt(i, 1);
         txtMaNhanVien.setText(ma);
-
+        
         String ten = (String) tblNhanVien.getValueAt(i, 2);
         txtTenNhanVien.setText(ten);
-
+        
         String NgaySinh = (String) tblNhanVien.getValueAt(i, 3);
         if (NgaySinh == null) {
             txtNgaySinh.setDate(null);
         } else {
-
+            
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             Date startDate = null;
             try {
@@ -1152,7 +1182,7 @@ public class ViewNhanVien extends javax.swing.JFrame {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-
+            
             txtNgaySinh.setDate(startDate);
         }
         String gioiTinh = (String) tblNhanVien.getValueAt(i, 4);
@@ -1161,10 +1191,10 @@ public class ViewNhanVien extends javax.swing.JFrame {
         } else {
             rdNu.setSelected(true);
         }
-
+        
         String diaChi = (String) tblNhanVien.getValueAt(i, 5);
         txtDiaChi.setText(diaChi);
-
+        
         String sdt = (String) tblNhanVien.getValueAt(i, 6);
         txtSoDienThoai.setText(sdt);
         String NgayVaoLam = (String) tblNhanVien.getValueAt(i, 7);
@@ -1179,7 +1209,6 @@ public class ViewNhanVien extends javax.swing.JFrame {
                 startNgayVao = null;
                 e.printStackTrace();
             }
-
 //          System.out.println(NgayVaoLam);
 //          System.out.println(dateNgayVao);
 //        System.out.println(startNgayVao+"ss");
@@ -1189,12 +1218,12 @@ public class ViewNhanVien extends javax.swing.JFrame {
         txtVaiTro.setText(vaiTro);
         String maCL = (String) tblNhanVien.getValueAt(i, 9);
         txtCaLam.setText(maCL);
-
+        
         String trangThai = (String) tblNhanVien.getValueAt(i, 10);
         txtTrangThai.setText(trangThai);
-
+        
         if (i == 0) {
-            String MaCL = (String) tblNhanVien.getValueAt(0, 8);
+            String MaCL = (String) tblNhanVien.getValueAt(0, 9);
             String MaTK = (String) tblNhanVien.getValueAt(0, 1);
             loadSeachCaLamNV(MaCL);
             loadSeachTaiKhoanNV(MaTK);
@@ -1211,7 +1240,7 @@ public class ViewNhanVien extends javax.swing.JFrame {
         if (i < 0) {
             JOptionPane.showMessageDialog(this, "Mời Chọn Dòng");
             return;
-
+            
         }
         String ma = txtMaNhanVien.getText();
         if (ma.isEmpty()) {
@@ -1230,7 +1259,7 @@ public class ViewNhanVien extends javax.swing.JFrame {
         }
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String strNgaySinh = dateFormat.format(ngaySinh);
-
+        
         Boolean gioiTinh;
         if (rdNam.isSelected()) {
             gioiTinh = true;
@@ -1257,10 +1286,10 @@ public class ViewNhanVien extends javax.swing.JFrame {
         }
         SimpleDateFormat dateNgayVao = new SimpleDateFormat("yyyy-MM-dd");
         String NgayVao = dateNgayVao.format(NgayVaoLam);
-
+        
         String vaiTro = txtVaiTro.getText();
         if (vaiTro.isEmpty()) {
-
+            
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Vai Trò");
             return;
         }
@@ -1271,7 +1300,7 @@ public class ViewNhanVien extends javax.swing.JFrame {
         }
         String trangThai = txtTrangThai.getText();
         if (trangThai.isEmpty()) {
-
+            
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Trạng Thái");
             return;
         }
@@ -1292,6 +1321,9 @@ public class ViewNhanVien extends javax.swing.JFrame {
         buttonGroup1.clearSelection();
         buttonGroup2.clearSelection();
         buttonGroup3.clearSelection();
+        txtNgayVaoLam.setDate(null);
+        txtTrangThai.setText("");
+        txtVaiTro.setText("");
         loadCaLamNhanVien();
         loadQuanLyTaiKhoan();
         loadNhanVien();
@@ -1304,6 +1336,12 @@ public class ViewNhanVien extends javax.swing.JFrame {
         if (ma.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Mã Đăng Kí ");
             return;
+        }
+        for (TaiKhoan taiKhoan : quanLyNhanVien.getAllTaiKhoan()) {
+            if (taiKhoan.getMaTK().equals(ma)) {
+                JOptionPane.showMessageDialog(this, "Không Được Trùng Mã Tài Khoản ");
+                return;
+            }
         }
         String tenDN = txtDangNhapDKi.getText();
         if (tenDN.isEmpty()) {
@@ -1393,16 +1431,16 @@ public class ViewNhanVien extends javax.swing.JFrame {
 //        System.out.println(i);
         String ma = (String) tblCaLam.getValueAt(i, 1);
         txtMaCaLam.setText(ma);
-
+        
         String ten = (String) tblCaLam.getValueAt(i, 2);
         txtTenCaLam.setText(ten);
-
+        
         String gioBatDau = (String) tblCaLam.getValueAt(i, 3);
         txtGioBatDau.setText(gioBatDau);
-
+        
         String gioKetThuc = (String) tblCaLam.getValueAt(i, 4);
         txtGioKetThuc.setText(gioKetThuc);
-
+        
         String ghiChu = (String) tblCaLam.getValueAt(i, 5);
         txtGhiChu.setText(ghiChu);
     }//GEN-LAST:event_tblCaLamDkiMouseClicked
@@ -1413,6 +1451,12 @@ public class ViewNhanVien extends javax.swing.JFrame {
         if (ma.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Mã Ca Làm");
             return;
+        }
+        for (TaiKhoan taiKhoan : quanLyNhanVien.getAllCaLam()) {
+            if (taiKhoan.getMaCL().equals(ma)) {
+                JOptionPane.showMessageDialog(this, "Không Được Trùng Mã Ca Làm");
+                return;
+            }
         }
         String tenCL = txtTenCaLam.getText();
         if (tenCL.isEmpty()) {
@@ -1487,7 +1531,7 @@ public class ViewNhanVien extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDeleteCaLamMouseClicked
 
     private void txtTimKiemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtTimKiemMouseClicked
-
+        
 
     }//GEN-LAST:event_txtTimKiemMouseClicked
 
@@ -1501,7 +1545,7 @@ public class ViewNhanVien extends javax.swing.JFrame {
         if (ma.isEmpty()) {
             loadNhanVien();
         } else {
-
+            
             quanLyNhanVien.seachNhanVien(ma);
             SeachNhanVien(ma);
         }
@@ -1510,7 +1554,7 @@ public class ViewNhanVien extends javax.swing.JFrame {
     private void txtTimKiemTaiKhoanKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimKiemTaiKhoanKeyReleased
         // TODO add your handling code here:
         String ma = txtTimKiemTaiKhoan.getText();
-
+        
         if (ma.isEmpty()) {
             loadTaiKhoanDKi();
         } else {
@@ -1529,6 +1573,22 @@ public class ViewNhanVien extends javax.swing.JFrame {
             loadSeachCaLamDki(ma);
         }
     }//GEN-LAST:event_txtTiemKiemCaLamKeyReleased
+
+    private void tblCaLamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCaLamMouseClicked
+        // TODO add your handling code here:
+        int i = tblCaLam.getSelectedRow();
+        String ma = (String) tblCaLam.getValueAt(i, 1);
+        quanLyNhanVien.seachMaCLNhanVien(ma);
+        SeachMaCLNhanVien(ma);
+    }//GEN-LAST:event_tblCaLamMouseClicked
+
+    private void tblQuanLyTaiKhoanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblQuanLyTaiKhoanMouseClicked
+        // TODO add your handling code here:
+        int i = tblQuanLyTaiKhoan.getSelectedRow();
+        String ma = (String) tblQuanLyTaiKhoan.getValueAt(i, 4);
+        quanLyNhanVien.seachNhanVien(ma);
+        SeachNhanVien(ma);
+    }//GEN-LAST:event_tblQuanLyTaiKhoanMouseClicked
 
     /**
      * @param args the command line arguments

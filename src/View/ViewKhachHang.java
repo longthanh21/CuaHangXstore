@@ -9,6 +9,8 @@ import Service.QuanLyKhachHang;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -495,6 +497,17 @@ public class ViewKhachHang extends javax.swing.JFrame {
         String sdt = txtDienThoai.getText();
         if (sdt.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Số Diện Thoại");
+            return;
+        }
+        if (sdt.length()!=10) {
+            JOptionPane.showMessageDialog(this, "Số Điện Thoại Phải Là 10 số");
+            return;
+        }
+        String regex = "^0\\d{9}&";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher  matcher = pattern.matcher(sdt);
+        if (!matcher.matches()) {
+            JOptionPane.showMessageDialog(this, "Số Điện Thoại Bắt Đầu Bằng số 0");
             return;
         }
         Date NgayTao = txtNgayTao.getDate();
