@@ -6,6 +6,9 @@ package View;
 
 import Model.HoaDon;
 import Service.QuanLyHoaDon;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -59,6 +62,7 @@ public class ViewHoaDon extends javax.swing.JFrame {
                 hoaDon1.getTongTien(),});
         }
     }
+
     void loadMaSPDataHoaDonChiTiet(String MaSP) {
         defaultTableModel = (DefaultTableModel) tblHoaDonChiTiet.getModel();
         defaultTableModel.setRowCount(0);
@@ -178,6 +182,23 @@ public class ViewHoaDon extends javax.swing.JFrame {
         }
     }
 
+    void loadSeachNgayBatDau(String ngayBD) {
+        defaultTableModel = (DefaultTableModel) tblHoaDon.getModel();
+        defaultTableModel.setRowCount(0);
+        int stt = 0;
+        for (HoaDon hoaDon : quanLyHoaDon.loadSeachNgayBD(ngayBD)) {
+            defaultTableModel.addRow(new Object[]{
+                stt++,
+                hoaDon.getMaHD(),
+                hoaDon.getMaNV(),
+                hoaDon.getMaKH(),
+                hoaDon.getMaVC(),
+                hoaDon.getNgayTao(),
+                hoaDon.getTongTien(),
+                hoaDon.getTrangThai(),});
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -203,7 +224,7 @@ public class ViewHoaDon extends javax.swing.JFrame {
         txtMaNhanVien = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        txtNgayBatDau = new com.toedter.calendar.JDateChooser();
         jDateChooser2 = new com.toedter.calendar.JDateChooser();
         jPanel2 = new javax.swing.JPanel();
         rdTatCa = new javax.swing.JRadioButton();
@@ -303,6 +324,27 @@ public class ViewHoaDon extends javax.swing.JFrame {
 
         jLabel4.setText("Ngày kết thúc: ");
 
+        txtNgayBatDau.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                txtNgayBatDauAncestorAdded(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
+        txtNgayBatDau.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtNgayBatDauKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtNgayBatDauKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNgayBatDauKeyTyped(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -315,7 +357,7 @@ public class ViewHoaDon extends javax.swing.JFrame {
                 .addGap(31, 31, 31)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txtMaHoaDon, javax.swing.GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(txtNgayBatDau, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(86, 86, 86)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
@@ -340,7 +382,7 @@ public class ViewHoaDon extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel3)
                         .addComponent(jLabel4))
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNgayBatDau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(42, Short.MAX_VALUE))
         );
@@ -532,6 +574,39 @@ public class ViewHoaDon extends javax.swing.JFrame {
 
     }//GEN-LAST:event_tblHoaDonMouseClicked
 
+    private void txtNgayBatDauKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNgayBatDauKeyReleased
+        // TODO add your handling code here:
+System.out.println("hhhhhhhhhhhhhhh");
+    }//GEN-LAST:event_txtNgayBatDauKeyReleased
+
+    private void txtNgayBatDauAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_txtNgayBatDauAncestorAdded
+        // TODO add your handling code here:
+        System.out.println("lllllllllllllll");
+         Date ngayBatDau = txtNgayBatDau.getDate();
+         System.out.println(ngayBatDau);
+//        SimpleDateFormat dateNgayBD = new SimpleDateFormat("yyyy-MM-dd");
+//        String strNgayBD = dateNgayBD.format(ngayBatDau);
+//        quanLyHoaDon.loadSeachNgayBD(strNgayBD);
+//        loadSeachNgayBatDau(strNgayBD);
+//        System.out.println(strNgayBD);
+    }//GEN-LAST:event_txtNgayBatDauAncestorAdded
+
+    private void txtNgayBatDauKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNgayBatDauKeyPressed
+        System.out.println("jjjjjjjjjjjjjjjjjj");
+        Date ngayBatDau = txtNgayBatDau.getDate();
+        SimpleDateFormat dateNgayBD = new SimpleDateFormat("yyyy-MM-dd");
+        String strNgayBD = dateNgayBD.format(ngayBatDau);
+        System.out.println(strNgayBD);
+        quanLyHoaDon.loadSeachNgayBD(strNgayBD);
+        loadSeachNgayBatDau(strNgayBD);
+
+    }//GEN-LAST:event_txtNgayBatDauKeyPressed
+
+    private void txtNgayBatDauKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNgayBatDauKeyTyped
+        // TODO add your handling code here:
+        System.out.println("hhhhhhhhhhhhhhhhhh");
+    }//GEN-LAST:event_txtNgayBatDauKeyTyped
+
     /**
      * @param args the command line arguments
      */
@@ -573,7 +648,6 @@ public class ViewHoaDon extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JPanel hoaDon;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
     private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -592,5 +666,6 @@ public class ViewHoaDon extends javax.swing.JFrame {
     private javax.swing.JTable tblHoaDonChiTiet;
     private javax.swing.JTextField txtMaHoaDon;
     private javax.swing.JTextField txtMaNhanVien;
+    private com.toedter.calendar.JDateChooser txtNgayBatDau;
     // End of variables declaration//GEN-END:variables
 }

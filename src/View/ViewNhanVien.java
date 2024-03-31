@@ -1059,14 +1059,15 @@ public class ViewNhanVien extends javax.swing.JFrame {
             return;
         }
         Date ngaySinh = txtNgaySinh.getDate();
-        if (txtNgaySinh.getDate()==null) {
+        if (txtNgaySinh.getDate() == null) {
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Ngày Sinh");
             return;
         }
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String strNgaySinh = dateFormat.format(ngaySinh);
-        
-        System.out.println(strNgaySinh);
+
+//        System.out.println(ngaySinh+"Khanh");
+//        System.out.println(strNgaySinh+"khanhh");
         Boolean gioiTinh;
         if (rdNam.isSelected()) {
             gioiTinh = true;
@@ -1087,13 +1088,13 @@ public class ViewNhanVien extends javax.swing.JFrame {
             return;
         }
         Date NgayVaoLam = txtNgayVaoLam.getDate();
-         if (txtNgayVaoLam.getDate() == null) {
+        if (txtNgayVaoLam.getDate() == null) {
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Ngày Vào Làm");
             return;
         }
         SimpleDateFormat dateNgayVao = new SimpleDateFormat("yyyy-MM-dd");
         String NgayVao = dateNgayVao.format(NgayVaoLam);
-       
+        System.out.println(NgayVaoLam);
         String vaiTro = txtVaiTro.getText();
         if (vaiTro.isEmpty()) {
 
@@ -1140,14 +1141,20 @@ public class ViewNhanVien extends javax.swing.JFrame {
         txtTenNhanVien.setText(ten);
 
         String NgaySinh = (String) tblNhanVien.getValueAt(i, 3);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date startDate = null;
-        try {
-            startDate = dateFormat.parse(NgaySinh);
-        } catch (ParseException e) {
-            e.printStackTrace();
+        if (NgaySinh == null) {
+            txtNgaySinh.setDate(null);
+        } else {
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date startDate = null;
+            try {
+                startDate = dateFormat.parse(NgaySinh);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            txtNgaySinh.setDate(startDate);
         }
-        txtNgaySinh.setDate(startDate);
         String gioiTinh = (String) tblNhanVien.getValueAt(i, 4);
         if (gioiTinh.equals("Nam")) {
             rdNam.setSelected(true);
@@ -1161,19 +1168,23 @@ public class ViewNhanVien extends javax.swing.JFrame {
         String sdt = (String) tblNhanVien.getValueAt(i, 6);
         txtSoDienThoai.setText(sdt);
         String NgayVaoLam = (String) tblNhanVien.getValueAt(i, 7);
-        
-        SimpleDateFormat dateNgayVao = new SimpleDateFormat("yyyy-MM-dd");
-        Date startNgayVao = null;
-          try {          
-              startNgayVao = dateNgayVao.parse(NgayVaoLam);
-        } catch (ParseException e) {
-            startNgayVao = null;
-            e.printStackTrace();
-        }
+        if (NgayVaoLam == null) {
+            txtNgayVaoLam.setDate(null);
+        } else {
+            SimpleDateFormat dateNgayVao = new SimpleDateFormat("yyyy-MM-dd");
+            Date startNgayVao = null;
+            try {
+                startNgayVao = dateNgayVao.parse(NgayVaoLam);
+            } catch (ParseException e) {
+                startNgayVao = null;
+                e.printStackTrace();
+            }
+
 //          System.out.println(NgayVaoLam);
 //          System.out.println(dateNgayVao);
 //        System.out.println(startNgayVao+"ss");
-        txtNgayVaoLam.setDate(startNgayVao);
+            txtNgayVaoLam.setDate(startNgayVao);
+        }
         String vaiTro = (String) tblNhanVien.getValueAt(i, 8);
         txtVaiTro.setText(vaiTro);
         String maCL = (String) tblNhanVien.getValueAt(i, 9);
@@ -1212,14 +1223,14 @@ public class ViewNhanVien extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Tên");
             return;
         }
-         Date ngaySinh = txtNgaySinh.getDate();
-         if (ngaySinh == null) {
+        Date ngaySinh = txtNgaySinh.getDate();
+        if (ngaySinh == null) {
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Ngày Sinh");
             return;
         }
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String strNgaySinh = dateFormat.format(ngaySinh);
-        
+
         Boolean gioiTinh;
         if (rdNam.isSelected()) {
             gioiTinh = true;
@@ -1240,13 +1251,13 @@ public class ViewNhanVien extends javax.swing.JFrame {
             return;
         }
         Date NgayVaoLam = txtNgayVaoLam.getDate();
-         if (NgayVaoLam == null) {
+        if (NgayVaoLam == null) {
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Ngày Ngày Vào Làm");
             return;
         }
         SimpleDateFormat dateNgayVao = new SimpleDateFormat("yyyy-MM-dd");
         String NgayVao = dateNgayVao.format(NgayVaoLam);
-       
+
         String vaiTro = txtVaiTro.getText();
         if (vaiTro.isEmpty()) {
 

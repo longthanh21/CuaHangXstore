@@ -48,7 +48,7 @@ public class QuanLyNhanVien {
 
     public boolean AddNhanVien(NhanVien nhanVien) {
         try {
-            String sql = "INSERT INTO NhanVien (MaNV, TenNV, NgaySinh, GioiTinh, DiaChi, Sdt,NgayVaoLam, VaiTro, MaCL, TrangThai) VALUES(?, ?, ?, ?, ?, ?,?, ?, ?)";
+            String sql = "INSERT INTO NhanVien (MaNV, TenNV, NgaySinh, GioiTinh, DiaChi, Sdt,NgayVaoLam, VaiTro, MaCL, TrangThai) VALUES(?, ?, ?, ?,?, ?, ?,?, ?, ?)";
             Connection con = DbConnect.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, nhanVien.getMaNV());
