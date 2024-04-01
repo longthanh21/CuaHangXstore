@@ -504,7 +504,7 @@ public class ViewKhachHang extends javax.swing.JFrame {
             return;
         }
         if (!sdt.startsWith("0") ) {
-            JOptionPane.showMessageDialog(this, "Số Điện Thoại Phải Là 0 số");
+            JOptionPane.showMessageDialog(this, "Số Điện Thoại Bắt Đầu Bằng số 0");
             return;
         }
 //        String regex = "^0\\d{9}&";
@@ -658,6 +658,10 @@ public class ViewKhachHang extends javax.swing.JFrame {
         }
         if (sdt.length() != 10) {
             JOptionPane.showMessageDialog(this, "Số Điện Thoại Phải Là 10 số");
+            return;
+        }
+        if (!sdt.startsWith("0") ) {
+            JOptionPane.showMessageDialog(this, "Số Điện Thoại Bắt Đầu Bằng số 0");
             return;
         }
 //        String regex = "^0\\d{9}&";

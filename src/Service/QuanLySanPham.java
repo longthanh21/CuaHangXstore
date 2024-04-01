@@ -134,7 +134,11 @@ public class QuanLySanPham {
                     + "JOIN Size ON Size.IdSize = CTSP.IdSize\n"
                     + "JOIN ChatLieu ON ChatLieu.IdChatLieu = CTSP.IdChatLieu\n"
                     + "JOIN Hang ON Hang.IdHang = CTSP.IdHang\n"
-                    + "JOIN (SELECT IdSP, MAX(GiaBan) AS GiaBan FROM Gia WHERE NgayBatDau <= GETDATE() GROUP BY IdSP) AS Gia ON Gia.IdSP = CTSP.IdSP";
+                    + "JOIN (\n"
+                    + "		SELECT g.IdSP, g.GiaBan, g.NgayBatDau FROM Gia AS g WHERE g.NgayBatDau <= GETDATE() AND g.IdSP IN (\n"
+                    + "			SELECT g2.IdSP FROM Gia AS g2 WHERE g2.NgayBatDau <= GETDATE() GROUP BY g2.IdSP HAVING MAX(g2.NgayBatDau) = g.NgayBatDau)\n"
+                    + ") AS Gia ON Gia.IdSP = CTSP.IdSP\n"
+                    + "ORDER BY CTSP.IdSP asc";
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {
@@ -169,9 +173,12 @@ public class QuanLySanPham {
                     + "JOIN Size ON Size.IdSize = CTSP.IdSize\n"
                     + "JOIN ChatLieu ON ChatLieu.IdChatLieu = CTSP.IdChatLieu\n"
                     + "JOIN Hang ON Hang.IdHang = CTSP.IdHang\n"
-                    + "JOIN (SELECT IdSP, MAX(GiaBan) AS GiaBan FROM Gia WHERE NgayBatDau <= GETDATE() GROUP BY IdSP) AS Gia ON Gia.IdSP = CTSP.IdSP\n"
-                    + "WHERE CTSP.MaSP = " + "'" + a + "'";
-
+                    + "JOIN (\n"
+                    + "		SELECT g.IdSP, g.GiaBan, g.NgayBatDau FROM Gia AS g WHERE g.NgayBatDau <= GETDATE() AND g.IdSP IN (\n"
+                    + "			SELECT g2.IdSP FROM Gia AS g2 WHERE g2.NgayBatDau <= GETDATE() GROUP BY g2.IdSP HAVING MAX(g2.NgayBatDau) = g.NgayBatDau)\n"
+                    + ") AS Gia ON Gia.IdSP = CTSP.IdSP\n"
+                    + "WHERE CTSP.MaSP = " + "'" + a + "'\n"
+                    + "ORDER BY CTSP.IdSP asc\n";
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {
@@ -524,7 +531,7 @@ public class QuanLySanPham {
         }
         return listSanPham;
     }
-    
+
     public ArrayList<SanPham> timKiemMauSac(String id) {
         listThuocTinh.clear();
         try {
@@ -544,6 +551,7 @@ public class QuanLySanPham {
         }
         return listThuocTinh;
     }
+
     public ArrayList<SanPham> timKiemSize(String id) {
         listThuocTinh.clear();
         try {
@@ -563,6 +571,7 @@ public class QuanLySanPham {
         }
         return listThuocTinh;
     }
+
     public ArrayList<SanPham> timKiemChatLieu(String id) {
         listThuocTinh.clear();
         try {
@@ -582,6 +591,7 @@ public class QuanLySanPham {
         }
         return listThuocTinh;
     }
+
     public ArrayList<SanPham> timKiemHang(String id) {
         listThuocTinh.clear();
         try {

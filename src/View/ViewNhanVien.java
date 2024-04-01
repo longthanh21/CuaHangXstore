@@ -1112,13 +1112,17 @@ public class ViewNhanVien extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Số Điện Thoại Phải Là 10 số");
             return;
         }
-        String regex = "^0\\d{9}&";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher  matcher = pattern.matcher(sdt);
-        if (!matcher.matches()) {
+        if (!sdt.startsWith("0") ) {
             JOptionPane.showMessageDialog(this, "Số Điện Thoại Bắt Đầu Bằng số 0");
             return;
         }
+//        String regex = "^0\\d{9}&";
+//        Pattern pattern = Pattern.compile(regex);
+//        Matcher  matcher = pattern.matcher(sdt);
+//        if (!matcher.matches()) {
+//            JOptionPane.showMessageDialog(this, "Số Điện Thoại Bắt Đầu Bằng số 0");
+//            return;
+//        }
         Date NgayVaoLam = txtNgayVaoLam.getDate();
         if (txtNgayVaoLam.getDate() == null) {
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Ngày Vào Làm");
@@ -1288,6 +1292,10 @@ public class ViewNhanVien extends javax.swing.JFrame {
         }
         if (sdt.length()!=10) {
             JOptionPane.showMessageDialog(this, "Số Điện Thoại Phải Là 10 số");
+            return;
+        }
+        if (!sdt.startsWith("0") ) {
+            JOptionPane.showMessageDialog(this, "Số Điện Thoại Bắt Đầu Bằng số 0");
             return;
         }
 //        System.out.println(sdt);
