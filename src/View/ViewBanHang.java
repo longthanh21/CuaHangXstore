@@ -4,7 +4,6 @@
  */
 package View;
 
-import Model.GioHang;
 import Model.HoaDon;
 import Model.KhachHang;
 import Model.SanPham;
@@ -267,6 +266,11 @@ public class ViewBanHang extends javax.swing.JFrame {
 
         jLabel6.setText("Voucher:");
 
+        cbVoucher.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cbVoucherItemStateChanged(evt);
+            }
+        });
         cbVoucher.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbVoucherActionPerformed(evt);
@@ -699,10 +703,17 @@ public class ViewBanHang extends javax.swing.JFrame {
     private void cbVoucherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbVoucherActionPerformed
         // TODO add your handling code here:
         if (txtMaHD.getText().equals("")) {
-            JOptionPane.showMessageDialog(this, "Mời chọn hóa đơn");
+
+            cbVoucher.setSelectedIndex(0);
             return;
         }
         if (txtTongTien.getText().equals("")) {
+            return;
+        }
+        if (txtMaHD.getText().equals("")) {
+            // JOptionPane.showMessageDialog(this, "Mời chọn hóa đơn");
+
+            cbVoucher.setSelectedIndex(0);
             return;
         }
         for (Voucher v : ql.getListV()) {
@@ -736,9 +747,10 @@ public class ViewBanHang extends javax.swing.JFrame {
                 for (Voucher v : ql.getListVV(k.getMaKH())) {
                     cbVoucher.addItem(v.getTenVC());
                 }
-                if (ql.getListVV(txtMaKH.getText()).size() == 0) {
-                    loadcbVC();
-                }
+//                if (ql.getListVV(txtMaKH.getText()).size() == 0) {
+//                    loadcbVC();
+//                }
+
                 return;
             }
 
@@ -811,6 +823,11 @@ public class ViewBanHang extends javax.swing.JFrame {
         loadHoaDon();
         loadGioHang(txtMaHD.getText());
     }//GEN-LAST:event_btnThanhToanActionPerformed
+
+    private void cbVoucherItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbVoucherItemStateChanged
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_cbVoucherItemStateChanged
 
     /**
      * @param args the command line arguments
