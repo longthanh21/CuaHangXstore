@@ -58,12 +58,9 @@ public class ViewBanHang extends javax.swing.JFrame {
         }
         String a = cbVoucher.getSelectedItem().toString();
         for (Voucher v : ql.getListV()) {
-
             if (v.getTenVC().equals(a)) {
-
                 tongTien -= Float.valueOf(v.getGiamGia()).intValue();
                 break;
-
             }
         }
         for (Voucher v : ql.getListVV(txtMaKH.getText())) {
@@ -271,9 +268,19 @@ public class ViewBanHang extends javax.swing.JFrame {
                 cbVoucherItemStateChanged(evt);
             }
         });
+        cbVoucher.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cbVoucherMouseClicked(evt);
+            }
+        });
         cbVoucher.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbVoucherActionPerformed(evt);
+            }
+        });
+        cbVoucher.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                cbVoucherKeyReleased(evt);
             }
         });
 
@@ -702,40 +709,34 @@ public class ViewBanHang extends javax.swing.JFrame {
 
     private void cbVoucherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbVoucherActionPerformed
         // TODO add your handling code here:
-        if (txtMaHD.getText().equals("")) {
-
-            cbVoucher.setSelectedIndex(0);
-            return;
-        }
-        if (txtTongTien.getText().equals("")) {
-            return;
-        }
-        if (txtMaHD.getText().equals("")) {
-            // JOptionPane.showMessageDialog(this, "Mời chọn hóa đơn");
-
-            cbVoucher.setSelectedIndex(0);
-            return;
-        }
-        for (Voucher v : ql.getListV()) {
-            int a = Integer.valueOf(v.getDieuKien());
-            int b = Integer.valueOf(txtTongTien.getText());
-            if (a > b) {
-                JOptionPane.showMessageDialog(this, "Không đủ điều kiện");
+        try {
+            if (txtMaHD.getText().equals("")) {
                 cbVoucher.setSelectedIndex(0);
+                if (txtTongTien.getText().equals("")) {
+                    return;
+                }
                 return;
             }
-        }
-        String mKH = txtMaKH.getText();
-        for (Voucher v : ql.getListVV(mKH)) {
-            if (Integer.valueOf(v.getDieuKien()) > Integer.valueOf(txtTongTien.getText())) {
-                JOptionPane.showMessageDialog(this, "Không đủ điều kiện");
-                cbVoucher.setSelectedIndex(0);
-                return;
-
+            for (Voucher v : ql.getListV()) {
+                String a = v.getDieuKien();
+                String b = txtTongTien.getText();
+                if (Float.valueOf(a) > Float.valueOf(b)) {
+                    JOptionPane.showMessageDialog(this, "Không đủ điều kiện");
+                    cbVoucher.setSelectedIndex(0);
+                    return;
+                }
             }
-
+            String mKH = txtMaKH.getText();
+            for (Voucher v : ql.getListVV(mKH)) {
+                if (Integer.valueOf(v.getDieuKien()) > Integer.valueOf(txtTongTien.getText())) {
+                    JOptionPane.showMessageDialog(this, "Không đủ điều kiện");
+                    cbVoucher.setSelectedIndex(0);
+                    return;
+                }
+            }
+            tongTien();
+        } catch (Exception e) {
         }
-        tongTien();
     }//GEN-LAST:event_cbVoucherActionPerformed
 
     private void txtMaKHKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaKHKeyReleased
@@ -750,10 +751,8 @@ public class ViewBanHang extends javax.swing.JFrame {
 //                if (ql.getListVV(txtMaKH.getText()).size() == 0) {
 //                    loadcbVC();
 //                }
-
                 return;
             }
-
         }
         loadcbVC();
     }//GEN-LAST:event_txtMaKHKeyReleased
@@ -828,6 +827,15 @@ public class ViewBanHang extends javax.swing.JFrame {
         // TODO add your handling code here:
 
     }//GEN-LAST:event_cbVoucherItemStateChanged
+
+    private void cbVoucherMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbVoucherMouseClicked
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_cbVoucherMouseClicked
+
+    private void cbVoucherKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cbVoucherKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbVoucherKeyReleased
 
     /**
      * @param args the command line arguments
