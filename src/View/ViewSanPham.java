@@ -1123,7 +1123,7 @@ public class ViewSanPham extends javax.swing.JFrame {
                     && cbbHang.getSelectedItem().equals(sp.getHang())
                     && txtMaSP.getText().equals(a)
                     && !txtIDSP.getText().equals(b)) {
-                JOptionPane.showMessageDialog(this, "Trùng lặp khi có IdSP đã cso các thuộc tính trên!!!");
+                JOptionPane.showMessageDialog(this, "Trùng lặp khi có IdSP đã có các thuộc tính trên!!!");
                 return false;
             }
         }

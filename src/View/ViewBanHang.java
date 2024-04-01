@@ -702,8 +702,8 @@ public class ViewBanHang extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Mời chọn hóa đơn");
             return;
         }
-if (txtTongTien.getText().equals("")) {
-             return;
+        if (txtTongTien.getText().equals("")) {
+            return;
         }
         for (Voucher v : ql.getListV()) {
             int a = Integer.valueOf(v.getDieuKien());
@@ -723,8 +723,8 @@ if (txtTongTien.getText().equals("")) {
 
             }
 
-           
-        } tongTien();
+        }
+        tongTien();
     }//GEN-LAST:event_cbVoucherActionPerformed
 
     private void txtMaKHKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaKHKeyReleased
