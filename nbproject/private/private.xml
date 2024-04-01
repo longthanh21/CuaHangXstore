@@ -3,27 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/DuAn1/GiayXstore/CuaHangXstore/src/View/ViewSanPham.java</file>
-            <file>file:/D:/DuAn1/GiayXstore/CuaHangXstore/src/Service/QuanLyNhanVien.java</file>
-            <file>file:/D:/DuAn1/GiayXstore/CuaHangXstore/src/View/BanHangForm.java</file>
-            <file>file:/D:/DuAn1/GiayXstore/CuaHangXstore/src/Service/QuanLyHoaDon.java</file>
-            <file>file:/D:/DuAn1/GiayXstore/CuaHangXstore/src/Model/KhachHang.java</file>
-            <file>file:/D:/DuAn1/GiayXstore/CuaHangXstore/src/View/ViewHoaDon.java</file>
-            <file>file:/D:/DuAn1/GiayXstore/CuaHangXstore/src/Service/QuanLyKhuyenMai.java</file>
-            <file>file:/D:/DuAn1/GiayXstore/CuaHangXstore/src/Service/QuanLySanPham.java</file>
-            <file>file:/D:/DuAn1/GiayXstore/CuaHangXstore/src/Service/QuanLyBanHang.java</file>
-            <file>file:/D:/DuAn1/GiayXstore/CuaHangXstore/src/View/ViewDangNhap.java</file>
-            <file>file:/D:/DuAn1/GiayXstore/CuaHangXstore/src/Service/QuanLyKhachHang.java</file>
-            <file>file:/D:/DuAn1/GiayXstore/CuaHangXstore/src/Model/KhuyenMai.java</file>
-            <file>file:/D:/DuAn1/GiayXstore/CuaHangXstore/src/Model/SanPham.java</file>
-            <file>file:/D:/DuAn1/GiayXstore/CuaHangXstore/src/Model/NhanVien.java</file>
-            <file>file:/D:/DuAn1/GiayXstore/CuaHangXstore/src/Repository/DbConnect.java</file>
-            <file>file:/D:/DuAn1/GiayXstore/CuaHangXstore/src/View/ViewBanHang.java</file>
-            <file>file:/D:/DuAn1/GiayXstore/CuaHangXstore/src/View/ViewKhuyenMai.java</file>
-            <file>file:/D:/DuAn1/GiayXstore/CuaHangXstore/src/View/ViewKhachHang.java</file>
-            <file>file:/D:/DuAn1/GiayXstore/CuaHangXstore/src/View/ViewDangKy.java</file>
-            <file>file:/D:/DuAn1/GiayXstore/CuaHangXstore/src/Model/HoaDon.java</file>
-            <file>file:/D:/DuAn1/GiayXstore/CuaHangXstore/src/View/ViewNhanVien.java</file>
+            <file>file:/C:/Users/LongThank/Documents/NetBeansProjects/CuaHangXstore/src/Service/QuanLySanPham.java</file>
+            <file>file:/C:/Users/LongThank/Documents/NetBeansProjects/CuaHangXstore/src/View/ViewDoanhThu.java</file>
+            <file>file:/C:/Users/LongThank/Documents/NetBeansProjects/CuaHangXstore/src/Model/SanPham.java</file>
+            <file>file:/C:/Users/LongThank/Documents/NetBeansProjects/CuaHangXstore/src/View/ViewBanHang.java</file>
+            <file>file:/C:/Users/LongThank/Documents/NetBeansProjects/CuaHangXstore/src/View/ViewSanPham.java</file>
         </group>
     </open-files>
 </project-private>
