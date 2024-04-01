@@ -502,6 +502,7 @@ public class BanHangForm extends javax.swing.JFrame {
 
     private void pnDoanhThuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnDoanhThuMouseClicked
         // TODO add your handling code here:
+        showFrame(new ViewDoanhThu());
     }//GEN-LAST:event_pnDoanhThuMouseClicked
 
     /**

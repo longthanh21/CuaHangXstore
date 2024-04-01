@@ -128,7 +128,7 @@ public class QuanLySanPham {
         listCTCP.clear();
         try {
             Connection conn = DbConnect.getConnection();
-            String sql = "SELECT CTSP.IdSP, CTSP.MaSP, NgayNhap, TenMauSac, TenSize, TenChatLieu, TenHang, SoLuong, Gia.GiaBan, HinhAnh\n"
+            String sql = "SELECT CTSP.IdSP, CTSP.MaSP, NgayNhap, TenMauSac, TenSize, TenChatLieu, TenHang, SoLuong, GiaNhap, Gia.GiaBan, HinhAnh\n"
                     + "FROM CTSP\n"
                     + "JOIN MauSac ON MauSac.IdMauSac = CTSP.IdMauSac\n"
                     + "JOIN Size ON Size.IdSize = CTSP.IdSize\n"
@@ -148,6 +148,7 @@ public class QuanLySanPham {
                 sp.setHang(rs.getString("TenHang"));
                 sp.setSoLuong(rs.getString("SoLuong"));
                 sp.setSoLuong(rs.getString("SoLuong"));
+                sp.setGiaNhap(rs.getString("GiaNhap"));
                 sp.setGiaBan(rs.getString("GiaBan"));
                 sp.setHinhAnh(rs.getString("HinhAnh"));
                 listCTCP.add(sp);
@@ -162,7 +163,7 @@ public class QuanLySanPham {
         listCTCP.clear();
         try {
             Connection conn = DbConnect.getConnection();
-            String sql = "SELECT CTSP.IdSP, CTSP.MaSP, NgayNhap, TenMauSac, TenSize, TenChatLieu, TenHang, SoLuong, Gia.GiaBan, HinhAnh\n"
+            String sql = "SELECT CTSP.IdSP, CTSP.MaSP, NgayNhap, TenMauSac, TenSize, TenChatLieu, TenHang, SoLuong, GiaNhap, Gia.GiaBan, HinhAnh\n"
                     + "FROM CTSP\n"
                     + "JOIN MauSac ON MauSac.IdMauSac = CTSP.IdMauSac\n"
                     + "JOIN Size ON Size.IdSize = CTSP.IdSize\n"
@@ -183,6 +184,7 @@ public class QuanLySanPham {
                 sp.setChatLieu(rs.getString("TenChatLieu"));
                 sp.setHang(rs.getString("TenHang"));
                 sp.setSoLuong(rs.getString("SoLuong"));
+                sp.setGiaNhap(rs.getString("GiaNhap"));
                 sp.setGiaBan(rs.getString("GiaBan"));
                 sp.setHinhAnh(rs.getString("HinhAnh"));
                 listCTCP.add(sp);
@@ -272,7 +274,7 @@ public class QuanLySanPham {
     public void AddCTSP(SanPham sp) {
         try {
             Connection conn = DbConnect.getConnection();
-            String sql = "INSERT INTO CTSP (MaSP, NgayNhap, IdMauSac, IdSize, IdChatLieu, IdHang, SoLuong, HinhAnh) VALUES (?,?,?,?,?,?,?,?);";
+            String sql = "INSERT INTO CTSP (MaSP, NgayNhap, IdMauSac, IdSize, IdChatLieu, IdHang, SoLuong, GiaNhap, HinhAnh) VALUES (?,?,?,?,?,?,?,?);";
             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, sp.getMaSanPham());
             ps.setString(2, sp.getNgayNhap());
@@ -329,7 +331,7 @@ public class QuanLySanPham {
         String ngayKetThucFM = ngayKetThuc.format(formatter);
         try {
             Connection conn = DbConnect.getConnection();
-            String sql = "UPDATE CTSP SET MaSP = ?, NgayNhap = ?, IdMauSac = ?, IdSize = ?, IdChatLieu = ?, IdHang = ?,SoLuong = ?, HinhAnh = ? WHERE IdSP = " + a;
+            String sql = "UPDATE CTSP SET MaSP = ?, NgayNhap = ?, IdMauSac = ?, IdSize = ?, IdChatLieu = ?, IdHang = ?,SoLuong = ?, GiaNhap = ?, HinhAnh = ? WHERE IdSP = " + a;
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, sp.getMaSanPham());
             ps.setString(2, sp.getNgayNhap());
@@ -338,7 +340,8 @@ public class QuanLySanPham {
             ps.setInt(5, Integer.valueOf(sp.getChatLieu()));
             ps.setInt(6, Integer.valueOf(sp.getHang()));
             ps.setInt(7, Integer.valueOf(sp.getSoLuong()));
-            ps.setString(8, sp.getHinhAnh());
+            ps.setFloat(8, Float.valueOf(sp.getGiaNhap()));
+            ps.setString(9, sp.getHinhAnh());
             ps.executeUpdate();
 
             String sql1 = "UPDATE Gia SET NgayKetThuc = ? WHERE IdSP = ? ";

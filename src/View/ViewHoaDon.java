@@ -7,6 +7,7 @@ package View;
 import Model.HoaDon;
 import Service.QuanLyHoaDon;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -224,8 +225,9 @@ public class ViewHoaDon extends javax.swing.JFrame {
         txtMaNhanVien = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        txtNgayBatDau = new com.toedter.calendar.JDateChooser();
-        jDateChooser2 = new com.toedter.calendar.JDateChooser();
+        dcNgayBatDau = new com.toedter.calendar.JDateChooser();
+        dcNgayKetThuc = new com.toedter.calendar.JDateChooser();
+        btnTimKiem = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         rdTatCa = new javax.swing.JRadioButton();
         rdDaHuy = new javax.swing.JRadioButton();
@@ -329,24 +331,37 @@ public class ViewHoaDon extends javax.swing.JFrame {
 
         jLabel4.setText("Ngày kết thúc: ");
 
-        txtNgayBatDau.addAncestorListener(new javax.swing.event.AncestorListener() {
+        dcNgayBatDau.addAncestorListener(new javax.swing.event.AncestorListener() {
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
-                txtNgayBatDauAncestorAdded(evt);
+                dcNgayBatDauAncestorAdded(evt);
             }
             public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
             }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
             }
         });
-        txtNgayBatDau.addKeyListener(new java.awt.event.KeyAdapter() {
+        dcNgayBatDau.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtNgayBatDauKeyPressed(evt);
+                dcNgayBatDauKeyPressed(evt);
             }
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtNgayBatDauKeyReleased(evt);
+                dcNgayBatDauKeyReleased(evt);
             }
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtNgayBatDauKeyTyped(evt);
+                dcNgayBatDauKeyTyped(evt);
+            }
+        });
+
+        dcNgayKetThuc.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                dcNgayKetThucKeyReleased(evt);
+            }
+        });
+
+        btnTimKiem.setText("Tìm kiếm");
+        btnTimKiem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTimKiemActionPerformed(evt);
             }
         });
 
@@ -362,7 +377,7 @@ public class ViewHoaDon extends javax.swing.JFrame {
                 .addGap(31, 31, 31)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txtMaHoaDon, javax.swing.GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE)
-                    .addComponent(txtNgayBatDau, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(dcNgayBatDau, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(86, 86, 86)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
@@ -370,8 +385,10 @@ public class ViewHoaDon extends javax.swing.JFrame {
                 .addGap(48, 48, 48)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txtMaNhanVien, javax.swing.GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE)
-                    .addComponent(jDateChooser2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(294, Short.MAX_VALUE))
+                    .addComponent(dcNgayKetThuc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(73, 73, 73)
+                .addComponent(btnTimKiem)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -387,9 +404,10 @@ public class ViewHoaDon extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel3)
                         .addComponent(jLabel4))
-                    .addComponent(txtNgayBatDau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(42, Short.MAX_VALUE))
+                    .addComponent(dcNgayBatDau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dcNgayKetThuc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnTimKiem))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Loại hóa đơn"));
@@ -579,31 +597,57 @@ public class ViewHoaDon extends javax.swing.JFrame {
 
     }//GEN-LAST:event_tblHoaDonMouseClicked
 
-    private void txtNgayBatDauKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNgayBatDauKeyReleased
-        // TODO add your handling code here:
-System.out.println("hhhhhhhhhhhhhhh");
-    }//GEN-LAST:event_txtNgayBatDauKeyReleased
+    void loadTimKiem(String a, String b) {
+        defaultTableModel = (DefaultTableModel) tblHoaDon.getModel();
+        defaultTableModel.setRowCount(0);
+        int stt = 1;
+        for (HoaDon hoaDon : quanLyHoaDon.timKiemTheoNgay(a, b)) {
+            defaultTableModel.addRow(new Object[]{
+                stt++,
+                hoaDon.getMaHD(),
+                hoaDon.getMaNV(),
+                hoaDon.getMaKH(),
+                hoaDon.getMaVC(),
+                hoaDon.getNgayTao(),
+                hoaDon.getTongTien(),
+                hoaDon.getTrangThai(),});
+        }
+    }
+    private void dcNgayBatDauKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dcNgayBatDauKeyReleased
 
-    private void txtNgayBatDauAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_txtNgayBatDauAncestorAdded
+    }//GEN-LAST:event_dcNgayBatDauKeyReleased
+
+    private void dcNgayBatDauAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_dcNgayBatDauAncestorAdded
         // TODO add your handling code here:
+
+    }//GEN-LAST:event_dcNgayBatDauAncestorAdded
+
+    private void dcNgayBatDauKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dcNgayBatDauKeyPressed
+
+    }//GEN-LAST:event_dcNgayBatDauKeyPressed
+
+    private void dcNgayBatDauKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dcNgayBatDauKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dcNgayBatDauKeyTyped
+
+    private void dcNgayKetThucKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dcNgayKetThucKeyReleased
         
-    }//GEN-LAST:event_txtNgayBatDauAncestorAdded
+    }//GEN-LAST:event_dcNgayKetThucKeyReleased
 
-    private void txtNgayBatDauKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNgayBatDauKeyPressed
-        System.out.println("jjjjjjjjjjjjjjjjjj");
-        Date ngayBatDau = txtNgayBatDau.getDate();
-        SimpleDateFormat dateNgayBD = new SimpleDateFormat("yyyy-MM-dd");
-        String strNgayBD = dateNgayBD.format(ngayBatDau);
-        System.out.println(strNgayBD);
-        quanLyHoaDon.loadSeachNgayBD(strNgayBD);
-        loadSeachNgayBatDau(strNgayBD);
-
-    }//GEN-LAST:event_txtNgayBatDauKeyPressed
-
-    private void txtNgayBatDauKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNgayBatDauKeyTyped
+    private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemActionPerformed
         // TODO add your handling code here:
-        System.out.println("hhhhhhhhhhhhhhhhhh");
-    }//GEN-LAST:event_txtNgayBatDauKeyTyped
+        Date a = dcNgayBatDau.getDate();
+        Date b = dcNgayKetThuc.getDate();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(a);
+        Calendar calendar1 = Calendar.getInstance();
+        calendar1.setTime(b);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String ngayBatDau = dateFormat.format(a);
+        String ngayKetThuc = dateFormat.format(b);
+        quanLyHoaDon.timKiemTheoNgay(ngayBatDau, ngayKetThuc);
+        loadTimKiem(ngayBatDau, ngayKetThuc);
+    }//GEN-LAST:event_btnTimKiemActionPerformed
 
     private void tblHoaDonChiTietMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHoaDonChiTietMouseClicked
         // TODO add your handling code here:
@@ -651,10 +695,12 @@ System.out.println("hhhhhhhhhhhhhhh");
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane aaaa;
     private javax.swing.JScrollPane aaaaaa;
+    private javax.swing.JButton btnTimKiem;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
+    private com.toedter.calendar.JDateChooser dcNgayBatDau;
+    private com.toedter.calendar.JDateChooser dcNgayKetThuc;
     private javax.swing.JPanel hoaDon;
-    private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -672,6 +718,5 @@ System.out.println("hhhhhhhhhhhhhhh");
     private javax.swing.JTable tblHoaDonChiTiet;
     private javax.swing.JTextField txtMaHoaDon;
     private javax.swing.JTextField txtMaNhanVien;
-    private com.toedter.calendar.JDateChooser txtNgayBatDau;
     // End of variables declaration//GEN-END:variables
 }

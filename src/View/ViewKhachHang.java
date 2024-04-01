@@ -430,18 +430,17 @@ public class ViewKhachHang extends javax.swing.JFrame {
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pnKhachHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnUpDate, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(pnKhachHangLayout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(pnKhachVip, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(54, Short.MAX_VALUE))))
+                        .addComponent(pnKhachVip, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -500,17 +499,22 @@ public class ViewKhachHang extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Số Diện Thoại");
             return;
         }
-        if (sdt.length()!=10) {
+        if (sdt.length() != 10) {
             JOptionPane.showMessageDialog(this, "Số Điện Thoại Phải Là 10 số");
             return;
         }
-        String regex = "^0\\d{9}&";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher  matcher = pattern.matcher(sdt);
-        if (!matcher.matches()) {
-            JOptionPane.showMessageDialog(this, "Số Điện Thoại Bắt Đầu Bằng số 0");
+        if (!sdt.startsWith("0") ) {
+            JOptionPane.showMessageDialog(this, "Số Điện Thoại Phải Là 0 số");
             return;
         }
+//        String regex = "^0\\d{9}&";
+//       
+//        Pattern pattern = Pattern.compile(regex);
+//        Matcher matcher = pattern.matcher(sdt);
+//        if (!matcher.matches()) {
+//            JOptionPane.showMessageDialog(this, "Số Điện Thoại Bắt Đầu Bằng số 0");
+//            return;
+//        }
         Date NgayTao = txtNgayTao.getDate();
         if (txtNgayTao.getDate() == null) {
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Ngay Tao");
@@ -544,19 +548,19 @@ public class ViewKhachHang extends javax.swing.JFrame {
         String sdt = (String) tblKhachHang.getValueAt(i, 3);
         txtDienThoai.setText(sdt);
         String NgayTao = (String) tblKhachHang.getValueAt(i, 4);
-        if (NgayTao==null) {
+        if (NgayTao == null) {
             txtNgayTao.setDate(null);
-        }else{
-        SimpleDateFormat dateNgayTao = new SimpleDateFormat("yyyy-MM-dd");
-        Date startNgayTao = null;
-        try {
-            startNgayTao = dateNgayTao.parse(NgayTao);
-        } catch (ParseException e) {
-            startNgayTao = null;
-            e.printStackTrace();
+        } else {
+            SimpleDateFormat dateNgayTao = new SimpleDateFormat("yyyy-MM-dd");
+            Date startNgayTao = null;
+            try {
+                startNgayTao = dateNgayTao.parse(NgayTao);
+            } catch (ParseException e) {
+                startNgayTao = null;
+                e.printStackTrace();
+            }
+            txtNgayTao.setDate(startNgayTao);
         }
-        txtNgayTao.setDate(startNgayTao);
-       }
         String gioiTinh = (String) tblKhachHang.getValueAt(i, 5);
         if (gioiTinh.equals("Nam")) {
             rdNam.setSelected(true);
@@ -583,19 +587,19 @@ public class ViewKhachHang extends javax.swing.JFrame {
         String sdt = (String) tblKhachVip.getValueAt(i, 3);
         txtDienThoai.setText(sdt);
         String NgayTao = (String) tblKhachVip.getValueAt(i, 4);
-        if (NgayTao==null) {
+        if (NgayTao == null) {
             txtNgayTao.setDate(null);
-        }else{
-        SimpleDateFormat dateNgayTao = new SimpleDateFormat("yyyy-MM-dd");
-        Date startNgayTao = null;
-        try {
-            startNgayTao = dateNgayTao.parse(NgayTao);
-        } catch (ParseException e) {
-            startNgayTao = null;
-            e.printStackTrace();
+        } else {
+            SimpleDateFormat dateNgayTao = new SimpleDateFormat("yyyy-MM-dd");
+            Date startNgayTao = null;
+            try {
+                startNgayTao = dateNgayTao.parse(NgayTao);
+            } catch (ParseException e) {
+                startNgayTao = null;
+                e.printStackTrace();
+            }
+            txtNgayTao.setDate(startNgayTao);
         }
-        txtNgayTao.setDate(startNgayTao);
-       }
         String gioiTinh = (String) tblKhachVip.getValueAt(i, 5);
         if (gioiTinh.equals("Nam")) {
             rdNam.setSelected(true);
@@ -652,6 +656,17 @@ public class ViewKhachHang extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Số Diện Thoại");
             return;
         }
+        if (sdt.length() != 10) {
+            JOptionPane.showMessageDialog(this, "Số Điện Thoại Phải Là 10 số");
+            return;
+        }
+//        String regex = "^0\\d{9}&";
+//        Pattern pattern = Pattern.compile(regex);
+//        Matcher  matcher = pattern.matcher(sdt);
+//        if (!matcher.matches()) {
+//            JOptionPane.showMessageDialog(this, "Số Điện Thoại Bắt Đầu Bằng số 0");
+//            return;
+//        }
         Boolean trangThai;
         if (rdKhachVip.isSelected()) {
             trangThai = true;
