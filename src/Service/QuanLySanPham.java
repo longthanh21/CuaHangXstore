@@ -40,7 +40,6 @@ public class QuanLySanPham {
                 } else {
                     sp.setTrangThai("Còn hàng");
                 }
-//                sp.setTrangThai(rs.getInt("TrangThai") == 1 ? "Còn hàng" : "Hết hàng");
                 listSanPham.add(sp);
             }
         } catch (SQLException ex) {
@@ -129,7 +128,7 @@ public class QuanLySanPham {
         listCTCP.clear();
         try {
             Connection conn = DbConnect.getConnection();
-            String sql = "SELECT CTSP.IdSP, CTSP.MaSP, NgayNhap, TenMauSac, TenSize, TenChatLieu, TenHang, SoLuong, Gia.GiaBan, HinhAnh\n"
+            String sql = "SELECT CTSP.IdSP, CTSP.MaSP, NgayNhap, TenMauSac, TenSize, TenChatLieu, TenHang, SoLuong, GiaNhap, Gia.GiaBan, HinhAnh\n"
                     + "FROM CTSP\n"
                     + "JOIN MauSac ON MauSac.IdMauSac = CTSP.IdMauSac\n"
                     + "JOIN Size ON Size.IdSize = CTSP.IdSize\n"
@@ -149,6 +148,7 @@ public class QuanLySanPham {
                 sp.setHang(rs.getString("TenHang"));
                 sp.setSoLuong(rs.getString("SoLuong"));
                 sp.setSoLuong(rs.getString("SoLuong"));
+                sp.setGiaNhap(rs.getString("GiaNhap"));
                 sp.setGiaBan(rs.getString("GiaBan"));
                 sp.setHinhAnh(rs.getString("HinhAnh"));
                 listCTCP.add(sp);
@@ -163,7 +163,7 @@ public class QuanLySanPham {
         listCTCP.clear();
         try {
             Connection conn = DbConnect.getConnection();
-            String sql = "SELECT CTSP.IdSP, CTSP.MaSP, NgayNhap, TenMauSac, TenSize, TenChatLieu, TenHang, SoLuong, Gia.GiaBan, HinhAnh\n"
+            String sql = "SELECT CTSP.IdSP, CTSP.MaSP, NgayNhap, TenMauSac, TenSize, TenChatLieu, TenHang, SoLuong, GiaNhap, Gia.GiaBan, HinhAnh\n"
                     + "FROM CTSP\n"
                     + "JOIN MauSac ON MauSac.IdMauSac = CTSP.IdMauSac\n"
                     + "JOIN Size ON Size.IdSize = CTSP.IdSize\n"
@@ -184,6 +184,7 @@ public class QuanLySanPham {
                 sp.setChatLieu(rs.getString("TenChatLieu"));
                 sp.setHang(rs.getString("TenHang"));
                 sp.setSoLuong(rs.getString("SoLuong"));
+                sp.setGiaNhap(rs.getString("GiaNhap"));
                 sp.setGiaBan(rs.getString("GiaBan"));
                 sp.setHinhAnh(rs.getString("HinhAnh"));
                 listCTCP.add(sp);
@@ -273,7 +274,7 @@ public class QuanLySanPham {
     public void AddCTSP(SanPham sp) {
         try {
             Connection conn = DbConnect.getConnection();
-            String sql = "INSERT INTO CTSP (MaSP, NgayNhap, IdMauSac, IdSize, IdChatLieu, IdHang, SoLuong, HinhAnh) VALUES (?,?,?,?,?,?,?,?);";
+            String sql = "INSERT INTO CTSP (MaSP, NgayNhap, IdMauSac, IdSize, IdChatLieu, IdHang, SoLuong, GiaNhap, HinhAnh) VALUES (?,?,?,?,?,?,?,?);";
             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, sp.getMaSanPham());
             ps.setString(2, sp.getNgayNhap());
@@ -330,7 +331,7 @@ public class QuanLySanPham {
         String ngayKetThucFM = ngayKetThuc.format(formatter);
         try {
             Connection conn = DbConnect.getConnection();
-            String sql = "UPDATE CTSP SET MaSP = ?, NgayNhap = ?, IdMauSac = ?, IdSize = ?, IdChatLieu = ?, IdHang = ?,SoLuong = ?, HinhAnh = ? WHERE IdSP = " + a;
+            String sql = "UPDATE CTSP SET MaSP = ?, NgayNhap = ?, IdMauSac = ?, IdSize = ?, IdChatLieu = ?, IdHang = ?,SoLuong = ?, GiaNhap = ?, HinhAnh = ? WHERE IdSP = " + a;
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, sp.getMaSanPham());
             ps.setString(2, sp.getNgayNhap());
@@ -339,7 +340,8 @@ public class QuanLySanPham {
             ps.setInt(5, Integer.valueOf(sp.getChatLieu()));
             ps.setInt(6, Integer.valueOf(sp.getHang()));
             ps.setInt(7, Integer.valueOf(sp.getSoLuong()));
-            ps.setString(8, sp.getHinhAnh());
+            ps.setFloat(8, Float.valueOf(sp.getGiaNhap()));
+            ps.setString(9, sp.getHinhAnh());
             ps.executeUpdate();
 
             String sql1 = "UPDATE Gia SET NgayKetThuc = ? WHERE IdSP = ? ";
@@ -495,5 +497,108 @@ public class QuanLySanPham {
         } catch (SQLException ex) {
             Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public ArrayList<SanPham> timKiem(String ma) {
+        listSanPham.clear();
+        try {
+            Connection conn = DbConnect.getConnection();
+            String sql = "SELECT * FROM SanPham WHERE MaSP like  " + "'%" + ma + "%'";
+            Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            while (rs.next()) {
+                SanPham sp = new SanPham();
+                sp.setMaSanPham(rs.getString("MaSP"));
+                sp.setTenSanPham(rs.getString("TenSP"));
+                String a = rs.getString("SoLuongTong");
+                if (a == null || a.isEmpty()) {
+                    sp.setTrangThai("Hết hàng");
+                } else {
+                    sp.setTrangThai("Còn hàng");
+                }
+                listSanPham.add(sp);
+            }
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listSanPham;
+    }
+    
+    public ArrayList<SanPham> timKiemMauSac(String id) {
+        listThuocTinh.clear();
+        try {
+            Connection conn = DbConnect.getConnection();
+            String sql = "SELECT * FROM MauSac WHERE IdMauSac like  " + "'%" + id + "%' or TenMauSac like " + "N'%" + id + "%'";
+            Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            while (rs.next()) {
+                SanPham sp = new SanPham();
+                sp.setIdMauSac(rs.getString("IdMauSac"));
+                sp.setMauSac(rs.getString("TenMauSac"));
+                listThuocTinh.add(sp);
+            }
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listThuocTinh;
+    }
+    public ArrayList<SanPham> timKiemSize(String id) {
+        listThuocTinh.clear();
+        try {
+            Connection conn = DbConnect.getConnection();
+            String sql = "SELECT * FROM Size WHERE IdSize like  " + "'%" + id + "%'  or TenSize like " + "N'%" + id + "%'";
+            Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            while (rs.next()) {
+                SanPham sp = new SanPham();
+                sp.setIdSize(rs.getString("IdSize"));
+                sp.setSize(rs.getString("TenSize"));
+                listThuocTinh.add(sp);
+            }
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listThuocTinh;
+    }
+    public ArrayList<SanPham> timKiemChatLieu(String id) {
+        listThuocTinh.clear();
+        try {
+            Connection conn = DbConnect.getConnection();
+            String sql = "SELECT * FROM ChatLieu WHERE IdChatLieu like  " + "'%" + id + "%' or TenChatLieu like " + "N'%" + id + "%'";
+            Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            while (rs.next()) {
+                SanPham sp = new SanPham();
+                sp.setIdChatLieu(rs.getString("IdChatLieu"));
+                sp.setChatLieu(rs.getString("TenChatlieu"));
+                listThuocTinh.add(sp);
+            }
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listThuocTinh;
+    }
+    public ArrayList<SanPham> timKiemHang(String id) {
+        listThuocTinh.clear();
+        try {
+            Connection conn = DbConnect.getConnection();
+            String sql = "SELECT * FROM Hang WHERE IdHang like  " + "'%" + id + "%' or TenHang like " + "N'%" + id + "%'";
+            Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            while (rs.next()) {
+                SanPham sp = new SanPham();
+                sp.setIdHang(rs.getString("IdHang"));
+                sp.setHang(rs.getString("TenHang"));
+                listThuocTinh.add(sp);
+            }
+            conn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listThuocTinh;
     }
 }

@@ -48,7 +48,7 @@ public class QuanLyNhanVien {
 
     public boolean AddNhanVien(NhanVien nhanVien) {
         try {
-            String sql = "INSERT INTO NhanVien (MaNV, TenNV, NgaySinh, GioiTinh, DiaChi, Sdt,NgayVaoLam, VaiTro, MaCL, TrangThai) VALUES(?, ?, ?, ?, ?, ?,?, ?, ?)";
+            String sql = "INSERT INTO NhanVien (MaNV, TenNV, NgaySinh, GioiTinh, DiaChi, Sdt,NgayVaoLam, VaiTro, MaCL, TrangThai) VALUES(?, ?, ?, ?,?, ?, ?,?, ?, ?)";
             Connection con = DbConnect.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, nhanVien.getMaNV());
@@ -114,6 +114,34 @@ public class QuanLyNhanVien {
         list.clear();
         try {
             String sql = "select MaNV, TenNV, NgaySinh, GioiTinh, DiaChi, Sdt,NgayVaoLam, VaiTro, MaCL, TrangThai from NhanVien where MaNV like ?";
+            Connection con = DbConnect.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, maa);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String Ma = rs.getString(1);
+                String Ten = rs.getString(2);
+                String NgaySinh = rs.getString(3);
+                Boolean GioiTinh = rs.getBoolean(4);
+                String DiaChi = rs.getString(5);
+                String Sdt = rs.getString(6);
+                String NgayVaoLam = rs.getString(7);
+                String VaiTro = rs.getString(8);
+                String MaCL = rs.getString(9);
+                String TrangThai = rs.getString(10);
+                list.add(new NhanVien(Ma, Ten, NgaySinh, GioiTinh, DiaChi, Sdt, NgayVaoLam, VaiTro, null, MaCL, TrangThai));
+            }
+            con.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+    public ArrayList<NhanVien> seachMaCLNhanVien(String maa) {
+//        ArrayList<NhanVien> listSeach = new ArrayList<>();
+        list.clear();
+        try {
+            String sql = "select MaNV, TenNV, NgaySinh, GioiTinh, DiaChi, Sdt,NgayVaoLam, VaiTro, MaCL, TrangThai from NhanVien where MaCL like ?";
             Connection con = DbConnect.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, maa);
