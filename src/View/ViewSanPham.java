@@ -80,6 +80,7 @@ public class ViewSanPham extends javax.swing.JFrame {
                 sp.getChatLieu(),
                 sp.getHang(),
                 sp.getSoLuong(),
+                sp.getGiaNhap(),
                 sp.getGiaBan(),
                 sp.getHinhAnh()
             });
@@ -100,6 +101,7 @@ public class ViewSanPham extends javax.swing.JFrame {
                 sp.getChatLieu(),
                 sp.getHang(),
                 sp.getSoLuong(),
+                sp.getGiaNhap(),
                 sp.getGiaBan(),
                 sp.getHinhAnh()
             });
@@ -153,6 +155,7 @@ public class ViewSanPham extends javax.swing.JFrame {
 //        sp.setSize((String) cbbSize.getSelectedItem());
 //        sp.setChatLieu((String) cbbChatLieu.getSelectedItem());
 //        sp.setHang((String) cbbHang.getSelectedItem());
+        sp.setGiaNhap(txtGiaNhap.getText());
         sp.setGiaBan(txtGiaBan.getText());
         sp.setSoLuong(txtSoLuong.getText());
         if (loadImg == null) {
@@ -196,9 +199,10 @@ public class ViewSanPham extends javax.swing.JFrame {
         cbbChatLieu.setSelectedItem(tblCTSP.getValueAt(i, 5).toString());
         cbbHang.setSelectedItem(tblCTSP.getValueAt(i, 6).toString());
         txtSoLuong.setText((String) tblCTSP.getValueAt(i, 7));
-        txtGiaBan.setText((String) tblCTSP.getValueAt(i, 8));
+        txtGiaNhap.setText((String) tblCTSP.getValueAt(i, 8));
+        txtGiaBan.setText((String) tblCTSP.getValueAt(i, 9));
         lbHinhAnh.setText("");
-        String a = (String) tblCTSP.getValueAt(i, 9);
+        String a = (String) tblCTSP.getValueAt(i, 10);
         if (a.equalsIgnoreCase("No_img")) {
             lbHinhAnh.setText("No_img");
             lbHinhAnh.setIcon(null);
@@ -329,6 +333,8 @@ public class ViewSanPham extends javax.swing.JFrame {
         btnAddCTSP = new javax.swing.JButton();
         btnUpdateCTSP = new javax.swing.JButton();
         btnDLTCTSP = new javax.swing.JButton();
+        jLabel18 = new javax.swing.JLabel();
+        txtGiaNhap = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblSanPham = new javax.swing.JTable();
@@ -525,6 +531,8 @@ public class ViewSanPham extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jLabel18.setText("Giá nhập:");
+
         javax.swing.GroupLayout pnLocLayout = new javax.swing.GroupLayout(pnLoc);
         pnLoc.setLayout(pnLocLayout);
         pnLocLayout.setHorizontalGroup(
@@ -532,8 +540,15 @@ public class ViewSanPham extends javax.swing.JFrame {
             .addGroup(pnLocLayout.createSequentialGroup()
                 .addGroup(pnLocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnLocLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnLocLayout.createSequentialGroup()
                         .addGap(22, 22, 22)
                         .addGroup(pnLocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pnLocLayout.createSequentialGroup()
+                                .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtGiaNhap, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(pnLocLayout.createSequentialGroup()
                                 .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -560,14 +575,11 @@ public class ViewSanPham extends javax.swing.JFrame {
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addGroup(pnLocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addComponent(cbbHang, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(dcNgayNhap, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)))
-                                .addGroup(pnLocLayout.createSequentialGroup()
-                                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(txtGiaBan, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addGroup(pnLocLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(dcNgayNhap, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE))))
+                            .addGroup(pnLocLayout.createSequentialGroup()
+                                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtGiaBan, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnLocLayout.setVerticalGroup(
@@ -603,9 +615,13 @@ public class ViewSanPham extends javax.swing.JFrame {
                     .addComponent(txtSoLuong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(pnLocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel18)
+                    .addComponent(txtGiaNhap, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(pnLocLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
                     .addComponent(txtGiaBan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -668,7 +684,7 @@ public class ViewSanPham extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Mã SP", "Ngày nhập", "Màu sắc ", "Size", "Chất liệu", "Hãng", "Số lượng", "Giá bán", "Hình ảnh"
+                "ID", "Mã SP", "Ngày nhập", "Màu sắc ", "Size", "Chất liệu", "Hãng", "Số lượng", "Giá nhập", "Giá bán", "Hình ảnh"
             }
         ));
         tblCTSP.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1562,6 +1578,7 @@ public class ViewSanPham extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1593,6 +1610,7 @@ public class ViewSanPham extends javax.swing.JFrame {
     private javax.swing.JTable tblSanPham;
     private javax.swing.JTable tblThuocTinh;
     private javax.swing.JTextField txtGiaBan;
+    private javax.swing.JTextField txtGiaNhap;
     private javax.swing.JTextField txtIDSP;
     private javax.swing.JTextField txtIdThuocTinh;
     private javax.swing.JTextField txtMaSP;
