@@ -10,6 +10,8 @@ import Service.QuanLyNhanVien;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -1100,16 +1102,27 @@ public class ViewNhanVien extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Giới Tính");
             return;
         }
-        String diaChi = txtDiaChi.getText();
-        if (diaChi.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Không Bỏ Trống Địa Chỉ");
-            return;
-        }
+        
         String sdt = txtSoDienThoai.getText();
         if (sdt.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Số Diện Thoại");
             return;
         }
+        if (sdt.length()!=10) {
+            JOptionPane.showMessageDialog(this, "Số Điện Thoại Phải Là 10 số");
+            return;
+        }
+        if (!sdt.startsWith("0") ) {
+            JOptionPane.showMessageDialog(this, "Số Điện Thoại Bắt Đầu Bằng số 0");
+            return;
+        }
+//        String regex = "^0\\d{9}&";
+//        Pattern pattern = Pattern.compile(regex);
+//        Matcher  matcher = pattern.matcher(sdt);
+//        if (!matcher.matches()) {
+//            JOptionPane.showMessageDialog(this, "Số Điện Thoại Bắt Đầu Bằng số 0");
+//            return;
+//        }
         Date NgayVaoLam = txtNgayVaoLam.getDate();
         if (txtNgayVaoLam.getDate() == null) {
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Ngày Vào Làm");
@@ -1133,6 +1146,11 @@ public class ViewNhanVien extends javax.swing.JFrame {
         if (trangThai.isEmpty()) {
             
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Trạng Thái");
+            return;
+        }
+        String diaChi = txtDiaChi.getText();
+        if (diaChi.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Không Bỏ Trống Địa Chỉ");
             return;
         }
         NhanVien nhanVien = new NhanVien(ma, ten, strNgaySinh, gioiTinh, diaChi, sdt, NgayVao, vaiTro, null, maCL, trangThai);
@@ -1272,6 +1290,22 @@ public class ViewNhanVien extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Số Diện Thoại");
             return;
         }
+        if (sdt.length()!=10) {
+            JOptionPane.showMessageDialog(this, "Số Điện Thoại Phải Là 10 số");
+            return;
+        }
+        if (!sdt.startsWith("0") ) {
+            JOptionPane.showMessageDialog(this, "Số Điện Thoại Bắt Đầu Bằng số 0");
+            return;
+        }
+//        System.out.println(sdt);
+//        String regex = "^0\\d{9}&";
+//        Pattern pattern = Pattern.compile(regex);
+//        Matcher  matcher = pattern.matcher(sdt);
+//        if (!matcher.matches()) {
+//            JOptionPane.showMessageDialog(this, "Số Điện Thoại Bắt Đầu Bằng số 0");
+//            return;
+//        }
         Date NgayVaoLam = txtNgayVaoLam.getDate();
         if (NgayVaoLam == null) {
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Ngày Ngày Vào Làm");
