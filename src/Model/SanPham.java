@@ -27,11 +27,13 @@ public class SanPham {
     private String giaBan;
     private String trangThai;
     private String phanTram;
+    private String hinhAnh;
+    
 
     public SanPham() {
     }
 
-    public SanPham(String maSanPham, String idspct, String tenSanPham, String ngayNhap, String idMauSac, String idSize, String idChatLieu, String idHang, String MauSac, String Size, String ChatLieu, String Hang, String soLuong, String giaNhap, String giaBan, String trangThai, String phanTram) {
+    public SanPham(String maSanPham, String idspct, String tenSanPham, String ngayNhap, String idMauSac, String idSize, String idChatLieu, String idHang, String MauSac, String Size, String ChatLieu, String Hang, String soLuong, String giaNhap, String giaBan, String trangThai, String phanTram, String hinhAnh) {
         this.maSanPham = maSanPham;
         this.idspct = idspct;
         this.tenSanPham = tenSanPham;
@@ -49,6 +51,7 @@ public class SanPham {
         this.giaBan = giaBan;
         this.trangThai = trangThai;
         this.phanTram = phanTram;
+        this.hinhAnh = hinhAnh;
     }
 
     public String getMaSanPham() {
@@ -187,14 +190,20 @@ public class SanPham {
         this.phanTram = phanTram;
     }
 
+    public String getHinhAnh() {
+        return hinhAnh;
+    }
+
+    public void setHinhAnh(String hinhAnh) {
+        this.hinhAnh = hinhAnh;
+    }
+
     
 
     public Integer giaSau() {
-
         float giaBan = Float.parseFloat(this.giaBan);
         float phanTram = Float.parseFloat(this.phanTram);
         int giaSau = (int) (giaBan - (giaBan  *  phanTram/100));
-
         return giaSau;
     }
     

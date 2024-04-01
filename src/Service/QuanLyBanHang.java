@@ -49,14 +49,19 @@ public class QuanLyBanHang {
     public ArrayList<SanPham> getListSanPham() {
         listSanPham.clear();
         try {
-            String sql = "SELECT CTSP.idsp,ctsp.MaSP,TenSP,TenMauSac,TenSize,TenChatLieu,TenHang,SoLuong,GiaBan,PhamTram,coupon.TrangThai FROM CTSP \n"
+            String sql = "SELECT CTSP.idsp,ctsp.MaSP,TenSP,TenMauSac,TenSize,TenChatLieu,TenHang,SoLuong,Gia.GiaBan,PhamTram,coupon.TrangThai FROM CTSP \n"
                     + "     JOIN MauSac  on MauSac.IdMauSac = CTSP.IdMauSac\n"
                     + "     JOIN Size  on Size.IdSize = CTSP.IdSize\n"
                     + "     JOIN ChatLieu  on ChatLieu.IdChatLieu = CTSP.IdChatLieu\n"
                     + "     JOIN Hang  on  Hang.IdHang = CTSP.IdHang\n"
                     + "     join SanPham  on SanPham.MaSP=CTSP.MaSP\n"
+                    + "     JOIN (\n"
+                    + "		SELECT g.IdSP, g.GiaBan, g.NgayBatDau FROM Gia AS g WHERE g.NgayBatDau <= GETDATE() AND g.IdSP IN (\n"
+                    + "			SELECT g2.IdSP FROM Gia AS g2 WHERE g2.NgayBatDau <= GETDATE() GROUP BY g2.IdSP HAVING MAX(g2.NgayBatDau) = g.NgayBatDau)\n"
+                    + ") AS Gia ON Gia.IdSP = CTSP.IdSP\n"
                     + "	left join GiamGiaSP  on CTSP.idsp=GiamGiaSP.idsp\n"
-                    + "	left join  Coupon  on Coupon.macp=GiamGiaSP.macp";
+                    + "	left join  Coupon  on Coupon.macp=GiamGiaSP.macp\n"
+                    + "ORDER BY CTSP.IdSP asc";
             Connection con = DbConnect.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -256,7 +261,7 @@ public class QuanLyBanHang {
         ArrayList<Voucher> listV = new ArrayList<Voucher>();
 
         try {
-            String sql = "SELECT a.MaKH, a.TrangThai, c.MaVC, TenVC, GiamGia \n"
+            String sql = "SELECT a.MaKH, a.TrangThai, c.MaVC, TenVC, GiamGia,DieuKien \n"
                     + "FROM KhachHang a\n"
                     + "JOIN UuDai b ON a.MaKH = b.MaKH\n"
                     + "RIGHT JOIN Voucher c ON b.MaVC = c.MaVC\n"
@@ -269,7 +274,7 @@ public class QuanLyBanHang {
                 v.setMaVC(rs.getString("mavc"));
                 v.setTenVC(rs.getString("TenVC"));
                 v.setGiamGia(rs.getString("GiamGia"));
-
+                v.setDieuKien(rs.getString("DieuKien"));
                 listV.add(v);
             }
             con.close();
@@ -283,7 +288,7 @@ public class QuanLyBanHang {
         ArrayList<Voucher> listVV = new ArrayList<Voucher>();
 
         try {
-            String sql = "SELECT a.MaKH, a.TrangThai, c.MaVC, TenVC, GiamGia \n"
+            String sql = "SELECT a.MaKH, a.TrangThai, c.MaVC, TenVC, GiamGia,DieuKien \n"
                     + "FROM KhachHang a\n"
                     + "JOIN UuDai b ON a.MaKH = b.MaKH\n"
                     + "RIGHT JOIN Voucher c ON b.MaVC = c.MaVC\n"
@@ -296,7 +301,7 @@ public class QuanLyBanHang {
                 v.setMaVC(rs.getString("mavc"));
                 v.setTenVC(rs.getString("TenVC"));
                 v.setGiamGia(rs.getString("GiamGia"));
-
+                v.setDieuKien(rs.getString("DieuKien"));
                 listVV.add(v);
             }
             con.close();
@@ -331,4 +336,5 @@ public class QuanLyBanHang {
         }
         return listK;
     }
+
 }

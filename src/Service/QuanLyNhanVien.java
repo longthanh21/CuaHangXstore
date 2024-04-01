@@ -22,7 +22,7 @@ public class QuanLyNhanVien {
     public ArrayList<NhanVien> getAllNhanVien() {
         list.clear();
         try {
-            String sql = "select MaNV, TenNV, NgaySinh, GioiTinh, DiaChi, Sdt, VaiTro, MaCL, TrangThai from NhanVien";
+            String sql = "select MaNV, TenNV, NgaySinh, GioiTinh, DiaChi, Sdt,NgayVaoLam, VaiTro, MaCL, TrangThai from NhanVien";
             Connection con = DbConnect.getConnection();
             Statement stm = con.createStatement();
             ResultSet rs = stm.executeQuery(sql);
@@ -33,10 +33,11 @@ public class QuanLyNhanVien {
                 Boolean GioiTinh = rs.getBoolean(4);
                 String DiaChi = rs.getString(5);
                 String Sdt = rs.getString(6);
-                String VaiTro = rs.getString(7);
-                String MaCL = rs.getString(8);
-                String TrangThai = rs.getString(9);
-                list.add(new NhanVien(Ma, Ten, NgaySinh, GioiTinh, DiaChi, Sdt, VaiTro, MaCL, MaCL, TrangThai));
+                String NgayVaoLam = rs.getString(7);
+                String VaiTro = rs.getString(8);
+                String MaCL = rs.getString(9);
+                String TrangThai = rs.getString(10);
+                list.add(new NhanVien(Ma, Ten, NgaySinh, GioiTinh, DiaChi, Sdt, NgayVaoLam, VaiTro, null, MaCL, TrangThai));
             }
             con.close();
         } catch (Exception e) {
@@ -47,7 +48,7 @@ public class QuanLyNhanVien {
 
     public boolean AddNhanVien(NhanVien nhanVien) {
         try {
-            String sql = "INSERT INTO NhanVien (MaNV, TenNV, NgaySinh, GioiTinh, DiaChi, Sdt, VaiTro, MaCL, TrangThai) VALUES(?, ?, ?, ?, ?, ?,?, ?, ?)";
+            String sql = "INSERT INTO NhanVien (MaNV, TenNV, NgaySinh, GioiTinh, DiaChi, Sdt,NgayVaoLam, VaiTro, MaCL, TrangThai) VALUES(?, ?, ?, ?,?, ?, ?,?, ?, ?)";
             Connection con = DbConnect.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, nhanVien.getMaNV());
@@ -56,9 +57,10 @@ public class QuanLyNhanVien {
             ps.setBoolean(4, nhanVien.isGioiTinh());
             ps.setString(5, nhanVien.getDiaChi());
             ps.setString(6, nhanVien.getSĐT());
-            ps.setString(7, nhanVien.getVaiTro());
-            ps.setString(8, nhanVien.getMaCL());
-            ps.setString(9, nhanVien.getTrangThai());
+            ps.setString(7, nhanVien.getNgayVaoLam());
+            ps.setString(8, nhanVien.getVaiTro());
+            ps.setString(9, nhanVien.getMaCL());
+            ps.setString(10, nhanVien.getTrangThai());
             ps.executeUpdate();
             con.close();
             return true;
@@ -70,11 +72,10 @@ public class QuanLyNhanVien {
 
     public boolean deleteNhanVien(String ma) {
         try {
-            String sql = "delete from TaiKhoan where MaNV = ?  delete from NhanVien where MaNV = ?";
+            String sql = "update NhanVien set TrangThai= N'Đã Nghỉ Làm' where MaNV = ?";
             Connection con = DbConnect.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, ma);
-            ps.setString(2, ma);
             ps.executeUpdate();
             con.close();
             return true;
@@ -86,7 +87,7 @@ public class QuanLyNhanVien {
 
     public boolean UpDateNhanVien(NhanVien nhanVien) {
         try {
-            String sql = "update NhanVien set TenNV = ? , NgaySinh=?, GioiTinh=?, DiaChi=?, Sdt=?, VaiTro=?, MaCL=?, TrangThai=? where MaNV = ?";
+            String sql = "update NhanVien set TenNV = ? , NgaySinh=?, GioiTinh=?, DiaChi=?, Sdt=?,NgayVaoLam = ?, VaiTro=?, MaCL=?, TrangThai=? where MaNV = ?";
             Connection con = DbConnect.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, nhanVien.getTenNV());
@@ -94,10 +95,11 @@ public class QuanLyNhanVien {
             ps.setBoolean(3, nhanVien.isGioiTinh());
             ps.setString(4, nhanVien.getDiaChi());
             ps.setString(5, nhanVien.getSĐT());
-            ps.setString(6, nhanVien.getVaiTro());
-            ps.setString(7, nhanVien.getMaCL());
-            ps.setString(8, nhanVien.getTrangThai());
-            ps.setString(9, nhanVien.getMaNV());
+            ps.setString(6, nhanVien.getNgayVaoLam());
+            ps.setString(7, nhanVien.getVaiTro());
+            ps.setString(8, nhanVien.getMaCL());
+            ps.setString(9, nhanVien.getTrangThai());
+            ps.setString(10, nhanVien.getMaNV());
             ps.executeUpdate();
             con.close();
             return true;
@@ -111,7 +113,7 @@ public class QuanLyNhanVien {
 //        ArrayList<NhanVien> listSeach = new ArrayList<>();
         list.clear();
         try {
-            String sql = "select MaNV, TenNV, NgaySinh, GioiTinh, DiaChi, Sdt, VaiTro, MaCL, TrangThai from NhanVien where MaNV like ?";
+            String sql = "select MaNV, TenNV, NgaySinh, GioiTinh, DiaChi, Sdt,NgayVaoLam, VaiTro, MaCL, TrangThai from NhanVien where MaNV like ?";
             Connection con = DbConnect.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, maa);
@@ -123,10 +125,39 @@ public class QuanLyNhanVien {
                 Boolean GioiTinh = rs.getBoolean(4);
                 String DiaChi = rs.getString(5);
                 String Sdt = rs.getString(6);
-                String VaiTro = rs.getString(7);
-                String MaCL = rs.getString(8);
-                String TrangThai = rs.getString(9);
-                list.add(new NhanVien(Ma, Ten, NgaySinh, GioiTinh, DiaChi, Sdt, VaiTro, MaCL, MaCL, TrangThai));
+                String NgayVaoLam = rs.getString(7);
+                String VaiTro = rs.getString(8);
+                String MaCL = rs.getString(9);
+                String TrangThai = rs.getString(10);
+                list.add(new NhanVien(Ma, Ten, NgaySinh, GioiTinh, DiaChi, Sdt, NgayVaoLam, VaiTro, null, MaCL, TrangThai));
+            }
+            con.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+    public ArrayList<NhanVien> seachMaCLNhanVien(String maa) {
+//        ArrayList<NhanVien> listSeach = new ArrayList<>();
+        list.clear();
+        try {
+            String sql = "select MaNV, TenNV, NgaySinh, GioiTinh, DiaChi, Sdt,NgayVaoLam, VaiTro, MaCL, TrangThai from NhanVien where MaCL like ?";
+            Connection con = DbConnect.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, maa);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String Ma = rs.getString(1);
+                String Ten = rs.getString(2);
+                String NgaySinh = rs.getString(3);
+                Boolean GioiTinh = rs.getBoolean(4);
+                String DiaChi = rs.getString(5);
+                String Sdt = rs.getString(6);
+                String NgayVaoLam = rs.getString(7);
+                String VaiTro = rs.getString(8);
+                String MaCL = rs.getString(9);
+                String TrangThai = rs.getString(10);
+                list.add(new NhanVien(Ma, Ten, NgaySinh, GioiTinh, DiaChi, Sdt, NgayVaoLam, VaiTro, null, MaCL, TrangThai));
             }
             con.close();
         } catch (Exception e) {
@@ -150,6 +181,50 @@ public class QuanLyNhanVien {
                 String matKhau = rs.getString(3);
                 String maNV = rs.getString(4);
                 listTaiKhoan.add(new TaiKhoan(ma, Ten, matKhau, maNV));
+            }
+            con.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return listTaiKhoan;
+    }
+
+    public ArrayList<TaiKhoan> SeachTaiKhoan(String ma) {
+        listTaiKhoan.clear();
+        try {
+            String sql = "select MaTK, TenDangNhap,MatKhau,MaNV from TaiKhoan where MaTK = ?";
+            Connection con = DbConnect.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, ma);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String Ma = rs.getString(1);
+                String Ten = rs.getString(2);
+                String matKhau = rs.getString(3);
+                String maNV = rs.getString(4);
+                listTaiKhoan.add(new TaiKhoan(Ma, Ten, matKhau, maNV));
+            }
+            con.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return listTaiKhoan;
+    }
+
+    public ArrayList<TaiKhoan> SeachTKhoanNhanVien(String MaNV) {
+        listTaiKhoan.clear();
+        try {
+            String sql = "select MaTK, TenDangNhap,MatKhau,MaNV from TaiKhoan where MaNV = ?";
+            Connection con = DbConnect.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, MaNV);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String Ma = rs.getString(1);
+                String Ten = rs.getString(2);
+                String matKhau = rs.getString(3);
+                String maNV = rs.getString(4);
+                listTaiKhoan.add(new TaiKhoan(Ma, Ten, matKhau, maNV));
             }
             con.close();
         } catch (Exception e) {
@@ -235,6 +310,29 @@ public class QuanLyNhanVien {
         return listCaLam;
     }
 
+    public ArrayList<TaiKhoan> SeachCaLam(String ma) {
+        listCaLam.clear();
+        try {
+            String sql = "SELECT MaCL , TenCL,GioBatDau,GioKetThuc,GhiChu from CaLam where MaCL = ?";
+            Connection con = DbConnect.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, ma);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String Ma = rs.getString(1);
+                String ten = rs.getString(2);
+                String gioBatDau = rs.getString(3);
+                String gioKetThuc = rs.getString(4);
+                String ghichu = rs.getString(5);
+                listCaLam.add(new TaiKhoan(Ma, ten, gioBatDau, gioKetThuc, ghichu));
+            }
+            con.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return listCaLam;
+    }
+
     public boolean AddCaLam(TaiKhoan taiKhoan) {
         try {
             String sql = "INSERT INTO CaLam (MaCL, TenCL, GioBatDau, GioKetThuc, GhiChu) VALUES(?,?,?,?,?)";
@@ -256,10 +354,12 @@ public class QuanLyNhanVien {
 
     public boolean DeleteCaLam(String ma) {
         try {
-            String sql = "delete from CaLam where MaCL = ?";
+            String sql = "UPDATE NhanVien SET MaCL = NULL WHERE MaCL = ?\n"
+                    + "DELETE FROM CaLam WHERE MaCL = ?";
             Connection con = DbConnect.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, ma);
+            ps.setString(2, ma);
             ps.executeUpdate();
             con.close();
             return true;
@@ -268,6 +368,7 @@ public class QuanLyNhanVien {
             e.printStackTrace();
             return false;
         }
+
     }
 
     public boolean UpDateCaLam(TaiKhoan taiKhoan) {
