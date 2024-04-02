@@ -712,26 +712,34 @@ public class ViewBanHang extends javax.swing.JFrame {
         try {
             if (txtMaHD.getText().equals("")) {
                 cbVoucher.setSelectedIndex(0);
-                if (txtTongTien.getText().equals("")) {
-                    return;
-                }
+
+                return;
+            }
+            if (txtTongTien.getText().equals("")) {
                 return;
             }
             for (Voucher v : ql.getListV()) {
-                String a = v.getDieuKien();
-                String b = txtTongTien.getText();
-                if (Float.valueOf(a) > Float.valueOf(b)) {
-                    JOptionPane.showMessageDialog(this, "Không đủ điều kiện");
-                    cbVoucher.setSelectedIndex(0);
-                    return;
+                if (cbVoucher.getSelectedItem().toString().equals(v.getTenVC())) {
+                    String a = v.getDieuKien();
+                    String b = txtTongTien.getText();
+                    if (Float.valueOf(a) > Float.valueOf(b)) {
+                        JOptionPane.showMessageDialog(this, "Không đủ điều kiện");
+                        cbVoucher.setSelectedIndex(0);
+                        tongTien();
+                        return;
+                    }
                 }
+
             }
             String mKH = txtMaKH.getText();
             for (Voucher v : ql.getListVV(mKH)) {
-                if (Integer.valueOf(v.getDieuKien()) > Integer.valueOf(txtTongTien.getText())) {
-                    JOptionPane.showMessageDialog(this, "Không đủ điều kiện");
-                    cbVoucher.setSelectedIndex(0);
-                    return;
+                if (cbVoucher.getSelectedItem().toString().equals(v.getTenVC())) {
+                    if (Integer.valueOf(v.getDieuKien()) > Integer.valueOf(txtTongTien.getText())) {
+                        JOptionPane.showMessageDialog(this, "Không đủ điều kiện");
+                        cbVoucher.setSelectedIndex(0);
+                        tongTien();
+                        return;
+                    }
                 }
             }
             tongTien();
