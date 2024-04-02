@@ -9,16 +9,18 @@ package Model;
  * @author ADMIN
  */
 public class GioHang {
-    private String maHD,idSP,soLuong,giaBan;
+    private String maHD,idSP,soLuong,idCP,phanTram,giaSau;
 
     public GioHang() {
     }
 
-    public GioHang(String maHD, String idSP, String soLuong, String giaBan) {
+    public GioHang(String maHD, String idSP, String soLuong, String idCP, String phanTram, String giaSau) {
         this.maHD = maHD;
         this.idSP = idSP;
         this.soLuong = soLuong;
-        this.giaBan = giaBan;
+        this.idCP = idCP;
+        this.phanTram = phanTram;
+        this.giaSau = giaSau;
     }
 
     public String getMaHD() {
@@ -45,12 +47,29 @@ public class GioHang {
         this.soLuong = soLuong;
     }
 
-    public String getGiaBan() {
-        return giaBan;
+    public String getIdCP() {
+        return idCP;
     }
 
-    public void setGiaBan(String giaBan) {
-        this.giaBan = giaBan;
+    public void setIdCP(String idCP) {
+        this.idCP = idCP;
     }
+
+    public String getPhanTram() {
+        return phanTram;
+    }
+
+    public void setPhanTram(String phanTram) {
+        this.phanTram = phanTram;
+    }
+
+    public String getGiaSau() {
+        return giaSau;
+    }
+
+    public void setGiaSau(String giaSau) {
+        this.giaSau = giaSau;
+    }
+
     
 }
