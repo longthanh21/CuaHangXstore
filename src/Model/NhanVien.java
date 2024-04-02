@@ -11,32 +11,36 @@ package Model;
 public class NhanVien {
     private String maNV;
     private String tenNV;
+    private String Cccd;
+    private String Email;
     private String ngaySinh;
     private boolean gioiTinh;
-    private String diaChi;
     private String SĐT;
     private String NgayVaoLam;
     private String vaiTro;
-    private String maTK;
     private String maCL;
+    private String diaChi; 
     private String trangThai;
 
     public NhanVien() {
     }
 
-    public NhanVien(String maNV, String tenNV, String ngaySinh, boolean gioiTinh, String diaChi, String SĐT, String NgayVaoLam, String vaiTro, String maTK, String maCL, String trangThai) {
+    public NhanVien(String maNV, String tenNV, String Cccd, String Email, String ngaySinh, boolean gioiTinh, String SĐT, String NgayVaoLam, String vaiTro, String maCL, String diaChi, String trangThai) {
         this.maNV = maNV;
         this.tenNV = tenNV;
+        this.Cccd = Cccd;
+        this.Email = Email;
         this.ngaySinh = ngaySinh;
         this.gioiTinh = gioiTinh;
-        this.diaChi = diaChi;
         this.SĐT = SĐT;
         this.NgayVaoLam = NgayVaoLam;
         this.vaiTro = vaiTro;
-        this.maTK = maTK;
         this.maCL = maCL;
+        this.diaChi = diaChi;
         this.trangThai = trangThai;
     }
+
+    
 
     
     
@@ -81,6 +85,22 @@ public class NhanVien {
         this.diaChi = diaChi;
     }
 
+    public String getCccd() {
+        return Cccd;
+    }
+
+    public void setCccd(String Cccd) {
+        this.Cccd = Cccd;
+    }
+
+    public String getEmail() {
+        return Email;
+    }
+
+    public void setEmail(String Email) {
+        this.Email = Email;
+    }
+
     public String getSĐT() {
         return SĐT;
     }
@@ -105,13 +125,7 @@ public class NhanVien {
         this.vaiTro = vaiTro;
     }
 
-    public String getMaTK() {
-        return maTK;
-    }
-
-    public void setMaTK(String maTK) {
-        this.maTK = maTK;
-    }
+  
 
     public String getMaCL() {
         return maCL;

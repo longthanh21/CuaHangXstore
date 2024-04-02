@@ -97,4 +97,24 @@ public class QuanLyDoanhThu {
         }
         return h;
     }
+    float T = 0;
+    public Float TongDoanhThu() {
+        try {
+            Connection conn = DbConnect.getConnection();
+            String sql = "SELECT sum(TongTien) AS TongDoanhThu FROM HoaDon WHERE TrangThai LIKE N'Đã thanh toán'";
+            Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            while (rs.next()) {
+                String a = rs.getString("TongDoanhThu");
+                if (a == null && a.isEmpty()) {
+                    T = 0;
+                } else {
+                    T = Float.valueOf(a);
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLyDoanhThu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return T;
+    }
 }
