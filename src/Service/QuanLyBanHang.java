@@ -117,12 +117,11 @@ public class QuanLyBanHang {
     public ArrayList<HoaDon> getListGioHang(String mhd) {
         listGioHang.clear();
         try {
-            String sql = " select c.IdSP,d.MaSP,TenSP,a.SoLuong,a.GiaBan,PhamTram from CTHD a\n"
-                    + "        join HoaDon b on a.MaHD=b.MaHD \n"
-                    + "        join CTSP c on c.IdSP=a.IdSP\n"
-                    + "        join SanPham d on d.MaSP=c.MaSP\n"
-                    + "	left join GiamGiaSP e on a.idsp=e.idsp\n"
-                    + "	left join  Coupon f on f.macp=e.macp\n"
+            String sql = "select c.IdSP,d.MaSP,TenSP,a.SoLuong,a.PhanTram,a.GiaSau from CTHD a\n"
+                    + "join HoaDon b on a.MaHD=b.MaHD\n"
+                    + "join CTSP c on c.IdSP=a.IdSP\n"
+                    + "join SanPham d on d.MaSP=c.MaSP\n"
+                    + "left join GiamGiaSP e on a.idsp=e.idsp\n"
                     + "where a.MaHD='" + mhd + "'";
             Connection con = DbConnect.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
@@ -130,11 +129,10 @@ public class QuanLyBanHang {
             while (rs.next()) {
                 HoaDon bh = new HoaDon();
                 bh.setIdSP(rs.getString("idsp"));
-
                 bh.setMaSP(rs.getString("MaSP"));
                 bh.setTenSP(rs.getString("TenSp"));
                 bh.setSoLuong(rs.getString("SoLuong"));
-                bh.setGiaBan(rs.getString("GiaBan"));
+                bh.setGiaSau(rs.getString("GiaSau"));
                 String phamTram = rs.getString("PhamTram");
                 if (phamTram == null || phamTram.isEmpty()) {
                     bh.setPhanTram("0");
@@ -192,13 +190,15 @@ public class QuanLyBanHang {
 
     public void themGioHang(HoaDon h) {
         try {
-            String sql = "insert into cthd values(?,?,?,?)";
+            String sql = "insert into cthd values(?,?,?,?,?,?)";
             Connection con = DbConnect.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, h.getMaHD());
             ps.setString(2, h.getIdSP());
             ps.setString(3, h.getSoLuong());
-            ps.setString(4, h.getGiaBan());
+            ps.setString(4, h.getMaCP());
+            ps.setString(5, h.getPhanTram());
+            ps.setString(6, h.getGiaSau());
 
             ps.executeUpdate();
             con.close();

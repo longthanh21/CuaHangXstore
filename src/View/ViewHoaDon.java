@@ -47,6 +47,25 @@ public class ViewHoaDon extends javax.swing.JFrame {
         }
     }
 
+    void loadDataHoaDonChiTiet() {
+        defaultTableModel = (DefaultTableModel) tblHoaDonChiTiet.getModel();
+        defaultTableModel.setRowCount(0);
+        int stt = 1;
+        for (HoaDon hoaDon : quanLyHoaDon.loadHoaDonChiTiet()) {
+            defaultTableModel.addRow(new Object[]{
+                stt++,
+                hoaDon.getIdSP(),
+                hoaDon.getMaSP(),
+                hoaDon.getTenSP(),
+                hoaDon.getSoLuong(),
+                hoaDon.getGiaBan(),
+                hoaDon.getPhanTram(),
+                hoaDon.getGiaSau(),
+                hoaDon.thanhTien(Integer.valueOf(hoaDon.getSoLuong()), Float.valueOf(hoaDon.getGiaSau()).intValue())
+            });
+        }
+    }
+
     void loadMaHDDataHoaDonChiTiet(String MaHDD) {
         defaultTableModel = (DefaultTableModel) tblHoaDonChiTiet.getModel();
         defaultTableModel.setRowCount(0);
@@ -54,13 +73,15 @@ public class ViewHoaDon extends javax.swing.JFrame {
         for (HoaDon hoaDon1 : quanLyHoaDon.loadMaHDSeachHDCT(MaHDD)) {
             defaultTableModel.addRow(new Object[]{
                 stt++,
-                hoaDon1.getMaHD(),
+                hoaDon1.getIdSP(),
                 hoaDon1.getMaSP(),
                 hoaDon1.getTenSP(),
                 hoaDon1.getSoLuong(),
                 hoaDon1.getGiaBan(),
                 hoaDon1.getPhanTram(),
-                hoaDon1.getTongTien(),});
+                hoaDon1.getGiaSau(),
+                hoaDon1.thanhTien(Integer.valueOf(hoaDon1.getSoLuong()), Float.valueOf(hoaDon1.getGiaSau()).intValue())
+            });
         }
     }
 
@@ -71,30 +92,16 @@ public class ViewHoaDon extends javax.swing.JFrame {
         for (HoaDon hoaDon1 : quanLyHoaDon.loadMaSPSeachHDCT(MaSP)) {
             defaultTableModel.addRow(new Object[]{
                 stt++,
+                hoaDon1.getIdSP(),
                 hoaDon1.getMaHD(),
                 hoaDon1.getMaSP(),
                 hoaDon1.getTenSP(),
                 hoaDon1.getSoLuong(),
                 hoaDon1.getGiaBan(),
                 hoaDon1.getPhanTram(),
-                hoaDon1.getTongTien(),});
-        }
-    }
-
-    void loadDataHoaDonChiTiet() {
-        defaultTableModel = (DefaultTableModel) tblHoaDonChiTiet.getModel();
-        defaultTableModel.setRowCount(0);
-        int stt = 1;
-        for (HoaDon hoaDon : quanLyHoaDon.loadHoaDonChiTiet()) {
-            defaultTableModel.addRow(new Object[]{
-                stt++,
-                hoaDon.getMaHD(),
-                hoaDon.getMaSP(),
-                hoaDon.getTenSP(),
-                hoaDon.getSoLuong(),
-                hoaDon.getGiaBan(),
-                hoaDon.getPhanTram(),
-                hoaDon.getTongTien(),});
+                hoaDon1.getGiaSau(),
+                hoaDon1.getTongTien()
+            });
         }
     }
 
@@ -105,7 +112,6 @@ public class ViewHoaDon extends javax.swing.JFrame {
         for (HoaDon hoaDon : quanLyHoaDon.loadSeachDaThanhToan()) {
             defaultTableModel.addRow(new Object[]{
                 stt++,
-                hoaDon.getMaHD(),
                 hoaDon.getMaNV(),
                 hoaDon.getMaKH(),
                 hoaDon.getMaVC(),
@@ -263,8 +269,8 @@ public class ViewHoaDon extends javax.swing.JFrame {
             pnHoaDonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnHoaDonLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(aaaa, javax.swing.GroupLayout.DEFAULT_SIZE, 546, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(aaaa, javax.swing.GroupLayout.PREFERRED_SIZE, 530, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnHoaDonLayout.setVerticalGroup(
             pnHoaDonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -281,7 +287,7 @@ public class ViewHoaDon extends javax.swing.JFrame {
 
             },
             new String [] {
-                "STT", "Mã HD", "Mã SP", "Tên SP", "Số lượng", "Giá bán", "Giảm Giá", "Tổng Tiền"
+                "STT", "IdSP", "Mã SP", "Tên SP", "Số lượng", "Giá bán", "Giảm Giá", "Giá Sau", "Thanh Tiền"
             }
         ));
         tblHoaDonChiTiet.setPreferredSize(new java.awt.Dimension(75, 80));
@@ -298,8 +304,8 @@ public class ViewHoaDon extends javax.swing.JFrame {
             pnGioHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnGioHangLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(aaaaaa, javax.swing.GroupLayout.PREFERRED_SIZE, 568, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(aaaaaa, javax.swing.GroupLayout.DEFAULT_SIZE, 584, Short.MAX_VALUE)
+                .addContainerGap())
         );
         pnGioHangLayout.setVerticalGroup(
             pnGioHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -492,12 +498,13 @@ public class ViewHoaDon extends javax.swing.JFrame {
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(hoaDonLayout.createSequentialGroup()
-                        .addGroup(hoaDonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(hoaDonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(hoaDonLayout.createSequentialGroup()
-                                .addComponent(pnHoaDon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(pnHoaDon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(pnGioHang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(pnGioHang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addGap(26, 26, 26))))
         );
         hoaDonLayout.setVerticalGroup(
@@ -631,7 +638,7 @@ public class ViewHoaDon extends javax.swing.JFrame {
     }//GEN-LAST:event_dcNgayBatDauKeyTyped
 
     private void dcNgayKetThucKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dcNgayKetThucKeyReleased
-        
+
     }//GEN-LAST:event_dcNgayKetThucKeyReleased
 
     private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemActionPerformed
@@ -654,7 +661,7 @@ public class ViewHoaDon extends javax.swing.JFrame {
         int i = tblHoaDonChiTiet.getSelectedRow();
         String ma = (String) tblHoaDonChiTiet.getValueAt(i, 1);
         loadSeachMaHoaDon(ma);
-        
+
     }//GEN-LAST:event_tblHoaDonChiTietMouseClicked
 
     /**
