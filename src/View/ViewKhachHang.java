@@ -503,7 +503,7 @@ public class ViewKhachHang extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Số Điện Thoại Phải Là 10 số");
             return;
         }
-        if (!sdt.startsWith("0") ) {
+        if (!sdt.startsWith("0")) {
             JOptionPane.showMessageDialog(this, "Số Điện Thoại Bắt Đầu Bằng số 0");
             return;
         }
@@ -533,7 +533,9 @@ public class ViewKhachHang extends javax.swing.JFrame {
             return;
         }
         KhachHang khachHang = new KhachHang(ma, ten, sdt, strNgayTao, gioiTinh, trangThai, diaChi);
+
         quanLyKhachHang.ADDKhachHang(khachHang);
+        JOptionPane.showMessageDialog(this, "Thêm Thành Công");
         loadDataKhachHang();
         loadDataKhachVip();
     }//GEN-LAST:event_btnAddMouseClicked
@@ -660,7 +662,7 @@ public class ViewKhachHang extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Số Điện Thoại Phải Là 10 số");
             return;
         }
-        if (!sdt.startsWith("0") ) {
+        if (!sdt.startsWith("0")) {
             JOptionPane.showMessageDialog(this, "Số Điện Thoại Bắt Đầu Bằng số 0");
             return;
         }
@@ -682,6 +684,7 @@ public class ViewKhachHang extends javax.swing.JFrame {
         }
         KhachHang khachHang = new KhachHang(ma, ten, sdt, strNgayTao, gioiTinh, trangThai, diaChi);
         quanLyKhachHang.upDate(khachHang);
+        JOptionPane.showMessageDialog(this, "Cập Nhật Thành Công");
         loadDataKhachHang();
         loadDataKhachVip();
     }//GEN-LAST:event_btnUpDateMouseClicked
