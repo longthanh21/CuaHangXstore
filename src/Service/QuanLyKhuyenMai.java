@@ -61,7 +61,8 @@ public class QuanLyKhuyenMai {
     public void addKhachVIP(String maVC) {
         try {
             String sql = "INSERT INTO UuDai(MaVC, MaKH) \n"
-                    + "SELECT ?, MaKH from KhachHang WHERE TrangThai =  1";
+                    + "SELECT ?, MaKH from KhachHang "
+                    + "WHERE TrangThai = 1";
             PreparedStatement ps = cn.prepareStatement(sql);
             ps.setString(1, maVC);
             ps.execute();
@@ -72,8 +73,8 @@ public class QuanLyKhuyenMai {
 
     public void dltKhachVIP(String maVC) {
         try {
-            String sql = "DELETE FROM UuDai\n"
-                    + "WHERE MaVC = ?\n";
+            String sql = "DELETE FROM UuDai "
+                    + "WHERE MaVC = ?";
             PreparedStatement ps = cn.prepareStatement(sql);
             ps.setString(1, maVC);
             ps.execute();
@@ -148,7 +149,7 @@ public class QuanLyKhuyenMai {
             String sql = "SELECT CTSP.IdSP, SanPham.MaSP, SanPham.TenSP, SanPham.SoLuongTong, Gia.GiaBan "
                     + "FROM CTSP "
                     + "LEFT JOIN SanPham ON CTSP.MaSP = SanPham.MaSP "
-                    + "JOIN Gia ON Gia.IdSP = CTSP.IdSP";
+                    + "JOIN (SELECT IdSP, MAX(GiaBan) AS GiaBan FROM Gia WHERE NgayBatDau <= GETDATE() GROUP BY IdSP) AS Gia ON Gia.IdSP = CTSP.IdSP";
             PreparedStatement ps = cn.prepareStatement(sql);
             ps.execute();
             ResultSet rs = ps.getResultSet();
@@ -177,6 +178,19 @@ public class QuanLyKhuyenMai {
             ps.execute();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public boolean checkCouponAppliedToProduct(int idSP) {
+        try {
+            String sql = "SELECT * FROM GiamGiaSP WHERE IdSP = ?";
+            PreparedStatement ps = cn.prepareStatement(sql);
+            ps.setInt(1, idSP);
+            ResultSet rs = ps.executeQuery();
+            return rs.next(); // Trả về true nếu sản phẩm đã áp dụng coupon, ngược lại false
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
     }
 
@@ -221,5 +235,16 @@ public class QuanLyKhuyenMai {
             e.printStackTrace();
         }
         return listsp;
+    }
+
+    public void huyCoupon(int idSP) {
+        try {
+            String sql = "DELETE GiamGiaSP WHERE IdSp = ?";
+            PreparedStatement ps = cn.prepareStatement(sql);
+            ps.setInt(1, idSP);
+            ps.execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

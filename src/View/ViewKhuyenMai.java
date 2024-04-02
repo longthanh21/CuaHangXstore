@@ -14,6 +14,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -27,6 +29,8 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
     List<Voucher> listVC = new ArrayList<>();
     QuanLyKhuyenMai qlKM = new QuanLyKhuyenMai();
 
+    private Timer timer = new Timer();
+
     List<Coupon> listCP = new ArrayList<>();
     List<SanPham> listSP = new ArrayList<>();
 
@@ -35,6 +39,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         LoadDataTable();
         LoadDataCoupon();
         LoadDataSanPham();
+        timer.scheduleAtFixedRate(new UpdateHetHan(), 0, 24 * 60 * 60 * 1000); // Kiểm tra mỗi 24 giờ
     }
 
     public void LoadDataTable() {
@@ -140,7 +145,159 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         return vc;
     }
 
+    public boolean checkVC() {
+        String mavc = txtMaVC.getText().trim();
+        String tenvc = txtTenVC.getText().trim();
+        String giamGia = txtGiamGiaVC.getText().trim();
+        Date batDau = dcBatDau.getDate();
+        Date hetHan = dcHetHan.getDate();
+        String dieukien = txtDieuKien.getText().trim();
+        if (mavc.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Mã voucher không được để trống");
+            return false;
+        }
+        for (Voucher vc : listVC) {
+            if (vc.getMaVC().equals(mavc)) {
+                JOptionPane.showMessageDialog(this, "Mã voucher không được trùng nhau!");
+                return false;
+            }
+        }
+        if (tenvc.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Tên voucher không được để trống");
+            return false;
+        }
+        if (giamGia.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Giảm giá voucher không được để trống");
+            return false;
+        }
+        try {
+            double giaGiam = Double.parseDouble(giamGia);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Giảm giá voucher phải là một số");
+            return false;
+        }
+
+        if (batDau == null) {
+            JOptionPane.showMessageDialog(this, "Ngày bắt đầu không được để trống");
+            return false;
+        }
+        if (hetHan == null) {
+            JOptionPane.showMessageDialog(this, "Ngày hết hạn không được để trống");
+            return false;
+        }
+        if (dieukien.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Điều kiện không được để trống");
+            return false;
+        }
+        if (hetHan.before(batDau)) {
+            JOptionPane.showMessageDialog(this, "Ngày hết hạn không được để trước ngày bắt đầu");
+            return false;
+        }
+        return true;
+    }
+
+    public boolean checkTonTaiMa(String maMoi) {
+        for (Voucher vc : listVC) {
+            if (!vc.getMaVC().equals(txtMaVC.getText().trim()) && vc.getMaVC().equals(maMoi)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean checkUpdateVC() {
+        String mavc = txtMaVC.getText().trim();
+        String tenvc = txtTenVC.getText().trim();
+        String giamGia = txtGiamGiaVC.getText().trim();
+        Date batDau = dcBatDau.getDate();
+        Date hetHan = dcHetHan.getDate();
+        String dieukien = txtDieuKien.getText().trim();
+
+        if (tenvc.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Tên voucher không được để trống");
+            return false;
+        }
+
+        if (giamGia.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Giảm giá voucher không được để trống");
+            return false;
+        }
+
+        // Kiểm tra nếu giá trị giamGia không phải là số
+        try {
+            double giaGiam = Double.parseDouble(giamGia);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Giảm giá voucher phải là một số");
+            return false;
+        }
+
+        if (batDau == null) {
+            JOptionPane.showMessageDialog(this, "Ngày bắt đầu không được để trống");
+            return false;
+        }
+
+        if (hetHan == null) {
+            JOptionPane.showMessageDialog(this, "Ngày hết hạn không được để trống");
+            return false;
+        }
+
+        if (dieukien.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Điều kiện không được để trống");
+            return false;
+        }
+
+        if (hetHan.before(batDau)) {
+            JOptionPane.showMessageDialog(this, "Ngày hết hạn không được để trước ngày bắt đầu");
+            return false;
+        }
+
+        if (checkTonTaiMa(mavc)) {
+            JOptionPane.showMessageDialog(this, "Mã voucher đã tồn tại");
+            return false;
+        }
+
+        return true;
+    }
+
+    public void addVC() {
+        if (checkVC()) {
+            try {
+                qlKM.themVoucher(getFormVoucher());
+                String maVC = txtMaVC.getText();
+                if (cbKhachVip.isSelected()) {
+                    qlKM.addKhachVIP(maVC);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void updateVC() {
+        if (checkUpdateVC()) {
+            try {
+                int i = tbVoucher.getSelectedRow();
+                if (i != -1) { // Kiểm tra xem có hàng được chọn không
+                    String maVC = txtMaVC.getText();
+                    String trangThai = (String) tbVoucher.getValueAt(i, 6);
+                    if (cbKhachVip.isSelected() && !trangThai.equals("Khách VIP")) {
+                        qlKM.addKhachVIP(maVC);
+                    } else if (cbKhachVip.isSelected() && trangThai.equals("Khách VIP")) {
+                        System.out.println("Mã đã áp dụng cho khách VIP");
+                    } else {
+                        qlKM.dltKhachVIP(maVC);
+                    }
+                    qlKM.suaVoucher(getFormVoucher());
+                } else {
+                    JOptionPane.showMessageDialog(this, "Vui lòng chọn một Voucher!");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 //    ===========================COUPON==========================================
+
     public void LoadDataCoupon() {
         dtm = (DefaultTableModel) tbCoupon.getModel();
         listCP = qlKM.getAllCP();
@@ -249,11 +406,55 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         }
     }
 
+    public boolean checkCP() {
+        String macp = txtMaCP.getText().trim();
+        String tencp = txtTenCP.getText().trim();
+        String giamGiaStr = txtGiamGiaCP.getText().trim();
+        // Kiểm tra xem ngày bắt đầu và ngày kết thúc có null không
+        Date batDau = dcNgayDatBau.getDate();
+        Date hetHan = dcNgayKetThuc.getDate();
+        // Kiểm tra xem ngày bắt đầu và ngày kết thúc có null không
+        if (macp.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Không được để trống mã coupon");
+            return false;
+        }
+        for (Coupon cp : listCP) {
+            if (cp.getMaCP().equals(macp)) {
+                JOptionPane.showMessageDialog(this, "Không được trùng mã coupon");
+                return false;
+            }
+        }
+        if (tencp.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Không được để trống tên coupon");
+            return false;
+        }
+        if (giamGiaStr.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Không được để trống giảm giá coupon");
+            return false;
+        }
+        if (batDau == null) {
+            JOptionPane.showMessageDialog(this, "Không được để trống ngày bắt đầu");
+            return false;
+        }
+        if (hetHan == null) {
+            JOptionPane.showMessageDialog(this, "Không được để trống ngày kết thúc");
+            return false;
+        }
+        // Kiểm tra ngày kết thúc phải lớn hơn ngày bắt đầu
+        if (hetHan.before(batDau)) {
+            JOptionPane.showMessageDialog(this, "Ngày kết thúc phải sau ngày bắt đầu");
+            return false;
+        }
+
+        return true;
+    }
+
     public Coupon getFormCoupon() {
         Coupon cp = new Coupon();
         cp.setMaCP(txtMaCP.getText());
         cp.setTenCP(txtTenCP.getText());
         cp.setPhanTram(txtGiamGiaCP.getText());
+
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         Date ngayBatDau = dcNgayDatBau.getDate();
@@ -279,7 +480,19 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
     public void apDungSanPhamToCoupon() {
         String ma = txtMaCP.getText();
         int id = Integer.valueOf(txtIDSanPham.getText());
-        qlKM.addCoupontoSP(ma, id);
+
+        // Kiểm tra sản phẩm đã áp dụng coupon chưa
+        if (qlKM.checkCouponAppliedToProduct(id)) {
+            JOptionPane.showMessageDialog(this, "Sản phẩm đã áp dụng coupon!");
+        } else {
+            qlKM.addCoupontoSP(ma, id);
+            JOptionPane.showMessageDialog(this, "Áp dụng thành công coupon!");
+        }
+    }
+
+    public void huyCP() {
+        int id = Integer.valueOf(txtIDSanPham.getText());
+        qlKM.huyCoupon(id);
     }
 //    ============================SANPHAM========================================
 
@@ -305,6 +518,51 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         txtTenSP.setText(String.valueOf(tbSanPham.getValueAt(i, 2)));
         txtSoLuong.setText(String.valueOf(tbSanPham.getValueAt(i, 3)));
         txtGiaBan.setText(String.valueOf(tbSanPham.getValueAt(i, 4)));
+    }
+//=====================Kiểm tra thời gian=================================
+
+    private class UpdateHetHan extends TimerTask {
+
+        @Override
+        public void run() {
+            TrangThaiThoiGianVoucher();
+            TrangThaiThoiGianCoupon();
+        }
+    }
+
+    // Phương thức để cập nhật trạng thái khi hết hạn
+    public void TrangThaiThoiGianVoucher() {
+        Date batDau = dcBatDau.getDate();
+        Date hetHan = dcHetHan.getDate();
+        if (hetHan != null) { // Kiểm tra xem hetHan có null không
+            for (Voucher e : listVC) {
+                if (hetHan.before(batDau)) {
+                    rbHetHan.setSelected(true);
+                    e.setTrangThai("Hết hạn");
+                } else {
+                    rbHoatDong.setSelected(true);
+                    e.setTrangThai("Hoạt động");
+                }
+            }
+            LoadDataTable(); // Cập nhật lại bảng hiển thị thông tin voucher
+        }
+    }
+
+    public void TrangThaiThoiGianCoupon() {
+        Date batDau = dcNgayDatBau.getDate();
+        Date hetHan = dcNgayKetThuc.getDate();
+        if (hetHan != null) { // Kiểm tra xem hetHan có null không
+            for (Voucher e : listVC) {
+                if (hetHan.before(batDau)) {
+                    rbCPHetHan.setSelected(true);
+                    e.setTrangThai("Hết hạn");
+                } else {
+                    rbCPHoatDong.setSelected(true);
+                    e.setTrangThai("Hoạt động");
+                }
+            }
+            LoadDataCoupon(); // Cập nhật lại bảng hiển thị thông tin voucher
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -417,6 +675,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         jLabel6.setText("Trạng thái:");
 
         buttonGroup1.add(rbHoatDong);
+        rbHoatDong.setSelected(true);
         rbHoatDong.setText("Hoạt động");
 
         buttonGroup1.add(rbHetHan);
@@ -591,9 +850,19 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
 
         jLabel7.setText("ID SP:");
 
+        txtIDSanPham.setEditable(false);
+
+        txtMaSP.setEditable(false);
+
         jLabel8.setText("Mã SP:");
 
+        txtTenSP.setEditable(false);
+
         jLabel9.setText("Tên SP:");
+
+        txtSoLuong.setEditable(false);
+
+        txtGiaBan.setEditable(false);
 
         jLabel13.setText("Giá bán:");
 
@@ -663,6 +932,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         jLabel18.setText("Trạng thái");
 
         buttonGroup2.add(rbCPHoatDong);
+        rbCPHoatDong.setSelected(true);
         rbCPHoatDong.setText("Hoạt động");
 
         buttonGroup2.add(rbCPHetHan);
@@ -807,6 +1077,11 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         });
 
         btnHuy.setText("Hủy");
+        btnHuy.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHuyActionPerformed(evt);
+            }
+        });
 
         btnAddCoupon.setText("New Coupon");
         btnAddCoupon.addActionListener(new java.awt.event.ActionListener() {
@@ -882,19 +1157,12 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
     private void tbVoucherMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbVoucherMouseClicked
         int i = tbVoucher.getSelectedRow();
         detail();
-        LoadDataTableTheoMa(String.valueOf(tbVoucher.getValueAt(i, 1)));
+//        LoadDataTableTheoMa(String.valueOf(tbVoucher.getValueAt(i, 0)));
     }//GEN-LAST:event_tbVoucherMouseClicked
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        try {
-            qlKM.themVoucher(getFormVoucher());
-            if (cbKhachVip.isSelected()) {
-                qlKM.addKhachVIP(txtMaVC.getText());
-            }
-            LoadDataTable();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        addVC();
+        LoadDataTable();
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
@@ -902,28 +1170,15 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        try {
-            qlKM.suaVoucher(getFormVoucher());
-            int i = tbVoucher.getSelectedRow();
-            String trangThai = (String) tbVoucher.getValueAt(i, 6);
-            if (cbKhachVip.isSelected() && !trangThai.equals("Khách VIP")) {
-                qlKM.addKhachVIP(txtMaVC.getText());
-            } else if (cbKhachVip.isSelected() && trangThai.equals("Khách VIP")) {
-                JOptionPane.showMessageDialog(this, "Mã VC đã Áp dụng cho Khách VIP");
-            } else {
-                qlKM.dltKhachVIP(txtMaVC.getText());
-            }
-            LoadDataTable();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        updateVC();
+        LoadDataTable();
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void tbCouponMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbCouponMouseClicked
         try {
             int i = tbCoupon.getSelectedRow();
             DetailCouPon();
-            LoadDataCouponTheoMa(String.valueOf(tbCoupon.getValueAt(i, 0)));
+//            LoadDataCouponTheoMa(String.valueOf(tbCoupon.getValueAt(i, 0)));
         } catch (Exception e) {
             System.out.println("loi");
         }
@@ -935,14 +1190,35 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
     }//GEN-LAST:event_tbSanPhamMouseClicked
 
     private void btnAddCouponActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCouponActionPerformed
-        addCoupon();
-        LoadDataCoupon();
+        try {
+            if (checkCP()) {
+                addCoupon();
+                LoadDataCoupon();
+                JOptionPane.showMessageDialog(this, "Thêm mới coupon thành công!");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Thêm mới coupon không thành công!");
+        }
     }//GEN-LAST:event_btnAddCouponActionPerformed
 
     private void btnApDungActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApDungActionPerformed
-        apDungSanPhamToCoupon();
-        LoadDataCoupon();
+        try {
+            apDungSanPhamToCoupon();
+            LoadDataCoupon();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Không được để trống sản phẩm hoặc coupon");
+        }
     }//GEN-LAST:event_btnApDungActionPerformed
+
+    private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
+        try {
+            huyCP();
+            LoadDataCoupon();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Không thể hủy khi chưa chọn sản phẩm hoặc coupon");
+        }
+
+    }//GEN-LAST:event_btnHuyActionPerformed
 
     /**
      * @param args the command line arguments
