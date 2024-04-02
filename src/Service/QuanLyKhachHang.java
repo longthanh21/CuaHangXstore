@@ -29,11 +29,11 @@ public class QuanLyKhachHang {
                 String ma = rs.getString(1);
                 String ten = rs.getString(2);
                 String sdt = rs.getString(3);
-               String NgayTao = rs.getString(4);
+                String NgayTao = rs.getString(4);
                 Boolean gioiTinh = rs.getBoolean(5);
                 Boolean trangThai = rs.getBoolean(6);
                 String diaChi = rs.getString(7);
-                list.add(new KhachHang(ma, ten, sdt,NgayTao, gioiTinh, trangThai, diaChi));
+                list.add(new KhachHang(ma, ten, sdt, NgayTao, gioiTinh, trangThai, diaChi));
             }
             con.close();
         } catch (Exception e) {
@@ -58,7 +58,7 @@ public class QuanLyKhachHang {
                 Boolean gioiTinh = rs.getBoolean(5);
                 Boolean trangThai = rs.getBoolean(6);
                 String diaChi = rs.getString(7);
-                list.add(new KhachHang(ma, ten, sdt,NgayTao, gioiTinh, trangThai, diaChi));
+                list.add(new KhachHang(ma, ten, sdt, NgayTao, gioiTinh, trangThai, diaChi));
             }
             con.close();
         } catch (Exception e) {
@@ -146,14 +146,22 @@ public class QuanLyKhachHang {
 
     public boolean deleteKhachHang(String maKh) {
         try {
-            String sql = "delete from UuDai where MaKH = ? "
-                    + "delete from HoaDon where MaKH = ? "
+            String sql = "delete from UuDai where MaVC in (select MaVC from UuDai \n"
+                    + "join KhachHang on KhachHang.MaKH = UuDai.MaKH\n"
+                    + "where KhachHang.MaKH = ?);\n"
+                    + "delete from CTHD where MaHD in (SELECT MaHD from HoaDon\n"
+                    + "join KhachHang on KhachHang.MaKH = HoaDon.MaKH\n"
+                    + "where KhachHang.MaKH = ?);\n"
+                    + "delete from HoaDon where MaHD in (SELECT MaHD from HoaDon\n"
+                    + "join KhachHang on KhachHang.MaKH = HoaDon.MaKH\n"
+                    + "where KhachHang.MaKH = ?);\n"
                     + "delete from KhachHang where MaKH = ?;";
             Connection con = DbConnect.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, maKh);
             ps.setString(2, maKh);
             ps.setString(3, maKh);
+            ps.setString(4, maKh);
             ps.executeUpdate();
             con.close();
             return true;

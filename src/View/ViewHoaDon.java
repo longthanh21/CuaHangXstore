@@ -285,6 +285,11 @@ public class ViewHoaDon extends javax.swing.JFrame {
             }
         ));
         tblHoaDonChiTiet.setPreferredSize(new java.awt.Dimension(75, 80));
+        tblHoaDonChiTiet.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblHoaDonChiTietMouseClicked(evt);
+            }
+        });
         aaaaaa.setViewportView(tblHoaDonChiTiet);
 
         javax.swing.GroupLayout pnGioHangLayout = new javax.swing.GroupLayout(pnGioHang);
@@ -643,6 +648,14 @@ public class ViewHoaDon extends javax.swing.JFrame {
         quanLyHoaDon.timKiemTheoNgay(ngayBatDau, ngayKetThuc);
         loadTimKiem(ngayBatDau, ngayKetThuc);
     }//GEN-LAST:event_btnTimKiemActionPerformed
+
+    private void tblHoaDonChiTietMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHoaDonChiTietMouseClicked
+        // TODO add your handling code here:
+        int i = tblHoaDonChiTiet.getSelectedRow();
+        String ma = (String) tblHoaDonChiTiet.getValueAt(i, 1);
+        loadSeachMaHoaDon(ma);
+        
+    }//GEN-LAST:event_tblHoaDonChiTietMouseClicked
 
     /**
      * @param args the command line arguments

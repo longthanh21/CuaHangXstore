@@ -35,7 +35,7 @@ public class QuanLySanPham {
                 sp.setMaSanPham(rs.getString("MaSP"));
                 sp.setTenSanPham(rs.getString("TenSP"));
                 String a = rs.getString("SoLuongTong");
-                if (a == null || a.isEmpty()) {
+                if (a == null || a.isEmpty() || Integer.valueOf(a) == 0) {
                     sp.setTrangThai("Hết hàng");
                 } else {
                     sp.setTrangThai("Còn hàng");
@@ -124,6 +124,36 @@ public class QuanLySanPham {
 //            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
 //        }
 //    }
+    public ArrayList<SanPham> getListCTSPTT() {
+        listCTCP.clear();
+        try {
+            Connection conn = DbConnect.getConnection();
+            String sql = "SELECT CTSP.IdSP, CTSP.MaSP, NgayNhap, TenMauSac, TenSize, TenChatLieu, TenHang, HinhAnh\n"
+                    + "FROM CTSP\n"
+                    + "JOIN MauSac ON MauSac.IdMauSac = CTSP.IdMauSac\n"
+                    + "JOIN Size ON Size.IdSize = CTSP.IdSize\n"
+                    + "JOIN ChatLieu ON ChatLieu.IdChatLieu = CTSP.IdChatLieu\n"
+                    + "JOIN Hang ON Hang.IdHang = CTSP.IdHang";
+            Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            while (rs.next()) {
+                SanPham sp = new SanPham();
+                sp.setIdspct(rs.getString("IdSP"));
+                sp.setMaSanPham(rs.getString("MaSP"));
+                sp.setNgayNhap(rs.getString("NgayNhap"));
+                sp.setMauSac(rs.getString("TenMauSac"));
+                sp.setSize(rs.getString("TenSize"));
+                sp.setChatLieu(rs.getString("TenChatLieu"));
+                sp.setHang(rs.getString("TenHang"));
+                sp.setHinhAnh(rs.getString("HinhAnh"));
+                listCTCP.add(sp);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listCTCP;
+    }
+
     public ArrayList<SanPham> getListCTSP() {
         listCTCP.clear();
         try {
@@ -134,7 +164,12 @@ public class QuanLySanPham {
                     + "JOIN Size ON Size.IdSize = CTSP.IdSize\n"
                     + "JOIN ChatLieu ON ChatLieu.IdChatLieu = CTSP.IdChatLieu\n"
                     + "JOIN Hang ON Hang.IdHang = CTSP.IdHang\n"
-                    + "JOIN (SELECT IdSP, MAX(GiaBan) AS GiaBan FROM Gia WHERE NgayBatDau <= GETDATE() GROUP BY IdSP) AS Gia ON Gia.IdSP = CTSP.IdSP";
+                    + "JOIN (\n"
+                    + "		SELECT g.IdSP, g.GiaBan, g.NgayBatDau FROM Gia AS g WHERE g.NgayBatDau <= GETDATE() AND g.IdSP IN (\n"
+                    + "			SELECT g2.IdSP FROM Gia AS g2 WHERE g2.NgayBatDau <= GETDATE() GROUP BY g2.IdSP HAVING MAX(g2.NgayBatDau) = g.NgayBatDau)\n"
+                    + ") AS Gia ON Gia.IdSP = CTSP.IdSP\n"
+                    + "WHERE SoLuong > 0\n"
+                    + "ORDER BY CTSP.IdSP asc";
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {
@@ -147,6 +182,44 @@ public class QuanLySanPham {
                 sp.setChatLieu(rs.getString("TenChatLieu"));
                 sp.setHang(rs.getString("TenHang"));
                 sp.setSoLuong(rs.getString("SoLuong"));
+                sp.setGiaNhap(rs.getString("GiaNhap"));
+                sp.setGiaBan(rs.getString("GiaBan"));
+                sp.setHinhAnh(rs.getString("HinhAnh"));
+                listCTCP.add(sp);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listCTCP;
+    }
+
+    public ArrayList<SanPham> getListCTSPDaHet() {
+        listCTCP.clear();
+        try {
+            Connection conn = DbConnect.getConnection();
+            String sql = "SELECT CTSP.IdSP, CTSP.MaSP, NgayNhap, TenMauSac, TenSize, TenChatLieu, TenHang, SoLuong, GiaNhap, Gia.GiaBan, HinhAnh\n"
+                    + "FROM CTSP\n"
+                    + "JOIN MauSac ON MauSac.IdMauSac = CTSP.IdMauSac\n"
+                    + "JOIN Size ON Size.IdSize = CTSP.IdSize\n"
+                    + "JOIN ChatLieu ON ChatLieu.IdChatLieu = CTSP.IdChatLieu\n"
+                    + "JOIN Hang ON Hang.IdHang = CTSP.IdHang\n"
+                    + "JOIN (\n"
+                    + "		SELECT g.IdSP, g.GiaBan, g.NgayBatDau FROM Gia AS g WHERE g.NgayBatDau <= GETDATE() AND g.IdSP IN (\n"
+                    + "			SELECT g2.IdSP FROM Gia AS g2 WHERE g2.NgayBatDau <= GETDATE() GROUP BY g2.IdSP HAVING MAX(g2.NgayBatDau) = g.NgayBatDau)\n"
+                    + ") AS Gia ON Gia.IdSP = CTSP.IdSP\n"
+                    + "WHERE SoLuong = 0\n"
+                    + "ORDER BY CTSP.IdSP asc";
+            Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            while (rs.next()) {
+                SanPham sp = new SanPham();
+                sp.setIdspct(rs.getString("IdSP"));
+                sp.setMaSanPham(rs.getString("MaSP"));
+                sp.setNgayNhap(rs.getString("NgayNhap"));
+                sp.setMauSac(rs.getString("TenMauSac"));
+                sp.setSize(rs.getString("TenSize"));
+                sp.setChatLieu(rs.getString("TenChatLieu"));
+                sp.setHang(rs.getString("TenHang"));
                 sp.setSoLuong(rs.getString("SoLuong"));
                 sp.setGiaNhap(rs.getString("GiaNhap"));
                 sp.setGiaBan(rs.getString("GiaBan"));
@@ -169,9 +242,51 @@ public class QuanLySanPham {
                     + "JOIN Size ON Size.IdSize = CTSP.IdSize\n"
                     + "JOIN ChatLieu ON ChatLieu.IdChatLieu = CTSP.IdChatLieu\n"
                     + "JOIN Hang ON Hang.IdHang = CTSP.IdHang\n"
-                    + "JOIN (SELECT IdSP, MAX(GiaBan) AS GiaBan FROM Gia WHERE NgayBatDau <= GETDATE() GROUP BY IdSP) AS Gia ON Gia.IdSP = CTSP.IdSP\n"
-                    + "WHERE CTSP.MaSP = " + "'" + a + "'";
+                    + "JOIN (\n"
+                    + "		SELECT g.IdSP, g.GiaBan, g.NgayBatDau FROM Gia AS g WHERE g.NgayBatDau <= GETDATE() AND g.IdSP IN (\n"
+                    + "			SELECT g2.IdSP FROM Gia AS g2 WHERE g2.NgayBatDau <= GETDATE() GROUP BY g2.IdSP HAVING MAX(g2.NgayBatDau) = g.NgayBatDau)\n"
+                    + ") AS Gia ON Gia.IdSP = CTSP.IdSP\n"
+                    + "WHERE CTSP.MaSP = " + "'" + a + "' AND SoLuong > 0\n"
+                    + "ORDER BY CTSP.IdSP asc\n";
+            Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            while (rs.next()) {
+                SanPham sp = new SanPham();
+                sp.setIdspct(rs.getString("IdSP"));
+                sp.setMaSanPham(rs.getString("MaSP"));
+                sp.setNgayNhap(rs.getString("NgayNhap"));
+                sp.setMauSac(rs.getString("TenMauSac"));
+                sp.setSize(rs.getString("TenSize"));
+                sp.setChatLieu(rs.getString("TenChatLieu"));
+                sp.setHang(rs.getString("TenHang"));
+                sp.setSoLuong(rs.getString("SoLuong"));
+                sp.setGiaNhap(rs.getString("GiaNhap"));
+                sp.setGiaBan(rs.getString("GiaBan"));
+                sp.setHinhAnh(rs.getString("HinhAnh"));
+                listCTCP.add(sp);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLySanPham.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listCTCP;
+    }
 
+    public ArrayList<SanPham> getListCTSPDaHetTheoMaSP(String a) {
+        listCTCP.clear();
+        try {
+            Connection conn = DbConnect.getConnection();
+            String sql = "SELECT CTSP.IdSP, CTSP.MaSP, NgayNhap, TenMauSac, TenSize, TenChatLieu, TenHang, SoLuong, GiaNhap, Gia.GiaBan, HinhAnh\n"
+                    + "FROM CTSP\n"
+                    + "JOIN MauSac ON MauSac.IdMauSac = CTSP.IdMauSac\n"
+                    + "JOIN Size ON Size.IdSize = CTSP.IdSize\n"
+                    + "JOIN ChatLieu ON ChatLieu.IdChatLieu = CTSP.IdChatLieu\n"
+                    + "JOIN Hang ON Hang.IdHang = CTSP.IdHang\n"
+                    + "JOIN (\n"
+                    + "		SELECT g.IdSP, g.GiaBan, g.NgayBatDau FROM Gia AS g WHERE g.NgayBatDau <= GETDATE() AND g.IdSP IN (\n"
+                    + "			SELECT g2.IdSP FROM Gia AS g2 WHERE g2.NgayBatDau <= GETDATE() GROUP BY g2.IdSP HAVING MAX(g2.NgayBatDau) = g.NgayBatDau)\n"
+                    + ") AS Gia ON Gia.IdSP = CTSP.IdSP\n"
+                    + "WHERE CTSP.MaSP = " + "'" + a + "' AND SoLuong = 0\n"
+                    + "ORDER BY CTSP.IdSP asc\n";
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {
@@ -274,7 +389,7 @@ public class QuanLySanPham {
     public void AddCTSP(SanPham sp) {
         try {
             Connection conn = DbConnect.getConnection();
-            String sql = "INSERT INTO CTSP (MaSP, NgayNhap, IdMauSac, IdSize, IdChatLieu, IdHang, SoLuong, GiaNhap, HinhAnh) VALUES (?,?,?,?,?,?,?,?);";
+            String sql = "INSERT INTO CTSP (MaSP, NgayNhap, IdMauSac, IdSize, IdChatLieu, IdHang, SoLuong, GiaNhap, HinhAnh) VALUES (?,?,?,?,?,?,?,?,?);";
             PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, sp.getMaSanPham());
             ps.setString(2, sp.getNgayNhap());
@@ -283,7 +398,8 @@ public class QuanLySanPham {
             ps.setInt(5, Integer.valueOf(sp.getChatLieu()));
             ps.setInt(6, Integer.valueOf(sp.getHang()));
             ps.setInt(7, Integer.valueOf(sp.getSoLuong()));
-            ps.setString(8, sp.getHinhAnh() == null ? "No_img" : sp.getHinhAnh());
+            ps.setFloat(8, Float.valueOf(sp.getGiaNhap()));
+            ps.setString(9, sp.getHinhAnh() == null ? "No_img" : sp.getHinhAnh());
 
             ps.executeUpdate();
 
@@ -524,7 +640,7 @@ public class QuanLySanPham {
         }
         return listSanPham;
     }
-    
+
     public ArrayList<SanPham> timKiemMauSac(String id) {
         listThuocTinh.clear();
         try {
@@ -544,6 +660,7 @@ public class QuanLySanPham {
         }
         return listThuocTinh;
     }
+
     public ArrayList<SanPham> timKiemSize(String id) {
         listThuocTinh.clear();
         try {
@@ -563,6 +680,7 @@ public class QuanLySanPham {
         }
         return listThuocTinh;
     }
+
     public ArrayList<SanPham> timKiemChatLieu(String id) {
         listThuocTinh.clear();
         try {
@@ -582,6 +700,7 @@ public class QuanLySanPham {
         }
         return listThuocTinh;
     }
+
     public ArrayList<SanPham> timKiemHang(String id) {
         listThuocTinh.clear();
         try {
