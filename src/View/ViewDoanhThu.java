@@ -27,6 +27,7 @@ public class ViewDoanhThu extends javax.swing.JFrame {
         lbTienLai.setText(ql.DoanhThuToday().toString() + " VND");
         lbLoiThuan.setText(ql.loiNhuan().toString()+ " VND");
         lbTienLai.setText(ql.laiToDay().toString() + " VND");
+        lbDoanhThu1.setText(ql.TongDoanhThu().toString() + " VND");
     }
     /**
      * This method is called from within the constructor to initialize the form.
