@@ -173,7 +173,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         try {
             double giaGiam = Double.parseDouble(giamGia);
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Giảm giá voucher phải là một số");
+            JOptionPane.showMessageDialog(this, "Giảm giá voucher phải là số");
             return false;
         }
 
@@ -187,6 +187,12 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         }
         if (dieukien.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Điều kiện không được để trống");
+            return false;
+        }
+        try {
+            double dK = Double.parseDouble(dieukien);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Điều kiện phải là số");
             return false;
         }
         if (hetHan.before(batDau)) {
@@ -243,6 +249,12 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
 
         if (dieukien.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Điều kiện không được để trống");
+            return false;
+        }
+        try {
+            double dK = Double.parseDouble(dieukien);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Điều kiện phải là số");
             return false;
         }
 
