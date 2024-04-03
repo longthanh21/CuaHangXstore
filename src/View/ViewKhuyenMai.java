@@ -300,6 +300,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                         qlKM.dltKhachVIP(maVC);
                     }
                     qlKM.suaVoucher(getFormVoucher());
+                    JOptionPane.showMessageDialog(this, "Sửa thành công Voucher!");
                 } else {
                     JOptionPane.showMessageDialog(this, "Vui lòng chọn một Voucher!");
                 }
