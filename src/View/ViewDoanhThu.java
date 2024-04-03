@@ -4,7 +4,9 @@
  */
 package View;
 
+import Model.HoaDon;
 import Service.QuanLyDoanhThu;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -16,18 +18,31 @@ public class ViewDoanhThu extends javax.swing.JFrame {
      * Creates new form ViewDoanhThu
      */
     QuanLyDoanhThu ql = new QuanLyDoanhThu();
+    DefaultTableModel defau;
     public ViewDoanhThu() {
         initComponents();
         loadToday();
         this.revalidate();
         this.repaint();
+        loadHD();
     }
     void loadToday(){
         lbSoHoaDon.setText(ql.HDToday().toString());
-        lbTienLai.setText(ql.DoanhThuToday().toString() + " VND");
+        lbDoanhThu.setText(ql.DoanhThuToday().toString() + " VND");
         lbLoiThuan.setText(ql.loiNhuan().toString()+ " VND");
         lbTienLai.setText(ql.laiToDay().toString() + " VND");
-        lbDoanhThu1.setText(ql.TongDoanhThu().toString() + " VND");
+        lbTongDoanhThu.setText(ql.TongDoanhThu().toString() + " VND");
+        lbLaiXuat.setText(ql.laiXuat().toString() + " %");
+    }
+    void loadHD(){
+        defau = (DefaultTableModel) tblHoaDon.getModel();
+        defau.setRowCount(0);
+        int stt = 1;
+        for (HoaDon hd : ql.getListHD()) {
+            defau.addRow(new Object[]{
+                stt++,hd.getMaHD(),hd.getNgayTao(),hd.getTongTien()
+            });
+        }
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -41,24 +56,24 @@ public class ViewDoanhThu extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
-        cbbThang = new javax.swing.JComboBox<>();
         jDateChooser1 = new com.toedter.calendar.JDateChooser();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jDateChooser2 = new com.toedter.calendar.JDateChooser();
+        jMonthChooser1 = new com.toedter.calendar.JMonthChooser();
         jPanel3 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         lbSoHoaDon = new javax.swing.JLabel();
         lbTienLai = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
-        lbDoanhThu1 = new javax.swing.JLabel();
+        lbDoanhThu = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         lbLoiThuan = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        tblHoaDon = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        lbTongDoanhThu = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
         lbLaiXuat = new javax.swing.JLabel();
 
@@ -67,8 +82,6 @@ public class ViewDoanhThu extends javax.swing.JFrame {
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
         jButton1.setText("Duyệt");
-
-        cbbThang.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel9.setText("Thời gian:");
 
@@ -81,9 +94,9 @@ public class ViewDoanhThu extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addComponent(jButton1)
-                .addGap(18, 18, 18)
-                .addComponent(cbbThang, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(57, 57, 57)
+                .addGap(55, 55, 55)
+                .addComponent(jMonthChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
                 .addComponent(jLabel9)
                 .addGap(39, 39, 39)
                 .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -98,12 +111,12 @@ public class ViewDoanhThu extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jMonthChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10)
                     .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jButton1)
-                        .addComponent(cbbThang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel9)))
                 .addContainerGap(59, Short.MAX_VALUE))
         );
@@ -126,10 +139,10 @@ public class ViewDoanhThu extends javax.swing.JFrame {
 
         jLabel17.setText("Tiền lãi");
 
-        lbDoanhThu1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lbDoanhThu1.setForeground(new java.awt.Color(51, 51, 255));
-        lbDoanhThu1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbDoanhThu1.setText("0");
+        lbDoanhThu.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lbDoanhThu.setForeground(new java.awt.Color(51, 51, 255));
+        lbDoanhThu.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbDoanhThu.setText("0");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -139,7 +152,7 @@ public class ViewDoanhThu extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(lbSoHoaDon, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
-                .addComponent(lbDoanhThu1, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lbDoanhThu, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(lbTienLai, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -164,7 +177,7 @@ public class ViewDoanhThu extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbTienLai)
                     .addComponent(lbSoHoaDon)
-                    .addComponent(lbDoanhThu1))
+                    .addComponent(lbDoanhThu))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -187,12 +200,12 @@ public class ViewDoanhThu extends javax.swing.JFrame {
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(15, 15, 15)
                 .addComponent(lbLoiThuan, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        tblHoaDon.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -200,15 +213,15 @@ public class ViewDoanhThu extends javax.swing.JFrame {
                 "STT", "Mã HD", "Ngày Tạo", "Thành Tiền"
             }
         ));
-        jScrollPane3.setViewportView(jTable3);
+        jScrollPane3.setViewportView(tblHoaDon);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setText("Tổng Doanh Thu:");
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 51, 51));
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("0");
+        lbTongDoanhThu.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lbTongDoanhThu.setForeground(new java.awt.Color(255, 51, 51));
+        lbTongDoanhThu.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbTongDoanhThu.setText("0");
 
         jPanel9.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(""), "Lãi xuất", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Segoe UI", 1, 24))); // NOI18N
 
@@ -246,7 +259,7 @@ public class ViewDoanhThu extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel1)
                                 .addGap(33, 33, 33)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(lbTongDoanhThu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 534, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(214, 214, 214))
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -274,7 +287,7 @@ public class ViewDoanhThu extends javax.swing.JFrame {
                 .addGap(33, 33, 33)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lbTongDoanhThu, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(30, Short.MAX_VALUE))
         );
 
@@ -328,7 +341,6 @@ public class ViewDoanhThu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> cbbThang;
     private javax.swing.JButton jButton1;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private com.toedter.calendar.JDateChooser jDateChooser2;
@@ -337,23 +349,20 @@ public class ViewDoanhThu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel9;
+    private com.toedter.calendar.JMonthChooser jMonthChooser1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable3;
-    private javax.swing.JLabel lbDoanhThu1;
+    private javax.swing.JLabel lbDoanhThu;
     private javax.swing.JLabel lbLaiXuat;
     private javax.swing.JLabel lbLoiThuan;
-    private javax.swing.JLabel lbLoiThuan1;
-    private javax.swing.JLabel lbLoiThuan2;
     private javax.swing.JLabel lbSoHoaDon;
     private javax.swing.JLabel lbTienLai;
+    private javax.swing.JLabel lbTongDoanhThu;
+    private javax.swing.JTable tblHoaDon;
     // End of variables declaration//GEN-END:variables
 }

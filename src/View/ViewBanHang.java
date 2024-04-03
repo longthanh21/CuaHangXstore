@@ -818,7 +818,6 @@ public class ViewBanHang extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Thanh toán thành công");
             txtMaHD.setText("");
             txtNgayTao.setText("");
-            txtMaNV.setText("");
             txtMaKH.setText("");
             txtTongTien.setText("");
             txtTienKD.setText("");
