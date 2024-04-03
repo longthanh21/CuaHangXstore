@@ -37,7 +37,7 @@ public class ViewDangNhap extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Mật khẩu không được để trống");
         } else {
             try {
-                String sql = "SELECT NhanVien.MaNV, NhanVien.TenNV "
+                String sql = "SELECT NhanVien.MaNV, NhanVien.TenNV, NhanVien.VaiTro "
                         + "FROM TaiKhoan "
                         + "JOIN NhanVien ON TaiKhoan.MaNV = NhanVien.MaNV "
                         + "WHERE TaiKhoan.TenDangNhap = ? AND TaiKhoan.MatKhau = ?";
@@ -48,8 +48,9 @@ public class ViewDangNhap extends javax.swing.JFrame {
                 if (rs.next()) {
                     String maNV = rs.getString("MaNV");
                     String tenNV = rs.getString("TenNV");
+                    String vaiTro = rs.getString("VaiTro");
                     JOptionPane.showMessageDialog(this, "Đăng nhập thành công!");
-                    new BanHangForm(maNV, tenNV, ten).setVisible(true);
+                    new BanHangForm(maNV, tenNV, vaiTro, ten).setVisible(true);
                     this.dispose(); // Đóng cửa sổ đăng nhập sau khi mở cửa sổ BanHangForm
                 } else {
                     JOptionPane.showMessageDialog(this, "Tên đăng nhập hoặc mật khẩu không chính xác");

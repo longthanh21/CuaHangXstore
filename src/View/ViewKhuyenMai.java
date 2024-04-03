@@ -173,7 +173,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         try {
             double giaGiam = Double.parseDouble(giamGia);
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Giảm giá voucher phải là một số");
+            JOptionPane.showMessageDialog(this, "Giảm giá voucher phải là số");
             return false;
         }
 
@@ -187,6 +187,12 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         }
         if (dieukien.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Điều kiện không được để trống");
+            return false;
+        }
+        try {
+            double dK = Double.parseDouble(dieukien);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Điều kiện phải là số");
             return false;
         }
         if (hetHan.before(batDau)) {
@@ -245,6 +251,12 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Điều kiện không được để trống");
             return false;
         }
+        try {
+            double dK = Double.parseDouble(dieukien);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Điều kiện phải là số");
+            return false;
+        }
 
         if (hetHan.before(batDau)) {
             JOptionPane.showMessageDialog(this, "Ngày hết hạn không được để trước ngày bắt đầu");
@@ -288,6 +300,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                         qlKM.dltKhachVIP(maVC);
                     }
                     qlKM.suaVoucher(getFormVoucher());
+                    JOptionPane.showMessageDialog(this, "Sửa thành công Voucher!");
                 } else {
                     JOptionPane.showMessageDialog(this, "Vui lòng chọn một Voucher!");
                 }

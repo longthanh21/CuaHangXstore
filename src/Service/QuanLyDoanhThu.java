@@ -4,8 +4,10 @@
  */
 package Service;
 
+import Model.HoaDon;
 import Repository.DbConnect;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -57,7 +59,9 @@ public class QuanLyDoanhThu {
     public Float loiNhuan() {
         try {
             Connection conn = DbConnect.getConnection();
-            String sql = "SELECT (sum(TongTien) - (SELECT sum(GiaNhap*CTHD.SoLuong) FROM CTHD JOIN CTSP ON CTSP.IdSP = CTHD.IdSP)) AS LoiNhuan FROM HoaDon";
+            String sql = "SELECT (sum(GiaSau*CTHD.SoLuong)-sum(GiaNhap*CTHD.SoLuong)) AS LoiNhuan FROM CTHD\n"
+                    + "JOIN CTSP ON CTSP.IDSP = CTHD.IdSP\n"
+                    + "JOIN HoaDon ON HoaDon.MaHD = CTHD.MaHD";
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {
@@ -117,5 +121,50 @@ public class QuanLyDoanhThu {
             Logger.getLogger(QuanLyDoanhThu.class.getName()).log(Level.SEVERE, null, ex);
         }
         return T;
+    }
+    ArrayList<HoaDon> listHD = new ArrayList<>();
+    public ArrayList<HoaDon> getListHD(){
+        listHD.clear();
+        try {
+            Connection conn = DbConnect.getConnection();
+            String sql = "SELECT MaHD, NgayTao, TongTien FROM HoaDon WHERE TrangThai = N'Đã thanh toán'";
+            Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            while(rs.next()){
+                HoaDon hd = new HoaDon();
+                hd.setMaHD(rs.getString("MaHD"));
+                hd.setNgayTao(rs.getString("NgayTao"));
+                hd.setTongTien(rs.getString("TongTien"));
+                listHD.add(hd);
+            }
+            conn.close();
+           
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLyDoanhThu.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        return listHD;
+    }
+    
+    public Float laiXuat() {
+        float m = 0;
+        try {
+            Connection conn = DbConnect.getConnection();
+            String sql = "SELECT (sum(GiaSau*CTHD.SoLuong)-sum(GiaNhap*CTHD.SoLuong))/sum(TongTien)*100 AS LaiXuat FROM CTHD\n"
+                    + "JOIN CTSP ON CTSP.IDSP = CTHD.IdSP\n"
+                    + "JOIN HoaDon ON HoaDon.MaHD = CTHD.MaHD";
+            Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            while (rs.next()) {
+                String a = rs.getString("LaiXuat");
+                if (a == null && a.isEmpty()) {
+                    m = 0;
+                } else {
+                    m = Float.valueOf(a);
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLyDoanhThu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return m;
     }
 }
