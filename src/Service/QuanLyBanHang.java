@@ -58,7 +58,7 @@ public class QuanLyBanHang {
                     + "JOIN (SELECT IdSP ,GiaBan FROM Gia WHERE NgayKetThuc IS NULL) AS Gia ON Gia.IdSP = CTSP.IdSP\n"
                     + "left join GiamGiaSP  on CTSP.idsp=GiamGiaSP.idsp\n"
                     + "left join  Coupon  on Coupon.macp=GiamGiaSP.macp\n"
-                    + "WHERE CTSP.SoLuong > 0\n"
+//                    + "WHERE CTSP.SoLuong > 0\n"
                     + "ORDER BY CTSP.IdSP asc";
             Connection con = DbConnect.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
@@ -147,11 +147,7 @@ public class QuanLyBanHang {
     }
 
     public void suaSanPham(String sl, String id) {
-        String sql = "UPDATE CTSP\n"
-                + "SET SoLuong = ?\n"
-                + " FROM CTSP\n"
-                + " JOIN SanPham ON SanPham.MaSP = CTSP.MaSP\n"
-                + "WHERE IdSP=?";
+        String sql = "UPDATE CTSP SET SoLuong = ? WHERE IdSP = ?";
         try {
             Connection con = DbConnect.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
