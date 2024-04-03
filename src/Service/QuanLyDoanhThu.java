@@ -98,6 +98,7 @@ public class QuanLyDoanhThu {
         return h;
     }
     float T = 0;
+
     public Float TongDoanhThu() {
         try {
             Connection conn = DbConnect.getConnection();
