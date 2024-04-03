@@ -508,6 +508,13 @@ public class ViewKhachHang extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Số Diện Thoại");
             return;
         }
+        try {
+            Integer sdtt = Integer.parseInt(txtDienThoai.getText());
+            Integer.valueOf(sdtt);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Số Điện Thoại Phải Là Số");
+            return;
+        }
         if (sdt.length() != 10) {
             JOptionPane.showMessageDialog(this, "Số Điện Thoại Phải Là 10 số");
             return;
@@ -703,6 +710,13 @@ public class ViewKhachHang extends javax.swing.JFrame {
         String sdt = txtDienThoai.getText();
         if (sdt.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Số Diện Thoại");
+            return;
+        }
+        try {
+            Integer sdtt = Integer.parseInt(txtDienThoai.getText());
+            Integer.valueOf(sdtt);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Số Điện Thoại Phải Là Số");
             return;
         }
         if (sdt.length() != 10) {

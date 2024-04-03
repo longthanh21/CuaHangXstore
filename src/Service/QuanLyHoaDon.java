@@ -67,6 +67,30 @@ public class QuanLyHoaDon {
         }
         return listHD;
     }
+    public ArrayList<HoaDon> loadSeachNgayKT(String NgayKT) {
+        listHD.clear();
+        try {
+            String sql = "SELECT MaHD,MaNV,MaKH,MaVC,NgayTao,TongTien,TrangThai FROM HoaDon WHERE NgayTao >= ? ";
+            Connection con = DbConnect.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, NgayKT);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String MaHD = rs.getString(1);
+                String MaNV = rs.getString(2);
+                String MaKH = rs.getString(3);
+                String MaVC = rs.getString(4);
+                String NgayTao = rs.getString(5);
+                String TongTien = rs.getString(6);
+                String TrangThai = rs.getString(7);
+                listHD.add(new HoaDon(MaHD, NgayTao, MaKH, MaNV, MaVC, TongTien, TrangThai, null, null, null, null, null, null, null,null));
+            }
+            con.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return listHD;
+    }
 
     public ArrayList<HoaDon> loadSeachMaNhanVien(String maNV) {
         listHD.clear();
@@ -96,7 +120,7 @@ public class QuanLyHoaDon {
     public ArrayList<HoaDon> loadSeachDaThanhToan() {
         listHD.clear();
         try {
-            String sql = "SELECT MaHD,MaNV,MaKH,MaVC,NgayTao,TongTien,TrangThai FROM HoaDon WHERE TrangThai = N'Đã Thành Toán' ";
+            String sql = "SELECT MaHD,MaNV,MaKH,MaVC,NgayTao,TongTien,TrangThai FROM HoaDon WHERE TrangThai = N'Đã Thanh Toán' ";
             Connection con = DbConnect.getConnection();
             Statement stm = con.createStatement();
             ResultSet rs = stm.executeQuery(sql);
@@ -193,9 +217,10 @@ public class QuanLyHoaDon {
         listHDCT.clear();
         listHD.clear();
         try {
-            String sql = "select a.IdSP,d.MaSP,TenSP,a.SoLuong,(GiaSau/(1-PhanTram/100)) AS GiaBan,a.PhanTram,a.GiaSau from CTHD a\n"
+            String sql = "select a.IdSP,d.MaSP,TenSP,a.SoLuong,(GiaSau/(1-PhanTram/100)) AS GiaBan,a.PhanTram,a.GiaSau  from CTHD a\n"
+                    + "join HoaDon b on a.MaHD=b.MaHD\n"
                     + "join CTSP c on c.IdSP=a.IdSP\n"
-                    + "join SanPham d on d.MaSP=c.MaSP";
+                    + "join SanPham d on d.MaSP=c.MaSP\n";
             Connection con = DbConnect.getConnection();
             Statement stm = con.createStatement();
             ResultSet rs = stm.executeQuery(sql);
@@ -257,7 +282,7 @@ public class QuanLyHoaDon {
         return listHDCT;
     }
 
-    public ArrayList<HoaDon> loadMaSPSeachHDCT(String maSP) {
+    public ArrayList<HoaDon> loadIDSPSeachHDCT(String IDSP) {
         listHDCT.clear();
         listHD.clear();
         try {
@@ -265,7 +290,7 @@ public class QuanLyHoaDon {
                     + "join HoaDon b on a.MaHD=b.MaHD\n"
                     + "join CTSP c on c.IdSP=a.IdSP\n"
                     + "join SanPham d on d.MaSP=c.MaSP\n"
-                    + "where b.MaHD = '" + maSP+"'";
+                    + "where a.IdSP = '" + IDSP+"'";
             Connection con = DbConnect.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
