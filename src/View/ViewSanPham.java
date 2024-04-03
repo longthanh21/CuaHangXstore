@@ -1287,6 +1287,7 @@ public class ViewSanPham extends javax.swing.JFrame {
         txtGiaNhap.setText("");
         txtGiaBan.setText("");
         txtSoLuong.setText("");
+        cbDaHet.setSelected(false);
         loadSP();
         loadCTSP();
     }//GEN-LAST:event_btnNewActionPerformed
@@ -1576,8 +1577,8 @@ public class ViewSanPham extends javax.swing.JFrame {
 
     private void cbDaHetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbDaHetActionPerformed
         // TODO add your handling code here:
-        int i = tblSanPham.getSelectedRow();
-        String a = (String) tblSanPham.getValueAt(i, 1);
+//        int i = tblSanPham.getSelectedRow();
+        String a = txtMaSP.getText();
         if (cbDaHet.isSelected()) {
             if (!a.equals("")) {
                 loadCTSPDaHetTheoMa(a);

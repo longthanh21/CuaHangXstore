@@ -54,7 +54,7 @@ public class ViewBanHang extends javax.swing.JFrame {
         String mhd = txtMaHD.getText();
         int tongTien = 0;
         for (HoaDon h : ql.getListGioHang(mhd)) {
-            tongTien += h.thanhTien(Integer.valueOf(h.getSoLuong()), h.giaSau());
+            tongTien += h.thanhTien(Integer.valueOf(h.getSoLuong()), Float.valueOf(h.getGiaSau()).intValue());
         }
         String a = cbVoucher.getSelectedItem().toString();
         for (Voucher v : ql.getListV()) {
@@ -117,10 +117,9 @@ public class ViewBanHang extends javax.swing.JFrame {
         for (HoaDon sp : ql.getListGioHang(mhd)) {
             stt++;
             model.addRow(new Object[]{
-                stt, sp.getIdSP(), sp.getMaSP(), sp.getTenSP(), sp.getSoLuong(),
-                Float.valueOf(sp.giaSau()).intValue(),
-                sp.thanhTien(Integer.valueOf(sp.getSoLuong()),
-                sp.giaSau())
+                stt, sp.getIdSP(), sp.getMaSP(), sp.getTenSP(), sp.getSoLuong(),sp.getPhanTram(),
+                sp.getGiaSau(),
+                sp.thanhTien(Integer.valueOf(sp.getSoLuong()),Float.valueOf(sp.getGiaSau()).intValue())
             });
         }
     }
@@ -387,7 +386,7 @@ public class ViewBanHang extends javax.swing.JFrame {
 
             },
             new String [] {
-                "STT", "Id san pham", "Mã sản phẩm", "Tên sản phẩm", "Số lượng", "Giá bán", "Thành tiền"
+                "STT", "Id san pham", "Mã sản phẩm", "Tên sản phẩm", "Số lượng", "Giá Sau", "Thành tiền"
             }
         ));
         tblGioHang.setPreferredSize(new java.awt.Dimension(75, 80));
@@ -411,8 +410,8 @@ public class ViewBanHang extends javax.swing.JFrame {
             pnGioHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnGioHangLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pnSanPham.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, null), "Sản phẩm"));
@@ -529,7 +528,7 @@ public class ViewBanHang extends javax.swing.JFrame {
         String ngayTao = java.time.LocalDate.now().toString();
         String mnv = txtMaNV.getText();
         String tt = "Chờ thanh toán";
-        HoaDon h = new HoaDon(mhd, ngayTao, null, mnv, null, null, tt, null, null, null, null, null, null);
+        HoaDon h = new HoaDon(mhd, ngayTao, null, mnv, null, null, tt, null, null, null, null, null, null,null,null);
         ql.themHoaDon(h);
         loadHoaDon();
         txtMaHD.setText(h.getMaHD());
@@ -566,7 +565,7 @@ public class ViewBanHang extends javax.swing.JFrame {
             String a = JOptionPane.showInputDialog("moi nhap so luong");
             String id = (String) tblSanPham.getValueAt(i, 0);
             String soLuong = (String) tblSanPham.getValueAt(i, 7);
-            String giaBan = String.valueOf(tblSanPham.getValueAt(i, 8));
+            String giaSau = String.valueOf(tblSanPham.getValueAt(i, 10));
 
             if (Integer.valueOf(a) <= Integer.valueOf(soLuong) && Integer.valueOf(a) > 0) {
                 Integer so = Integer.valueOf(soLuong) - Integer.valueOf(a);
@@ -582,7 +581,7 @@ public class ViewBanHang extends javax.swing.JFrame {
                         return;
                     }
                 }
-                HoaDon h = new HoaDon(maHD, null, null, null, null, null, null, id, null, null, a, giaBan, null);
+                HoaDon h = new HoaDon(maHD, null, null, null, null, null, null, id, null, null, a, giaSau, null, null,null);
                 ql.themGioHang(h);
                 loadGioHang(maHD);
 
@@ -812,7 +811,7 @@ public class ViewBanHang extends javax.swing.JFrame {
             maKH = txtMaKH.getText();
         }
 
-        HoaDon h = new HoaDon(txtMaHD.getText(), txtNgayTao.getText(), maKH, txtMaNV.getText(), maVC, txtTongTien.getText(), null, null, null, null, null, null, null);
+        HoaDon h = new HoaDon(txtMaHD.getText(), txtNgayTao.getText(), maKH, txtMaNV.getText(), maVC, txtTongTien.getText(), null, null, null, null, null, null, null, null,null);
         if (ql.ThanhToan(h)) {
             JOptionPane.showMessageDialog(this, "Thanh toán thành công");
             txtMaHD.setText("");

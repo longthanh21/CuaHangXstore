@@ -49,18 +49,16 @@ public class QuanLyBanHang {
     public ArrayList<SanPham> getListSanPham() {
         listSanPham.clear();
         try {
-            String sql = "SELECT CTSP.idsp,ctsp.MaSP,TenSP,TenMauSac,TenSize,TenChatLieu,TenHang,SoLuong,Gia.GiaBan,PhamTram,coupon.TrangThai FROM CTSP \n"
-                    + "     JOIN MauSac  on MauSac.IdMauSac = CTSP.IdMauSac\n"
-                    + "     JOIN Size  on Size.IdSize = CTSP.IdSize\n"
-                    + "     JOIN ChatLieu  on ChatLieu.IdChatLieu = CTSP.IdChatLieu\n"
-                    + "     JOIN Hang  on  Hang.IdHang = CTSP.IdHang\n"
-                    + "     join SanPham  on SanPham.MaSP=CTSP.MaSP\n"
-                    + "     JOIN (\n"
-                    + "		SELECT g.IdSP, g.GiaBan, g.NgayBatDau FROM Gia AS g WHERE g.NgayBatDau <= GETDATE() AND g.IdSP IN (\n"
-                    + "			SELECT g2.IdSP FROM Gia AS g2 WHERE g2.NgayBatDau <= GETDATE() GROUP BY g2.IdSP HAVING MAX(g2.NgayBatDau) = g.NgayBatDau)\n"
-                    + ") AS Gia ON Gia.IdSP = CTSP.IdSP\n"
-                    + "	left join GiamGiaSP  on CTSP.idsp=GiamGiaSP.idsp\n"
-                    + "	left join  Coupon  on Coupon.macp=GiamGiaSP.macp\n"
+            String sql = "SELECT CTSP.idsp,ctsp.MaSP,TenSP,TenMauSac,TenSize,TenChatLieu,TenHang,CTSP.SoLuong,Gia.GiaBan,PhanTram,coupon.TrangThai FROM CTSP \n"
+                    + "JOIN MauSac  on MauSac.IdMauSac = CTSP.IdMauSac\n"
+                    + "JOIN Size  on Size.IdSize = CTSP.IdSize\n"
+                    + "JOIN ChatLieu  on ChatLieu.IdChatLieu = CTSP.IdChatLieu\n"
+                    + "JOIN Hang  on  Hang.IdHang = CTSP.IdHang\n"
+                    + "join SanPham  on SanPham.MaSP=CTSP.MaSP\n"
+                    + "JOIN (SELECT IdSP ,GiaBan FROM Gia WHERE NgayKetThuc IS NULL) AS Gia ON Gia.IdSP = CTSP.IdSP\n"
+                    + "left join GiamGiaSP  on CTSP.idsp=GiamGiaSP.idsp\n"
+                    + "left join  Coupon  on Coupon.macp=GiamGiaSP.macp\n"
+                    + "WHERE CTSP.SoLuong > 0\n"
                     + "ORDER BY CTSP.IdSP asc";
             Connection con = DbConnect.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
@@ -76,11 +74,11 @@ public class QuanLyBanHang {
                 bh.setHang(rs.getString("TenHang"));
                 bh.setSoLuong(rs.getString("SoLuong"));
                 bh.setGiaBan(rs.getString("GiaBan"));
-                String phamTram = rs.getString("PhamTram");
-                if (phamTram == null || phamTram.isEmpty()) {
+                String PhanTram = rs.getString("PhanTram");
+                if (PhanTram == null || PhanTram.isEmpty()) {
                     bh.setPhanTram("0");
                 } else {
-                    bh.setPhanTram(phamTram);
+                    bh.setPhanTram(PhanTram);
                 }
 
                 listSanPham.add(bh);
@@ -117,12 +115,11 @@ public class QuanLyBanHang {
     public ArrayList<HoaDon> getListGioHang(String mhd) {
         listGioHang.clear();
         try {
-            String sql = " select c.IdSP,d.MaSP,TenSP,a.SoLuong,a.GiaBan,PhamTram from CTHD a\n"
-                    + "        join HoaDon b on a.MaHD=b.MaHD \n"
-                    + "        join CTSP c on c.IdSP=a.IdSP\n"
-                    + "        join SanPham d on d.MaSP=c.MaSP\n"
-                    + "	left join GiamGiaSP e on a.idsp=e.idsp\n"
-                    + "	left join  Coupon f on f.macp=e.macp\n"
+            String sql = "select c.IdSP,d.MaSP,TenSP,a.SoLuong,a.PhanTram,a.GiaSau from CTHD a\n"
+                    + "join HoaDon b on a.MaHD=b.MaHD\n"
+                    + "join CTSP c on c.IdSP=a.IdSP\n"
+                    + "join SanPham d on d.MaSP=c.MaSP\n"
+                    + "left join GiamGiaSP e on a.idsp=e.idsp\n"
                     + "where a.MaHD='" + mhd + "'";
             Connection con = DbConnect.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
@@ -130,16 +127,15 @@ public class QuanLyBanHang {
             while (rs.next()) {
                 HoaDon bh = new HoaDon();
                 bh.setIdSP(rs.getString("idsp"));
-
                 bh.setMaSP(rs.getString("MaSP"));
                 bh.setTenSP(rs.getString("TenSp"));
                 bh.setSoLuong(rs.getString("SoLuong"));
-                bh.setGiaBan(rs.getString("GiaBan"));
-                String phamTram = rs.getString("PhamTram");
-                if (phamTram == null || phamTram.isEmpty()) {
+                bh.setGiaSau(rs.getString("GiaSau"));
+                String PhanTram = rs.getString("PhanTram");
+                if (PhanTram == null || PhanTram.isEmpty()) {
                     bh.setPhanTram("0");
                 } else {
-                    bh.setPhanTram(phamTram);
+                    bh.setPhanTram(PhanTram);
                 }
                 listGioHang.add(bh);
             }
@@ -192,13 +188,15 @@ public class QuanLyBanHang {
 
     public void themGioHang(HoaDon h) {
         try {
-            String sql = "insert into cthd values(?,?,?,?)";
+            String sql = "insert into cthd values(?,?,?,?,?,?)";
             Connection con = DbConnect.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, h.getMaHD());
             ps.setString(2, h.getIdSP());
             ps.setString(3, h.getSoLuong());
-            ps.setString(4, h.getGiaBan());
+            ps.setString(4, h.getMaCP());
+            ps.setString(5, h.getPhanTram());
+            ps.setString(6, h.getGiaSau());
 
             ps.executeUpdate();
             con.close();

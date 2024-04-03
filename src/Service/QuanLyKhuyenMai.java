@@ -121,7 +121,7 @@ public class QuanLyKhuyenMai {
     public List<Coupon> getAllCP() {
         List<Coupon> listcp = new ArrayList<>();
         try {
-            String sql = "Select Coupon.MaCP, TenCP,GiamGiaSP.IdSP , Coupon.PhamTram, NgayBatDau, NgayKetThuc, TrangThai FROM Coupon\n"
+            String sql = "Select Coupon.MaCP, TenCP , GiamGiaSP.IdSP, Coupon.PhanTram, NgayBatDau, NgayKetThuc, TrangThai FROM Coupon\n"
                     + "LEFT JOIN GiamGiaSP ON GiamGiaSP.MaCP = Coupon.MaCP";
             PreparedStatement ps = cn.prepareStatement(sql);
             ps.execute();
@@ -131,7 +131,7 @@ public class QuanLyKhuyenMai {
                 cp.setMaCP(rs.getString("MaCP"));
                 cp.setTenCP(rs.getString("TenCP"));
                 cp.setIdSP(rs.getString("IdSP"));
-                cp.setPhanTram(rs.getString("PhamTram"));
+                cp.setPhanTram(rs.getString("PhanTram"));
                 cp.setNgayBatDau(rs.getString("NgayBatDau"));
                 cp.setNgayKetThuc(rs.getString("NgayKetThuc"));
                 cp.setTrangThai(rs.getString("TrangThai"));
@@ -196,7 +196,7 @@ public class QuanLyKhuyenMai {
 
     public void addCP(Coupon cp) {
         try {
-            String sql = "INSERT INTO Coupon (MaCP, TenCP, PhamTram, NgayBatDau, NgayKetThuc, TrangThai) "
+            String sql = "INSERT INTO Coupon (MaCP, TenCP, PhanTram, NgayBatDau, NgayKetThuc, TrangThai) "
                     + "VALUES\n"
                     + "(?, ?, ?, ?, ?, ?)";
             PreparedStatement ps = cn.prepareStatement(sql);
