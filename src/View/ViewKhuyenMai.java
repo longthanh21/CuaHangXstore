@@ -698,6 +698,10 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
 
         cbKhachVip.setText("Khách VIP");
 
+        dcBatDau.setDateFormatString("yyyy-MM-dd");
+
+        dcHetHan.setDateFormatString("yyyy-MM-dd");
+
         jLabel19.setText("Điều kiện");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -937,6 +941,10 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         jLabel11.setText("Ngày bắt đầu:");
 
         jLabel12.setText("Ngày kết thúc:");
+
+        dcNgayDatBau.setDateFormatString("yyyy-MM-dd");
+
+        dcNgayKetThuc.setDateFormatString("yyyy-MM-dd");
 
         jLabel16.setText("Mã Coupon");
 

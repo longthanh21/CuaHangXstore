@@ -83,9 +83,13 @@ public class ViewDoanhThu extends javax.swing.JFrame {
 
         jButton1.setText("Duyệt");
 
+        jDateChooser1.setDateFormatString("yyyy-MM-dd");
+
         jLabel9.setText("Thời gian:");
 
         jLabel10.setText("đến");
+
+        jDateChooser2.setDateFormatString("yyyy-MM-dd");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);

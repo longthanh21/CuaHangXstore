@@ -457,6 +457,10 @@ public class ViewNhanVien extends javax.swing.JFrame {
 
         jLabel10.setText("Ngày vào làm");
 
+        txtNgayVaoLam.setDateFormatString("yyyy-MM-dd");
+
+        txtNgaySinh.setDateFormatString("yyyy-MM-dd");
+
         jLabel23.setText("CCCD");
 
         jLabel24.setText("Email");

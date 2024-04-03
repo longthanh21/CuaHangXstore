@@ -536,6 +536,8 @@ public class ViewSanPham extends javax.swing.JFrame {
 
         jLabel12.setText("Số lượng:");
 
+        dcNgayNhap.setDateFormatString("yyyy-MM-dd");
+
         jPanel7.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         btnAddCTSP.setText("Add CTSP");
