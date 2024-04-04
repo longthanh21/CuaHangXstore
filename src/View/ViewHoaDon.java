@@ -399,6 +399,7 @@ public class ViewHoaDon extends javax.swing.JFrame {
             }
         });
 
+        btnTimKiem.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnTimKiem.setText("Tìm kiếm");
         btnTimKiem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -429,7 +430,7 @@ public class ViewHoaDon extends javax.swing.JFrame {
                     .addComponent(dcNgayKetThuc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(73, 73, 73)
                 .addComponent(btnTimKiem)
-                .addContainerGap(140, Short.MAX_VALUE))
+                .addContainerGap(136, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -611,7 +612,7 @@ public class ViewHoaDon extends javax.swing.JFrame {
     }//GEN-LAST:event_rdChoThanhToánActionPerformed
 
     void loadTimKiem(String a, String b) {
-        defaultTableModel = (DefaultTableModel) tblHoaDon.getModel();
+        defaultTableModel = (DefaultTableModel) tblHoaDon1.getModel();
         defaultTableModel.setRowCount(0);
         int stt = 1;
         for (HoaDon hoaDon : quanLyHoaDon.timKiemTheoNgay(a, b)) {
@@ -766,14 +767,12 @@ JFrame frame = new JFrame("JDateChooser Example");
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JPanel pnGioHang;
     private javax.swing.JPanel pnHoaDon;
     private javax.swing.JRadioButton rdChoThanhToán;
     private javax.swing.JRadioButton rdDaHuy;
     private javax.swing.JRadioButton rdDaThanhToan;
     private javax.swing.JRadioButton rdTatCa;
-    private javax.swing.JTable tblHoaDon;
     private javax.swing.JTable tblHoaDon1;
     private javax.swing.JTable tblHoaDonChiTiet;
     private javax.swing.JTextField txtMaHoaDon;

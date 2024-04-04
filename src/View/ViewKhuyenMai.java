@@ -648,10 +648,13 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        pnKhuyenMai.setForeground(new java.awt.Color(255, 0, 0));
+        pnKhuyenMai.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         pnKhuyenMai.setPreferredSize(new java.awt.Dimension(1200, 700));
 
         Voucher.setPreferredSize(new java.awt.Dimension(1200, 700));
 
+        btnAdd.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnAdd.setText("Add");
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -659,6 +662,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
             }
         });
 
+        btnUpdate.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnUpdate.setText("Update");
         btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -666,6 +670,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
             }
         });
 
+        btnRefresh.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnRefresh.setText("Refresh");
         btnRefresh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -673,7 +678,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
             }
         });
 
-        jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thông Tin", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
 
         jLabel1.setText("Mã Voucher:");
 
@@ -788,7 +793,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
-        danhSachVC.setBorder(javax.swing.BorderFactory.createTitledBorder("Danh sách Voucher"));
+        danhSachVC.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách Voucher", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
 
         tbVoucher.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -831,15 +836,15 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
             VoucherLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(VoucherLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(VoucherLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, VoucherLayout.createSequentialGroup()
+                .addGroup(VoucherLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(VoucherLayout.createSequentialGroup()
                         .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(82, 82, 82)
                         .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                        .addGap(90, 90, 90)
+                        .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(danhSachVC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -859,11 +864,13 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                 .addContainerGap(130, Short.MAX_VALUE))
         );
 
+        jPanel5.getAccessibleContext().setAccessibleName("Thông Tin");
+
         pnKhuyenMai.addTab("Voucher", Voucher);
 
         Coupon.setPreferredSize(new java.awt.Dimension(1200, 700));
 
-        pnThongTin.setBorder(javax.swing.BorderFactory.createTitledBorder("Thông tin"));
+        pnThongTin.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thông tin", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
 
         jLabel7.setText("ID SP:");
 
@@ -934,7 +941,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                 .addContainerGap(22, Short.MAX_VALUE))
         );
 
-        pnGiamGia.setBorder(javax.swing.BorderFactory.createTitledBorder("Thông tin Coupon"));
+        pnGiamGia.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thông tin Coupon", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
 
         jLabel10.setText("Giảm giá:");
 
@@ -1019,7 +1026,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                 .addGap(17, 17, 17))
         );
 
-        pnCoupon.setBorder(javax.swing.BorderFactory.createTitledBorder("COUPON"));
+        pnCoupon.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "COUPON", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
 
         tbCoupon.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -1056,7 +1063,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        pnSanPham.setBorder(javax.swing.BorderFactory.createTitledBorder("Sản phảm"));
+        pnSanPham.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Sản Phẩm", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
 
         tbSanPham.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -1090,6 +1097,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        btnApDung.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnApDung.setText("Áp dụng");
         btnApDung.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1097,6 +1105,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
             }
         });
 
+        btnHuy.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnHuy.setText("Hủy");
         btnHuy.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1104,6 +1113,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
             }
         });
 
+        btnAddCoupon.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         btnAddCoupon.setText("New Coupon");
         btnAddCoupon.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
