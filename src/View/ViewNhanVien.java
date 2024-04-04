@@ -14,6 +14,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 /**
  *
@@ -106,12 +107,14 @@ public class ViewNhanVien extends javax.swing.JFrame {
         defaultTableModel = (DefaultTableModel) tblTaiKhoanDKi.getModel();
         defaultTableModel.setRowCount(0);
         int i = 1;
+        String matKhauChe = "*****";
         for (TaiKhoan taiKhoan : quanLyNhanVien.getAllTaiKhoan()) {
             defaultTableModel.addRow(new Object[]{
                 i++,
                 taiKhoan.getMaTK(),
                 taiKhoan.getTenDN(),
-                taiKhoan.getMatKhau(),
+                matKhauChe,
+//                taiKhoan.getMatKhau(),
                 taiKhoan.getMaNV(),});
         }
 
@@ -131,7 +134,7 @@ public class ViewNhanVien extends javax.swing.JFrame {
         }
 
     }
-
+   
     void loadSeachTaiKhoanNV(String ma) {
         defaultTableModel = (DefaultTableModel) tblQuanLyTaiKhoan.getModel();
         defaultTableModel.setRowCount(0);
@@ -151,12 +154,14 @@ public class ViewNhanVien extends javax.swing.JFrame {
         defaultTableModel = (DefaultTableModel) tblQuanLyTaiKhoan.getModel();
         defaultTableModel.setRowCount(0);
         int i = 1;
+        String matKhauChe = "*****";
         for (TaiKhoan taiKhoan : quanLyNhanVien.getAllTaiKhoan()) {
             defaultTableModel.addRow(new Object[]{
                 i++,
                 taiKhoan.getMaTK(),
                 taiKhoan.getTenDN(),
-                taiKhoan.getMatKhau(),
+                matKhauChe,
+//                taiKhoan.getMatKhau(),
                 taiKhoan.getMaNV(),});
         }
     }
@@ -1142,6 +1147,11 @@ public class ViewNhanVien extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Email");
             return;
         }
+        String emailRegex = "^[a-zA-Z0-9._%+-]+@gmail\\.com$";
+        if (!Email.matches(emailRegex)) {
+            JOptionPane.showMessageDialog(this, "Định dạng email không hợp lệ.");
+            return;
+        }
         Date ngaySinh = txtNgaySinh.getDate();
         if (txtNgaySinh.getDate() == null) {
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Ngày Sinh");
@@ -1164,6 +1174,10 @@ public class ViewNhanVien extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Số Diện Thoại");
             return;
         }
+        if (sdt.length() != 10) {
+            JOptionPane.showMessageDialog(this, "Số Điện Thoại Phải Là 10 số");
+            return;
+        }
         try {
             Integer sdtt = Integer.parseInt(txtSoDienThoai.getText());
             Integer.valueOf(sdtt);
@@ -1171,10 +1185,7 @@ public class ViewNhanVien extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Số Điện Thoại Phải Là Số");
             return;
         }
-        if (sdt.length() != 10) {
-            JOptionPane.showMessageDialog(this, "Số Điện Thoại Phải Là 10 số");
-            return;
-        }
+        
         if (!sdt.startsWith("0")) {
             JOptionPane.showMessageDialog(this, "Số Điện Thoại Bắt Đầu Bằng số 0");
             return;
@@ -1521,15 +1532,26 @@ public class ViewNhanVien extends javax.swing.JFrame {
         loadQuanLyTaiKhoan();
     }//GEN-LAST:event_btnUpDateDKiMouseClicked
 
+//    void MK() {
+//        int MK = tblTaiKhoanDKi.getSelectedColumn();
+//        if (MK ==3) {
+//            return;
+//        }
+//    }
+
     private void tblTaiKhoanDKiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTaiKhoanDKiMouseClicked
         // TODO add your handling code here:
         int i = tblTaiKhoanDKi.getSelectedRow();
+        int MK = tblTaiKhoanDKi.getSelectedColumn();
         String ma = (String) tblTaiKhoanDKi.getValueAt(i, 1);
         txtMaTaiKhoanDki.setText(ma);
         String ten = (String) tblTaiKhoanDKi.getValueAt(i, 2);
         txtDangNhapDKi.setText(ten);
+       
+        
         String matKhau = (String) tblTaiKhoanDKi.getValueAt(i, 3);
         txtMatKhau.setText(matKhau);
+        
         String maNV = (String) tblTaiKhoanDKi.getValueAt(i, 4);
         txtMaNVDKi.setText(maNV);
     }//GEN-LAST:event_tblTaiKhoanDKiMouseClicked

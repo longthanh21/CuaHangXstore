@@ -190,6 +190,7 @@ public class QuanLyNhanVien {
                 String ma = rs.getString(1);
                 String Ten = rs.getString(2);
                 String matKhau = rs.getString(3);
+                
                 String maNV = rs.getString(4);
                 listTaiKhoan.add(new TaiKhoan(ma, Ten, matKhau, maNV));
             }
