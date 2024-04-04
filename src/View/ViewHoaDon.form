@@ -38,7 +38,7 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <Component id="hoaDon" max="-2" attributes="0"/>
+              <Component id="hoaDon" min="-2" pref="739" max="-2" attributes="0"/>
               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
           </Group>
       </Group>
@@ -63,16 +63,14 @@
                           <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
-                          <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="pnGioHang" alignment="0" max="32767" attributes="0"/>
-                              <Component id="pnHoaDon" max="32767" attributes="0"/>
-                          </Group>
+                          <Component id="pnHoaDon" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace pref="415" max="32767" attributes="0"/>
                       </Group>
+                      <Component id="pnGioHang" alignment="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -86,9 +84,9 @@
                   <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="pnHoaDon" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="pnGioHang" max="32767" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
+                  <Component id="pnGioHang" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="166" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -104,7 +102,8 @@
                       <Color PropertyName="highlight" blue="c0" green="c0" id="lightGray" palette="1" red="c0" type="palette"/>
                     </EtchetBorder>
                   </Border>
-                  <Font PropertyName="font" name="Segoe UI" size="14" style="0"/>
+                  <Font PropertyName="font" name="Segoe UI" size="14" style="1"/>
+                  <Color PropertyName="color" blue="0" green="0" red="ff" type="rgb"/>
                 </TitledBorder>
               </Border>
             </Property>
@@ -115,40 +114,39 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="aaaa" max="32767" attributes="0"/>
+                      <Component id="jScrollPane1" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="aaaa" pref="210" max="32767" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="jScrollPane1" min="-2" pref="203" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="8" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Container class="javax.swing.JScrollPane" name="aaaa">
+            <Container class="javax.swing.JScrollPane" name="jScrollPane1">
               <AuxValues>
                 <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
               </AuxValues>
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JTable" name="tblHoaDon">
+                <Component class="javax.swing.JTable" name="tblHoaDon1">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="8" rowCount="0">
-                        <Column editable="true" title="Stt" type="java.lang.Object"/>
-                        <Column editable="true" title="M&#xe3; HD" type="java.lang.Object"/>
+                      <Table columnCount="8" rowCount="4">
+                        <Column editable="true" title="Stt&#x9;" type="java.lang.Object"/>
+                        <Column editable="true" title="M&#xe3; HD&#x9;" type="java.lang.Object"/>
                         <Column editable="true" title="M&#xe3; NV" type="java.lang.Object"/>
-                        <Column editable="true" title="M&#xe3; KH" type="java.lang.Object"/>
-                        <Column editable="true" title="M&#xe3; VC" type="java.lang.Object"/>
-                        <Column editable="true" title="Ng&#xe0;y t&#x1ea1;o" type="java.lang.Object"/>
-                        <Column editable="true" title="T&#x1ed5;ng Ti&#x1ec1;n" type="java.lang.Object"/>
+                        <Column editable="true" title="M&#xe3; KH&#x9; " type="java.lang.Object"/>
+                        <Column editable="true" title="M&#xe3; VC&#x9; " type="java.lang.Object"/>
+                        <Column editable="true" title="Ng&#xe0;y t&#x1ea1;o&#x9; " type="java.lang.Object"/>
+                        <Column editable="true" title="T&#x1ed5;ng Ti&#x1ec1;n&#x9; " type="java.lang.Object"/>
                         <Column editable="true" title="Tr&#x1ea1;ng th&#xe1;i" type="java.lang.Object"/>
                       </Table>
                     </Property>
@@ -196,16 +194,10 @@
                         </Column>
                       </TableColumnModel>
                     </Property>
-                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[380, 80]"/>
-                    </Property>
                     <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
                       <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                     </Property>
                   </Properties>
-                  <Events>
-                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tblHoaDonMouseClicked"/>
-                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -221,7 +213,8 @@
                       <Color PropertyName="highlight" blue="c0" green="c0" id="lightGray" palette="1" red="c0" type="palette"/>
                     </EtchetBorder>
                   </Border>
-                  <Font PropertyName="font" name="Segoe UI" size="14" style="0"/>
+                  <Font PropertyName="font" name="Segoe UI" size="14" style="1"/>
+                  <Color PropertyName="color" blue="0" green="0" red="ff" type="rgb"/>
                 </TitledBorder>
               </Border>
             </Property>
@@ -232,22 +225,22 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="aaaaaa" max="32767" attributes="0"/>
+                      <Component id="jScrollPane2" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
-                      <Component id="aaaaaa" pref="223" max="32767" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="jScrollPane2" min="-2" pref="242" max="-2" attributes="0"/>
+                      <EmptySpace min="0" pref="19" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Container class="javax.swing.JScrollPane" name="aaaaaa">
+            <Container class="javax.swing.JScrollPane" name="jScrollPane2">
               <AuxValues>
                 <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
               </AuxValues>
@@ -257,9 +250,9 @@
                 <Component class="javax.swing.JTable" name="tblHoaDonChiTiet">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="9" rowCount="0">
-                        <Column editable="true" title="STT" type="java.lang.Object"/>
-                        <Column editable="true" title="IdSP" type="java.lang.Object"/>
+                      <Table columnCount="9" rowCount="4">
+                        <Column editable="true" title="STT&#x9;" type="java.lang.Object"/>
+                        <Column editable="true" title="IdSP&#x9;" type="java.lang.Object"/>
                         <Column editable="true" title="M&#xe3; SP" type="java.lang.Object"/>
                         <Column editable="true" title="T&#xea;n SP" type="java.lang.Object"/>
                         <Column editable="true" title="S&#x1ed1; l&#x1b0;&#x1ee3;ng" type="java.lang.Object"/>
@@ -311,18 +304,17 @@
                           <Editor/>
                           <Renderer/>
                         </Column>
+                        <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                          <Title/>
+                          <Editor/>
+                          <Renderer/>
+                        </Column>
                       </TableColumnModel>
-                    </Property>
-                    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-                      <Dimension value="[75, 80]"/>
                     </Property>
                     <Property name="tableHeader" type="javax.swing.table.JTableHeader" editor="org.netbeans.modules.form.editors2.JTableHeaderEditor">
                       <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                     </Property>
                   </Properties>
-                  <Events>
-                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tblHoaDonChiTietMouseClicked"/>
-                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -332,7 +324,10 @@
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                <TitledBorder title="B&#x1ea3;ng &#x111;i&#x1ec1;u khi&#x1ec3;n"/>
+                <TitledBorder title="B&#x1ea3;ng &#x111;i&#x1ec1;u khi&#x1ec3;n">
+                  <Font PropertyName="font" name="Segoe UI" size="12" style="1"/>
+                  <Color PropertyName="color" blue="0" green="0" red="ff" type="rgb"/>
+                </TitledBorder>
               </Border>
             </Property>
           </Properties>
@@ -363,7 +358,7 @@
                       </Group>
                       <EmptySpace min="-2" pref="73" max="-2" attributes="0"/>
                       <Component id="btnTimKiem" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="134" max="32767" attributes="0"/>
+                      <EmptySpace pref="136" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -405,7 +400,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel2">
               <Properties>
-                <Property name="text" type="java.lang.String" value="T&#xec;m theo M&#xe3; NV "/>
+                <Property name="text" type="java.lang.String" value="T&#xec;m theo ID SP: "/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="txtMaNhanVien">
@@ -438,6 +433,9 @@
             </Component>
             <Component class="javax.swing.JButton" name="btnTimKiem">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Segoe UI" size="12" style="1"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="T&#xec;m ki&#x1ebf;m"/>
               </Properties>
               <Events>
@@ -450,7 +448,10 @@
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                <TitledBorder title="Lo&#x1ea1;i h&#xf3;a &#x111;&#x1a1;n"/>
+                <TitledBorder title="Lo&#x1ea1;i h&#xf3;a &#x111;&#x1a1;n">
+                  <Font PropertyName="font" name="Segoe UI" size="12" style="1"/>
+                  <Color PropertyName="color" blue="0" green="0" red="ff" type="rgb"/>
+                </TitledBorder>
               </Border>
             </Property>
           </Properties>

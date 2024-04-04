@@ -98,13 +98,12 @@ public class BanHangForm extends javax.swing.JFrame {
         lbKhuyenMai = new javax.swing.JLabel();
         pnDoanhThu = new javax.swing.JPanel();
         lbDoanhThu = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
-        lbVaiTro = new javax.swing.JLabel();
         btnDangXuat = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         txtMaNV = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         txtTenNV = new javax.swing.JTextField();
+        lbVaiTro = new javax.swing.JLabel();
         pnHienThi = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -356,28 +355,6 @@ public class BanHangForm extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel1.setBackground(new java.awt.Color(1, 79, 134));
-
-        lbVaiTro.setForeground(new java.awt.Color(0, 255, 51));
-        lbVaiTro.setText("Vai trò");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lbVaiTro, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lbVaiTro)
-                .addContainerGap(49, Short.MAX_VALUE))
-        );
-
         btnDangXuat.setText("Đăng xuất");
 
         jLabel1.setForeground(new java.awt.Color(51, 255, 51));
@@ -385,6 +362,9 @@ public class BanHangForm extends javax.swing.JFrame {
 
         jLabel2.setForeground(new java.awt.Color(0, 255, 51));
         jLabel2.setText("Tên Nhân Viên:");
+
+        lbVaiTro.setForeground(new java.awt.Color(0, 255, 51));
+        lbVaiTro.setText("Vai trò");
 
         javax.swing.GroupLayout pnMenuLayout = new javax.swing.GroupLayout(pnMenu);
         pnMenu.setLayout(pnMenuLayout);
@@ -398,7 +378,6 @@ public class BanHangForm extends javax.swing.JFrame {
             .addComponent(pnKhuyenMai, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(pnLogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(pnDoanhThu, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(pnMenuLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -410,7 +389,10 @@ public class BanHangForm extends javax.swing.JFrame {
                     .addGroup(pnMenuLayout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtTenNV, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtTenNV, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnMenuLayout.createSequentialGroup()
+                        .addComponent(lbVaiTro, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         pnMenuLayout.setVerticalGroup(
@@ -439,11 +421,11 @@ public class BanHangForm extends javax.swing.JFrame {
                 .addGroup(pnMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtTenNV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lbVaiTro)
+                .addGap(18, 18, 18)
                 .addComponent(btnDangXuat)
-                .addGap(11, 11, 11))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
 
         pnHienThi.setPreferredSize(new java.awt.Dimension(1200, 700));
@@ -587,7 +569,6 @@ public class BanHangForm extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lbBanHang;
     private javax.swing.JLabel lbDoanhThu;
     private javax.swing.JLabel lbHoaDon;

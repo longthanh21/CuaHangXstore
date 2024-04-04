@@ -43,7 +43,7 @@ public class QuanLyDoanhThu {
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {
                 String a = rs.getString("TongTien");
-                if (a == null && a.isEmpty()) {
+                if (a == null || a.isEmpty()) {
                     j = 0;
                 } else {
                     j = Float.valueOf(a);
@@ -90,7 +90,7 @@ public class QuanLyDoanhThu {
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {
                 String a = rs.getString("Lai");
-                if (a == null && a.isEmpty()) {
+                if (a == null || a.isEmpty()) {
                     h = 0;
                 } else {
                     h = Float.valueOf(a);
@@ -111,7 +111,7 @@ public class QuanLyDoanhThu {
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {
                 String a = rs.getString("TongDoanhThu");
-                if (a == null && a.isEmpty()) {
+                if (a == null || a.isEmpty()) {
                     T = 0;
                 } else {
                     T = Float.valueOf(a);
@@ -156,7 +156,7 @@ public class QuanLyDoanhThu {
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {
                 String a = rs.getString("LaiXuat");
-                if (a == null && a.isEmpty()) {
+                if (a == null || a.isEmpty()) {
                     m = 0;
                 } else {
                     m = Float.valueOf(a);

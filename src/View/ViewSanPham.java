@@ -415,6 +415,8 @@ public class ViewSanPham extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        Sanpham.setForeground(new java.awt.Color(255, 0, 0));
+        Sanpham.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         Sanpham.setPreferredSize(new java.awt.Dimension(1200, 700));
 
         pnSanPham.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -423,7 +425,7 @@ public class ViewSanPham extends javax.swing.JFrame {
             }
         });
 
-        pnThongTin.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, null), "Thông tin sản phẩm"));
+        pnThongTin.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, null), "Thông tin sản phẩm", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
 
         jLabel4.setText("Mã SP:");
 
@@ -510,7 +512,7 @@ public class ViewSanPham extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        pnLoc.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, null), "Chi tiết SP"));
+        pnLoc.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, null), "Chi tiết SP", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
 
         jLabel13.setText("Màu sắc:");
 
@@ -536,8 +538,11 @@ public class ViewSanPham extends javax.swing.JFrame {
 
         jLabel12.setText("Số lượng:");
 
+        dcNgayNhap.setDateFormatString("yyyy-MM-dd");
+
         jPanel7.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
+        btnAddCTSP.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnAddCTSP.setText("Add CTSP");
         btnAddCTSP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -545,6 +550,7 @@ public class ViewSanPham extends javax.swing.JFrame {
             }
         });
 
+        btnUpdateCTSP.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnUpdateCTSP.setText("Update CTSP");
         btnUpdateCTSP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -668,7 +674,7 @@ public class ViewSanPham extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        pSanPham.setBorder(javax.swing.BorderFactory.createTitledBorder("Bảng sản phẩm"));
+        pSanPham.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Bảng sản phẩm", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
 
         tblSanPham.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -719,7 +725,7 @@ public class ViewSanPham extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        pCTSP.setBorder(javax.swing.BorderFactory.createTitledBorder("Sản phẩm chi tiết"));
+        pCTSP.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Sản phẩm chi tiết", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
 
         tblCTSP.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -773,6 +779,7 @@ public class ViewSanPham extends javax.swing.JFrame {
 
         jPanel5.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
+        btnAdd.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnAdd.setText("Add");
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -780,6 +787,7 @@ public class ViewSanPham extends javax.swing.JFrame {
             }
         });
 
+        btnUpdate.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnUpdate.setText("Update");
         btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -787,6 +795,7 @@ public class ViewSanPham extends javax.swing.JFrame {
             }
         });
 
+        btnNew.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnNew.setText("New");
         btnNew.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -865,7 +874,7 @@ public class ViewSanPham extends javax.swing.JFrame {
 
         Sanpham.addTab("Sản phẩm", pnSanPham);
 
-        pnDanhSach.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, null), "Danh sách thuộc tính"));
+        pnDanhSach.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, null), "Danh sách thuộc tính", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
 
         jLabel6.setText("Tìm Kiếm");
 
@@ -917,6 +926,7 @@ public class ViewSanPham extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        btnAddTT.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnAddTT.setText("Add");
         btnAddTT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -924,6 +934,7 @@ public class ViewSanPham extends javax.swing.JFrame {
             }
         });
 
+        btnUpdateTT.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnUpdateTT.setText("Update");
         btnUpdateTT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -931,7 +942,7 @@ public class ViewSanPham extends javax.swing.JFrame {
             }
         });
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Màu sắc"));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Màu sắc", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
 
         jLabel1.setText("ID thuộc tính:");
 
@@ -1013,6 +1024,7 @@ public class ViewSanPham extends javax.swing.JFrame {
                 .addContainerGap(25, Short.MAX_VALUE))
         );
 
+        btnNewTT.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnNewTT.setText("New");
 
         javax.swing.GroupLayout pnSanPhamChiTietLayout = new javax.swing.GroupLayout(pnSanPhamChiTiet);
