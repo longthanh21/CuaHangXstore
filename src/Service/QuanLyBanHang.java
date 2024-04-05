@@ -58,7 +58,7 @@ public class QuanLyBanHang {
                     + "JOIN (SELECT IdSP ,GiaBan FROM Gia WHERE NgayKetThuc IS NULL) AS Gia ON Gia.IdSP = CTSP.IdSP\n"
                     + "left join GiamGiaSP  on CTSP.idsp=GiamGiaSP.idsp\n"
                     + "left join  Coupon  on Coupon.macp=GiamGiaSP.macp\n"
-                    + "WHERE Coupon.NgayQuyetDinh IS NULL\n"
+                    + "WHERE Coupon.NgayQuyetDinh IS NULL AND CouPon.TrangThai LIKE N'Hoạt động' OR CouPon.TrangThai IS NULL \n"
                     + "ORDER BY CTSP.IdSP asc";
             Connection con = DbConnect.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
