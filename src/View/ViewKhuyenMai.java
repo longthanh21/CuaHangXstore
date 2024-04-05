@@ -1128,20 +1128,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
             }
         });
 
-<<<<<<< HEAD
         btnAddCoupon.setText("Add");
-=======
-        btnHuy.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnHuy.setText("Hủy");
-        btnHuy.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnHuyActionPerformed(evt);
-            }
-        });
-
-        btnAddCoupon.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
-        btnAddCoupon.setText("New Coupon");
->>>>>>> master
         btnAddCoupon.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddCouponActionPerformed(evt);
