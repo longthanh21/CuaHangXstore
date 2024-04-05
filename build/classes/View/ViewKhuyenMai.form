@@ -160,9 +160,6 @@
                   </Border>
                 </Property>
               </Properties>
-              <AccessibilityProperties>
-                <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Th&#xf4;ng Tin"/>
-              </AccessibilityProperties>
 
               <Layout>
                 <DimensionLayout dim="0">

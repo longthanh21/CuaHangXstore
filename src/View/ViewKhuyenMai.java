@@ -1327,13 +1327,13 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                 Date b1 = dcNgayKetThuc.getDate();
                 Date a = new Date(a1.getTime());
                 Date b = new Date(b1.getTime());
-                
+
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 for (Coupon cp : qlKM.getListTheoIdSPVaMaVC(id, ma)) {
                     try {
                         Date c = dateFormat.parse(cp.getNgayBatDau());
                         Date d = dateFormat.parse(cp.getNgayKetThuc());
-                        if ((b.after(c) && c != null && a.before(c))) {
+                        if ((b.after(c) && c != null && a.before(c) && d.after(b) && d != null)) {
                             JOptionPane.showMessageDialog(this, "NgayKetThuc khong hop le");
                             return;
                         }
@@ -1345,15 +1345,15 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                             JOptionPane.showMessageDialog(this, "Qua NgayKetThuc cua CP khac cung IdSP");
                             return;
                         }
-                        if ((a.before(d) && d != null && b.after(d))) {
+                        if ((a.before(d) && d != null && b.after(d) && c.before(a))) {
                             JOptionPane.showMessageDialog(this, "NgayBatDau khong hop le");
                             return;
                         }
-                        if(a.after(c) && b.before(d) && c != null & d != null){
+                        if (a.after(c) && b.before(d) && c != null & d != null) {
                             JOptionPane.showMessageDialog(this, "NgayBatDau va NgayKetThuc trung voi CP khac");
                             return;
                         }
-                        if(a.before(c) && b.after(d) && c != null & d != null){
+                        if (a.before(c) && b.after(d) && c != null & d != null) {
                             JOptionPane.showMessageDialog(this, "NgayBatDau va NgayKetThuc trung voi CP khac");
                             return;
                         }
@@ -1368,29 +1368,46 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                 Coupon cp = new Coupon();
                 cp.setTenCP(txtTenCP.getText());
                 cp.setPhanTram(txtGiamGiaCP.getText());
-
+                cp.setIdSP(txtIDSanPham.getText());
                 Date m = dcNgayDatBau.getDate();
                 Date n = dcNgayKetThuc.getDate();
                 String ngayBatDau = df.format(m);
                 String ngayKetThuc = df.format(n);
                 for (Coupon cou : qlKM.getListNgay(ma)) {
-                    Date i = df.parse(cou.getNgayBatDau());
-                    if (hienTai.before(n) && hienTai.after(i)) {
-                        cp.setNgayBatDau(now);
-                    } else if (hienTai.before(i) && hienTai.before(m)) {
-                        cp.setNgayBatDau(ngayBatDau);
+                    try {
+                        Date i = df.parse(cou.getNgayBatDau());
+                        Date j = df.parse(cou.getNgayKetThuc());
+                        
+                            if (m != null && hienTai.before(m) || hienTai.after(n)) {
+                                cp.setNgayBatDau(ngayBatDau);
+                            }else {
+                                cp.setNgayBatDau(now);
+                            }
+                        
+
+                    } catch (ParseException ex) {
+                        Logger.getLogger(ViewKhuyenMai.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
                 cp.setNgayKetThuc(ngayKetThuc);
 
-                if (rbCPHoatDong.isSelected()) {
+//                Date nowDate = new Date();
+                LocalDate nowDate = LocalDate.now();
+                if (a.equals(nowDate)) {
+                    rbHoatDong.isSelected();
                     cp.setTrangThai("Hoạt động");
-                } else if (rbHetHan.isSelected()) {
-                    cp.setTrangThai("Hết hạn");
                 } else {
+                    rbChuaKH.isSelected();
                     cp.setTrangThai("Chưa kích hoạt");
                 }
-                cp.setIdSP(txtIDSanPham.getText());
+//                if (rbCPHoatDong.isSelected()) {
+//                    
+//                } else if (rbHetHan.isSelected()) {
+//                    cp.setTrangThai("Hết hạn");
+//                } else {
+//                    
+//                }
+
                 qlKM.updCP(cp, Integer.valueOf(txtMaCP.getText()), now);
                 LoadDataCoupon();
             }
