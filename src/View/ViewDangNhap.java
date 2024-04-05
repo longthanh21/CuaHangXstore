@@ -16,6 +16,7 @@ import java.sql.*;
  * @author TienBB
  */
 public class ViewDangNhap extends javax.swing.JFrame {
+
     Connection cn;
 
     public ViewDangNhap() {
@@ -62,7 +63,8 @@ public class ViewDangNhap extends javax.swing.JFrame {
     }
 
     private void quenMatKhau() {
-
+        new ViewQuenMk().setVisible(true);
+        dispose();
     }
 
     /**
