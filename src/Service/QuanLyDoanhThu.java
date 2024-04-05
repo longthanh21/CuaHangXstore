@@ -77,6 +77,32 @@ public class QuanLyDoanhThu {
         }
         return k;
     }
+    float LNTK = 0;
+
+    public Float loiNhuanTK(String NgayBD, String NgayKT) {
+        try {
+            Connection conn = DbConnect.getConnection();
+            String sql = "SELECT (sum(GiaSau*CTHD.SoLuong)-sum(GiaNhap*CTHD.SoLuong)) AS LoiNhuann FROM CTHD\n"
+                    + "JOIN CTSP ON CTSP.IDSP = CTHD.IdSP\n"
+                    + "JOIN HoaDon ON HoaDon.MaHD = CTHD.MaHD\n"
+                    + "WHERE HoaDon.NgayTao >= ? and HoaDon.NgayTao <= ? and TrangThai LIKE N'Đã thanh toán'";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, NgayBD);
+            ps.setString(2, NgayKT);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String a = rs.getString("LoiNhuann");
+                if (a == null && a.isEmpty()) {
+                    LNTK = 0;
+                } else {
+                    LNTK = Float.valueOf(a);
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLyDoanhThu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return LNTK;
+    }
     float h = 0;
 
     public Float laiToDay() {
@@ -122,15 +148,39 @@ public class QuanLyDoanhThu {
         }
         return T;
     }
+    float TK = 0;
+
+    public Float TongDoanhThuTimKiem(String NgayBD, String NgayKT) {
+        try {
+            Connection conn = DbConnect.getConnection();
+            String sql = "SELECT sum(TongTien) AS TongDoanhThuu FROM HoaDon WHERE NgayTao >= ? and NgayTao <= ? and   TrangThai LIKE N'Đã thanh toán'";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, NgayBD);
+            ps.setString(2, NgayKT);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String a = rs.getString("TongDoanhThuu");
+                if (a == null || a.isEmpty()) {
+                    TK = 0;
+                } else {
+                    TK = Float.valueOf(a);
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLyDoanhThu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return TK;
+    }
     ArrayList<HoaDon> listHD = new ArrayList<>();
-    public ArrayList<HoaDon> getListHD(){
+
+    public ArrayList<HoaDon> getListHD() {
         listHD.clear();
         try {
             Connection conn = DbConnect.getConnection();
-            String sql = "SELECT MaHD, NgayTao, TongTien FROM HoaDon WHERE TrangThai = N'Đã thanh toán'";
+            String sql = "SELECT MaHD, NgayTao, TongTien FROM HoaDon WHERE   TrangThai = N'Đã thanh toán'";
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
-            while(rs.next()){
+            while (rs.next()) {
                 HoaDon hd = new HoaDon();
                 hd.setMaHD(rs.getString("MaHD"));
                 hd.setNgayTao(rs.getString("NgayTao"));
@@ -138,13 +188,38 @@ public class QuanLyDoanhThu {
                 listHD.add(hd);
             }
             conn.close();
-           
+
         } catch (SQLException ex) {
             Logger.getLogger(QuanLyDoanhThu.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+        }
         return listHD;
     }
-    
+
+    public ArrayList<HoaDon> getListHDTK(String NgayBD, String NgayKT) {
+        listHD.clear();
+        try {
+            Connection conn = DbConnect.getConnection();
+            String sql = "SELECT MaHD, NgayTao, TongTien FROM HoaDon WHERE NgayTao >= ? and NgayTao <= ? and TrangThai = N'Đã thanh toán'";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, NgayBD);
+            ps.setString(2, NgayKT);
+//            Statement stm = conn.createStatement();
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                HoaDon hd = new HoaDon();
+                hd.setMaHD(rs.getString("MaHD"));
+                hd.setNgayTao(rs.getString("NgayTao"));
+                hd.setTongTien(rs.getString("TongTien"));
+                listHD.add(hd);
+            }
+            conn.close();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLyDoanhThu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listHD;
+    }
+
     public Float laiXuat() {
         float m = 0;
         try {

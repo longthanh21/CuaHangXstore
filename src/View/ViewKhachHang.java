@@ -583,9 +583,11 @@ public class ViewKhachHang extends javax.swing.JFrame {
         KhachHang khachHang = new KhachHang(ma, ten, sdt, strNgayTao, strNgaySinh, gioiTinh, trangThai, diaChi);
 
         quanLyKhachHang.ADDKhachHang(khachHang);
-        JOptionPane.showMessageDialog(this, "Thêm Thành Công");
         loadDataKhachHang();
         loadDataKhachVip();
+        JOptionPane.showMessageDialog(this, "Thêm Thành Công");
+
+        
     }//GEN-LAST:event_btnAddMouseClicked
 
     private void tblKhachHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblKhachHangMouseClicked
