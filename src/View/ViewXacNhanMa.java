@@ -35,7 +35,6 @@ public class ViewXacNhanMa extends javax.swing.JFrame {
         String maNV = qldn.xacNhanNhanVien(xacNhan, emailXN);
         try {
             if (!emailXN.equals(qldn.xacNhanEmail(xacNhan))) {
-                
                 return false;
             }
         } catch (Exception e) {
