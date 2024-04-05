@@ -200,6 +200,9 @@ public class SanPham {
 
     
 
+    
+    
+
     public Integer giaSau() {
         float giaBan = Float.parseFloat(this.giaBan);
         float phanTram = Float.parseFloat(this.phanTram);

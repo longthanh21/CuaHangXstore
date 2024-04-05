@@ -80,7 +80,6 @@ public class QuanLyBanHang {
                 } else {
                     bh.setPhanTram(PhanTram);
                 }
-
                 listSanPham.add(bh);
             }
             con.close();
@@ -120,7 +119,8 @@ public class QuanLyBanHang {
                     + "join CTSP c on c.IdSP=a.IdSP\n"
                     + "join SanPham d on d.MaSP=c.MaSP\n"
                     + "left join GiamGiaSP e on a.idsp=e.idsp\n"
-                    + "where a.MaHD='" + mhd + "'";
+                    + "where a.MaHD = '"+mhd+"'\n"
+                    + "group by c.IdSP,d.MaSP,TenSP,a.SoLuong,a.PhanTram,a.GiaSau";
             Connection con = DbConnect.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();

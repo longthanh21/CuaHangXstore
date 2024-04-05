@@ -713,7 +713,8 @@ public class ViewBanHang extends javax.swing.JFrame {
             String id = (String) tblSanPham.getValueAt(i, 0);
             String soLuong = (String) tblSanPham.getValueAt(i, 7);
             String giaSau = String.valueOf(tblSanPham.getValueAt(i, 10));
-
+//            String phanTram = (String) tblSanPham.getValueAt(i, 9);
+            
             if (Integer.valueOf(a) <= Integer.valueOf(soLuong) && Integer.valueOf(a) > 0) {
                 Integer so = Integer.valueOf(soLuong) - Integer.valueOf(a);
                 String so2 = so.toString();
@@ -738,6 +739,7 @@ public class ViewBanHang extends javax.swing.JFrame {
             tongTien();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Lỗi thao tác. Vui long nhập lại!");
+            e.printStackTrace();
 
         }
 
