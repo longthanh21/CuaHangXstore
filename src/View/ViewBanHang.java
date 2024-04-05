@@ -14,6 +14,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.ImageObserver;
 import java.awt.print.PageFormat;
 import java.awt.print.Paper;
@@ -22,7 +23,9 @@ import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -53,127 +56,228 @@ public class ViewBanHang extends javax.swing.JFrame {
     //bat
     //dau
 
+//    public PageFormat getPage(PrinterJob pj) {
+//        PageFormat pf = pj.defaultPage();
+//        Paper p = pf.getPaper();
+//        double bHeight = 0;
+//
+//        double bodyHeight = bHeight;
+//        double headerHeigth = 5.0;
+//        double footerHeigth = 5.0;
+//        double width = cm_to_pp(8);
+//        double height = cm_to_pp((int) (headerHeigth + bodyHeight + footerHeigth));
+//        p.setSize(width, height);
+//        p.setImageableArea(0, 10, width, height - cm_to_pp(1));
+//
+//        pf.setOrientation(PageFormat.PORTRAIT);
+//        pf.setPaper(p);
+//        return pf;
+//    }
+//
+//    public static double cm_to_pp(double cm) {
+//        return toPPI(cm * 0.393600787);
+//    }
+//
+//    public static double toPPI(double inch) {
+//        return inch * 72d;
+//    }
+//
+//    public class Bill implements Printable {
+//
+//        @Override
+//        public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
+//            //int r = ql.getListGioHang(txtMaHD.getText()).size();
+//            ImageIcon icon = new ImageIcon("D:\\inHD");
+//            int result = NO_SUCH_PAGE;
+//            if (pageIndex == 0) {
+//                Graphics2D g2d = (Graphics2D) graphics;
+//                double width = pageFormat.getImageableWidth();
+//                g2d.translate((int) pageFormat.getImageableX(), (int) pageFormat.getImageableY());
+//
+//                try {
+//                    int y = 20;
+//                    int yShift = 10;
+//                    int headerRectHeight = 15;
+//
+//                    g2d.setFont(new Font("Monospaced", Font.PLAIN, 9));
+//                    ImageObserver rootPane = null;
+//                    g2d.drawImage(icon.getImage(), 50, 20, 90, 30, rootPane);
+//                    y += yShift + 30;
+//                    g2d.drawString("------------------------------------------------", 12, y);
+//                    y += yShift;
+//                    g2d.drawString("         Cửa hàng guitar classic M4L            ", 12, y);
+//                    y += yShift;
+//                    g2d.drawString("Địa chỉ: Đường Trịnh Văn Bô, Phương Canh,", 12, y);
+//                    y += yShift;
+//                    g2d.drawString("         Nam Từ Liêm, Hà Nội                      ", 12, y);
+//                    y += yShift;
+//                    g2d.drawString("------------------------------------------------", 12, y);
+//                    y += headerRectHeight;
+//
+//                    g2d.drawString("  Tên sản phẩm               Giá", 10, y);
+//                    y += yShift;
+//                    g2d.drawString("------------------------------------------------", 10, y);
+//                    y += headerRectHeight;
+//                    for (HoaDon hd : ql.getListGioHang(txtMaHD.getText())) {
+//
+//                        g2d.drawString(" " + hd.getTenSP() + "                     ", 10, y);
+//                        y += yShift;
+//                        g2d.drawString("  " + hd.getSoLuong() + " * " + hd.getGiaSau(), 10, y);
+//                        g2d.drawString(txtTongTien.getText(), 160, y);
+//                        y += yShift;
+//                    }
+//                    g2d.drawString("-------------------------------------------------", 10, y);
+//                    y += yShift;
+//                    g2d.drawString(" Tổng:                     " + txtTongTien.getText() + "", 10, y);
+//                    y += yShift;
+//                    g2d.drawString("-------------------------------------------------", 10, y);
+//                    y += yShift;
+//                    g2d.drawString(" Tiền mặt:                    " + txtTienKD.getText() + "", 10, y);
+//                    y += yShift;
+//
+//                    g2d.drawString("-------------------------------------------------", 10, y);
+//                    y += yShift;
+//                    g2d.drawString(" Tiền thừa:                 " + txtTienThua.getText() + "", 10, y);
+//                    y += yShift;
+//                    g2d.drawString("-------------------------------------------------", 10, y);
+//                    y += yShift;
+//                    g2d.drawString("             CẢM ƠN VÀ HẸN GẶP LẠI               ", 10, y);
+//                    y += yShift;
+//                    g2d.drawString("-------------------------------------------------", 10, y);
+//                    y += yShift;
+//                    g2d.drawString("               Người lập đơn          ", 10, y);
+//                    y += yShift;
+//                    g2d.drawString("               " + txtMaNV.getText() + "", 10, y);
+//                    y += yShift;
+//                    g2d.drawString("-------------------------------------------------", 10, y);
+//                    y += yShift;
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//
+//                result = PAGE_EXISTS;
+//            }
+//            return result;
+//        }
+//    }
+//
+//    public void inHD() {
+//
+//        bHeight = Double.valueOf(ql.getListGioHang(txtMaHD.getText()).size());
+//
+//        PrinterJob pj = PrinterJob.getPrinterJob();
+//        pj.setPrintable(new Bill(), getPage(pj));
+//        try {
+//            pj.print();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+//loi
+    //ket
+    //thuc
+
+    //??
+    // Lớp Bill để xử lý việc in hóa đơn
+public class Bill implements Printable {
+    private String imagePath;
+    private Object ql; // Thay thế Object bằng kiểu dữ liệu thực tế của ql
+    private Object txtMaHD; // Thay thế Object bằng kiểu dữ liệu thực tế của txtMaHD
+    private Object txtTongTien; // Thay thế Object bằng kiểu dữ liệu thực tế của txtTongTien
+    private Object txtTienKD; // Thay thế Object bằng kiểu dữ liệu thực tế của txtTienKD
+    private Object txtTienThua; // Thay thế Object bằng kiểu dữ liệu thực tế của txtTienThua
+    private Object txtMaNV; // Thay thế Object bằng kiểu dữ liệu thực tế của txtMaNV
+
+    public Bill(String imagePath, Object ql, Object txtMaHD, Object txtTongTien, Object txtTienKD, Object txtTienThua, Object txtMaNV) {
+        this.imagePath = imagePath;
+        this.ql = ql;
+        this.txtMaHD = txtMaHD;
+        this.txtTongTien = txtTongTien;
+        this.txtTienKD = txtTienKD;
+        this.txtTienThua = txtTienThua;
+        this.txtMaNV = txtMaNV;
+    }
+
+    // Phương thức in hóa đơn
+    @Override
+    public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
+        if (pageIndex > 0) {
+            return NO_SUCH_PAGE;
+        }
+
+        Graphics2D g2d = (Graphics2D) graphics;
+        double width = pageFormat.getImageableWidth();
+        double height = pageFormat.getImageableHeight();
+        g2d.translate((int) pageFormat.getImageableX(), (int) pageFormat.getImageableY());
+
+        // Đọc và vẽ hình ảnh logo cửa hàng
+        try {
+            ImageIcon icon = new ImageIcon(imagePath);
+            Image logo = icon.getImage();
+            g2d.drawImage(logo, 50, 20, 90, 30, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Vẽ các thông tin hóa đơn
+        int y = 100; // Bắt đầu vẽ từ y = 100
+        g2d.setFont(new Font("Monospaced", Font.PLAIN, 9));
+
+        // Vẽ thông tin cửa hàng
+        g2d.drawString("------------------------------------------------", 12, y);
+        y += 10;
+        g2d.drawString("         Cửa hàng guitar classic M4L            ", 12, y);
+        y += 10;
+        g2d.drawString("Địa chỉ: Đường Trịnh Văn Bô, Phương Canh,", 12, y);
+        y += 10;
+        g2d.drawString("         Nam Từ Liêm, Hà Nội                      ", 12, y);
+        y += 10;
+        g2d.drawString("------------------------------------------------", 12, y);
+        y += 10;
+
+        // Vẽ thông tin sản phẩm và hóa đơn
+        // Ví dụ: g2d.drawString("Tên sản phẩm: " + sản phẩm.getTên(), 12, y);
+        //        y += 10;
+        //        g2d.drawString("Giá: " + sản phẩm.getGiá(), 12, y);
+        //        y += 10;
+        //        ...
+
+        // Vẽ thông tin tổng tiền và các thông tin khác
+        // Ví dụ: g2d.drawString("Tổng tiền: " + hóa đơn.getTổngTiền(), 12, y);
+        //        y += 10;
+        //        g2d.drawString("Tiền mặt: " + hóa đơn.getTiềnMặt(), 12, y);
+        //        y += 10;
+        //        ...
+
+        return PAGE_EXISTS;
+    }
+
+    // Phương thức lấy định dạng trang
     public PageFormat getPage(PrinterJob pj) {
         PageFormat pf = pj.defaultPage();
         Paper p = pf.getPaper();
-        double bHeight = 0;
-
-        double bodyHeight = bHeight;
-        double headerHeigth = 5.0;
-        double footerHeigth = 5.0;
-        double width = cm_to_pp(8);
-        double height = cm_to_pp((int) (headerHeigth + bodyHeight + footerHeigth));
+        double headerHeight = 5.0;
+        double footerHeight = 5.0;
+        double width = cm_to_pp(8); // Độ rộng của trang (ví dụ)
+        double height = cm_to_pp((int) (headerHeight + footerHeight)); // Độ cao của trang (ví dụ)
         p.setSize(width, height);
         p.setImageableArea(0, 10, width, height - cm_to_pp(1));
-
         pf.setOrientation(PageFormat.PORTRAIT);
         pf.setPaper(p);
         return pf;
     }
 
+    // Phương thức chuyển đổi từ đơn vị centimeter sang đơn vị điểm ảnh (points)
     public static double cm_to_pp(double cm) {
         return toPPI(cm * 0.393600787);
     }
 
+    // Phương thức chuyển đổi từ inch sang điểm ảnh (points)
     public static double toPPI(double inch) {
         return inch * 72d;
     }
-
-    public class Bill implements Printable {
-
-        @Override
-        public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
-            //int r = ql.getListGioHang(txtMaHD.getText()).size();
-            ImageIcon icon = new ImageIcon("D:\\inHD");
-            int result = NO_SUCH_PAGE;
-            if (pageIndex == 0) {
-                Graphics2D g2d = (Graphics2D) graphics;
-                double width = pageFormat.getImageableWidth();
-                g2d.translate((int) pageFormat.getImageableX(), (int) pageFormat.getImageableY());
-
-                try {
-                    int y = 20;
-                    int yShift = 10;
-                    int headerRectHeight = 15;
-
-                    g2d.setFont(new Font("Monospaced", Font.PLAIN, 9));
-                    ImageObserver rootPane = null;
-                    g2d.drawImage(icon.getImage(), 50, 20, 90, 30, rootPane);
-                    y += yShift + 30;
-                    g2d.drawString("------------------------------------------------", 12, y);
-                    y += yShift;
-                    g2d.drawString("         Cửa hàng guitar classic M4L            ", 12, y);
-                    y += yShift;
-                    g2d.drawString("Địa chỉ: Đường Trịnh Văn Bô, Phương Canh,", 12, y);
-                    y += yShift;
-                    g2d.drawString("         Nam Từ Liêm, Hà Nội                      ", 12, y);
-                    y += yShift;
-                    g2d.drawString("------------------------------------------------", 12, y);
-                    y += headerRectHeight;
-
-                    g2d.drawString("  Tên sản phẩm               Giá", 10, y);
-                    y += yShift;
-                    g2d.drawString("------------------------------------------------", 10, y);
-                    y += headerRectHeight;
-                    for (HoaDon hd : ql.getListGioHang(txtMaHD.getText())) {
-
-                        g2d.drawString(" " + hd.getTenSP() + "                     ", 10, y);
-                        y += yShift;
-                        g2d.drawString("  " + hd.getSoLuong() + " * " + hd.getGiaSau(), 10, y);
-                        g2d.drawString(txtTongTien.getText(), 160, y);
-                        y += yShift;
-                    }
-                    g2d.drawString("-------------------------------------------------", 10, y);
-                    y += yShift;
-                    g2d.drawString(" Tổng:                     " + txtTongTien.getText() + "", 10, y);
-                    y += yShift;
-                    g2d.drawString("-------------------------------------------------", 10, y);
-                    y += yShift;
-                    g2d.drawString(" Tiền mặt:                    " + txtTienKD.getText() + "", 10, y);
-                    y += yShift;
-
-                    g2d.drawString("-------------------------------------------------", 10, y);
-                    y += yShift;
-                    g2d.drawString(" Tiền thừa:                 " + txtTienThua.getText() + "", 10, y);
-                    y += yShift;
-                    g2d.drawString("-------------------------------------------------", 10, y);
-                    y += yShift;
-                    g2d.drawString("             CẢM ƠN VÀ HẸN GẶP LẠI               ", 10, y);
-                    y += yShift;
-                    g2d.drawString("-------------------------------------------------", 10, y);
-                    y += yShift;
-                    g2d.drawString("               Người lập đơn          ", 10, y);
-                    y += yShift;
-                    g2d.drawString("               " + txtMaNV.getText() + "", 10, y);
-                    y += yShift;
-                    g2d.drawString("-------------------------------------------------", 10, y);
-                    y += yShift;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                result = PAGE_EXISTS;
-            }
-            return result;
-        }
-    }
-
-    public void inHD() {
-
-        bHeight = Double.valueOf(ql.getListGioHang(txtMaHD.getText()).size());
-
-        PrinterJob pj = PrinterJob.getPrinterJob();
-        pj.setPrintable(new Bill(), getPage(pj));
-        try {
-            pj.print();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-//loi
-    //ket
-    //thuc
-
+}
+    //??
     private ViewBanHang() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
@@ -994,7 +1098,23 @@ public class ViewBanHang extends javax.swing.JFrame {
 
     private void btnInHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInHDActionPerformed
         // TODO add your handling code here:
-        inHD();
+       
+        // Tạo một đối tượng Bill với các tham số cần thiết
+    Bill bill = new Bill("đường dẫn hình ảnh", ql, txtMaHD, txtTongTien, txtTienKD, txtTienThua, txtMaNV);
+    
+    // Lấy một đối tượng PrinterJob
+    PrinterJob pj = PrinterJob.getPrinterJob();
+    
+    // Đặt phương thức in cho đối tượng PrinterJob
+    pj.setPrintable(bill, bill.getPage(pj));
+    
+    // Thực hiện việc in
+    try {
+        pj.print();
+    } catch (PrinterException ex) {
+        // Xử lý ngoại lệ khi có lỗi xảy ra trong quá trình in
+        ex.printStackTrace();
+    }
     }//GEN-LAST:event_btnInHDActionPerformed
 
     /**
