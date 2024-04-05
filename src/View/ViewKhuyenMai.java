@@ -12,6 +12,8 @@ import Service.QuanLyKhuyenMai;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -104,7 +106,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        dcHetHan.setDate(endDate);
+        dcKetThuc.setDate(endDate);
         txtDieuKien.setText(String.valueOf(tbVoucher.getValueAt(i, 5)));
         String ttKH = String.valueOf(tbVoucher.getValueAt(i, 6));
         if (ttKH.equalsIgnoreCase("Khách VIP")) {
@@ -134,16 +136,18 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         //Ngày bắt đầu
         Date ngayBatDau = dcBatDau.getDate();
         String strNgayBatDau = dateFormat.format(ngayBatDau);
-        vc.setNgayBatDau(strNgayBatDau);
+        vc.setNgayBatDau(strNgayBatDau + " 00:00:00");
         //Ngày kết thúc
-        Date ngayKetThuc = dcHetHan.getDate();
+        Date ngayKetThuc = dcKetThuc.getDate();
         String strNgayKetThuc = dateFormat.format(ngayKetThuc);
-        vc.setNgayKetThuc(strNgayKetThuc);
+        vc.setNgayKetThuc(strNgayKetThuc + " 23:59:00");
         vc.setDieuKien(txtDieuKien.getText());
         if (rbHoatDong.isSelected()) {
             vc.setTrangThai("Hoạt động");
-        } else {
+        } else if (rbHetHan.isSelected()) {
             vc.setTrangThai("Hết hạn");
+        } else {
+            vc.setTrangThai("Chưa kích hoạt");
         }
         return vc;
     }
@@ -153,7 +157,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         String tenvc = txtTenVC.getText().trim();
         String giamGia = txtGiamGiaVC.getText().trim();
         Date batDau = dcBatDau.getDate();
-        Date hetHan = dcHetHan.getDate();
+        Date hetHan = dcKetThuc.getDate();
         String dieukien = txtDieuKien.getText().trim();
         if (mavc.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Mã voucher không được để trống");
@@ -219,7 +223,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         String tenvc = txtTenVC.getText().trim();
         String giamGia = txtGiamGiaVC.getText().trim();
         Date batDau = dcBatDau.getDate();
-        Date hetHan = dcHetHan.getDate();
+        Date hetHan = dcKetThuc.getDate();
         String dieukien = txtDieuKien.getText().trim();
 
         if (tenvc.isEmpty()) {
@@ -560,7 +564,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
     // Phương thức để cập nhật trạng thái khi hết hạn
     public void TrangThaiThoiGianVoucher() {
         Date batDau = dcBatDau.getDate();
-        Date hetHan = dcHetHan.getDate();
+        Date hetHan = dcKetThuc.getDate();
         if (hetHan != null) { // Kiểm tra xem hetHan có null không
             for (Voucher e : listVC) {
                 if (hetHan.before(batDau)) {
@@ -618,9 +622,10 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         cbKhachVip = new javax.swing.JCheckBox();
         dcBatDau = new com.toedter.calendar.JDateChooser();
-        dcHetHan = new com.toedter.calendar.JDateChooser();
+        dcKetThuc = new com.toedter.calendar.JDateChooser();
         jLabel19 = new javax.swing.JLabel();
         txtDieuKien = new javax.swing.JTextField();
+        rbChuaKichHoat = new javax.swing.JRadioButton();
         danhSachVC = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbVoucher = new javax.swing.JTable();
@@ -721,9 +726,12 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
 
         dcBatDau.setDateFormatString("yyyy-MM-dd");
 
-        dcHetHan.setDateFormatString("yyyy-MM-dd");
+        dcKetThuc.setDateFormatString("yyyy-MM-dd");
 
         jLabel19.setText("Điều kiện");
+
+        buttonGroup1.add(rbChuaKichHoat);
+        rbChuaKichHoat.setText("Chưa kích hoạt");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -735,39 +743,42 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(dcHetHan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(dcKetThuc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(dcBatDau, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtTenVC, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtMaVC, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtGiamGiaVC, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel15))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cbKhachVip, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addComponent(rbHoatDong, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(rbHetHan, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(txtDieuKien)))
-                .addContainerGap(70, Short.MAX_VALUE))
+                        .addComponent(txtDieuKien))
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel5Layout.createSequentialGroup()
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(txtTenVC, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel5Layout.createSequentialGroup()
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(txtMaVC, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel5Layout.createSequentialGroup()
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(txtGiamGiaVC, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel5Layout.createSequentialGroup()
+                            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel15))
+                            .addGap(18, 18, 18)
+                            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(cbKhachVip, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel5Layout.createSequentialGroup()
+                                    .addComponent(rbHoatDong, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(rbHetHan, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(rbChuaKichHoat))))))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -792,12 +803,13 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                 .addGap(24, 24, 24)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel5)
-                    .addComponent(dcHetHan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(dcKetThuc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(rbHoatDong)
-                    .addComponent(rbHetHan))
+                    .addComponent(rbHetHan)
+                    .addComponent(rbChuaKichHoat))
                 .addGap(24, 24, 24)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel15)
@@ -879,8 +891,6 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                             .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(130, Short.MAX_VALUE))
         );
-
-        jPanel5.getAccessibleContext().setAccessibleName("Thông Tin");
 
         pnKhuyenMai.addTab("Voucher", Voucher);
 
@@ -1221,6 +1231,64 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
     }//GEN-LAST:event_tbVoucherMouseClicked
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+//        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+//        Date bd = dcBatDau.getDate();
+//        Date kt = dcKetThuc.getDate();
+//        LocalDate BD = bd.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+//        LocalDate KT = kt.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+//        String qd = df.format(bd);
+//        LocalDate now = LocalDate.now();
+//        String pattern = "yyyy-MM-dd";
+//
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+//        String hienTai = now.format(formatter);
+//        if (BD.isBefore(now)) {
+//            JOptionPane.showMessageDialog(this, "Không được Add Voucher có NgayBatDau < NgayHienTai");
+//            return;
+//        }
+//        for (Voucher vc : listVC) {
+//            try {
+//                Date a = df.parse(vc.getNgayBatDau());
+//                Date b = df.parse(vc.getNgayKetThuc());
+//                LocalDate A = a.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+//                LocalDate B = b.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+//
+//                if (KT.isAfter(A) && KT.isBefore(B)) {
+//                    JOptionPane.showMessageDialog(this, "NgayKetThuc của Voucher mới nằm giữa NgayBatDau va NgayKetThuc của Voucher khác. Vui lòng nhập lại");
+//                    return;
+//                }
+//                if (BD.isAfter(A) && BD.isBefore(B)) {
+//                    JOptionPane.showMessageDialog(this, "NgayBatDau của Voucher mới nằm giữa NgayBatDau va NgayKetThuc của Voucher khác. Vui lòng nhập lại");
+//                    return;
+//                }
+//                if (now.isAfter(A) && now.isBefore(B) && BD.isAfter(A) && BD.isBefore(B)) {
+//                    if (checkVC()) {
+//                        JOptionPane.showMessageDialog(this, "NgayBatDau của bạn nằm giữa NgayBatDau va NgayKetThuc của Voucher đã tồn tại.");
+//                        JOptionPane.showConfirmDialog(this, "Bạn có quyết định kết thúc Voucher đó và Thêm Voucher mới không?", null, JOptionPane.YES_NO_OPTION);
+//                        int check = JOptionPane.YES_NO_OPTION;
+//                        if (check == JOptionPane.YES_OPTION && check != JOptionPane.NO_OPTION) {
+//                            qlKM.addVoucherQuyetDinh(getFormVoucher(), txtMaVC.getText(), hienTai);
+//                            JOptionPane.showMessageDialog(this, "Quyết dịnh thành công");
+//                            if (cbKhachVip.isSelected()) {
+//                                qlKM.addKhachVIP(txtMaVC.getText());
+//                            }
+//                            LoadDataTable();
+//                        }
+//                        if (check == JOptionPane.NO_OPTION) {
+//                            return;
+//                        }
+//                        return;
+//                    }
+//
+//                } else {
+//                    addVC();
+//                    LoadDataTable();
+//                    return;
+//                }
+//            } catch (ParseException ex) {
+//                Logger.getLogger(ViewKhuyenMai.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        }
         addVC();
         LoadDataTable();
     }//GEN-LAST:event_btnAddActionPerformed
@@ -1377,13 +1445,12 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                     try {
                         Date i = df.parse(cou.getNgayBatDau());
                         Date j = df.parse(cou.getNgayKetThuc());
-                        
-                            if (m != null && hienTai.before(m) || hienTai.after(n)) {
-                                cp.setNgayBatDau(ngayBatDau);
-                            }else {
-                                cp.setNgayBatDau(now);
-                            }
-                        
+
+                        if (m != null && hienTai.before(m) || hienTai.after(n)) {
+                            cp.setNgayBatDau(ngayBatDau);
+                        } else {
+                            cp.setNgayBatDau(now);
+                        }
 
                     } catch (ParseException ex) {
                         Logger.getLogger(ViewKhuyenMai.class.getName()).log(Level.SEVERE, null, ex);
@@ -1393,21 +1460,14 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
 
 //                Date nowDate = new Date();
                 LocalDate nowDate = LocalDate.now();
-                if (a.equals(nowDate)) {
-                    rbHoatDong.isSelected();
+                LocalDate dcNgayDatDauLocalDate = a.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                if (dcNgayDatDauLocalDate.equals(nowDate)) {
+                    rbHoatDong.setSelected(true);
                     cp.setTrangThai("Hoạt động");
                 } else {
-                    rbChuaKH.isSelected();
+                    rbChuaKH.setSelected(true);
                     cp.setTrangThai("Chưa kích hoạt");
                 }
-//                if (rbCPHoatDong.isSelected()) {
-//                    
-//                } else if (rbHetHan.isSelected()) {
-//                    cp.setTrangThai("Hết hạn");
-//                } else {
-//                    
-//                }
-
                 qlKM.updCP(cp, Integer.valueOf(txtMaCP.getText()), now);
                 LoadDataCoupon();
             }
@@ -1484,7 +1544,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
     private javax.swing.JCheckBox cbKhachVip;
     private javax.swing.JPanel danhSachVC;
     private com.toedter.calendar.JDateChooser dcBatDau;
-    private com.toedter.calendar.JDateChooser dcHetHan;
+    private com.toedter.calendar.JDateChooser dcKetThuc;
     private com.toedter.calendar.JDateChooser dcNgayDatBau;
     private com.toedter.calendar.JDateChooser dcNgayKetThuc;
     private javax.swing.JLabel jLabel1;
@@ -1518,6 +1578,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
     private javax.swing.JRadioButton rbCPHetHan;
     private javax.swing.JRadioButton rbCPHoatDong;
     private javax.swing.JRadioButton rbChuaKH;
+    private javax.swing.JRadioButton rbChuaKichHoat;
     private javax.swing.JRadioButton rbHetHan;
     private javax.swing.JRadioButton rbHoatDong;
     private javax.swing.JTable tbCoupon;

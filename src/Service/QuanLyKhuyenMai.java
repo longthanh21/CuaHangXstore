@@ -35,9 +35,10 @@ public class QuanLyKhuyenMai {
         List<Voucher> listvc = new ArrayList<>();
         try {
             String sql = "SELECT Voucher.MaVC, TenVC, GiamGia, NgayBatDau, NgayKetThuc, DieuKien, KhachHang.TrangThai AS KHTrangThai, Voucher.TrangThai AS VCTrangThai FROM Voucher\n"
-                    + "left join UuDai on UuDai.MaVC = Voucher.MaVC\n"
-                    + "left join KhachHang on KhachHang.MaKH = UuDai.MaKH\n"
-                    + "group by Voucher.MaVC, TenVC, GiamGia, NgayBatDau, NgayKetThuc, DieuKien, KhachHang.TrangThai, Voucher.TrangThai";
+                    + "left join UuDai on UuDai.MaVC = Voucher.MaVC\n" 
+                    + "left join KhachHang on KhachHang.MaKH = UuDai.MaKH\n" 
+                    + "WHERE NgayQuyetDinh IS NULL\n"
+                    + "group by Voucher.MaVC, TenVC, GiamGia, NgayBatDau, NgayKetThuc, DieuKien, KhachHang.TrangThai, Voucher.TrangThai\n";
             PreparedStatement ps = cn.prepareStatement(sql);
             ps.execute();
             ResultSet rs = ps.getResultSet();
@@ -95,13 +96,40 @@ public class QuanLyKhuyenMai {
             ps.setString(4, vc.getNgayBatDau());
             ps.setString(5, vc.getNgayKetThuc());
             ps.setString(6, vc.getDieuKien());
-            ps.setInt(7, vc.getTrangThai().equals("Hoạt động") ? 1 : 0);
+            ps.setString(7, vc.getTrangThai());
             ps.execute();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
+    public void addVoucherQuyetDinh(Voucher vc, String ma, String nqd){
+        try {
+            String sql = "UPDATE Voucher SET NgayQuyetDinh = ? NgayKetThuc = ? WHERE MaVC = ?";
+            PreparedStatement ps = cn.prepareStatement(sql);
+            ps.setString(1, ma);
+            ps.setString(2, nqd);
+            ps.setString(3, nqd);
+            ps.executeUpdate();
+            
+            String sql1 = "INSERT INTO Voucher (MaVC, TenVC, GiamGia, NgayBatDau, NgayKetThuc, DieuKien, NgayQuyetDinh, TrangThai) VALUES (?,?,?,?,?,?,?,?)";
+            PreparedStatement ps1 = cn.prepareStatement(sql);
+            ps1.setString(1, vc.getMaVC());
+            ps1.setString(2, vc.getTenVC());
+            ps1.setString(3, vc.getGiamGia());
+            ps1.setString(4, vc.getNgayBatDau());
+            ps1.setString(5, vc.getNgayKetThuc());
+            ps1.setString(6, vc.getDieuKien());
+            ps1.setString(7, null);
+            ps1.setString(8, vc.getTrangThai());
+            ps1.executeUpdate();
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLyKhuyenMai.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+        
     public void suaVoucher(Voucher vc) {
         try {
             String sql = "UPDATE Voucher SET TenVC = ?, GiamGia = ?, NgayBatDau = ?, NgayKetThuc = ?, DieuKien = ?, TrangThai = ? WHERE MaVC = ?";
