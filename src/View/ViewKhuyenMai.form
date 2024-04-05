@@ -486,19 +486,21 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="pnThongTin" max="32767" attributes="0"/>
-                          <Component id="pnGiamGia" alignment="1" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="pnCoupon" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="pnSanPham" max="32767" attributes="0"/>
                           </Group>
+                          <Component id="pnGiamGia" alignment="0" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
                               <Component id="btnApDung" min="-2" pref="160" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="btnHuy" min="-2" pref="160" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="btnAddCoupon" min="-2" pref="160" max="-2" attributes="0"/>
-                              <EmptySpace min="0" pref="672" max="32767" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="btnUpdateCP" min="-2" pref="160" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="btnUpdateCP1" min="-2" pref="160" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -508,27 +510,25 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                      <Component id="pnGiamGia" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="pnThongTin" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="pnGiamGia" min="-2" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
                           <Group type="102" attributes="0">
-                              <EmptySpace pref="22" max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="btnApDung" alignment="3" min="-2" pref="39" max="-2" attributes="0"/>
-                                  <Component id="btnHuy" alignment="3" min="-2" pref="39" max="-2" attributes="0"/>
                                   <Component id="btnAddCoupon" alignment="3" min="-2" pref="39" max="-2" attributes="0"/>
+                                  <Component id="btnApDung" alignment="3" min="-2" pref="39" max="-2" attributes="0"/>
+                                  <Component id="btnUpdateCP" alignment="3" min="-2" pref="39" max="-2" attributes="0"/>
+                                  <Component id="btnUpdateCP1" alignment="3" min="-2" pref="39" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="25" max="32767" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="pnCoupon" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" attributes="0">
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Component id="pnSanPham" min="-2" max="-2" attributes="0"/>
-                          </Group>
+                          <Component id="pnSanPham" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="57" max="32767" attributes="0"/>
+                      <EmptySpace pref="68" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -690,20 +690,21 @@
                               <Component id="dcNgayDatBau" pref="250" max="32767" attributes="0"/>
                               <Component id="txtTenCP" max="32767" attributes="0"/>
                           </Group>
+                          <EmptySpace pref="52" max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
-                                  <EmptySpace pref="52" max="32767" attributes="0"/>
                                   <Component id="jLabel12" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Component id="dcNgayKetThuc" min="-2" pref="250" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" attributes="0">
-                                  <EmptySpace min="-2" pref="58" max="-2" attributes="0"/>
                                   <Component id="jLabel18" max="32767" attributes="0"/>
-                                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="rbCPHoatDong" min="-2" pref="98" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
-                                  <Component id="rbCPHetHan" min="-2" pref="98" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
+                                  <Component id="rbCPHoatDong" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="rbCPHetHan" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="rbChuaKH" min="-2" pref="107" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
@@ -722,6 +723,7 @@
                               <Component id="txtTenCP" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="rbCPHoatDong" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="rbCPHetHan" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="rbChuaKH" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace pref="24" max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -773,6 +775,9 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="txtMaCP">
+                  <Properties>
+                    <Property name="editable" type="boolean" value="false"/>
+                  </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="txtTenCP">
                 </Component>
@@ -801,6 +806,14 @@
                       <ComponentRef name="buttonGroup2"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="H&#x1ebf;t h&#x1ea1;n"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JRadioButton" name="rbChuaKH">
+                  <Properties>
+                    <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                      <ComponentRef name="buttonGroup2"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Ch&#x1b0;a k&#xed;ch ho&#x1ea1;t"/>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -1011,7 +1024,6 @@
               </Events>
             </Component>
 <<<<<<< HEAD
-<<<<<<< HEAD
             <Component class="javax.swing.JButton" name="btnAddCoupon">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Add"/>
@@ -1034,22 +1046,25 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="New Coupon"/>
 >>>>>>> master
-=======
-            <Component class="javax.swing.JButton" name="btnHuy">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="H&#x1ee7;y"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnHuyActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JButton" name="btnAddCoupon">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="New Coupon"/>
->>>>>>> parent of fda3c97 (long up)
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddCouponActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnUpdateCP">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Update"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnUpdateCPActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnUpdateCP1">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="New"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnUpdateCP1ActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>
