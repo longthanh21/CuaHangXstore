@@ -49,7 +49,7 @@ public class QuanLyBanHang {
     public ArrayList<SanPham> getListSanPham() {
         listSanPham.clear();
         try {
-            String sql = "SELECT CTSP.idsp,ctsp.MaSP,TenSP,TenMauSac,TenSize,TenChatLieu,TenHang,CTSP.SoLuong,Gia.GiaBan,PhanTram,coupon.TrangThai FROM CTSP \n"
+            String sql = "SELECT CTSP.idsp,ctsp.MaSP,TenSP,TenMauSac,TenSize,TenChatLieu,TenHang,CTSP.SoLuong,Gia.GiaBan,PhanTram,coupon.TrangThai FROM CTSP\n"
                     + "JOIN MauSac  on MauSac.IdMauSac = CTSP.IdMauSac\n"
                     + "JOIN Size  on Size.IdSize = CTSP.IdSize\n"
                     + "JOIN ChatLieu  on ChatLieu.IdChatLieu = CTSP.IdChatLieu\n"
@@ -58,7 +58,7 @@ public class QuanLyBanHang {
                     + "JOIN (SELECT IdSP ,GiaBan FROM Gia WHERE NgayKetThuc IS NULL) AS Gia ON Gia.IdSP = CTSP.IdSP\n"
                     + "left join GiamGiaSP  on CTSP.idsp=GiamGiaSP.idsp\n"
                     + "left join  Coupon  on Coupon.macp=GiamGiaSP.macp\n"
-//                    + "WHERE CTSP.SoLuong > 0\n"
+                    + "WHERE Coupon.NgayQuyetDinh IS NULL\n"
                     + "ORDER BY CTSP.IdSP asc";
             Connection con = DbConnect.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
