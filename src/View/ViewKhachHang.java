@@ -6,13 +6,25 @@ package View;
 
 import Model.KhachHang;
 import Service.QuanLyKhachHang;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  *
@@ -152,6 +164,7 @@ public class ViewKhachHang extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         txtSeachKHang = new javax.swing.JTextField();
+        btnPrint = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -412,6 +425,19 @@ public class ViewKhachHang extends javax.swing.JFrame {
                 .addContainerGap(19, Short.MAX_VALUE))
         );
 
+        btnPrint.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnPrint.setText("Xuất File");
+        btnPrint.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnPrintMouseClicked(evt);
+            }
+        });
+        btnPrint.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPrintActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnKhachHangLayout = new javax.swing.GroupLayout(pnKhachHang);
         pnKhachHang.setLayout(pnKhachHangLayout);
         pnKhachHangLayout.setHorizontalGroup(
@@ -419,16 +445,16 @@ public class ViewKhachHang extends javax.swing.JFrame {
             .addGroup(pnKhachHangLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnKhachHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(pnKhachHangLayout.createSequentialGroup()
-                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(37, 37, 37)
-                        .addComponent(btnUpDate, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(49, 49, 49)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(24, 24, 24))
-                    .addGroup(pnKhachHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 518, Short.MAX_VALUE)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 518, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnKhachHangLayout.createSequentialGroup()
+                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(33, 33, 33)
+                        .addComponent(btnUpDate, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(40, 40, 40)
+                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnPrint, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(pnKhachHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -448,7 +474,8 @@ public class ViewKhachHang extends javax.swing.JFrame {
                         .addGroup(pnKhachHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnUpDate, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnPrint, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(pnKhachHangLayout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -535,8 +562,7 @@ public class ViewKhachHang extends javax.swing.JFrame {
         }
         SimpleDateFormat dateNgayTao = new SimpleDateFormat("yyyy-MM-dd");
         String strNgayTao = dateNgayTao.format(NgayTao);
-        
-        
+
         Date NgaySinh = txtNgaySinh.getDate();
         if (txtNgaySinh.getDate() == null) {
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Ngay Tao");
@@ -698,7 +724,7 @@ public class ViewKhachHang extends javax.swing.JFrame {
         SimpleDateFormat dateNgayTao = new SimpleDateFormat("yyyy-MM-dd");
         String strNgayTao = dateNgayTao.format(NgayTao);
 
-          Date NgaySinh = txtNgaySinh.getDate();
+        Date NgaySinh = txtNgaySinh.getDate();
         if (txtNgaySinh.getDate() == null) {
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Ngay Tao");
             return;
@@ -741,11 +767,20 @@ public class ViewKhachHang extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Trạng Thái");
             return;
         }
-        KhachHang khachHang = new KhachHang(ma, ten, sdt, strNgayTao, strNgaySinh, gioiTinh, trangThai, diaChi);
+                int ret = JOptionPane.showConfirmDialog(this, "Bạn Muốn Cập Nhật Hay không?", "Thông Báo", JOptionPane.YES_NO_OPTION);
+        if (ret == JOptionPane.YES_OPTION) {
+             KhachHang khachHang = new KhachHang(ma, ten, sdt, strNgayTao, strNgaySinh, gioiTinh, trangThai, diaChi);
         quanLyKhachHang.upDate(khachHang);
         JOptionPane.showMessageDialog(this, "Cập Nhật Thành Công");
         loadDataKhachHang();
         loadDataKhachVip();
+        }
+        KhachHang khachHang = new KhachHang(ma, ten, sdt, strNgayTao, strNgaySinh, gioiTinh, trangThai, diaChi);
+        quanLyKhachHang.upDate(khachHang);
+        loadDataKhachHang();
+        loadDataKhachVip();
+        JOptionPane.showMessageDialog(this, "Cập Nhật Thành Công");
+
     }//GEN-LAST:event_btnUpDateMouseClicked
 
     private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseClicked
@@ -778,6 +813,196 @@ public class ViewKhachHang extends javax.swing.JFrame {
     private void txtTenKHKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTenKHKeyReleased
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTenKHKeyReleased
+
+    private void btnPrintMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPrintMouseClicked
+        // TODO add your handling code here:
+//        try {
+//
+////            XSSFWorkbook workbook = new XSSFWorkbook();
+//            XSSFWorkbook workbook = new XSSFWorkbook();
+//            XSSFSheet sheet = workbook.createSheet("KhachHang");
+//            XSSFRow row = null;
+//            Cell cell = null;
+//            row = sheet.createRow(2);
+//            cell = row.createCell(0, CellType.STRING);
+//            cell.setCellValue("DANH SACH GIA SACH");
+//            
+//            row = sheet.createRow(8);
+//
+//            cell = row.createCell(0, CellType.STRING);
+//            cell.setCellValue("Stt");
+//            cell = row.createCell(1, CellType.STRING);
+//            cell.setCellValue("MaKH");
+//            cell = row.createCell(2, CellType.STRING);
+//            cell.setCellValue("TênKH");
+//            cell = row.createCell(3, CellType.STRING);
+//            cell.setCellValue("SĐT");
+//            cell = row.createCell(4, CellType.STRING);
+//            cell.setCellValue("Ngày Tạo");
+//            cell = row.createCell(5, CellType.STRING);
+//            cell.setCellValue("Ngày Sinh");
+//            cell = row.createCell(6, CellType.STRING);
+//            cell.setCellValue("Giới Tính");
+//            cell = row.createCell(7, CellType.STRING);
+//            cell.setCellValue("Trạng Thái");
+//            cell = row.createCell(8, CellType.STRING);
+//            cell.setCellValue("Địa Chỉ");
+//            try {
+//
+//                ArrayList<KhachHang> listKH = quanLyKhachHang.getAllKhachHang();
+//                if (listKH != null) {
+//                    int s = listKH.size();
+//                    for (int i = 0; i < s; i++) {
+//                        KhachHang khachHang = listKH.get(i);
+//                        row = sheet.createRow(7 + i);
+//
+//                        cell = row.createCell(0, CellType.NUMERIC);
+//                        cell.setCellValue(i + 1);
+//
+//                        cell = row.createCell(1, CellType.STRING);
+//                        cell.setCellValue(khachHang.getMaKH());
+//
+//                        cell = row.createCell(2, CellType.STRING);
+//                        cell.setCellValue(khachHang.getTenKH());
+//
+//                        cell = row.createCell(3, CellType.STRING);
+//                        cell.setCellValue(khachHang.getSĐT());
+//
+//                        cell = row.createCell(4, CellType.STRING);
+//                        cell.setCellValue(khachHang.getNgayTao());
+//
+//                        cell = row.createCell(5, CellType.STRING);
+//                        cell.setCellValue(khachHang.getNgaySinh());
+//
+//                        cell = row.createCell(6, CellType.STRING);
+//                        cell.setCellValue(khachHang.isGioiTinh() ? "Nam" : "Nữ");
+//
+//                        cell = row.createCell(3, CellType.STRING);
+//                        cell.setCellValue(khachHang.isTrangThai() ? "Khách Thường" : "Khách Vip");
+//
+//                        cell = row.createCell(3, CellType.STRING);
+//                        cell.setCellValue(khachHang.getDiaChi());
+//
+//                    }
+//                }
+//               
+//                    // LƯU file exel
+//                    File file = new File("D://File exel Khach Hang.xlsx");
+//                   try {  
+//                    FileOutputStream fis = new FileOutputStream(file);
+//                    workbook.write(fis);
+//                    fis.close();
+////                workbook.write(file);
+////            out.close();
+//
+//                } catch (FileNotFoundException ex) {
+//                    ex.printStackTrace();
+//                }
+//
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            JOptionPane.showMessageDialog(this, "IN Thanh Cong");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            JOptionPane.showMessageDialog(this, "Loi in");
+//        }
+    }//GEN-LAST:event_btnPrintMouseClicked
+
+    private void btnPrintActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrintActionPerformed
+        // TODO add your handling code here:
+        try {
+
+//            XSSFWorkbook workbook = new XSSFWorkbook();
+            XSSFWorkbook workbook = new XSSFWorkbook();
+            XSSFSheet sheet = workbook.createSheet("KhachHang");
+            XSSFRow row = null;
+            Cell cell = null;
+            row = sheet.createRow(2);
+            cell = row.createCell(0, CellType.STRING);
+            cell.setCellValue("DANH SACH KHACH HANG");
+            
+            row = sheet.createRow(6);
+
+            cell = row.createCell(0, CellType.STRING);
+            cell.setCellValue("Stt");
+            cell = row.createCell(1, CellType.STRING);
+            cell.setCellValue("MaKH");
+            cell = row.createCell(2, CellType.STRING);
+            cell.setCellValue("TênKH");
+            cell = row.createCell(3, CellType.STRING);
+            cell.setCellValue("SĐT");
+            cell = row.createCell(4, CellType.STRING);
+            cell.setCellValue("Ngày Tạo");
+            cell = row.createCell(5, CellType.STRING);
+            cell.setCellValue("Ngày Sinh");
+            cell = row.createCell(6, CellType.STRING);
+            cell.setCellValue("Giới Tính");
+            cell = row.createCell(7, CellType.STRING);
+            cell.setCellValue("Trạng Thái");
+            cell = row.createCell(8, CellType.STRING);
+            cell.setCellValue("Địa Chỉ");
+            try {
+
+                ArrayList<KhachHang> listKH = quanLyKhachHang.getAllKhachHang();
+                if (listKH != null) {
+                    int s = listKH.size();
+                    for (int i = 0; i < s; i++) {
+                        KhachHang khachHang = listKH.get(i);
+                        row = sheet.createRow(7 + i);
+
+                        cell = row.createCell(0, CellType.NUMERIC);
+                        cell.setCellValue(i + 1);
+
+                        cell = row.createCell(1, CellType.STRING);
+                        cell.setCellValue(khachHang.getMaKH());
+
+                        cell = row.createCell(2, CellType.STRING);
+                        cell.setCellValue(khachHang.getTenKH());
+
+                        cell = row.createCell(3, CellType.STRING);
+                        cell.setCellValue(khachHang.getSĐT());
+
+                        cell = row.createCell(4, CellType.STRING);
+                        cell.setCellValue(khachHang.getNgayTao());
+
+                        cell = row.createCell(5, CellType.STRING);
+                        cell.setCellValue(khachHang.getNgaySinh());
+
+                        cell = row.createCell(6, CellType.STRING);
+                        cell.setCellValue(khachHang.isGioiTinh() ? "Nam" : "Nữ");
+
+                        cell = row.createCell(7, CellType.STRING);
+                        cell.setCellValue(khachHang.isTrangThai() ? "Khách Thường" : "Khách Vip");
+
+                        cell = row.createCell(8, CellType.STRING);
+                        cell.setCellValue(khachHang.getDiaChi());
+
+                    }
+                }
+               
+                    // LƯU file exel
+                    File file = new File("D://KhachHang.xlsx");
+                   try {  
+                    FileOutputStream fis = new FileOutputStream(file);
+                    workbook.write(fis);
+                    fis.close();
+//                workbook.write(file);
+//            out.close();
+
+                } catch (FileNotFoundException ex) {
+                    ex.printStackTrace();
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            JOptionPane.showMessageDialog(this, "IN Thanh Cong");
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Loi in");
+        }
+    }//GEN-LAST:event_btnPrintActionPerformed
 
     /**
      * @param args the command line arguments
@@ -816,6 +1041,7 @@ public class ViewKhachHang extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnPrint;
     private javax.swing.JButton btnUpDate;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;

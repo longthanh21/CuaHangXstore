@@ -74,7 +74,6 @@ public class ViewHoaDon extends javax.swing.JFrame {
 //            });
 //        }
 //    }
-    
     void loadDataHoaDonChiTiet() {
         defaultTableModel = (DefaultTableModel) tblHoaDonChiTiet.getModel();
         defaultTableModel.setRowCount(0);
@@ -93,6 +92,7 @@ public class ViewHoaDon extends javax.swing.JFrame {
             });
         }
     }
+
     void loadMaHDDataHoaDonChiTiet(String MaHDD) {
         defaultTableModel = (DefaultTableModel) tblHoaDonChiTiet.getModel();
         defaultTableModel.setRowCount(0);
@@ -653,8 +653,6 @@ public class ViewHoaDon extends javax.swing.JFrame {
         Date a = dcNgayBatDau.getDate();
         Date b = dcNgayKetThuc.getDate();
 
-       
-
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(a);
         Calendar calendar1 = Calendar.getInstance();
@@ -662,16 +660,23 @@ public class ViewHoaDon extends javax.swing.JFrame {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String ngayBatDau = dateFormat.format(a);
         String ngayKetThuc = dateFormat.format(b);
-        if (ngayBatDau != null && ngayKetThuc == null) {
-            quanLyHoaDon.loadSeachNgayBD(ngayBatDau);
-            loadSeachNgayBatDau(ngayBatDau);
-        } else if (ngayBatDau == null && ngayKetThuc != null) {
-            quanLyHoaDon.loadSeachNgayKT(ngayKetThuc);
-            loadSeachNgayKetThuc(ngayKetThuc);
+
+        if (a.before(b)) {
+            JOptionPane.showMessageDialog(this, "Ngày kết thúc phải sau ngày bắt đầu");
+            return;
         } else {
-            quanLyHoaDon.timKiemTheoNgay(ngayBatDau, ngayKetThuc);
-            loadTimKiem(ngayBatDau, ngayKetThuc);
+            if (ngayBatDau != null && ngayKetThuc == null) {
+                quanLyHoaDon.loadSeachNgayBD(ngayBatDau);
+                loadSeachNgayBatDau(ngayBatDau);
+            } else if (ngayBatDau == null && ngayKetThuc != null) {
+                quanLyHoaDon.loadSeachNgayKT(ngayKetThuc);
+                loadSeachNgayKetThuc(ngayKetThuc);
+            } else {
+                quanLyHoaDon.timKiemTheoNgay(ngayBatDau, ngayKetThuc);
+                loadTimKiem(ngayBatDau, ngayKetThuc);
+            }
         }
+
 
     }//GEN-LAST:event_btnTimKiemActionPerformed
 
@@ -701,18 +706,18 @@ public class ViewHoaDon extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(ViewHoaDon.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-JFrame frame = new JFrame("JDateChooser Example");
+        JFrame frame = new JFrame("JDateChooser Example");
         JPanel panel = new JPanel();
 
         // Tạo một JDateChooser
         JDateChooser dateChooser = new JDateChooser();
-        
+
         // Định dạng ngày tháng
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        
+
         // Lấy JDayChooser từ JDateChooser
         JDayChooser dayChooser = dateChooser.getJCalendar().getDayChooser();
-        
+
         // Tạo một PropertyChangeListener
         PropertyChangeListener dateChangeListener = new PropertyChangeListener() {
             @Override
@@ -721,29 +726,29 @@ JFrame frame = new JFrame("JDateChooser Example");
                     Date selectedDate = dateChooser.getDate();
                     String formattedDate = dateFormat.format(selectedDate);
                     System.out.println(formattedDate); // In ra màn hình để kiểm tra
-                    
+
                     // Hoặc bạn có thể đặt kết quả vào một JTextField hoặc nơi khác tùy theo nhu cầu
                 }
             }
         };
-        
+
         // Thêm PropertyChangeListener vào JDayChooser
         dayChooser.addPropertyChangeListener(dateChangeListener);
-        
+
         // Hiển thị JDateChooser trên giao diện
         panel.add(dateChooser);
         frame.add(panel);
         frame.pack();
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
+
         // Hiển thị JDateChooser trên giao diện
         panel.add(dateChooser);
         frame.add(panel);
         frame.pack();
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
