@@ -12,8 +12,12 @@ import Service.QuanLyKhuyenMai;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
+//import java.sql.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -92,7 +96,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date startDate = null;
         try {
-            startDate = dateFormat.parse(dateBatDau);
+            startDate = (Date) dateFormat.parse(dateBatDau);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -100,11 +104,11 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         String dateKetThuc = String.valueOf(tbVoucher.getValueAt(i, 4)); // Chỉ số 4 nếu ngày kết thúc được lưu trong cột khác
         Date endDate = null;
         try {
-            endDate = dateFormat.parse(dateKetThuc);
+            endDate = (Date) dateFormat.parse(dateKetThuc);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        dcHetHan.setDate(endDate);
+        dcKetThuc.setDate(endDate);
         txtDieuKien.setText(String.valueOf(tbVoucher.getValueAt(i, 5)));
         String ttKH = String.valueOf(tbVoucher.getValueAt(i, 6));
         if (ttKH.equalsIgnoreCase("Khách VIP")) {
@@ -128,22 +132,21 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         vc.setTenVC(txtTenVC.getText());
         vc.setGiamGia(txtGiamGiaVC.getText());
 
-        //Khỏi tạo simple dateFormat để ép kiểu từ table thành kiểu date
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date a = dcBatDau.getDate();
+        Date b = dcKetThuc.getDate();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String bd = df.format(a);
+        String kt = df.format(b);
+        vc.setNgayBatDau(bd + " 00:00:00");
+        vc.setNgayKetThuc(kt + " 23:59:00");
 
-        //Ngày bắt đầu
-        Date ngayBatDau = dcBatDau.getDate();
-        String strNgayBatDau = dateFormat.format(ngayBatDau);
-        vc.setNgayBatDau(strNgayBatDau);
-        //Ngày kết thúc
-        Date ngayKetThuc = dcHetHan.getDate();
-        String strNgayKetThuc = dateFormat.format(ngayKetThuc);
-        vc.setNgayKetThuc(strNgayKetThuc);
         vc.setDieuKien(txtDieuKien.getText());
         if (rbHoatDong.isSelected()) {
             vc.setTrangThai("Hoạt động");
-        } else {
+        } else if (rbHetHan.isSelected()) {
             vc.setTrangThai("Hết hạn");
+        } else {
+            vc.setTrangThai("Chưa kích hoạt");
         }
         return vc;
     }
@@ -153,7 +156,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         String tenvc = txtTenVC.getText().trim();
         String giamGia = txtGiamGiaVC.getText().trim();
         Date batDau = dcBatDau.getDate();
-        Date hetHan = dcHetHan.getDate();
+        Date hetHan = dcKetThuc.getDate();
         String dieukien = txtDieuKien.getText().trim();
         if (mavc.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Mã voucher không được để trống");
@@ -219,7 +222,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         String tenvc = txtTenVC.getText().trim();
         String giamGia = txtGiamGiaVC.getText().trim();
         Date batDau = dcBatDau.getDate();
-        Date hetHan = dcHetHan.getDate();
+        Date hetHan = dcKetThuc.getDate();
         String dieukien = txtDieuKien.getText().trim();
 
         if (tenvc.isEmpty()) {
@@ -288,6 +291,47 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         }
     }
 
+    Boolean checkUp() {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        Date bd = dcBatDau.getDate();
+        Date kt = dcKetThuc.getDate();
+        String batDau = df.format(bd);
+
+        Date now = new Date();
+        String hienTai = df.format(now);
+
+        if (bd.compareTo(now) < 0) {
+            JOptionPane.showMessageDialog(this, "Không được Add Voucher có NgayBatDau < NgayHienTai");
+            return false;
+        }
+        for (Voucher vc : qlKM.getListVCUpdate(txtMaVC.getText(), Float.valueOf(txtDieuKien.getText()))) {
+            try {
+                Date a = df.parse(vc.getNgayBatDau());
+                Date b = df.parse(vc.getNgayKetThuc());
+                if (kt.compareTo(a) >= 0 && kt.compareTo(b) <= 0) {
+                    JOptionPane.showMessageDialog(this, "NgayKetThuc của Voucher mới nằm giữa NgayBatDau va NgayKetThuc của Voucher khác. Vui lòng nhập lại");
+                    return false;
+                }
+                if (bd.compareTo(a) >= 0 && bd.compareTo(b) <= 0) {
+                    JOptionPane.showMessageDialog(this, "NgayBatDau của Voucher mới nằm giữa NgayBatDau va NgayKetThuc của Voucher khác. Vui lòng nhập lại");
+                    return false;
+                }
+                if (a.compareTo(now) <= 0 && b.compareTo(now) >= 0 && bd.compareTo(b) <= 0 && kt.compareTo(b) >= 0) {
+                    qlKM.suaVoucher(getFormVoucher(), hienTai, txtMaVC.getText());
+                    JOptionPane.showMessageDialog(this, "Sửa thành công Voucher!");
+                    return true;
+                } else {
+                    JOptionPane.showMessageDialog(this, "Sửa thành công Voucher!");
+                    qlKM.suaVoucher(getFormVoucher(), batDau, txtMaVC.getText());
+                    return true;
+                }
+            } catch (ParseException ex) {
+                Logger.getLogger(ViewKhuyenMai.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return true;
+    }
+
     public void updateVC() {
         if (checkUpdateVC()) {
             try {
@@ -302,8 +346,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                     } else {
                         qlKM.dltKhachVIP(maVC);
                     }
-                    qlKM.suaVoucher(getFormVoucher());
-                    JOptionPane.showMessageDialog(this, "Sửa thành công Voucher!");
+                    checkUp();
                 } else {
                     JOptionPane.showMessageDialog(this, "Vui lòng chọn một Voucher!");
                 }
@@ -397,7 +440,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        dcNgayDatBau.setDate(startDate);
+        dcNgayBatDau.setDate(startDate);
         // detail ngày kết thúc
         String dateKetThuc = String.valueOf(tbCoupon.getValueAt(i, 5));
         Date endDate = null;
@@ -423,7 +466,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         String tencp = txtTenCP.getText().trim();
         String giamGiaStr = txtGiamGiaCP.getText().trim();
         // Kiểm tra xem ngày bắt đầu và ngày kết thúc có null không
-        Date batDau = dcNgayDatBau.getDate();
+        Date batDau = dcNgayBatDau.getDate();
         Date hetHan = dcNgayKetThuc.getDate();
         // Kiểm tra xem ngày bắt đầu và ngày kết thúc có null không
         if (tencp.isEmpty()) {
@@ -451,7 +494,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Ngày kết thúc phải sau ngày bắt đầu");
             return false;
         }
-        Date a = dcNgayDatBau.getDate();
+        Date a = dcNgayBatDau.getDate();
         Date b = dcNgayKetThuc.getDate();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String bd = df.format(a);
@@ -486,7 +529,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         cp.setTenCP(txtTenCP.getText());
         cp.setPhanTram(txtGiamGiaCP.getText());
 
-        Date a = dcNgayDatBau.getDate();
+        Date a = dcNgayBatDau.getDate();
         Date b = dcNgayKetThuc.getDate();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String bd = df.format(a);
@@ -560,7 +603,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
     // Phương thức để cập nhật trạng thái khi hết hạn
     public void TrangThaiThoiGianVoucher() {
         Date batDau = dcBatDau.getDate();
-        Date hetHan = dcHetHan.getDate();
+        Date hetHan = dcKetThuc.getDate();
         if (hetHan != null) { // Kiểm tra xem hetHan có null không
             for (Voucher e : listVC) {
                 if (hetHan.before(batDau)) {
@@ -576,7 +619,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
     }
 
     public void TrangThaiThoiGianCoupon() {
-        Date batDau = dcNgayDatBau.getDate();
+        Date batDau = dcNgayBatDau.getDate();
         Date hetHan = dcNgayKetThuc.getDate();
         if (hetHan != null) { // Kiểm tra xem hetHan có null không
             for (Voucher e : listVC) {
@@ -618,9 +661,10 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         cbKhachVip = new javax.swing.JCheckBox();
         dcBatDau = new com.toedter.calendar.JDateChooser();
-        dcHetHan = new com.toedter.calendar.JDateChooser();
+        dcKetThuc = new com.toedter.calendar.JDateChooser();
         jLabel19 = new javax.swing.JLabel();
         txtDieuKien = new javax.swing.JTextField();
+        rbChuaKichHoat = new javax.swing.JRadioButton();
         danhSachVC = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbVoucher = new javax.swing.JTable();
@@ -641,7 +685,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         txtGiamGiaCP = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        dcNgayDatBau = new com.toedter.calendar.JDateChooser();
+        dcNgayBatDau = new com.toedter.calendar.JDateChooser();
         dcNgayKetThuc = new com.toedter.calendar.JDateChooser();
         jLabel16 = new javax.swing.JLabel();
         txtMaCP = new javax.swing.JTextField();
@@ -721,9 +765,12 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
 
         dcBatDau.setDateFormatString("yyyy-MM-dd");
 
-        dcHetHan.setDateFormatString("yyyy-MM-dd");
+        dcKetThuc.setDateFormatString("yyyy-MM-dd");
 
         jLabel19.setText("Điều kiện");
+
+        buttonGroup1.add(rbChuaKichHoat);
+        rbChuaKichHoat.setText("Chưa kích hoạt");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -735,11 +782,15 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(dcHetHan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(dcKetThuc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(dcBatDau, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtDieuKien))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -762,12 +813,10 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                             .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addComponent(rbHoatDong, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(rbHetHan, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtDieuKien)))
-                .addContainerGap(70, Short.MAX_VALUE))
+                                .addComponent(rbHetHan, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(rbChuaKichHoat)))))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -792,12 +841,13 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                 .addGap(24, 24, 24)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel5)
-                    .addComponent(dcHetHan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(dcKetThuc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(rbHoatDong)
-                    .addComponent(rbHetHan))
+                    .addComponent(rbHetHan)
+                    .addComponent(rbChuaKichHoat))
                 .addGap(24, 24, 24)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel15)
@@ -879,8 +929,6 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                             .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(130, Short.MAX_VALUE))
         );
-
-        jPanel5.getAccessibleContext().setAccessibleName("Thông Tin");
 
         pnKhuyenMai.addTab("Voucher", Voucher);
 
@@ -965,7 +1013,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
 
         jLabel12.setText("Ngày kết thúc:");
 
-        dcNgayDatBau.setDateFormatString("yyyy-MM-dd");
+        dcNgayBatDau.setDateFormatString("yyyy-MM-dd");
 
         dcNgayKetThuc.setDateFormatString("yyyy-MM-dd");
 
@@ -1006,7 +1054,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                     .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(pnGiamGiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(dcNgayDatBau, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+                    .addComponent(dcNgayBatDau, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
                     .addComponent(txtTenCP))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
                 .addGroup(pnGiamGiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1040,7 +1088,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addGroup(pnGiamGiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(dcNgayKetThuc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(dcNgayDatBau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dcNgayBatDau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(pnGiamGiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel10)
                         .addComponent(txtGiamGiaCP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1221,8 +1269,35 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
     }//GEN-LAST:event_tbVoucherMouseClicked
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        addVC();
-        LoadDataTable();
+        if (checkVC()) {
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            Date bd = dcBatDau.getDate();
+            Date kt = dcKetThuc.getDate();
+
+            Date now = new Date();
+            if (bd.compareTo(now) < 0) {
+                JOptionPane.showMessageDialog(this, "Không được Add Voucher có NgayBatDau < NgayHienTai");
+                return;
+            }
+            for (Voucher vc : qlKM.getAllVCAdd(Float.valueOf(txtDieuKien.getText()))) {
+                try {
+                    Date a = df.parse(vc.getNgayBatDau());
+                    Date b = df.parse(vc.getNgayKetThuc());
+                    if (kt.compareTo(a) >= 0 && kt.compareTo(b) <= 0) {
+                        JOptionPane.showMessageDialog(this, "NgayKetThuc của Voucher mới nằm giữa NgayBatDau va NgayKetThuc của Voucher khác. Vui lòng nhập lại");
+                        return;
+                    }
+                    if (bd.compareTo(a) >= 0 && bd.compareTo(b) <= 0) {
+                        JOptionPane.showMessageDialog(this, "NgayBatDau của Voucher mới nằm giữa NgayBatDau va NgayKetThuc của Voucher khác. Vui lòng nhập lại");
+                        return;
+                    }
+                } catch (ParseException ex) {
+                    Logger.getLogger(ViewKhuyenMai.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            qlKM.addVoucher(getFormVoucher(), txtMaVC.getText());
+            LoadDataTable();
+        }
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
@@ -1253,7 +1328,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         try {
             if (checkCP()) {
                 Date now = new Date();
-                Date a = dcNgayDatBau.getDate();
+                Date a = dcNgayBatDau.getDate();
                 Date b = dcNgayKetThuc.getDate();
 
                 if (now.after(a) && now.before(b)) {
@@ -1279,7 +1354,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         }
         int id = Integer.parseInt(txtIDSanPham.getText());
 
-        Date a = dcNgayDatBau.getDate();
+        Date a = dcNgayBatDau.getDate();
         Date b = dcNgayKetThuc.getDate();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -1323,7 +1398,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                 }
                 int id = Integer.parseInt(txtIDSanPham.getText());
                 int ma = Integer.parseInt(txtMaCP.getText());
-                Date a1 = dcNgayDatBau.getDate();
+                Date a1 = dcNgayBatDau.getDate();
                 Date b1 = dcNgayKetThuc.getDate();
                 Date a = new Date(a1.getTime());
                 Date b = new Date(b1.getTime());
@@ -1369,7 +1444,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                 cp.setTenCP(txtTenCP.getText());
                 cp.setPhanTram(txtGiamGiaCP.getText());
                 cp.setIdSP(txtIDSanPham.getText());
-                Date m = dcNgayDatBau.getDate();
+                Date m = dcNgayBatDau.getDate();
                 Date n = dcNgayKetThuc.getDate();
                 String ngayBatDau = df.format(m);
                 String ngayKetThuc = df.format(n);
@@ -1377,13 +1452,12 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                     try {
                         Date i = df.parse(cou.getNgayBatDau());
                         Date j = df.parse(cou.getNgayKetThuc());
-                        
-                            if (m != null && hienTai.before(m) || hienTai.after(n)) {
-                                cp.setNgayBatDau(ngayBatDau);
-                            }else {
-                                cp.setNgayBatDau(now);
-                            }
-                        
+
+                        if (m != null && hienTai.before(m) || hienTai.after(n)) {
+                            cp.setNgayBatDau(ngayBatDau);
+                        } else {
+                            cp.setNgayBatDau(now);
+                        }
 
                     } catch (ParseException ex) {
                         Logger.getLogger(ViewKhuyenMai.class.getName()).log(Level.SEVERE, null, ex);
@@ -1393,21 +1467,14 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
 
 //                Date nowDate = new Date();
                 LocalDate nowDate = LocalDate.now();
-                if (a.equals(nowDate)) {
-                    rbHoatDong.isSelected();
+                LocalDate dcNgayDatDauLocalDate = a.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                if (dcNgayDatDauLocalDate.equals(nowDate)) {
+                    rbHoatDong.setSelected(true);
                     cp.setTrangThai("Hoạt động");
                 } else {
-                    rbChuaKH.isSelected();
+                    rbChuaKH.setSelected(true);
                     cp.setTrangThai("Chưa kích hoạt");
                 }
-//                if (rbCPHoatDong.isSelected()) {
-//                    
-//                } else if (rbHetHan.isSelected()) {
-//                    cp.setTrangThai("Hết hạn");
-//                } else {
-//                    
-//                }
-
                 qlKM.updCP(cp, Integer.valueOf(txtMaCP.getText()), now);
                 LoadDataCoupon();
             }
@@ -1423,7 +1490,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         txtMaCP.setText("");
         txtTenCP.setText("");
         txtGiamGiaCP.setText("");
-        dcNgayDatBau.setDate(null);
+        dcNgayBatDau.setDate(null);
         dcNgayKetThuc.setDate(null);
         rbCPHoatDong.setSelected(true);
         txtIDSanPham.setText("");
@@ -1484,8 +1551,8 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
     private javax.swing.JCheckBox cbKhachVip;
     private javax.swing.JPanel danhSachVC;
     private com.toedter.calendar.JDateChooser dcBatDau;
-    private com.toedter.calendar.JDateChooser dcHetHan;
-    private com.toedter.calendar.JDateChooser dcNgayDatBau;
+    private com.toedter.calendar.JDateChooser dcKetThuc;
+    private com.toedter.calendar.JDateChooser dcNgayBatDau;
     private com.toedter.calendar.JDateChooser dcNgayKetThuc;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1518,6 +1585,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
     private javax.swing.JRadioButton rbCPHetHan;
     private javax.swing.JRadioButton rbCPHoatDong;
     private javax.swing.JRadioButton rbChuaKH;
+    private javax.swing.JRadioButton rbChuaKichHoat;
     private javax.swing.JRadioButton rbHetHan;
     private javax.swing.JRadioButton rbHoatDong;
     private javax.swing.JTable tbCoupon;

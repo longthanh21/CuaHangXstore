@@ -58,7 +58,9 @@ public class ViewKhachHang extends javax.swing.JFrame {
                 khachHang.getNgaySinh(),
                 khachHang.isGioiTinh() ? "Nam" : "Nữ",
                 khachHang.isTrangThai() ? "Khách Vip" : "Khách Thường",
-                khachHang.getDiaChi(),});
+                khachHang.getDiaChi(),
+                khachHang.getLuotMua()
+            });
 
         }
     }
@@ -77,7 +79,9 @@ public class ViewKhachHang extends javax.swing.JFrame {
                 khachHang.getNgaySinh(),
                 khachHang.isGioiTinh() ? "Nam" : "Nữ",
                 khachHang.isTrangThai() ? "Khách Vip" : "Khách Thường",
-                khachHang.getDiaChi(),});
+                khachHang.getDiaChi(),
+                khachHang.getLuotMua()
+            });
 
         }
     }
@@ -340,10 +344,10 @@ public class ViewKhachHang extends javax.swing.JFrame {
 
         tblKhachHang.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Stt", "MaKH", "Tên KH", "SĐT", "Ngày Tạo", "Ngày Sinh", "Giới Tính", "Trạng Thái", "Địa Chỉ"
+                "Stt", "MaKH", "Tên KH", "SĐT", "Ngày Tạo", "Ngày Sinh", "Giới Tính", "Trạng Thái", "Địa Chỉ", "Lượt Mua"
             }
         ));
         tblKhachHang.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -580,12 +584,14 @@ public class ViewKhachHang extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Trạng Thái");
             return;
         }
-        KhachHang khachHang = new KhachHang(ma, ten, sdt, strNgayTao, strNgaySinh, gioiTinh, trangThai, diaChi);
+        KhachHang khachHang = new KhachHang(ma, ten, sdt, strNgayTao, strNgaySinh, gioiTinh, trangThai, diaChi, null);
 
         quanLyKhachHang.ADDKhachHang(khachHang);
-        JOptionPane.showMessageDialog(this, "Thêm Thành Công");
         loadDataKhachHang();
         loadDataKhachVip();
+        JOptionPane.showMessageDialog(this, "Thêm Thành Công");
+
+
     }//GEN-LAST:event_btnAddMouseClicked
 
     private void tblKhachHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblKhachHangMouseClicked
@@ -639,6 +645,7 @@ public class ViewKhachHang extends javax.swing.JFrame {
         }
         String diaChi = (String) tblKhachHang.getValueAt(i, 8);
         txtDiaChi.setText(diaChi);
+        loadSeachKhachVip(ma);
     }//GEN-LAST:event_tblKhachHangMouseClicked
 
     private void tblKhachVipMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblKhachVipMouseClicked
@@ -767,19 +774,20 @@ public class ViewKhachHang extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Trạng Thái");
             return;
         }
-                int ret = JOptionPane.showConfirmDialog(this, "Bạn Muốn Cập Nhật Hay không?", "Thông Báo", JOptionPane.YES_NO_OPTION);
+        int ret = JOptionPane.showConfirmDialog(this, "Bạn Muốn Cập Nhật Hay không?", "Thông Báo", JOptionPane.YES_NO_OPTION);
         if (ret == JOptionPane.YES_OPTION) {
-             KhachHang khachHang = new KhachHang(ma, ten, sdt, strNgayTao, strNgaySinh, gioiTinh, trangThai, diaChi);
-        quanLyKhachHang.upDate(khachHang);
-        JOptionPane.showMessageDialog(this, "Cập Nhật Thành Công");
-        loadDataKhachHang();
-        loadDataKhachVip();
+            KhachHang khachHang = new KhachHang(ma, ten, sdt, strNgayTao, strNgaySinh, gioiTinh, trangThai, diaChi, null);
+            quanLyKhachHang.upDate(khachHang);
+            loadDataKhachHang();
+            loadDataKhachVip();
+            JOptionPane.showMessageDialog(this, "Cập Nhật Thành Công");
+
         }
-        KhachHang khachHang = new KhachHang(ma, ten, sdt, strNgayTao, strNgaySinh, gioiTinh, trangThai, diaChi);
-        quanLyKhachHang.upDate(khachHang);
-        loadDataKhachHang();
-        loadDataKhachVip();
-        JOptionPane.showMessageDialog(this, "Cập Nhật Thành Công");
+//        KhachHang khachHang = new KhachHang(ma, ten, sdt, strNgayTao, strNgaySinh, gioiTinh, trangThai, diaChi);
+//        quanLyKhachHang.upDate(khachHang);
+//        loadDataKhachHang();
+//        loadDataKhachVip();
+//        JOptionPane.showMessageDialog(this, "Cập Nhật Thành Công");
 
     }//GEN-LAST:event_btnUpDateMouseClicked
 
@@ -790,8 +798,11 @@ public class ViewKhachHang extends javax.swing.JFrame {
         txtTenKH.setText("");
         txtMaKH.setText("");
         txtNgayTao.setDate(null);
+        txtNgaySinh.setDate(null);
         buttonGroup1.clearSelection();
         buttonGroup2.clearSelection();
+        loadDataKhachHang();
+        loadDataKhachVip();
     }//GEN-LAST:event_jButton4MouseClicked
 
     private void txtSeachKHangKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSeachKHangKeyReleased
@@ -921,7 +932,7 @@ public class ViewKhachHang extends javax.swing.JFrame {
             row = sheet.createRow(2);
             cell = row.createCell(0, CellType.STRING);
             cell.setCellValue("DANH SACH KHACH HANG");
-            
+
             row = sheet.createRow(6);
 
             cell = row.createCell(0, CellType.STRING);
@@ -980,10 +991,10 @@ public class ViewKhachHang extends javax.swing.JFrame {
 
                     }
                 }
-               
-                    // LƯU file exel
-                    File file = new File("D://KhachHang.xlsx");
-                   try {  
+
+                // LƯU file exel
+                File file = new File("D://KhachHang.xlsx");
+                try {
                     FileOutputStream fis = new FileOutputStream(file);
                     workbook.write(fis);
                     fis.close();

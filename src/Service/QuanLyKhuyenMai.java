@@ -10,8 +10,11 @@ import Model.SanPham;
 import Model.Voucher;
 import Repository.DbConnect;
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -30,14 +33,73 @@ public class QuanLyKhuyenMai {
             e.printStackTrace();
         }
     }
-
-    public List<Voucher> getAllVC() {
-        List<Voucher> listvc = new ArrayList<>();
+    ArrayList<Voucher> listvc = new ArrayList<>();
+    public ArrayList<Voucher> getAllVC() {
+        listvc.clear();
         try {
             String sql = "SELECT Voucher.MaVC, TenVC, GiamGia, NgayBatDau, NgayKetThuc, DieuKien, KhachHang.TrangThai AS KHTrangThai, Voucher.TrangThai AS VCTrangThai FROM Voucher\n"
-                    + "left join UuDai on UuDai.MaVC = Voucher.MaVC\n"
-                    + "left join KhachHang on KhachHang.MaKH = UuDai.MaKH\n"
-                    + "group by Voucher.MaVC, TenVC, GiamGia, NgayBatDau, NgayKetThuc, DieuKien, KhachHang.TrangThai, Voucher.TrangThai";
+                    + "left join UuDai on UuDai.MaVC = Voucher.MaVC\n" 
+                    + "left join KhachHang on KhachHang.MaKH = UuDai.MaKH\n" 
+                    + "WHERE NgayQuyetDinh IS NULL\n"
+                    + "group by Voucher.MaVC, TenVC, GiamGia, NgayBatDau, NgayKetThuc, DieuKien, KhachHang.TrangThai, Voucher.TrangThai\n";
+            PreparedStatement ps = cn.prepareStatement(sql);
+            ps.execute();
+            ResultSet rs = ps.getResultSet();
+            while (rs.next()) {
+                Voucher vc = new Voucher();
+                vc.setMaVC(rs.getString("MaVC"));
+                vc.setTenVC(rs.getString("TenVC"));
+                vc.setGiamGia(rs.getString("GiamGia"));
+                vc.setNgayBatDau(rs.getString("NgayBatDau"));
+                vc.setNgayKetThuc(rs.getString("NgayKetThuc"));
+                vc.setDieuKien(rs.getString("DieuKien"));
+                int khachHangTrangThai = rs.getInt("KHTrangThai");
+                vc.setUuDai(khachHangTrangThai == 1 ? "Khách VIP" : "Không có");
+                vc.setTrangThai(rs.getString("VCTrangThai"));
+                listvc.add(vc);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return listvc;
+    }
+    public ArrayList<Voucher> getAllVCAdd( Float dk) {
+        listvc.clear();
+        try {
+            String sql = "SELECT Voucher.MaVC, TenVC, GiamGia, NgayBatDau, NgayKetThuc, DieuKien, KhachHang.TrangThai AS KHTrangThai, Voucher.TrangThai AS VCTrangThai FROM Voucher\n"
+                    + "left join UuDai on UuDai.MaVC = Voucher.MaVC\n" 
+                    + "left join KhachHang on KhachHang.MaKH = UuDai.MaKH\n" 
+                    + "WHERE NgayQuyetDinh IS NULL AND DieuKien = "+dk+"\n"
+                    + "group by Voucher.MaVC, TenVC, GiamGia, NgayBatDau, NgayKetThuc, DieuKien, KhachHang.TrangThai, Voucher.TrangThai\n";
+            PreparedStatement ps = cn.prepareStatement(sql);
+            ps.execute();
+            ResultSet rs = ps.getResultSet();
+            while (rs.next()) {
+                Voucher vc = new Voucher();
+                vc.setMaVC(rs.getString("MaVC"));
+                vc.setTenVC(rs.getString("TenVC"));
+                vc.setGiamGia(rs.getString("GiamGia"));
+                vc.setNgayBatDau(rs.getString("NgayBatDau"));
+                vc.setNgayKetThuc(rs.getString("NgayKetThuc"));
+                vc.setDieuKien(rs.getString("DieuKien"));
+                int khachHangTrangThai = rs.getInt("KHTrangThai");
+                vc.setUuDai(khachHangTrangThai == 1 ? "Khách VIP" : "Không có");
+                vc.setTrangThai(rs.getString("VCTrangThai"));
+                listvc.add(vc);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return listvc;
+    }
+    public ArrayList<Voucher> getListVCUpdate(String ma, Float dk) {
+        listvc.clear();
+        try {
+            String sql = "SELECT Voucher.MaVC, TenVC, GiamGia, NgayBatDau, NgayKetThuc, DieuKien, KhachHang.TrangThai AS KHTrangThai, Voucher.TrangThai AS VCTrangThai FROM Voucher\n"
+                    + "left join UuDai on UuDai.MaVC = Voucher.MaVC\n" 
+                    + "left join KhachHang on KhachHang.MaKH = UuDai.MaKH\n" 
+                    + "WHERE NgayQuyetDinh IS NULL AND Voucher.MaVC <> "+ "'"+ma+"' AND DieuKien = "+dk+"\n"
+                    + "group by Voucher.MaVC, TenVC, GiamGia, NgayBatDau, NgayKetThuc, DieuKien, KhachHang.TrangThai, Voucher.TrangThai\n";
             PreparedStatement ps = cn.prepareStatement(sql);
             ps.execute();
             ResultSet rs = ps.getResultSet();
@@ -95,29 +157,77 @@ public class QuanLyKhuyenMai {
             ps.setString(4, vc.getNgayBatDau());
             ps.setString(5, vc.getNgayKetThuc());
             ps.setString(6, vc.getDieuKien());
-            ps.setInt(7, vc.getTrangThai().equals("Hoạt động") ? 1 : 0);
+            ps.setString(7, vc.getTrangThai());
             ps.execute();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
-    public void suaVoucher(Voucher vc) {
+    public void addVoucher(Voucher vc, String ma){
         try {
-            String sql = "UPDATE Voucher SET TenVC = ?, GiamGia = ?, NgayBatDau = ?, NgayKetThuc = ?, DieuKien = ?, TrangThai = ? WHERE MaVC = ?";
+            String sql1 = "INSERT INTO Voucher (MaVC, TenVC, GiamGia, NgayBatDau, NgayKetThuc, DieuKien, NgayQuyetDinh, TrangThai) VALUES (?,?,?,?,?,?,?,?)";
+            PreparedStatement ps1 = cn.prepareStatement(sql1);
+            ps1.setString(1, vc.getMaVC());
+            ps1.setString(2, vc.getTenVC());
+            ps1.setString(3, vc.getGiamGia());
+            ps1.setString(4, vc.getNgayBatDau());
+            ps1.setString(5, vc.getNgayKetThuc());
+            ps1.setString(6, vc.getDieuKien());
+            ps1.setString(7, null);
+            ps1.setString(8, vc.getTrangThai());
+            ps1.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLyKhuyenMai.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+        
+    public void suaVoucher(Voucher vc, String ngayKT, String mavc) {
+        LocalDateTime ngayKetThuc = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        String ngayQD = ngayKetThuc.format(formatter);
+        try {
+            String sql = "UPDATE Voucher SET NgayKetThuc = ?, NgayQuyetDinh = ? WHERE MaVC = ?";
             PreparedStatement ps = cn.prepareStatement(sql);
-            ps.setString(1, vc.getTenVC());
-            ps.setString(2, vc.getGiamGia());
-            ps.setDate(3, java.sql.Date.valueOf(vc.getNgayBatDau()));
-            ps.setDate(4, java.sql.Date.valueOf(vc.getNgayKetThuc()));
-            ps.setString(5, vc.getDieuKien());
-            ps.setInt(6, vc.getTrangThai().equals("Hoạt động") ? 1 : 0);
-            ps.setString(7, vc.getMaVC());
+            ps.setObject(1, ngayKT);
+            ps.setObject(2, ngayQD);
+            ps.setString(3, mavc);
             ps.executeUpdate();
+            
+            String newMaVC = generateNewMaVC(); 
+            String sql1 = "INSERT INTO Voucher (MaVC, TenVC, GiamGia, NgayBatDau, NgayKetThuc, DieuKien, NgayQuyetDinh, TrangThai) VALUES (?,?,?,?,?,?,?,?)";
+            PreparedStatement ps1 = cn.prepareStatement(sql1);
+            ps1.setString(1, newMaVC);
+            ps1.setString(2, vc.getTenVC());
+            ps1.setString(3, vc.getGiamGia());
+            ps1.setString(4, vc.getNgayBatDau());
+            ps1.setString(5, vc.getNgayKetThuc());
+            ps1.setString(6, vc.getDieuKien());
+            ps1.setString(7, null);
+            ps1.setString(8, vc.getTrangThai());
+            ps1.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+    
+    private static final String ALLOWED_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    public static String generateNewMaVC() {
+        String prefix = "VC";
+        int randomLength = 6;
+
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder(prefix);
+
+        for (int i = 0; i < randomLength; i++) {
+            int randomIndex = random.nextInt(ALLOWED_CHARACTERS.length());
+            char randomChar = ALLOWED_CHARACTERS.charAt(randomIndex);
+            sb.append(randomChar);
+        }
+
+        return sb.toString();
+    }
+
 //===============================Coupon===================
 
     public ArrayList<Coupon> getAllCP() {

@@ -301,6 +301,11 @@ public class ViewHoaDon extends javax.swing.JFrame {
                 "Stt	", "Mã HD	", "Mã NV", "Mã KH	 ", "Mã VC	 ", "Ngày tạo	 ", "Tổng Tiền	 ", "Trạng thái"
             }
         ));
+        tblHoaDon1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblHoaDon1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblHoaDon1);
 
         javax.swing.GroupLayout pnHoaDonLayout = new javax.swing.GroupLayout(pnHoaDon);
@@ -587,6 +592,7 @@ public class ViewHoaDon extends javax.swing.JFrame {
 //        String maSP = txtMaNhanVien.getText();
 //        for (HoaDon hoaDon1 : quanLyHoaDon.loadMaHoaDon()) {
 //            if (hoaDon1.getMaNV().equals(maNV)) {
+
         quanLyHoaDon.loadIDSPSeachHDCT(idsp);
         loadMaSPDataHoaDonChiTiet(idsp);
 //            } else {
@@ -661,10 +667,10 @@ public class ViewHoaDon extends javax.swing.JFrame {
         String ngayBatDau = dateFormat.format(a);
         String ngayKetThuc = dateFormat.format(b);
 
-        if (a.before(b)) {
+        if (a.after(b)) {
             JOptionPane.showMessageDialog(this, "Ngày kết thúc phải sau ngày bắt đầu");
             return;
-        } else {
+        }
             if (ngayBatDau != null && ngayKetThuc == null) {
                 quanLyHoaDon.loadSeachNgayBD(ngayBatDau);
                 loadSeachNgayBatDau(ngayBatDau);
@@ -675,10 +681,18 @@ public class ViewHoaDon extends javax.swing.JFrame {
                 quanLyHoaDon.timKiemTheoNgay(ngayBatDau, ngayKetThuc);
                 loadTimKiem(ngayBatDau, ngayKetThuc);
             }
-        }
+        
 
 
     }//GEN-LAST:event_btnTimKiemActionPerformed
+
+    private void tblHoaDon1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHoaDon1MouseClicked
+        // TODO add your handling code here:\
+        int i = tblHoaDon1.getSelectedRow();
+        String ma = (String) tblHoaDon1.getValueAt(i, 1);
+        quanLyHoaDon.loadMaHDSeachHDCT(ma);
+        loadMaHDDataHoaDonChiTiet(ma);
+    }//GEN-LAST:event_tblHoaDon1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -706,48 +720,48 @@ public class ViewHoaDon extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(ViewHoaDon.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        JFrame frame = new JFrame("JDateChooser Example");
-        JPanel panel = new JPanel();
-
-        // Tạo một JDateChooser
-        JDateChooser dateChooser = new JDateChooser();
-
-        // Định dạng ngày tháng
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-        // Lấy JDayChooser từ JDateChooser
-        JDayChooser dayChooser = dateChooser.getJCalendar().getDayChooser();
-
-        // Tạo một PropertyChangeListener
-        PropertyChangeListener dateChangeListener = new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-                if ("day".equals(evt.getPropertyName())) {
-                    Date selectedDate = dateChooser.getDate();
-                    String formattedDate = dateFormat.format(selectedDate);
-                    System.out.println(formattedDate); // In ra màn hình để kiểm tra
-
-                    // Hoặc bạn có thể đặt kết quả vào một JTextField hoặc nơi khác tùy theo nhu cầu
-                }
-            }
-        };
-
-        // Thêm PropertyChangeListener vào JDayChooser
-        dayChooser.addPropertyChangeListener(dateChangeListener);
-
-        // Hiển thị JDateChooser trên giao diện
-        panel.add(dateChooser);
-        frame.add(panel);
-        frame.pack();
-        frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        // Hiển thị JDateChooser trên giao diện
-        panel.add(dateChooser);
-        frame.add(panel);
-        frame.pack();
-        frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        JFrame frame = new JFrame("JDateChooser Example");
+//        JPanel panel = new JPanel();
+//
+//        // Tạo một JDateChooser
+//        JDateChooser dateChooser = new JDateChooser();
+//
+//        // Định dạng ngày tháng
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//
+//        // Lấy JDayChooser từ JDateChooser
+//        JDayChooser dayChooser = dateChooser.getJCalendar().getDayChooser();
+//
+//        // Tạo một PropertyChangeListener
+//        PropertyChangeListener dateChangeListener = new PropertyChangeListener() {
+//            @Override
+//            public void propertyChange(PropertyChangeEvent evt) {
+//                if ("day".equals(evt.getPropertyName())) {
+//                    Date selectedDate = dateChooser.getDate();
+//                    String formattedDate = dateFormat.format(selectedDate);
+//                    System.out.println(formattedDate); // In ra màn hình để kiểm tra
+//
+//                    // Hoặc bạn có thể đặt kết quả vào một JTextField hoặc nơi khác tùy theo nhu cầu
+//                }
+//            }
+//        };
+//
+//        // Thêm PropertyChangeListener vào JDayChooser
+//        dayChooser.addPropertyChangeListener(dateChangeListener);
+//
+//        // Hiển thị JDateChooser trên giao diện
+//        panel.add(dateChooser);
+//        frame.add(panel);
+//        frame.pack();
+//        frame.setVisible(true);
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//
+//        // Hiển thị JDateChooser trên giao diện
+//        panel.add(dateChooser);
+//        frame.add(panel);
+//        frame.pack();
+//        frame.setVisible(true);
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
