@@ -34,7 +34,7 @@ public class QuanLyHoaDon {
                 String NgayTao = rs.getString(5);
                 String TongTien = rs.getString(6);
                 String TrangThai = rs.getString(7);
-                listHD.add(new HoaDon(MaHD, NgayTao, MaKH, MaNV, MaVC, TongTien, TrangThai, null, null, null, null, null, null, null,null));
+                listHD.add(new HoaDon(MaHD, NgayTao, MaKH, MaNV, MaVC, TongTien, TrangThai, null, null, null, null, null, null, null, null));
             }
             con.close();
         } catch (Exception e) {
@@ -59,7 +59,7 @@ public class QuanLyHoaDon {
                 String NgayTao = rs.getString(5);
                 String TongTien = rs.getString(6);
                 String TrangThai = rs.getString(7);
-                listHD.add(new HoaDon(MaHD, NgayTao, MaKH, MaNV, MaVC, TongTien, TrangThai, null, null, null, null, null, null, null,null));
+                listHD.add(new HoaDon(MaHD, NgayTao, MaKH, MaNV, MaVC, TongTien, TrangThai, null, null, null, null, null, null, null, null));
             }
             con.close();
         } catch (Exception e) {
@@ -67,6 +67,7 @@ public class QuanLyHoaDon {
         }
         return listHD;
     }
+
     public ArrayList<HoaDon> loadSeachNgayKT(String NgayKT) {
         listHD.clear();
         try {
@@ -83,7 +84,7 @@ public class QuanLyHoaDon {
                 String NgayTao = rs.getString(5);
                 String TongTien = rs.getString(6);
                 String TrangThai = rs.getString(7);
-                listHD.add(new HoaDon(MaHD, NgayTao, MaKH, MaNV, MaVC, TongTien, TrangThai, null, null, null, null, null, null, null,null));
+                listHD.add(new HoaDon(MaHD, NgayTao, MaKH, MaNV, MaVC, TongTien, TrangThai, null, null, null, null, null, null, null, null));
             }
             con.close();
         } catch (Exception e) {
@@ -108,7 +109,7 @@ public class QuanLyHoaDon {
                 String NgayTao = rs.getString(5);
                 String TongTien = rs.getString(6);
                 String TrangThai = rs.getString(7);
-                listHD.add(new HoaDon(MaHD, NgayTao, MaKH, MaNV, MaVC, TongTien, TrangThai, null, null, null, null, null, null, null,null));
+                listHD.add(new HoaDon(MaHD, NgayTao, MaKH, MaNV, MaVC, TongTien, TrangThai, null, null, null, null, null, null, null, null));
             }
             con.close();
         } catch (Exception e) {
@@ -132,7 +133,7 @@ public class QuanLyHoaDon {
                 String NgayTao = rs.getString(5);
                 String TongTien = rs.getString(6);
                 String TrangThai = rs.getString(7);
-                listHD.add(new HoaDon(MaHD, NgayTao, MaKH, MaNV, MaVC, TongTien, TrangThai, null, null, null, null, null, null, null,null));
+                listHD.add(new HoaDon(MaHD, NgayTao, MaKH, MaNV, MaVC, TongTien, TrangThai, null, null, null, null, null, null, null, null));
             }
             con.close();
         } catch (Exception e) {
@@ -156,7 +157,7 @@ public class QuanLyHoaDon {
                 String NgayTao = rs.getString(5);
                 String TongTien = rs.getString(6);
                 String TrangThai = rs.getString(7);
-                listHD.add(new HoaDon(MaHD, NgayTao, MaKH, MaNV, MaVC, TongTien, TrangThai, null, null, null, null, null, null, null,null));
+                listHD.add(new HoaDon(MaHD, NgayTao, MaKH, MaNV, MaVC, TongTien, TrangThai, null, null, null, null, null, null, null, null));
             }
             con.close();
         } catch (Exception e) {
@@ -180,7 +181,7 @@ public class QuanLyHoaDon {
                 String NgayTao = rs.getString(5);
                 String TongTien = rs.getString(6);
                 String TrangThai = rs.getString(7);
-                listHD.add(new HoaDon(MaHD, NgayTao, MaKH, MaNV, MaVC, TongTien, TrangThai, null, null, null, null, null, null, null,null));
+                listHD.add(new HoaDon(MaHD, NgayTao, MaKH, MaNV, MaVC, TongTien, TrangThai, null, null, null, null, null, null, null, null));
             }
             con.close();
         } catch (Exception e) {
@@ -204,7 +205,7 @@ public class QuanLyHoaDon {
                 String NgayTao = rs.getString(5);
                 String TongTien = rs.getString(6);
                 String TrangThai = rs.getString(7);
-                listHD.add(new HoaDon(MaHD, NgayTao, MaKH, MaNV, MaVC, TongTien, TrangThai, null, null, null, null, null, null, null,null));
+                listHD.add(new HoaDon(MaHD, NgayTao, MaKH, MaNV, MaVC, TongTien, TrangThai, null, null, null, null, null, null, null, null));
             }
             con.close();
         } catch (Exception e) {
@@ -217,10 +218,13 @@ public class QuanLyHoaDon {
         listHDCT.clear();
         listHD.clear();
         try {
-            String sql = "select a.IdSP,d.MaSP,TenSP,a.SoLuong,(GiaSau/(1-PhanTram/100)) AS GiaBan,a.PhanTram,a.GiaSau  from CTHD a\n"
-                    + "join HoaDon b on a.MaHD=b.MaHD\n"
+            String sql = "select a.IdSP,d.MaSP,TenSP,a.SoLuong,(GiaSau/(1-Coupon.PhanTram/100)) AS GiaBan,Coupon.PhanTram,a.GiaSau, TongTien from CTHD a\n"
+                    + "join HoaDon b on b.MaHD = a.MaHD\n"
                     + "join CTSP c on c.IdSP=a.IdSP\n"
-                    + "join SanPham d on d.MaSP=c.MaSP\n";
+                    + "join SanPham d on d.MaSP=c.MaSP\n"
+                    + "left join GiamGiaSP on GiamGiaSP.IdSP = c.IdSP\n"
+                    + "left join Coupon on Coupon.MaCP = GiamGiaSP.MaCP\n"
+                    + "where b.TrangThai = N'Đã thanh toán'";
             Connection con = DbConnect.getConnection();
             Statement stm = con.createStatement();
             ResultSet rs = stm.executeQuery(sql);
@@ -251,11 +255,14 @@ public class QuanLyHoaDon {
         listHDCT.clear();
         listHD.clear();
         try {
-            String sql = "select a.IdSP,d.MaSP,TenSP,a.SoLuong,(GiaSau/(1-PhanTram/100)) AS GiaBan,a.PhanTram,a.GiaSau  from CTHD a\n"
-                    + "join HoaDon b on a.MaHD=b.MaHD\n"
+            String sql = "select a.IdSP,d.MaSP,TenSP,a.SoLuong,(GiaSau/(1-Coupon.PhanTram/100)) AS GiaBan,Coupon.PhanTram,a.GiaSau, TongTien from CTHD a\n"
+                    + "join HoaDon b on b.MaHD = a.MaHD\n"
                     + "join CTSP c on c.IdSP=a.IdSP\n"
                     + "join SanPham d on d.MaSP=c.MaSP\n"
-                    + "where b.MaHD = '" + mhd+"'";
+                    + "left join GiamGiaSP on GiamGiaSP.IdSP = c.IdSP\n"
+                    + "left join Coupon on Coupon.MaCP = GiamGiaSP.MaCP\n"
+                    + "where b.TrangThai = N'Đã thanh toán'\n"
+                    + "and b.MaHD = '" + mhd + "'";
             Connection con = DbConnect.getConnection();
             Statement stm = con.createStatement();
             ResultSet rs = stm.executeQuery(sql);
@@ -290,7 +297,7 @@ public class QuanLyHoaDon {
                     + "join HoaDon b on a.MaHD=b.MaHD\n"
                     + "join CTSP c on c.IdSP=a.IdSP\n"
                     + "join SanPham d on d.MaSP=c.MaSP\n"
-                    + "where a.IdSP = '" + IDSP+"'";
+                    + "where a.IdSP = '" + IDSP + "'";
             Connection con = DbConnect.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -337,7 +344,7 @@ public class QuanLyHoaDon {
                 String NgayTao = rs.getString(5);
                 String TongTien = rs.getString(6);
                 String TrangThai = rs.getString(7);
-                listHD.add(new HoaDon(MaHD, NgayTao, MaKH, MaNV, MaVC, TongTien, TrangThai, null, null, null, null, null, null,null,null));
+                listHD.add(new HoaDon(MaHD, NgayTao, MaKH, MaNV, MaVC, TongTien, TrangThai, null, null, null, null, null, null, null, null));
             }
         } catch (Exception e) {
             e.printStackTrace();

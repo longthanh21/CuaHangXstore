@@ -956,7 +956,6 @@ public class ViewBanHang extends javax.swing.JFrame {
         try {
             if (txtMaHD.getText().equals("")) {
                 cbVoucher.setSelectedIndex(0);
-
                 return;
             }
             if (txtTongTien.getText().equals("")) {
