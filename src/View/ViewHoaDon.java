@@ -377,6 +377,7 @@ public class ViewHoaDon extends javax.swing.JFrame {
 
         jLabel4.setText("Ngày kết thúc: ");
 
+        dcNgayBatDau.setDateFormatString("yyyy-MM-dd");
         dcNgayBatDau.addAncestorListener(new javax.swing.event.AncestorListener() {
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 dcNgayBatDauAncestorAdded(evt);
@@ -398,6 +399,7 @@ public class ViewHoaDon extends javax.swing.JFrame {
             }
         });
 
+        dcNgayKetThuc.setDateFormatString("yyyy-MM-dd");
         dcNgayKetThuc.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 dcNgayKetThucKeyReleased(evt);
