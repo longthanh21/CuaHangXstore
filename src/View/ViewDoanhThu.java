@@ -60,6 +60,17 @@ public class ViewDoanhThu extends javax.swing.JFrame {
         }
     }
     
+    void loadHDTHang(String Thang){
+        defau = (DefaultTableModel) tblHoaDon.getModel();
+        defau.setRowCount(0);
+        int stt = 1;
+        for (HoaDon hd : ql.getListHDThaang(Thang)) {
+            defau.addRow(new Object[]{
+                stt++,hd.getMaHD(),hd.getNgayTao(),hd.getTongTien()
+            });
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -100,6 +111,7 @@ public class ViewDoanhThu extends javax.swing.JFrame {
         lbDoanHThuTK = new javax.swing.JLabel();
         txtDoanhThuThang = new javax.swing.JPanel();
         txtThang = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -341,7 +353,7 @@ public class ViewDoanhThu extends javax.swing.JFrame {
         lbDoanHThuTK.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lbDoanHThuTK.setForeground(new java.awt.Color(255, 51, 51));
         lbDoanHThuTK.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbDoanHThuTK.setText("0");
+        lbDoanHThuTK.setText("0.0 VND");
 
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
@@ -365,7 +377,7 @@ public class ViewDoanhThu extends javax.swing.JFrame {
         txtThang.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         txtThang.setForeground(new java.awt.Color(255, 0, 0));
         txtThang.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        txtThang.setText("0");
+        txtThang.setText("0.0 VND");
 
         javax.swing.GroupLayout txtDoanhThuThangLayout = new javax.swing.GroupLayout(txtDoanhThuThang);
         txtDoanhThuThang.setLayout(txtDoanhThuThangLayout);
@@ -384,6 +396,14 @@ public class ViewDoanhThu extends javax.swing.JFrame {
                 .addContainerGap(53, Short.MAX_VALUE))
         );
 
+        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jButton1.setText("New");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -401,7 +421,9 @@ public class ViewDoanhThu extends javax.swing.JFrame {
                         .addComponent(jLabel1)
                         .addGap(33, 33, 33)
                         .addComponent(lbTongDoanhThu, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(214, 214, 214))
+                        .addGap(72, 72, 72)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(54, 54, 54))
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -426,10 +448,11 @@ public class ViewDoanhThu extends javax.swing.JFrame {
                             .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(33, 33, 33)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(53, 53, 53)
+                        .addGap(42, 42, 42)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
-                            .addComponent(lbTongDoanhThu, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(lbTongDoanhThu, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -484,7 +507,23 @@ public class ViewDoanhThu extends javax.swing.JFrame {
             lbLaiXuat.setText("");
             lbLoiThuan1.setText(ql.loiNhuanTKThang(strSelectedMonth).toString() +" VND");
             lbLoiThuan.setText("");
+            loadHDTHang(strSelectedMonth);
+            
     }//GEN-LAST:event_btnTimKiemThangMouseClicked
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        // TODO add your handling code here:
+        loadHD();
+        lbDoanHThuTK.setText("0.0 VND");
+        lbDoanhThu.setText("0.0 VND");
+        lbLoiThuan.setText("");
+        lbLoiThuan1.setText("0.0 VND");
+        lbSoHoaDon.setText("0.0 VND");
+        lbTienLai.setText("0.0 VND");
+        lbLaiXuat.setText("0.0 %");
+        lbLaiXuatTk.setText("0.0 %");
+        txtThang.setText("0.0 VND");
+    }//GEN-LAST:event_jButton1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -524,6 +563,7 @@ public class ViewDoanhThu extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnTimKiem;
     private javax.swing.JButton btnTimKiemThang;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

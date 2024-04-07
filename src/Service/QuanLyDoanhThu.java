@@ -265,6 +265,28 @@ public class QuanLyDoanhThu {
         }
         return listHD;
     }
+    public ArrayList<HoaDon> getListHDThaang(String Thang) {
+        listHD.clear();
+        try {
+            Connection conn = DbConnect.getConnection();
+            String sql = "SELECT MaHD, NgayTao, TongTien FROM HoaDon WHERE  MONTH(HoaDon.NgayTao) = ? and TrangThai = N'Đã thanh toán'";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, Thang);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                HoaDon hd = new HoaDon();
+                hd.setMaHD(rs.getString("MaHD"));
+                hd.setNgayTao(rs.getString("NgayTao"));
+                hd.setTongTien(rs.getString("TongTien"));
+                listHD.add(hd);
+            }
+            conn.close();
+
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLyDoanhThu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return listHD;
+    }
 
     public Float laiXuat() {
         float m = 0;
@@ -345,7 +367,7 @@ public class QuanLyDoanhThu {
     public Float loiNhuanTKThang(String Thang) {
         try {
             Connection conn = DbConnect.getConnection();
-            String sql = "SELECT (sum(GiaSau*CTHD.SoLuong)-sum(GiaNhap*CTHD.SoLuong)) AS LoiNhuann FROM CTHD\n"
+            String sql = "SELECT (sum(GiaSau*CTHD.SoLuong)-sum(GiaNhap*CTHD.SoLuong)) AS LoiNhuant FROM CTHD\n"
                     + "JOIN CTSP ON CTSP.IDSP = CTHD.IdSP\n"
                     + "JOIN HoaDon ON HoaDon.MaHD = CTHD.MaHD\n"
                     + "WHERE MONTH(HoaDon.NgayTao) = ? and TrangThai LIKE N'Đã thanh toán'";
@@ -353,8 +375,8 @@ public class QuanLyDoanhThu {
             ps.setString(1, Thang);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                String a = rs.getString("LoiNhuann");
-                if (a == null && a.isEmpty()) {
+                String a = rs.getString("LoiNhuant");
+                if (a == null || a.isEmpty()) {
                     LNThang= 0;
                 } else {
                     LNThang = Float.valueOf(a);
