@@ -33,8 +33,8 @@ public class QuanLyDoanhThu {
         }
         return i;
     }
+    
     float j = 0;
-
     public Float DoanhThuToday() {
         try {
             Connection conn = DbConnect.getConnection();
@@ -54,8 +54,8 @@ public class QuanLyDoanhThu {
         }
         return j;
     }
+    
     float k = 0;
-
     public Float loiNhuan() {
         try {
             Connection conn = DbConnect.getConnection();
@@ -203,7 +203,6 @@ public class QuanLyDoanhThu {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, NgayBD);
             ps.setString(2, NgayKT);
-//            Statement stm = conn.createStatement();
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 HoaDon hd = new HoaDon();
@@ -241,5 +240,31 @@ public class QuanLyDoanhThu {
             Logger.getLogger(QuanLyDoanhThu.class.getName()).log(Level.SEVERE, null, ex);
         }
         return m;
+    }
+
+    public Float laiXuatTK(String NgayBD, String NgayKT) {
+        float LXTK = 0;
+        try {
+            Connection conn = DbConnect.getConnection();
+            String sql = "SELECT (sum(GiaSau*CTHD.SoLuong)-sum(GiaNhap*CTHD.SoLuong))/sum(TongTien)*100 AS LaiXuatt FROM CTHD\n"
+                    + "JOIN CTSP ON CTSP.IDSP = CTHD.IdSP\n"
+                    + "JOIN HoaDon ON HoaDon.MaHD = CTHD.MaHD\n"
+                    + "WHERE NgayTao >= ? and NgayTao <= ? and TrangThai = N'Đã thanh toán'";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, NgayBD);
+            ps.setString(2, NgayKT);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String a = rs.getString("LaiXuatt");
+                if (a == null || a.isEmpty()) {
+                    LXTK = 0;
+                } else {
+                    LXTK = Float.valueOf(a);
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLyDoanhThu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return LXTK;
     }
 }
