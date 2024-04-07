@@ -259,7 +259,7 @@ public class QuanLyBanHang {
                     + "FROM KhachHang a\n"
                     + "JOIN UuDai b ON a.MaKH = b.MaKH\n"
                     + "RIGHT JOIN Voucher c ON b.MaVC = c.MaVC\n"
-                    + "WHERE c.TrangThai = 1 AND a.MaKH IS NULL;";
+                    + "WHERE c.TrangThai = N'Hoạt động' AND a.MaKH IS NULL;";
             Connection con = DbConnect.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
