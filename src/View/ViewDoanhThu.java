@@ -319,6 +319,11 @@ public class ViewDoanhThu extends javax.swing.JFrame {
                 btnTimKiemMouseClicked(evt);
             }
         });
+        btnTimKiem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTimKiemActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -557,6 +562,10 @@ public class ViewDoanhThu extends javax.swing.JFrame {
         lbLaiXuatTk.setText("0.0 %");
         txtThang.setText("0.0 VND");
     }//GEN-LAST:event_jButton1MouseClicked
+
+    private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnTimKiemActionPerformed
 
     /**
      * @param args the command line arguments
