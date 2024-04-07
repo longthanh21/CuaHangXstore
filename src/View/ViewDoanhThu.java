@@ -8,6 +8,7 @@ import Model.HoaDon;
 import Service.QuanLyDoanhThu;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -480,13 +481,23 @@ public class ViewDoanhThu extends javax.swing.JFrame {
     private void btnTimKiemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTimKiemMouseClicked
         // TODO add your handling code here:
         Date ngayBD = txtNgayBD.getDate();
+        if (ngayBD == null) {
+            JOptionPane.showMessageDialog(this, "Không Bỏ Trống Ngày Bắt Đầu");
+            return;
+        }
          SimpleDateFormat dateNgayBD = new SimpleDateFormat("yyyy-MM-dd");
         String strNgayBD = dateNgayBD.format(ngayBD);
         
         Date ngayKT = txtNgayKT.getDate();
+         if (ngayKT == null) {
+            JOptionPane.showMessageDialog(this, "Không Bỏ Trống Ngày Bắt Đầu");
+            return;
+        }
          SimpleDateFormat dateNgayKT = new SimpleDateFormat("yyyy-MM-dd");
         String strNgayKT = dateNgayKT.format(ngayKT);
-        
+        for (HoaDon hoaDon : ql.getListHD()) {
+            
+        }
         ql.TongDoanhThuTimKiem(strNgayBD, strNgayKT);
         lbDoanHThuTK.setText(ql.TongDoanhThuTimKiem(strNgayBD, strNgayKT).toString() + " VND");
         loadHDTK(strNgayBD, strNgayKT);
