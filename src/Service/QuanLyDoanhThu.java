@@ -92,7 +92,7 @@ public class QuanLyDoanhThu {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 String a = rs.getString("LoiNhuann");
-                if (a == null && a.isEmpty()) {
+                if (a == null || a.isEmpty()) {
                     LNTK = 0;
                 } else {
                     LNTK = Float.valueOf(a);
