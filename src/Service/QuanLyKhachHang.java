@@ -21,7 +21,9 @@ public class QuanLyKhachHang {
     public ArrayList<KhachHang> getAllKhachHang() {
         list.clear();
         try {
-            String sql = "select MaKH,TenKH,Sdt,NgayTao,NgaySinh,gioiTinh,TrangThai,DiaChi from KhachHang";
+            String sql = "select KhachHang.MaKH,TenKH,Sdt,KhachHang.NgayTao,NgaySinh,gioiTinh,KhachHang.TrangThai,DiaChi,COUNT(HoaDon.MaHD) from KhachHang\n"
+                    + "left join HoaDon on HoaDon.MaKH = KhachHang.MaKH\n"
+                    + "group by KhachHang.MaKH,TenKH,Sdt,KhachHang.NgayTao,NgaySinh,gioiTinh,KhachHang.TrangThai,DiaChi";
             Connection con = DbConnect.getConnection();
             Statement stm = con.createStatement();
             ResultSet rs = stm.executeQuery(sql);
@@ -34,7 +36,8 @@ public class QuanLyKhachHang {
                 Boolean gioiTinh = rs.getBoolean(6);
                 Boolean trangThai = rs.getBoolean(7);
                 String diaChi = rs.getString(8);
-                list.add(new KhachHang(ma, ten, sdt, NgayTao, NgaySinh, gioiTinh, trangThai, diaChi));
+                Integer LuotMua = rs.getInt(9);
+                list.add(new KhachHang(ma, ten, sdt, NgayTao, NgaySinh, gioiTinh, trangThai, diaChi, LuotMua));
             }
             con.close();
         } catch (Exception e) {
@@ -46,7 +49,10 @@ public class QuanLyKhachHang {
     public ArrayList<KhachHang> loadSeachKhachHang(String maKH) {
         list.clear();
         try {
-            String sql = "select MaKH,TenKH,Sdt,NgayTao,NgaySinh,gioiTinh,TrangThai,DiaChi from KhachHang WHERE MaKH = ?";
+            String sql = "select KhachHang.MaKH,TenKH,Sdt,KhachHang.NgayTao,NgaySinh,gioiTinh,KhachHang.TrangThai,DiaChi,COUNT(HoaDon.MaHD) from KhachHang\n"
+                    + "left join HoaDon on HoaDon.MaKH = KhachHang.MaKH\n"
+                    + "WHERE KhachHang.MaKH = ? \n"
+                    + "group by KhachHang.MaKH,TenKH,Sdt,KhachHang.NgayTao,NgaySinh,gioiTinh,KhachHang.TrangThai,DiaChi";
             Connection con = DbConnect.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, maKH);
@@ -60,7 +66,8 @@ public class QuanLyKhachHang {
                 Boolean gioiTinh = rs.getBoolean(6);
                 Boolean trangThai = rs.getBoolean(7);
                 String diaChi = rs.getString(8);
-                list.add(new KhachHang(ma, ten, sdt, NgayTao, NgaySinh, gioiTinh, trangThai, diaChi));
+                Integer LuotMua = rs.getInt(9);
+                list.add(new KhachHang(ma, ten, sdt, NgayTao, NgaySinh, gioiTinh, trangThai, diaChi, LuotMua));
             }
             con.close();
         } catch (Exception e) {
@@ -86,7 +93,7 @@ public class QuanLyKhachHang {
                 Boolean gioiTinh = rs.getBoolean(6);
                 Boolean trangThai = rs.getBoolean(7);
                 String diaChi = rs.getString(8);
-                listKhachVip.add(new KhachHang(ma, ten, sdt, NgayTao, NgaySinh, gioiTinh, trangThai, diaChi));
+                listKhachVip.add(new KhachHang(ma, ten, sdt, NgayTao, NgaySinh, gioiTinh, trangThai, diaChi, null));
 
             }
             con.close();
@@ -114,7 +121,7 @@ public class QuanLyKhachHang {
                 Boolean gioiTinh = rs.getBoolean(6);
                 Boolean trangThai = rs.getBoolean(7);
                 String diaChi = rs.getString(8);
-                listKhachVip.add(new KhachHang(ma, ten, sdt, NgayTao, NgaySinh, gioiTinh, trangThai, diaChi));
+                listKhachVip.add(new KhachHang(ma, ten, sdt, NgayTao, NgaySinh, gioiTinh, trangThai, diaChi, null));
 
             }
             con.close();
@@ -194,6 +201,5 @@ public class QuanLyKhachHang {
             return false;
         }
     }
-    
-   
+
 }
