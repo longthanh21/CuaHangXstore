@@ -6,6 +6,7 @@ package View;
 
 import Model.HoaDon;
 import Service.QuanLyDoanhThu;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
@@ -22,6 +23,7 @@ public class ViewDoanhThu extends javax.swing.JFrame {
      */
     QuanLyDoanhThu ql = new QuanLyDoanhThu();
     DefaultTableModel defau;
+
     public ViewDoanhThu() {
         initComponents();
         loadToday();
@@ -29,49 +31,50 @@ public class ViewDoanhThu extends javax.swing.JFrame {
         this.repaint();
         loadHD();
     }
-    void loadToday(){
+
+    void loadToday() {
         lbSoHoaDon.setText(ql.HDToday().toString());
         lbDoanhThu.setText(ql.DoanhThuToday().toString() + " VND");
-        lbLoiThuan.setText(ql.loiNhuan().toString()+ " VND");
+        lbLoiThuan.setText(ql.loiNhuan().toString() + " VND");
         lbTienLai.setText(ql.laiToDay().toString() + " VND");
         lbTongDoanhThu.setText(ql.TongDoanhThu().toString() + " VND");
         lbLaiXuat.setText(ql.laiXuat().toString() + " %");
-        txtThang.setText(ql.TongDoanhThuThang().toString() +"VND");
+        txtThang.setText(ql.TongDoanhThuThang().toString() + "VND");
     }
-    
-    void loadHD(){
+
+    void loadHD() {
         defau = (DefaultTableModel) tblHoaDon.getModel();
         defau.setRowCount(0);
         int stt = 1;
         for (HoaDon hd : ql.getListHD()) {
             defau.addRow(new Object[]{
-                stt++,hd.getMaHD(),hd.getNgayTao(),hd.getTongTien()
+                stt++, hd.getMaHD(), hd.getNgayTao(), hd.getTongTien()
             });
         }
     }
-    
-    void loadHDTK(String NgayBD,String NgayKT){
+
+    void loadHDTK(String NgayBD, String NgayKT) {
         defau = (DefaultTableModel) tblHoaDon.getModel();
         defau.setRowCount(0);
         int stt = 1;
         for (HoaDon hd : ql.getListHDTK(NgayBD, NgayKT)) {
             defau.addRow(new Object[]{
-                stt++,hd.getMaHD(),hd.getNgayTao(),hd.getTongTien()
+                stt++, hd.getMaHD(), hd.getNgayTao(), hd.getTongTien()
             });
         }
     }
-    
-    void loadHDTHang(String Thang){
+
+    void loadHDTHang(String Thang) {
         defau = (DefaultTableModel) tblHoaDon.getModel();
         defau.setRowCount(0);
         int stt = 1;
         for (HoaDon hd : ql.getListHDThaang(Thang)) {
             defau.addRow(new Object[]{
-                stt++,hd.getMaHD(),hd.getNgayTao(),hd.getTongTien()
+                stt++, hd.getMaHD(), hd.getNgayTao(), hd.getTongTien()
             });
         }
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -484,41 +487,61 @@ public class ViewDoanhThu extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Ngày Bắt Đầu");
             return;
         }
-         SimpleDateFormat dateNgayBD = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat dateNgayBD = new SimpleDateFormat("yyyy-MM-dd");
         String strNgayBD = dateNgayBD.format(ngayBD);
-        
+
         Date ngayKT = txtNgayKT.getDate();
-         if (ngayKT == null) {
+        if (ngayKT == null) {
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Ngày Bắt Đầu");
             return;
         }
-         SimpleDateFormat dateNgayKT = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat dateNgayKT = new SimpleDateFormat("yyyy-MM-dd");
         String strNgayKT = dateNgayKT.format(ngayKT);
-        for (HoaDon hoaDon : ql.getListHD()) {
-            
+        if (ngayBD.after(ngayKT)) {
+            JOptionPane.showMessageDialog(this, "Ngày bắt đầu nhỏ hơn ngày kết thúc");
+            return;
         }
-        ql.TongDoanhThuTimKiem(strNgayBD, strNgayKT);
-        lbDoanHThuTK.setText(ql.TongDoanhThuTimKiem(strNgayBD, strNgayKT).toString() + " VND");
-        loadHDTK(strNgayBD, strNgayKT);
-        lbLoiThuan1.setText(ql.loiNhuanTK(strNgayBD, strNgayKT).toString() + " VND");
-        lbLoiThuan.setText("");
-        lbLaiXuatTk.setText(ql.laiXuatTK(strNgayBD, strNgayKT).toString() + " %");
-        lbLaiXuat.setText("");
+
+//        for (HoaDon hoaDon : ql.getListHD()) {
+//            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//            Date ngayTaoHoaDon;
+//            try {
+//                ngayTaoHoaDon = dateFormat.parse(hoaDon.getNgayTao());
+//                if (ngayTaoHoaDon.before(ngayBD) || ngayTaoHoaDon.after(ngayKT)) {
+                    ql.TongDoanhThuTimKiem(strNgayBD, strNgayKT);
+                    lbDoanHThuTK.setText(ql.TongDoanhThuTimKiem(strNgayBD, strNgayKT).toString() + " VND");
+                    loadHDTK(strNgayBD, strNgayKT);
+                    lbLoiThuan1.setText(ql.loiNhuanTK(strNgayBD, strNgayKT).toString() + " VND");
+                    lbLoiThuan.setText("");
+                    lbLaiXuatTk.setText(ql.laiXuatTK(strNgayBD, strNgayKT).toString() + " %");
+                    lbLaiXuat.setText("");
+                    txtThang.setText("0.0 VND");
+//                }else{
+//                    JOptionPane.showMessageDialog(this, "Khoong Co Hoa Don!!!");
+//                    return;
+//                }
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//                return;
+//            }
+
+//        }
+        
     }//GEN-LAST:event_btnTimKiemMouseClicked
 
     private void btnTimKiemThangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTimKiemThangMouseClicked
         // TODO add your handling code here:
-        
-          int selectedMonth = txtTimKiemThang.getMonth() + 1; 
-            String strSelectedMonth = String.format("%02d", selectedMonth); 
-            System.out.println("Selected Month: " + strSelectedMonth);
-            txtThang.setText(ql.TimKiemTongDoanhThuThang(strSelectedMonth).toString() + " VND");
-            lbLaiXuatTk.setText(ql.laiXuatTKThang(strSelectedMonth).toString() +"%");
-            lbLaiXuat.setText("");
-            lbLoiThuan1.setText(ql.loiNhuanTKThang(strSelectedMonth).toString() +" VND");
-            lbLoiThuan.setText("");
-            loadHDTHang(strSelectedMonth);
-            
+
+        int selectedMonth = txtTimKiemThang.getMonth() + 1;
+        String strSelectedMonth = String.format("%02d", selectedMonth);
+        System.out.println("Selected Month: " + strSelectedMonth);
+        txtThang.setText(ql.TimKiemTongDoanhThuThang(strSelectedMonth).toString() + " VND");
+        lbLaiXuatTk.setText(ql.laiXuatTKThang(strSelectedMonth).toString() + "%");
+        lbLaiXuat.setText("");
+        lbLoiThuan1.setText(ql.loiNhuanTKThang(strSelectedMonth).toString() + " VND");
+        lbLoiThuan.setText("");
+        loadHDTHang(strSelectedMonth);
+
     }//GEN-LAST:event_btnTimKiemThangMouseClicked
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
