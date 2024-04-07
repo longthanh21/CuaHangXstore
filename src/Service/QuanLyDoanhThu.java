@@ -171,6 +171,53 @@ public class QuanLyDoanhThu {
         }
         return TK;
     }
+    float DTT = 0;
+
+    public Float TongDoanhThuThang() {
+        try {
+            Connection conn = DbConnect.getConnection();
+            String sql = "SELECT sum(TongTien) AS TongDoanhThuu FROM HoaDon WHERE MONTH(NgayTao) = 4 and   TrangThai LIKE N'Đã thanh toán'";
+            Statement stm = conn.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            while (rs.next()) {
+                String a = rs.getString("TongDoanhThuu");
+                if (a == null || a.isEmpty()) {
+                    DTT = 0;
+                } else {
+                    DTT = Float.valueOf(a);
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLyDoanhThu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return DTT;
+    }
+    
+    
+    float DTTKT = 0;
+
+    public Float TimKiemTongDoanhThuThang(String Thang) {
+        try {
+            Connection conn = DbConnect.getConnection();
+            String sql = "SELECT sum(TongTien) AS TongDoanhThuu FROM HoaDon WHERE MONTH(NgayTao) = ? and   TrangThai LIKE N'Đã thanh toán'";
+             PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, Thang);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String a = rs.getString("TongDoanhThuu");
+                if (a == null || a.isEmpty()) {
+                    DTTKT = 0;
+                } else {
+                    DTTKT = Float.valueOf(a);
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLyDoanhThu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return DTTKT;
+    }
+    
+    
     ArrayList<HoaDon> listHD = new ArrayList<>();
 
     public ArrayList<HoaDon> getListHD() {
@@ -266,5 +313,56 @@ public class QuanLyDoanhThu {
             Logger.getLogger(QuanLyDoanhThu.class.getName()).log(Level.SEVERE, null, ex);
         }
         return LXTK;
+    }
+    
+    
+    public Float laiXuatTKThang(String Thang) {
+        float LXThang = 0;
+        try {
+            Connection conn = DbConnect.getConnection();
+            String sql = "SELECT (sum(GiaSau*CTHD.SoLuong)-sum(GiaNhap*CTHD.SoLuong))/sum(TongTien)*100 AS LaiXuatt FROM CTHD\n"
+                    + "JOIN CTSP ON CTSP.IDSP = CTHD.IdSP\n"
+                    + "JOIN HoaDon ON HoaDon.MaHD = CTHD.MaHD\n"
+                    + "WHERE MONTH(HoaDon.NgayTao) = ? and TrangThai = N'Đã thanh toán'";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, Thang);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String a = rs.getString("LaiXuatt");
+                if (a == null || a.isEmpty()) {
+                    LXThang = 0;
+                } else {
+                    LXThang = Float.valueOf(a);
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLyDoanhThu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return LXThang;
+    }
+       float LNThang = 0;
+
+    public Float loiNhuanTKThang(String Thang) {
+        try {
+            Connection conn = DbConnect.getConnection();
+            String sql = "SELECT (sum(GiaSau*CTHD.SoLuong)-sum(GiaNhap*CTHD.SoLuong)) AS LoiNhuann FROM CTHD\n"
+                    + "JOIN CTSP ON CTSP.IDSP = CTHD.IdSP\n"
+                    + "JOIN HoaDon ON HoaDon.MaHD = CTHD.MaHD\n"
+                    + "WHERE MONTH(HoaDon.NgayTao) = ? and TrangThai LIKE N'Đã thanh toán'";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, Thang);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String a = rs.getString("LoiNhuann");
+                if (a == null && a.isEmpty()) {
+                    LNThang= 0;
+                } else {
+                    LNThang = Float.valueOf(a);
+                }
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(QuanLyDoanhThu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return LNThang;
     }
 }
