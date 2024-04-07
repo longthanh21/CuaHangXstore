@@ -28,30 +28,9 @@ public class SanPham {
     private String trangThai;
     private String phanTram;
     private String hinhAnh;
-    
+    private String maCP;
 
     public SanPham() {
-    }
-
-    public SanPham(String maSanPham, String idspct, String tenSanPham, String ngayNhap, String idMauSac, String idSize, String idChatLieu, String idHang, String MauSac, String Size, String ChatLieu, String Hang, String soLuong, String giaNhap, String giaBan, String trangThai, String phanTram, String hinhAnh) {
-        this.maSanPham = maSanPham;
-        this.idspct = idspct;
-        this.tenSanPham = tenSanPham;
-        this.ngayNhap = ngayNhap;
-        this.idMauSac = idMauSac;
-        this.idSize = idSize;
-        this.idChatLieu = idChatLieu;
-        this.idHang = idHang;
-        this.MauSac = MauSac;
-        this.Size = Size;
-        this.ChatLieu = ChatLieu;
-        this.Hang = Hang;
-        this.soLuong = soLuong;
-        this.giaNhap = giaNhap;
-        this.giaBan = giaBan;
-        this.trangThai = trangThai;
-        this.phanTram = phanTram;
-        this.hinhAnh = hinhAnh;
     }
 
     public String getMaSanPham() {
@@ -196,6 +175,36 @@ public class SanPham {
 
     public void setHinhAnh(String hinhAnh) {
         this.hinhAnh = hinhAnh;
+    }
+
+    public String getMaCP() {
+        return maCP;
+    }
+
+    public void setMaCP(String maCP) {
+        this.maCP = maCP;
+    }
+
+    public SanPham(String maSanPham, String idspct, String tenSanPham, String ngayNhap, String idMauSac, String idSize, String idChatLieu, String idHang, String MauSac, String Size, String ChatLieu, String Hang, String soLuong, String giaNhap, String giaBan, String trangThai, String phanTram, String hinhAnh, String maCP) {
+        this.maSanPham = maSanPham;
+        this.idspct = idspct;
+        this.tenSanPham = tenSanPham;
+        this.ngayNhap = ngayNhap;
+        this.idMauSac = idMauSac;
+        this.idSize = idSize;
+        this.idChatLieu = idChatLieu;
+        this.idHang = idHang;
+        this.MauSac = MauSac;
+        this.Size = Size;
+        this.ChatLieu = ChatLieu;
+        this.Hang = Hang;
+        this.soLuong = soLuong;
+        this.giaNhap = giaNhap;
+        this.giaBan = giaBan;
+        this.trangThai = trangThai;
+        this.phanTram = phanTram;
+        this.hinhAnh = hinhAnh;
+        this.maCP = maCP;
     }
 
     
