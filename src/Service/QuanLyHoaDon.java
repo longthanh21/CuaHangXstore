@@ -21,10 +21,11 @@ public class QuanLyHoaDon {
     public ArrayList<HoaDon> loadSeachMaHoaDon(String maHD) {
         listHD.clear();
         try {
-            String sql = "SELECT MaHD,MaNV,MaKH,MaVC,NgayTao,TongTien,TrangThai FROM HoaDon WHERE MaHD LIKE '%"+maHD+"%'";
+            String sql = "SELECT MaHD,MaNV,MaKH,MaVC,NgayTao,TongTien,TrangThai FROM HoaDon WHERE MaHD =? ";
             Connection con = DbConnect.getConnection();
-            Statement stm = con.createStatement();
-            ResultSet rs = stm.executeQuery(sql);
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, maHD);
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 String MaHD = rs.getString(1);
                 String MaNV = rs.getString(2);
@@ -70,7 +71,7 @@ public class QuanLyHoaDon {
     public ArrayList<HoaDon> loadSeachNgayKT(String NgayKT) {
         listHD.clear();
         try {
-            String sql = "SELECT MaHD,MaNV,MaKH,MaVC,NgayTao,TongTien,TrangThai FROM HoaDon WHERE NgayTao <= ? ";
+            String sql = "SELECT MaHD,MaNV,MaKH,MaVC,NgayTao,TongTien,TrangThai FROM HoaDon WHERE NgayTao >= ? ";
             Connection con = DbConnect.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, NgayKT);
@@ -217,10 +218,12 @@ public class QuanLyHoaDon {
         listHDCT.clear();
         listHD.clear();
         try {
-            String sql = "select a.IdSP,d.MaSP,TenSP,a.SoLuong,CAST(ROUND(GiaSau / (1 - COALESCE(PhanTram, 0) / 100), 2) AS decimal(10, 2)) AS GiaBan,a.PhanTram,a.GiaSau from CTHD a\n"
+            String sql = "select a.IdSP,d.MaSP,TenSP,a.SoLuong,(GiaSau/(1-Coupon.PhanTram/100)) AS GiaBan,Coupon.PhanTram,a.GiaSau, TongTien from CTHD a\n"
                     + "join HoaDon b on b.MaHD = a.MaHD\n"
                     + "join CTSP c on c.IdSP=a.IdSP\n"
                     + "join SanPham d on d.MaSP=c.MaSP\n"
+                    + "left join GiamGiaSP on GiamGiaSP.IdSP = c.IdSP\n"
+                    + "left join Coupon on Coupon.MaCP = GiamGiaSP.MaCP\n"
                     + "where b.TrangThai = N'Đã thanh toán'";
             Connection con = DbConnect.getConnection();
             Statement stm = con.createStatement();
@@ -252,12 +255,14 @@ public class QuanLyHoaDon {
         listHDCT.clear();
         listHD.clear();
         try {
-            String sql = "select a.IdSP,d.MaSP,TenSP,a.SoLuong,CAST(ROUND(GiaSau / (1 - COALESCE(PhanTram, 0) / 100), 2) AS decimal(10, 2)) AS GiaBan,a.PhanTram,a.GiaSau from CTHD a\n"
+            String sql = "select a.IdSP,d.MaSP,TenSP,a.SoLuong,(GiaSau/(1-Coupon.PhanTram/100)) AS GiaBan,Coupon.PhanTram,a.GiaSau, TongTien from CTHD a\n"
                     + "join HoaDon b on b.MaHD = a.MaHD\n"
                     + "join CTSP c on c.IdSP=a.IdSP\n"
                     + "join SanPham d on d.MaSP=c.MaSP\n"
+                    + "left join GiamGiaSP on GiamGiaSP.IdSP = c.IdSP\n"
+                    + "left join Coupon on Coupon.MaCP = GiamGiaSP.MaCP\n"
                     + "where b.TrangThai = N'Đã thanh toán'\n"
-                    + "and b.MaHD LIKE '%" + mhd + "%'";
+                    + "and b.MaHD = '" + mhd + "'";
             Connection con = DbConnect.getConnection();
             Statement stm = con.createStatement();
             ResultSet rs = stm.executeQuery(sql);

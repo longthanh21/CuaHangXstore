@@ -387,6 +387,4 @@ public class QuanLyDoanhThu {
         }
         return LNThang;
     }
-    
-    
 }
