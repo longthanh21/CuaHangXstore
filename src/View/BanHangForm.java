@@ -356,6 +356,11 @@ public class BanHangForm extends javax.swing.JFrame {
         );
 
         btnDangXuat.setText("Đăng xuất");
+        btnDangXuat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDangXuatActionPerformed(evt);
+            }
+        });
 
         jLabel1.setForeground(new java.awt.Color(51, 255, 51));
         jLabel1.setText("Mã Nhân Viên:");
@@ -496,7 +501,7 @@ public class BanHangForm extends javax.swing.JFrame {
     }//GEN-LAST:event_pnHoaDonMouseClicked
 
     private void pnKhuyenMaiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnKhuyenMaiMouseClicked
-        
+
         if (vaiTro.equals("Quản lý")) {
             showFrame(new ViewKhuyenMai());
         } else {
@@ -509,7 +514,7 @@ public class BanHangForm extends javax.swing.JFrame {
     }//GEN-LAST:event_pnKhachHangMouseClicked
 
     private void pnNhanVienMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnNhanVienMouseClicked
-        
+
         if (vaiTro.equals("Quản lý")) {
             showFrame(new ViewNhanVien());
         } else {
@@ -519,7 +524,7 @@ public class BanHangForm extends javax.swing.JFrame {
 
     private void pnDoanhThuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnDoanhThuMouseClicked
         // TODO add your handling code here:
-        
+
         if (vaiTro.equals("Quản lý")) {
             showFrame(new ViewDoanhThu());
         } else {
@@ -527,6 +532,18 @@ public class BanHangForm extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_pnDoanhThuMouseClicked
+
+    private void btnDangXuatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangXuatActionPerformed
+        int choice = JOptionPane.showConfirmDialog(null, "Bạn có muốn đăng xuất không?", "Xác nhận đăng xuất", JOptionPane.YES_NO_OPTION);
+
+        if (choice == JOptionPane.YES_OPTION) {
+            new ViewDangNhap().setVisible(true);
+            dispose();
+            JOptionPane.showMessageDialog(this, "Đăng xuất thành công");
+        } else {
+            JOptionPane.showMessageDialog(this, "Hủy");
+        }
+    }//GEN-LAST:event_btnDangXuatActionPerformed
 
     /**
      * @param args the command line arguments
