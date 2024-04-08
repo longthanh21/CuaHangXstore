@@ -130,7 +130,6 @@ public class ViewQuenMk extends javax.swing.JFrame {
             guiMa();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Lỗi gửi mã");
-            e.printStackTrace();
         }
     }//GEN-LAST:event_btnGuiMaActionPerformed
 
