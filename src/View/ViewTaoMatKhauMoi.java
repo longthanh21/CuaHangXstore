@@ -5,6 +5,7 @@
 package View;
 
 import Service.QuanLyDangNhap;
+import Util.MaHoa;
 import javax.swing.JOptionPane;
 
 /**
@@ -29,12 +30,15 @@ public class ViewTaoMatKhauMoi extends javax.swing.JFrame {
     }
 
     public void taoMKMoi() {
-        String mkMoi = txtMkNew.getText();
-
-        qldn.updateMatKhau(maNV, mkMoi);
-        new ViewDangNhap().setVisible(true);
-        dispose();
-        JOptionPane.showMessageDialog(this, "Thay đổi thành công mật khẩu mới!");
+        if (check()) {
+            String mkMoi = txtMkNew.getText();
+            // Mã hóa mật khẩu mới trước khi lưu vào cơ sở dữ liệu
+//            String hashedPassword = MaHoa.MaHoa(mkMoi);
+            qldn.updateMatKhau(maNV, mkMoi);
+            new ViewDangNhap().setVisible(true);
+            dispose();
+            JOptionPane.showMessageDialog(this, "Thay đổi thành công mật khẩu mới!");
+        }
     }
 
     public boolean check() {
@@ -47,9 +51,8 @@ public class ViewTaoMatKhauMoi extends javax.swing.JFrame {
         } else if (!mkMoi.equals(mkCF)) {
             JOptionPane.showMessageDialog(this, "Mật khẩu xác nhận sai!");
             return false;
-        } else {
-            return true;
         }
+        return true;
     }
 
     /**
