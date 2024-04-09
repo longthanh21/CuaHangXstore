@@ -368,10 +368,11 @@ public class QuanLyKhuyenMai {
             ResultSet rs = ps.getGeneratedKeys();
             if (rs.next()) {
                 int MaCP = rs.getInt(1);
-                String sql1 = "INSERT INTO GiamGiaSP (MaCP, IdSP) VALUES (?,?);";
+                String sql1 = "INSERT INTO GiamGiaSP (MaCP, IdSP)\n"
+                        + "SELECT ?, IdSP FROM GiamGiaSP WHERE MaCP = ?";
                 PreparedStatement ps1 = cn.prepareStatement(sql1);
                 ps1.setInt(1, MaCP);
-                ps1.setInt(2, Integer.valueOf(cp.getIdSP()));
+                ps1.setInt(2, ma);
 
                 ps1.executeUpdate();
                 ps1.close();
