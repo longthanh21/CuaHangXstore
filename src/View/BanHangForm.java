@@ -11,6 +11,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import View.ViewDangNhap;
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -20,8 +22,6 @@ import javax.swing.JOptionPane;
 public class BanHangForm extends javax.swing.JFrame {
 
     private String ma, ten, vaiTro, tenTK;
-
-    Connection cn;
 
     public BanHangForm() {
         initComponents();
@@ -37,37 +37,37 @@ public class BanHangForm extends javax.swing.JFrame {
     }
 
     public BanHangForm(String maNV, String tenNV, String vaiTroNV, String tenTK) {
-        initComponents();
         try {
-            cn = DbConnect.getConnection();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        this.tenTK = tenTK;
-        try {
-            String sql = "SELECT NhanVien.MaNV, NhanVien.TenNV, NhanVien.VaiTro "
-                    + "FROM NhanVien JOIN TaiKhoan ON TaiKhoan.MaNV = NhanVien.MaNV "
-                    + "WHERE TaiKhoan.TenDangNhap = ?";
-            PreparedStatement ps = cn.prepareStatement(sql);
-            ps.setString(1, tenTK);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                ma = rs.getString("MaNV");
-                ten = rs.getString("TenNV");
-                vaiTro = rs.getString("VaiTro");
-                txtMaNV.setText(ma);
-                txtTenNV.setText(ten);
-                lbVaiTro.setText(vaiTro);
+            initComponents();
+            Connection cn = DbConnect.getConnection();
+            this.tenTK = tenTK;
+            try {
+                String sql = "SELECT NhanVien.MaNV, NhanVien.TenNV, NhanVien.VaiTro "
+                        + "FROM NhanVien JOIN TaiKhoan ON TaiKhoan.MaNV = NhanVien.MaNV "
+                        + "WHERE TaiKhoan.TenDangNhap = ?";
+                PreparedStatement ps = cn.prepareStatement(sql);
+                ps.setString(1, tenTK);
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) {
+                    ma = rs.getString("MaNV");
+                    ten = rs.getString("TenNV");
+                    vaiTro = rs.getString("VaiTro");
+                    txtMaNV.setText(ma);
+                    txtTenNV.setText(ten);
+                    lbVaiTro.setText(vaiTro);
+                    // Disable các panel phù hợp dựa vào vai trò
+                }
 
-                // Disable các panel phù hợp dựa vào vai trò
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Bạn không đủ quyền để thực hiện thao tác!");
             }
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Bạn không đủ quyền để thực hiện thao tác!");
-        }
-        // Hiển thị frame cuối cùng sau khi đã disable các panel
+            // Hiển thị frame cuối cùng sau khi đã disable các panel
 //        showFrame(new ViewBanHang(txtMaNV.getText()));
-        showFrame(new ViewDoanhThu());
+            showFrame(new ViewDoanhThu());
+            cn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(BanHangForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
