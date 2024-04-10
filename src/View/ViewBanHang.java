@@ -886,6 +886,7 @@ public class ViewBanHang extends javax.swing.JFrame {
                 ql.suaGioHang(b, idsp, mhd);
                 loadGioHang(mhd);
             }
+            cbVoucher.setSelectedIndex(0);
             tongTien();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Lỗi thao tác. Bé Khánh đừng nghịch nhé(^_^)");
