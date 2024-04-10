@@ -25,7 +25,7 @@ public class BanHangForm extends javax.swing.JFrame {
 
     public BanHangForm() {
         initComponents();
-        showFrame(new ViewBanHang(txtMaNV.getText()));
+//        showFrame(new ViewBanHang(txtMaNV.getText()));
         force();
     }
 
