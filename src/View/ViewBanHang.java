@@ -832,6 +832,7 @@ public class ViewBanHang extends javax.swing.JFrame {
                         Integer a2 = Integer.valueOf(a) + Integer.valueOf(h.getSoLuong());
                         ql.suaGioHang(String.valueOf(a2), id, maHD);
                         loadGioHang(maHD);
+                        tongTien();
                         return;
                     }
                 }
@@ -886,6 +887,8 @@ public class ViewBanHang extends javax.swing.JFrame {
                 ql.suaGioHang(b, idsp, mhd);
                 loadGioHang(mhd);
             }
+            
+            cbVoucher.setSelectedIndex(0);
             tongTien();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Lỗi thao tác. Bé Khánh đừng nghịch nhé(^_^)");
