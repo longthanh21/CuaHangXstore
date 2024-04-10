@@ -53,7 +53,7 @@ public class ViewBanHang extends javax.swing.JFrame {
     DefaultTableModel model;
     QuanLyBanHang ql = new QuanLyBanHang();
     private Double bHeight = 0.0;
-    
+
     public ViewBanHang(String layMaNV) {
         initComponents();
         txtMaNV.setText(layMaNV);
@@ -191,7 +191,7 @@ public class ViewBanHang extends javax.swing.JFrame {
     //thuc
     //??
     public class Bill implements Printable {
-        
+
         private String imagePath;
         private Object ql; // Thay thế Object bằng kiểu dữ liệu thực tế của ql
         private Object txtMaHD; // Thay thế Object bằng kiểu dữ liệu thực tế của txtMaHD
@@ -209,18 +209,18 @@ public class ViewBanHang extends javax.swing.JFrame {
             this.txtTienThua = txtTienThua;
             this.txtMaNV = txtMaNV;
         }
-        
+
         @Override
         public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
             if (pageIndex > 0) {
                 return NO_SUCH_PAGE;
             }
-            
+
             Graphics2D g2d = (Graphics2D) graphics;
             double width = pageFormat.getImageableWidth();
             double height = pageFormat.getImageableHeight();
             g2d.translate((int) pageFormat.getImageableX(), (int) pageFormat.getImageableY());
-            
+
             try {
                 ImageIcon icon = new ImageIcon(imagePath);
                 Image logo = icon.getImage();
@@ -228,10 +228,10 @@ public class ViewBanHang extends javax.swing.JFrame {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            
+
             int y = 100; // Bắt đầu vẽ từ y = 100
             g2d.setFont(new Font("Monospaced", Font.PLAIN, 9));
-            
+
             g2d.drawString("------------------------------------------------", 12, y);
             y += 10;
             g2d.drawString("         Cửa hàng guitar classic M4L            ", 12, y);
@@ -242,10 +242,10 @@ public class ViewBanHang extends javax.swing.JFrame {
             y += 10;
             g2d.drawString("------------------------------------------------", 12, y);
             y += 10;
-            
+
             return PAGE_EXISTS;
         }
-        
+
         public PageFormat getPage(PrinterJob pj) {
             PageFormat pf = pj.defaultPage();
             Paper p = pf.getPaper();
@@ -259,11 +259,11 @@ public class ViewBanHang extends javax.swing.JFrame {
             pf.setPaper(p);
             return pf;
         }
-        
+
         public static double cm_to_pp(double cm) {
             return toPPI(cm * 0.393600787);
         }
-        
+
         public static double toPPI(double inch) {
             return inch * 72d;
         }
@@ -273,7 +273,7 @@ public class ViewBanHang extends javax.swing.JFrame {
     private ViewBanHang() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
+
     void loadcbVC() {
         cbVoucher.removeAllItems();
         cbVoucher.addItem("Mời chọn");
@@ -281,7 +281,7 @@ public class ViewBanHang extends javax.swing.JFrame {
             cbVoucher.addItem(v.getTenVC());
         }
     }
-    
+
     void tongTien() {
         String mhd = txtMaHD.getText();
         int tongTien = 0;
@@ -296,18 +296,18 @@ public class ViewBanHang extends javax.swing.JFrame {
             }
         }
         for (Voucher v : ql.getListVV(txtMaKH.getText())) {
-            
+
             if (v.getTenVC().equals(a)) {
                 tongTien -= Float.valueOf(v.getGiamGia()).intValue();
                 break;
-                
+
             }
         }
         txtTongTien.setText(String.valueOf(tongTien));
         txtTienKD.setText("");
         txtTienThua.setText("");
     }
-    
+
     void loadHoaDon() {
         model = (DefaultTableModel) tblHoaDon.getModel();
         model.setRowCount(0);
@@ -325,11 +325,11 @@ public class ViewBanHang extends javax.swing.JFrame {
             }
         }
     }
-    
+
     void loadSanPham(ArrayList<SanPham> list) {
         model = (DefaultTableModel) tblSanPham.getModel();
         model.setRowCount(0);
-        
+
         for (SanPham sp : list) {
             if (!sp.getSoLuong().equals("0")) {
                 model.addRow(new Object[]{
@@ -339,12 +339,12 @@ public class ViewBanHang extends javax.swing.JFrame {
                     Float.valueOf(sp.getPhanTram()).intValue(), sp.giaSau()
                 });
             }
-            
+
         }
     }
-    
+
     void loadGioHang(String mhd) {
-        
+
         model = (DefaultTableModel) tblGioHang.getModel();
         model.setRowCount(0);
         int stt = 0;
@@ -491,6 +491,9 @@ public class ViewBanHang extends javax.swing.JFrame {
             }
         });
         txtMaKH.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtMaKHKeyPressed(evt);
+            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtMaKHKeyReleased(evt);
             }
@@ -785,7 +788,7 @@ public class ViewBanHang extends javax.swing.JFrame {
         // TODO add your handling code here:
         int i = tblHoaDon.getSelectedRow();
         loadGioHang(String.valueOf(tblHoaDon.getValueAt(i, 1)));
-        
+
         txtMaHD.setText((String) tblHoaDon.getValueAt(i, 1));
         txtNgayTao.setText((String) tblHoaDon.getValueAt(i, 2));
         txtMaNV.setText((String) tblHoaDon.getValueAt(i, 3));
@@ -804,20 +807,20 @@ public class ViewBanHang extends javax.swing.JFrame {
             return;
         }
         try {
-            
+
             int i = tblSanPham.getSelectedRow();
             String a = JOptionPane.showInputDialog("Mời nhập số lượng:");
             String id = (String) tblSanPham.getValueAt(i, 0);
             String soLuong = (String) tblSanPham.getValueAt(i, 7);
             String giaSau = String.valueOf(tblSanPham.getValueAt(i, 10));
 //            String phanTram = (String) tblSanPham.getValueAt(i, 9);
-           
-            String phanTram=null;
-             String maCP = null;
-            for (SanPham s :  ql.getListSanPham()){
+
+            String phanTram = null;
+            String maCP = null;
+            for (SanPham s : ql.getListSanPham()) {
                 if (tblSanPham.getValueAt(i, 0).equals(s.getIdspct())) {
                     maCP = s.getMaCP();
-                    phanTram=s.getPhanTram();
+                    phanTram = s.getPhanTram();
                     break;
                 }
             }
@@ -836,11 +839,11 @@ public class ViewBanHang extends javax.swing.JFrame {
                         return;
                     }
                 }
-                
+
                 HoaDon h = new HoaDon(maHD, null, null, null, null, null, null, id, null, null, a, giaSau, phanTram, maCP, null);
                 ql.themGioHang(h);
                 loadGioHang(maHD);
-                
+
             } else {
                 JOptionPane.showMessageDialog(this, "Mời nhập lại!");
             }
@@ -848,7 +851,7 @@ public class ViewBanHang extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Lỗi thao tác. Vui long nhập lại!");
             e.printStackTrace();
-            
+
         }
 
     }//GEN-LAST:event_tblSanPhamMouseClicked
@@ -860,9 +863,9 @@ public class ViewBanHang extends javax.swing.JFrame {
             int i = tblGioHang.getSelectedRow();
             String mhd = txtMaHD.getText();
             String idsp = String.valueOf(tblGioHang.getValueAt(i, 1));
-            
+
             String b = JOptionPane.showInputDialog("Mời nhập lại số lượng:");
-            
+
             String slgh = (String) tblGioHang.getValueAt(i, 4);
             try {
                 for (SanPham s : ql.getListSanPham()) {
@@ -879,7 +882,7 @@ public class ViewBanHang extends javax.swing.JFrame {
                 }
             } catch (Exception e) {
             }
-            
+
             if (Integer.valueOf(b) == 0) {
                 ql.xoaGioHang(idsp, mhd);
                 loadGioHang(mhd);
@@ -887,7 +890,7 @@ public class ViewBanHang extends javax.swing.JFrame {
                 ql.suaGioHang(b, idsp, mhd);
                 loadGioHang(mhd);
             }
-            
+
             cbVoucher.setSelectedIndex(0);
             tongTien();
         } catch (Exception e) {
@@ -923,7 +926,7 @@ public class ViewBanHang extends javax.swing.JFrame {
                 return 1;
             }
         }
-        
+
         return 2;
     }
     private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
@@ -944,12 +947,12 @@ public class ViewBanHang extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Huỷ thành công");
         } else {
             JOptionPane.showMessageDialog(this, "Huỷ thất bại");
-            
+
         }
         loadHoaDon();
         loadGioHang(mhd);
         tongTien();
-        
+
 
     }//GEN-LAST:event_btnHuyActionPerformed
 
@@ -986,7 +989,7 @@ public class ViewBanHang extends javax.swing.JFrame {
                         return;
                     }
                 }
-                
+
             }
             String mKH = txtMaKH.getText();
             for (Voucher v : ql.getListVV(mKH)) {
@@ -1049,7 +1052,7 @@ public class ViewBanHang extends javax.swing.JFrame {
         String maVC = null;
         for (Voucher v : ql.getListV()) {
             String a = cbVoucher.getSelectedItem() + "";
-            
+
             if (v.getTenVC().equals(a)) {
                 maVC = v.getMaVC();
                 break;
@@ -1057,18 +1060,18 @@ public class ViewBanHang extends javax.swing.JFrame {
         }
         for (Voucher v : ql.getListVV(txtMaHD.getText())) {
             String a = cbVoucher.getSelectedItem() + "";
-            
+
             if (v.getTenVC().equals(a)) {
                 maVC = v.getMaVC();
                 break;
             }
         }
-        
+
         String maKH = null;
         if (!txtMaKH.getText().equals("")) {
             maKH = txtMaKH.getText();
         }
-        
+
         HoaDon h = new HoaDon(txtMaHD.getText(), txtNgayTao.getText(), maKH, txtMaNV.getText(), maVC, txtTongTien.getText(), null, null, null, null, null, null, null, null, null);
         if (ql.ThanhToan(h)) {
             JOptionPane.showMessageDialog(this, "Thanh toán thành công");
@@ -1081,7 +1084,7 @@ public class ViewBanHang extends javax.swing.JFrame {
             cbVoucher.setSelectedIndex(1);
         } else {
             JOptionPane.showMessageDialog(this, "Thanh toán thất bại");
-            
+
         }
         loadHoaDon();
         loadGioHang(txtMaHD.getText());
@@ -1107,7 +1110,7 @@ public class ViewBanHang extends javax.swing.JFrame {
             // Xác định nơi lưu và tên tệp
             JFileChooser fileChooser = new JFileChooser();
             int userSelection = fileChooser.showSaveDialog(null);
-            
+
             if (userSelection == JFileChooser.APPROVE_OPTION) {
                 File fileToSave = fileChooser.getSelectedFile();
 
@@ -1162,6 +1165,10 @@ public class ViewBanHang extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_btnInHDActionPerformed
+
+    private void txtMaKHKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaKHKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtMaKHKeyPressed
 
     /**
      * @param args the command line arguments
