@@ -10,7 +10,7 @@ import java.sql.*;
  * @author KhanhCT
  */
 public class DbConnect {
-    static String url = "jdbc:sqlserver://;serverName=localhost;databaseName=GiayXstore;encrypt=true;trustServerCertificate=true";
+    static String url = "jdbc:sqlserver://;serverName=localhost;databaseName=Xstore;encrypt=true;trustServerCertificate=true";
     static String name = "sa";
     static String pass = "123";
 

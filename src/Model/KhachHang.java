@@ -14,22 +14,32 @@ public class KhachHang {
     private String tenKH;
     private String SĐT;
     private String NgayTao;
+    private String NgaySinh;
     private boolean gioiTinh;
     private boolean trangThai;
     private String diaChi;
+    private Integer LuotMua;
 
     public KhachHang() {
     }
 
-    public KhachHang(String maKH, String tenKH, String SĐT, String NgayTao, boolean gioiTinh, boolean trangThai, String diaChi) {
+    public KhachHang(String maKH, String tenKH, String SĐT, String NgayTao, String NgaySinh, boolean gioiTinh, boolean trangThai, String diaChi, Integer LuotMua) {
         this.maKH = maKH;
         this.tenKH = tenKH;
         this.SĐT = SĐT;
         this.NgayTao = NgayTao;
+        this.NgaySinh = NgaySinh;
         this.gioiTinh = gioiTinh;
         this.trangThai = trangThai;
         this.diaChi = diaChi;
+        this.LuotMua = LuotMua;
     }
+
+    
+    
+
+   
+    
 
 
     
@@ -65,6 +75,14 @@ public class KhachHang {
         this.NgayTao = NgayTao;
     }
 
+    public String getNgaySinh() {
+        return NgaySinh;
+    }
+
+    public void setNgaySinh(String NgaySinh) {
+        this.NgaySinh = NgaySinh;
+    }
+
     public boolean isGioiTinh() {
         return gioiTinh;
     }
@@ -87,6 +105,14 @@ public class KhachHang {
 
     public void setDiaChi(String diaChi) {
         this.diaChi = diaChi;
+    }
+
+    public Integer getLuotMua() {
+        return LuotMua;
+    }
+
+    public void setLuotMua(Integer LuotMua) {
+        this.LuotMua = LuotMua;
     }
 
     

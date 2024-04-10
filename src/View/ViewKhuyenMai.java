@@ -11,9 +11,18 @@ import Model.Voucher;
 import Service.QuanLyKhuyenMai;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
+//import java.sql.Date;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -27,7 +36,8 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
     List<Voucher> listVC = new ArrayList<>();
     QuanLyKhuyenMai qlKM = new QuanLyKhuyenMai();
 
-    List<Coupon> listCP = new ArrayList<>();
+    private Timer timer = new Timer();
+
     List<SanPham> listSP = new ArrayList<>();
 
     public ViewKhuyenMai() {
@@ -35,6 +45,8 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         LoadDataTable();
         LoadDataCoupon();
         LoadDataSanPham();
+//        txtMaCP.setEnabled(false);
+        timer.scheduleAtFixedRate(new UpdateHetHan(), 0, 24 * 60 * 60 * 1000); // Kiểm tra mỗi 24 giờ
     }
 
     public void LoadDataTable() {
@@ -84,7 +96,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date startDate = null;
         try {
-            startDate = dateFormat.parse(dateBatDau);
+            startDate = (Date) dateFormat.parse(dateBatDau);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -92,11 +104,11 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         String dateKetThuc = String.valueOf(tbVoucher.getValueAt(i, 4)); // Chỉ số 4 nếu ngày kết thúc được lưu trong cột khác
         Date endDate = null;
         try {
-            endDate = dateFormat.parse(dateKetThuc);
+            endDate = (Date) dateFormat.parse(dateKetThuc);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        dcHetHan.setDate(endDate);
+        dcKetThuc.setDate(endDate);
         txtDieuKien.setText(String.valueOf(tbVoucher.getValueAt(i, 5)));
         String ttKH = String.valueOf(tbVoucher.getValueAt(i, 6));
         if (ttKH.equalsIgnoreCase("Khách VIP")) {
@@ -120,33 +132,235 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         vc.setTenVC(txtTenVC.getText());
         vc.setGiamGia(txtGiamGiaVC.getText());
 
-        //Khỏi tạo simple dateFormat để ép kiểu từ table thành kiểu date
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date a = dcBatDau.getDate();
+        Date b = dcKetThuc.getDate();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String bd = df.format(a);
+        String kt = df.format(b);
+        vc.setNgayBatDau(bd + " 00:00:00");
+        vc.setNgayKetThuc(kt + " 23:59:00");
 
-        //Ngày bắt đầu
-        Date ngayBatDau = dcBatDau.getDate();
-        String strNgayBatDau = dateFormat.format(ngayBatDau);
-        vc.setNgayBatDau(strNgayBatDau);
-        //Ngày kết thúc
-        Date ngayKetThuc = dcHetHan.getDate();
-        String strNgayKetThuc = dateFormat.format(ngayKetThuc);
-        vc.setNgayKetThuc(strNgayKetThuc);
         vc.setDieuKien(txtDieuKien.getText());
         if (rbHoatDong.isSelected()) {
             vc.setTrangThai("Hoạt động");
-        } else {
+        } else if (rbHetHan.isSelected()) {
             vc.setTrangThai("Hết hạn");
+        } else {
+            vc.setTrangThai("Chưa kích hoạt");
         }
         return vc;
     }
 
+    public boolean checkVC() {
+        String mavc = txtMaVC.getText().trim();
+        String tenvc = txtTenVC.getText().trim();
+        String giamGia = txtGiamGiaVC.getText().trim();
+        Date batDau = dcBatDau.getDate();
+        Date hetHan = dcKetThuc.getDate();
+        String dieukien = txtDieuKien.getText().trim();
+        if (mavc.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Mã voucher không được để trống");
+            return false;
+        }
+        for (Voucher vc : listVC) {
+            if (vc.getMaVC().equals(mavc)) {
+                JOptionPane.showMessageDialog(this, "Mã voucher không được trùng nhau!");
+                return false;
+            }
+        }
+        if (tenvc.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Tên voucher không được để trống");
+            return false;
+        }
+        if (giamGia.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Giảm giá voucher không được để trống");
+            return false;
+        }
+        try {
+            double giaGiam = Double.parseDouble(giamGia);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Giảm giá voucher phải là số");
+            return false;
+        }
+
+        if (batDau == null) {
+            JOptionPane.showMessageDialog(this, "Ngày bắt đầu không được để trống");
+            return false;
+        }
+        if (hetHan == null) {
+            JOptionPane.showMessageDialog(this, "Ngày hết hạn không được để trống");
+            return false;
+        }
+        if (dieukien.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Điều kiện không được để trống");
+            return false;
+        }
+        try {
+            double dK = Double.parseDouble(dieukien);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Điều kiện phải là số");
+            return false;
+        }
+        if (hetHan.before(batDau)) {
+            JOptionPane.showMessageDialog(this, "Ngày hết hạn không được để trước ngày bắt đầu");
+            return false;
+        }
+        return true;
+    }
+
+    public boolean checkTonTaiMa(String maMoi) {
+        for (Voucher vc : listVC) {
+            if (!vc.getMaVC().equals(txtMaVC.getText().trim()) && vc.getMaVC().equals(maMoi)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean checkUpdateVC() {
+        String mavc = txtMaVC.getText().trim();
+        String tenvc = txtTenVC.getText().trim();
+        String giamGia = txtGiamGiaVC.getText().trim();
+        Date batDau = dcBatDau.getDate();
+        Date hetHan = dcKetThuc.getDate();
+        String dieukien = txtDieuKien.getText().trim();
+
+        if (tenvc.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Tên voucher không được để trống");
+            return false;
+        }
+
+        if (giamGia.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Giảm giá voucher không được để trống");
+            return false;
+        }
+
+        // Kiểm tra nếu giá trị giamGia không phải là số
+        try {
+            double giaGiam = Double.parseDouble(giamGia);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Giảm giá voucher phải là một số");
+            return false;
+        }
+
+        if (batDau == null) {
+            JOptionPane.showMessageDialog(this, "Ngày bắt đầu không được để trống");
+            return false;
+        }
+
+        if (hetHan == null) {
+            JOptionPane.showMessageDialog(this, "Ngày hết hạn không được để trống");
+            return false;
+        }
+
+        if (dieukien.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Điều kiện không được để trống");
+            return false;
+        }
+        try {
+            double dK = Double.parseDouble(dieukien);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Điều kiện phải là số");
+            return false;
+        }
+
+        if (hetHan.before(batDau)) {
+            JOptionPane.showMessageDialog(this, "Ngày hết hạn không được để trước ngày bắt đầu");
+            return false;
+        }
+
+        if (checkTonTaiMa(mavc)) {
+            JOptionPane.showMessageDialog(this, "Mã voucher đã tồn tại");
+            return false;
+        }
+
+        return true;
+    }
+
+    public void addVC() {
+        if (checkVC()) {
+            try {
+                qlKM.themVoucher(getFormVoucher());
+                String maVC = txtMaVC.getText();
+                if (cbKhachVip.isSelected()) {
+                    qlKM.addKhachVIP(maVC);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    Boolean checkUp() {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        Date bd = dcBatDau.getDate();
+        Date kt = dcKetThuc.getDate();
+        String batDau = df.format(bd);
+
+        Date now = new Date();
+        String hienTai = df.format(now);
+
+        if (bd.compareTo(now) < 0) {
+            JOptionPane.showMessageDialog(this, "Không được Add Voucher có NgayBatDau < NgayHienTai");
+            return false;
+        }
+        for (Voucher vc : qlKM.getListVCUpdate(txtMaVC.getText(), Float.valueOf(txtDieuKien.getText()))) {
+            try {
+                Date a = df.parse(vc.getNgayBatDau());
+                Date b = df.parse(vc.getNgayKetThuc());
+                if (kt.compareTo(a) >= 0 && kt.compareTo(b) <= 0) {
+                    JOptionPane.showMessageDialog(this, "NgayKetThuc của Voucher mới nằm giữa NgayBatDau va NgayKetThuc của Voucher khác. Vui lòng nhập lại");
+                    return false;
+                }
+                if (bd.compareTo(a) >= 0 && bd.compareTo(b) <= 0) {
+                    JOptionPane.showMessageDialog(this, "NgayBatDau của Voucher mới nằm giữa NgayBatDau va NgayKetThuc của Voucher khác. Vui lòng nhập lại");
+                    return false;
+                }
+                if (a.compareTo(now) <= 0 && b.compareTo(now) >= 0 && bd.compareTo(b) <= 0 && kt.compareTo(b) >= 0) {
+                    qlKM.suaVoucher(getFormVoucher(), hienTai, txtMaVC.getText());
+                    JOptionPane.showMessageDialog(this, "Sửa thành công Voucher!");
+                    return true;
+                } else {
+                    JOptionPane.showMessageDialog(this, "Sửa thành công Voucher!");
+                    qlKM.suaVoucher(getFormVoucher(), batDau, txtMaVC.getText());
+                    return true;
+                }
+            } catch (ParseException ex) {
+                Logger.getLogger(ViewKhuyenMai.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return true;
+    }
+
+    public void updateVC() {
+        if (checkUpdateVC()) {
+            try {
+                int i = tbVoucher.getSelectedRow();
+                if (i != -1) { // Kiểm tra xem có hàng được chọn không
+                    String maVC = txtMaVC.getText();
+                    String trangThai = (String) tbVoucher.getValueAt(i, 6);
+                    if (cbKhachVip.isSelected() && !trangThai.equals("Khách VIP")) {
+                        qlKM.addKhachVIP(maVC);
+                    } else if (cbKhachVip.isSelected() && trangThai.equals("Khách VIP")) {
+                        System.out.println("Mã đã áp dụng cho khách VIP");
+                    } else {
+                        qlKM.dltKhachVIP(maVC);
+                    }
+                    checkUp();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Vui lòng chọn một Voucher!");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 //    ===========================COUPON==========================================
+
     public void LoadDataCoupon() {
         dtm = (DefaultTableModel) tbCoupon.getModel();
-        listCP = qlKM.getAllCP();
         dtm.setRowCount(0);
-        for (Coupon e : listCP) {
-            String tt = e.getTrangThai().equalsIgnoreCase("0") ? "Hết hạn" : "Hoạt động";
+        for (Coupon e : qlKM.getAllCP()) {
             dtm.addRow(new Object[]{
                 e.getMaCP(),
                 e.getTenCP(),
@@ -154,17 +368,15 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                 e.getPhanTram(),
                 e.getNgayBatDau(),
                 e.getNgayKetThuc(),
-                tt
+                e.getTrangThai()
             });
         }
     }
 
     public void LoadDataCouponTheoMa(String ma) {
         dtm = (DefaultTableModel) tbCoupon.getModel();
-        listCP = qlKM.getAllCP();
         dtm.setRowCount(0);
-        for (Coupon e : listCP) {
-            String tt = e.getTrangThai().equalsIgnoreCase("0") ? "Hết hạn" : "Hoạt động";
+        for (Coupon e : qlKM.getAllCP()) {
             dtm.addRow(new Object[]{
                 e.getMaCP(),
                 e.getTenCP(),
@@ -172,7 +384,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                 e.getPhanTram(),
                 e.getNgayBatDau(),
                 e.getNgayKetThuc(),
-                tt
+                e.getTrangThai()
             });
         }
     }
@@ -228,7 +440,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        dcNgayDatBau.setDate(startDate);
+        dcNgayBatDau.setDate(startDate);
         // detail ngày kết thúc
         String dateKetThuc = String.valueOf(tbCoupon.getValueAt(i, 5));
         Date endDate = null;
@@ -245,29 +457,93 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         } else if (tt.equalsIgnoreCase("Hết hạn")) {
             rbCPHetHan.setSelected(true);
         } else {
-
+            rbChuaKH.setSelected(true);
         }
+    }
+
+    public boolean checkCP() throws ParseException {
+        String macp = txtMaCP.getText().trim();
+        String tencp = txtTenCP.getText().trim();
+        String giamGiaStr = txtGiamGiaCP.getText().trim();
+        // Kiểm tra xem ngày bắt đầu và ngày kết thúc có null không
+        Date batDau = dcNgayBatDau.getDate();
+        Date hetHan = dcNgayKetThuc.getDate();
+        // Kiểm tra xem ngày bắt đầu và ngày kết thúc có null không
+        if (tencp.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Không được để trống tên coupon");
+            return false;
+        }
+        if (giamGiaStr.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Không được để trống giảm giá coupon");
+            return false;
+        }
+        if (giamGiaStr.matches("\\D+")) {
+            JOptionPane.showMessageDialog(this, "Không được để gõ chữ");
+            return false;
+        }
+        if (batDau == null) {
+            JOptionPane.showMessageDialog(this, "Không được để trống ngày bắt đầu");
+            return false;
+        }
+        if (hetHan == null) {
+            JOptionPane.showMessageDialog(this, "Không được để trống ngày kết thúc");
+            return false;
+        }
+        // Kiểm tra ngày kết thúc phải lớn hơn ngày bắt đầu
+        if (hetHan.before(batDau)) {
+            JOptionPane.showMessageDialog(this, "Ngày kết thúc phải sau ngày bắt đầu");
+            return false;
+        }
+        Date a = dcNgayBatDau.getDate();
+        Date b = dcNgayKetThuc.getDate();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String bd = df.format(a);
+        String kt = df.format(b);
+        for (Coupon cp : qlKM.getAllCP()) {
+            Date c = df.parse(cp.getNgayBatDau());
+            Date d = df.parse(cp.getNgayKetThuc());
+            if (Float.parseFloat(txtGiamGiaCP.getText()) == Float.parseFloat(cp.getPhanTram())
+                    && a.equals(c) && b.equals(d)
+                    && Float.parseFloat(cp.getPhanTram()) != 0 && c != null
+                    && d != null) {
+                JOptionPane.showMessageDialog(this, "Đã có Coupon giảm giá " + Float.parseFloat(txtGiamGiaCP.getText()) + " % và Thời gian: " + bd + " đến " + kt);
+                return false;
+            }
+        }
+        LocalDate ngayBatDau = LocalDate.parse(bd);
+        LocalDate ngayKetThuc = LocalDate.parse(kt);
+        LocalDate ngayHienTai = LocalDate.now();
+        if (ngayKetThuc.isBefore(ngayHienTai)) {
+            JOptionPane.showMessageDialog(this, "Không thể Thêm mới Coupon có NgayKetThuc < NgayHienTai");
+            return false;
+        }
+        if (ngayBatDau.isBefore(ngayHienTai)) {
+            JOptionPane.showMessageDialog(this, "Không thể Thêm mới Coupon có NgayBatDau < NgayHienTai");
+            return false;
+        }
+        return true;
     }
 
     public Coupon getFormCoupon() {
         Coupon cp = new Coupon();
-        cp.setMaCP(txtMaCP.getText());
         cp.setTenCP(txtTenCP.getText());
         cp.setPhanTram(txtGiamGiaCP.getText());
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-        Date ngayBatDau = dcNgayDatBau.getDate();
-        String strNgayBatDau = dateFormat.format(ngayBatDau);
-        cp.setNgayBatDau(strNgayBatDau);
+        Date a = dcNgayBatDau.getDate();
+        Date b = dcNgayKetThuc.getDate();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String bd = df.format(a);
+        String kt = df.format(b);
 
-        Date ngayKetThuc = dcNgayKetThuc.getDate();
-        String strNgayKetThuc = dateFormat.format(ngayKetThuc);
-        cp.setNgayKetThuc(strNgayKetThuc);
+        cp.setNgayBatDau(bd + " 00:00:00");
+        cp.setNgayKetThuc(kt + " 23:59:00");
 
         if (rbCPHoatDong.isSelected()) {
             cp.setTrangThai("Hoạt động");
-        } else {
+        } else if (rbHetHan.isSelected()) {
             cp.setTrangThai("Hết hạn");
+        } else {
+            cp.setTrangThai("Chưa kích hoạt");
         }
         return cp;
     }
@@ -277,12 +553,19 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
     }
 
     public void apDungSanPhamToCoupon() {
-        String ma = txtMaCP.getText();
+        int ma = Integer.valueOf(txtMaCP.getText());
         int id = Integer.valueOf(txtIDSanPham.getText());
-        qlKM.addCoupontoSP(ma, id);
-    }
-//    ============================SANPHAM========================================
 
+        // Kiểm tra sản phẩm đã áp dụng coupon chưa
+        if (qlKM.checkCouponAppliedToProduct(id, ma)) {
+            JOptionPane.showMessageDialog(this, "Sản phẩm đã áp dụng coupon" + ma);
+        } else {
+            qlKM.addCoupontoSP(ma, id);
+            JOptionPane.showMessageDialog(this, "Áp dụng thành công coupon!");
+        }
+    }
+
+//    ============================SANPHAM========================================
     public void LoadDataSanPham() {
         dtm = (DefaultTableModel) tbSanPham.getModel();
         listSP = qlKM.getAllSP();
@@ -305,6 +588,51 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         txtTenSP.setText(String.valueOf(tbSanPham.getValueAt(i, 2)));
         txtSoLuong.setText(String.valueOf(tbSanPham.getValueAt(i, 3)));
         txtGiaBan.setText(String.valueOf(tbSanPham.getValueAt(i, 4)));
+    }
+//=====================Kiểm tra thời gian=================================
+
+    private class UpdateHetHan extends TimerTask {
+
+        @Override
+        public void run() {
+            TrangThaiThoiGianVoucher();
+            TrangThaiThoiGianCoupon();
+        }
+    }
+
+    // Phương thức để cập nhật trạng thái khi hết hạn
+    public void TrangThaiThoiGianVoucher() {
+        Date batDau = dcBatDau.getDate();
+        Date hetHan = dcKetThuc.getDate();
+        if (hetHan != null) { // Kiểm tra xem hetHan có null không
+            for (Voucher e : listVC) {
+                if (hetHan.before(batDau)) {
+                    rbHetHan.setSelected(true);
+                    e.setTrangThai("Hết hạn");
+                } else {
+                    rbHoatDong.setSelected(true);
+                    e.setTrangThai("Hoạt động");
+                }
+            }
+            LoadDataTable(); // Cập nhật lại bảng hiển thị thông tin voucher
+        }
+    }
+
+    public void TrangThaiThoiGianCoupon() {
+        Date batDau = dcNgayBatDau.getDate();
+        Date hetHan = dcNgayKetThuc.getDate();
+        if (hetHan != null) { // Kiểm tra xem hetHan có null không
+            for (Voucher e : listVC) {
+                if (hetHan.before(batDau)) {
+                    rbCPHetHan.setSelected(true);
+                    e.setTrangThai("Hết hạn");
+                } else {
+                    rbCPHoatDong.setSelected(true);
+                    e.setTrangThai("Hoạt động");
+                }
+            }
+            LoadDataCoupon(); // Cập nhật lại bảng hiển thị thông tin voucher
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -333,9 +661,10 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         cbKhachVip = new javax.swing.JCheckBox();
         dcBatDau = new com.toedter.calendar.JDateChooser();
-        dcHetHan = new com.toedter.calendar.JDateChooser();
+        dcKetThuc = new com.toedter.calendar.JDateChooser();
         jLabel19 = new javax.swing.JLabel();
         txtDieuKien = new javax.swing.JTextField();
+        rbChuaKichHoat = new javax.swing.JRadioButton();
         danhSachVC = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbVoucher = new javax.swing.JTable();
@@ -356,7 +685,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         txtGiamGiaCP = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        dcNgayDatBau = new com.toedter.calendar.JDateChooser();
+        dcNgayBatDau = new com.toedter.calendar.JDateChooser();
         dcNgayKetThuc = new com.toedter.calendar.JDateChooser();
         jLabel16 = new javax.swing.JLabel();
         txtMaCP = new javax.swing.JTextField();
@@ -365,6 +694,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         jLabel18 = new javax.swing.JLabel();
         rbCPHoatDong = new javax.swing.JRadioButton();
         rbCPHetHan = new javax.swing.JRadioButton();
+        rbChuaKH = new javax.swing.JRadioButton();
         pnCoupon = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tbCoupon = new javax.swing.JTable();
@@ -372,15 +702,19 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         tbSanPham = new javax.swing.JTable();
         btnApDung = new javax.swing.JButton();
-        btnHuy = new javax.swing.JButton();
         btnAddCoupon = new javax.swing.JButton();
+        btnUpdateCP = new javax.swing.JButton();
+        btnUpdateCP1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        pnKhuyenMai.setForeground(new java.awt.Color(255, 0, 0));
+        pnKhuyenMai.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         pnKhuyenMai.setPreferredSize(new java.awt.Dimension(1200, 700));
 
         Voucher.setPreferredSize(new java.awt.Dimension(1200, 700));
 
+        btnAdd.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnAdd.setText("Add");
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -388,6 +722,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
             }
         });
 
+        btnUpdate.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnUpdate.setText("Update");
         btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -395,6 +730,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
             }
         });
 
+        btnRefresh.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnRefresh.setText("Refresh");
         btnRefresh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -402,7 +738,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
             }
         });
 
-        jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thông Tin", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
 
         jLabel1.setText("Mã Voucher:");
 
@@ -417,6 +753,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
         jLabel6.setText("Trạng thái:");
 
         buttonGroup1.add(rbHoatDong);
+        rbHoatDong.setSelected(true);
         rbHoatDong.setText("Hoạt động");
 
         buttonGroup1.add(rbHetHan);
@@ -426,7 +763,14 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
 
         cbKhachVip.setText("Khách VIP");
 
+        dcBatDau.setDateFormatString("yyyy-MM-dd");
+
+        dcKetThuc.setDateFormatString("yyyy-MM-dd");
+
         jLabel19.setText("Điều kiện");
+
+        buttonGroup1.add(rbChuaKichHoat);
+        rbChuaKichHoat.setText("Chưa kích hoạt");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -438,11 +782,15 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(dcHetHan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(dcKetThuc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(dcBatDau, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtDieuKien))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -465,12 +813,10 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                             .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addComponent(rbHoatDong, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(rbHetHan, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtDieuKien)))
-                .addContainerGap(70, Short.MAX_VALUE))
+                                .addComponent(rbHetHan, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(rbChuaKichHoat)))))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -495,12 +841,13 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                 .addGap(24, 24, 24)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel5)
-                    .addComponent(dcHetHan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(dcKetThuc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(rbHoatDong)
-                    .addComponent(rbHetHan))
+                    .addComponent(rbHetHan)
+                    .addComponent(rbChuaKichHoat))
                 .addGap(24, 24, 24)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel15)
@@ -512,7 +859,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
-        danhSachVC.setBorder(javax.swing.BorderFactory.createTitledBorder("Danh sách Voucher"));
+        danhSachVC.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách Voucher", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
 
         tbVoucher.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -555,15 +902,15 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
             VoucherLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(VoucherLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(VoucherLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, VoucherLayout.createSequentialGroup()
+                .addGroup(VoucherLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(VoucherLayout.createSequentialGroup()
                         .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(82, 82, 82)
                         .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                        .addGap(90, 90, 90)
+                        .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(danhSachVC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -587,13 +934,23 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
 
         Coupon.setPreferredSize(new java.awt.Dimension(1200, 700));
 
-        pnThongTin.setBorder(javax.swing.BorderFactory.createTitledBorder("Thông tin"));
+        pnThongTin.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thông tin", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
 
         jLabel7.setText("ID SP:");
 
+        txtIDSanPham.setEditable(false);
+
+        txtMaSP.setEditable(false);
+
         jLabel8.setText("Mã SP:");
 
+        txtTenSP.setEditable(false);
+
         jLabel9.setText("Tên SP:");
+
+        txtSoLuong.setEditable(false);
+
+        txtGiaBan.setEditable(false);
 
         jLabel13.setText("Giá bán:");
 
@@ -648,7 +1005,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                 .addContainerGap(22, Short.MAX_VALUE))
         );
 
-        pnGiamGia.setBorder(javax.swing.BorderFactory.createTitledBorder("Thông tin Coupon"));
+        pnGiamGia.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Thông tin Coupon", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
 
         jLabel10.setText("Giảm giá:");
 
@@ -656,17 +1013,27 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
 
         jLabel12.setText("Ngày kết thúc:");
 
+        dcNgayBatDau.setDateFormatString("yyyy-MM-dd");
+
+        dcNgayKetThuc.setDateFormatString("yyyy-MM-dd");
+
         jLabel16.setText("Mã Coupon");
+
+        txtMaCP.setEditable(false);
 
         jLabel17.setText("Tên Coupon");
 
         jLabel18.setText("Trạng thái");
 
         buttonGroup2.add(rbCPHoatDong);
+        rbCPHoatDong.setSelected(true);
         rbCPHoatDong.setText("Hoạt động");
 
         buttonGroup2.add(rbCPHetHan);
         rbCPHetHan.setText("Hết hạn");
+
+        buttonGroup2.add(rbChuaKH);
+        rbChuaKH.setText("Chưa kích hoạt");
 
         javax.swing.GroupLayout pnGiamGiaLayout = new javax.swing.GroupLayout(pnGiamGia);
         pnGiamGia.setLayout(pnGiamGiaLayout);
@@ -687,21 +1054,22 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                     .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(pnGiamGiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(dcNgayDatBau, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+                    .addComponent(dcNgayBatDau, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
                     .addComponent(txtTenCP))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
                 .addGroup(pnGiamGiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnGiamGiaLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
                         .addComponent(jLabel12)
                         .addGap(18, 18, 18)
                         .addComponent(dcNgayKetThuc, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pnGiamGiaLayout.createSequentialGroup()
-                        .addGap(58, 58, 58)
                         .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(rbCPHoatDong, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(54, 54, 54)
-                        .addComponent(rbCPHetHan, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(24, 24, 24)
+                        .addComponent(rbCPHoatDong)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(rbCPHetHan)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(rbChuaKH, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(43, 43, 43))
         );
         pnGiamGiaLayout.setVerticalGroup(
@@ -715,11 +1083,12 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                     .addComponent(jLabel18)
                     .addComponent(txtTenCP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(rbCPHoatDong)
-                    .addComponent(rbCPHetHan))
+                    .addComponent(rbCPHetHan)
+                    .addComponent(rbChuaKH))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addGroup(pnGiamGiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(dcNgayKetThuc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(dcNgayDatBau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dcNgayBatDau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(pnGiamGiaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel10)
                         .addComponent(txtGiamGiaCP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -728,7 +1097,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                 .addGap(17, 17, 17))
         );
 
-        pnCoupon.setBorder(javax.swing.BorderFactory.createTitledBorder("COUPON"));
+        pnCoupon.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "COUPON", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
 
         tbCoupon.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -765,7 +1134,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        pnSanPham.setBorder(javax.swing.BorderFactory.createTitledBorder("Sản phảm"));
+        pnSanPham.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Sản Phẩm", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
 
         tbSanPham.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -799,6 +1168,7 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        btnApDung.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnApDung.setText("Áp dụng");
         btnApDung.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -806,12 +1176,24 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
             }
         });
 
-        btnHuy.setText("Hủy");
-
-        btnAddCoupon.setText("New Coupon");
+        btnAddCoupon.setText("Add");
         btnAddCoupon.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAddCouponActionPerformed(evt);
+            }
+        });
+
+        btnUpdateCP.setText("Update");
+        btnUpdateCP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateCPActionPerformed(evt);
+            }
+        });
+
+        btnUpdateCP1.setText("New");
+        btnUpdateCP1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateCP1ActionPerformed(evt);
             }
         });
 
@@ -823,40 +1205,41 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(CouponLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pnThongTin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pnGiamGia, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(CouponLayout.createSequentialGroup()
                         .addComponent(pnCoupon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(pnSanPham, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(pnGiamGia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(CouponLayout.createSequentialGroup()
                         .addComponent(btnApDung, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnHuy, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnAddCoupon, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 672, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnUpdateCP, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnUpdateCP1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         CouponLayout.setVerticalGroup(
             CouponLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(CouponLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(pnThongTin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(12, 12, 12)
                 .addComponent(pnGiamGia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(CouponLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnThongTin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(CouponLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(CouponLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
                         .addGroup(CouponLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnAddCoupon, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnApDung, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnHuy, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnAddCoupon, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                            .addComponent(btnUpdateCP, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnUpdateCP1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
                         .addComponent(pnCoupon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(CouponLayout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(pnSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(57, Short.MAX_VALUE))
+                    .addComponent(pnSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(68, Short.MAX_VALUE))
         );
 
         pnKhuyenMai.addTab("Coupon", Coupon);
@@ -882,18 +1265,38 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
     private void tbVoucherMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbVoucherMouseClicked
         int i = tbVoucher.getSelectedRow();
         detail();
-        LoadDataTableTheoMa(String.valueOf(tbVoucher.getValueAt(i, 1)));
+//        LoadDataTableTheoMa(String.valueOf(tbVoucher.getValueAt(i, 0)));
     }//GEN-LAST:event_tbVoucherMouseClicked
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        try {
-            qlKM.themVoucher(getFormVoucher());
-            if (cbKhachVip.isSelected()) {
-                qlKM.addKhachVIP(txtMaVC.getText());
+        if (checkVC()) {
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            Date bd = dcBatDau.getDate();
+            Date kt = dcKetThuc.getDate();
+
+            Date now = new Date();
+            if (bd.compareTo(now) < 0) {
+                JOptionPane.showMessageDialog(this, "Không được Add Voucher có NgayBatDau < NgayHienTai");
+                return;
             }
+            for (Voucher vc : qlKM.getAllVCAdd(Float.valueOf(txtDieuKien.getText()))) {
+                try {
+                    Date a = df.parse(vc.getNgayBatDau());
+                    Date b = df.parse(vc.getNgayKetThuc());
+                    if (kt.compareTo(a) >= 0 && kt.compareTo(b) <= 0) {
+                        JOptionPane.showMessageDialog(this, "NgayKetThuc của Voucher mới nằm giữa NgayBatDau va NgayKetThuc của Voucher khác. Vui lòng nhập lại");
+                        return;
+                    }
+                    if (bd.compareTo(a) >= 0 && bd.compareTo(b) <= 0) {
+                        JOptionPane.showMessageDialog(this, "NgayBatDau của Voucher mới nằm giữa NgayBatDau va NgayKetThuc của Voucher khác. Vui lòng nhập lại");
+                        return;
+                    }
+                } catch (ParseException ex) {
+                    Logger.getLogger(ViewKhuyenMai.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            qlKM.addVoucher(getFormVoucher(), txtMaVC.getText());
             LoadDataTable();
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
@@ -902,28 +1305,15 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        try {
-            qlKM.suaVoucher(getFormVoucher());
-            int i = tbVoucher.getSelectedRow();
-            String trangThai = (String) tbVoucher.getValueAt(i, 6);
-            if (cbKhachVip.isSelected() && !trangThai.equals("Khách VIP")) {
-                qlKM.addKhachVIP(txtMaVC.getText());
-            } else if (cbKhachVip.isSelected() && trangThai.equals("Khách VIP")) {
-                JOptionPane.showMessageDialog(this, "Mã VC đã Áp dụng cho Khách VIP");
-            } else {
-                qlKM.dltKhachVIP(txtMaVC.getText());
-            }
-            LoadDataTable();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        updateVC();
+        LoadDataTable();
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void tbCouponMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbCouponMouseClicked
         try {
             int i = tbCoupon.getSelectedRow();
             DetailCouPon();
-            LoadDataCouponTheoMa(String.valueOf(tbCoupon.getValueAt(i, 0)));
+//            LoadDataCouponTheoMa(String.valueOf(tbCoupon.getValueAt(i, 0)));
         } catch (Exception e) {
             System.out.println("loi");
         }
@@ -935,14 +1325,180 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
     }//GEN-LAST:event_tbSanPhamMouseClicked
 
     private void btnAddCouponActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddCouponActionPerformed
-        addCoupon();
-        LoadDataCoupon();
+        try {
+            if (checkCP()) {
+                Date now = new Date();
+                Date a = dcNgayBatDau.getDate();
+                Date b = dcNgayKetThuc.getDate();
+
+                if (now.after(a) && now.before(b)) {
+                    rbHoatDong.isSelected();
+                } else {
+                    rbChuaKH.isSelected();
+                }
+
+                addCoupon();
+                LoadDataCoupon();
+                JOptionPane.showMessageDialog(this, "Thêm mới coupon thành công!");
+
+            }
+        } catch (ParseException ex) {
+            Logger.getLogger(ViewKhuyenMai.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_btnAddCouponActionPerformed
 
     private void btnApDungActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApDungActionPerformed
+        if (txtIDSanPham.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "IdSp trong khong the ap dung");
+            return;
+        }
+        int id = Integer.parseInt(txtIDSanPham.getText());
+
+        Date a = dcNgayBatDau.getDate();
+        Date b = dcNgayKetThuc.getDate();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        for (Coupon cp : qlKM.getListTheoIdSP(id)) {
+            try {
+                Date c = dateFormat.parse(cp.getNgayBatDau());
+                Date d = dateFormat.parse(cp.getNgayKetThuc());
+                if ((b.after(c) && c != null && b.before(d) && d != null)) {
+                    JOptionPane.showMessageDialog(this, "NgayKetThuc khong hop le");
+                    return;
+                }
+                if ((b.equals(c) && c != null)) {
+                    JOptionPane.showMessageDialog(this, "Qua NgayBatDau cua CP khac cung IdSP");
+                    return;
+                }
+                if ((a.equals(d) && d != null)) {
+                    JOptionPane.showMessageDialog(this, "Qua NgayKetThuc cua CP khac cung IdSP");
+                    return;
+                }
+                if ((a.before(d) && d != null && a.after(c) && c != null)) {
+                    JOptionPane.showMessageDialog(this, "NgayBatDau khong hop le");
+                    return;
+                }
+            } catch (ParseException ex) {
+                Logger.getLogger(ViewKhuyenMai.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
         apDungSanPhamToCoupon();
         LoadDataCoupon();
     }//GEN-LAST:event_btnApDungActionPerformed
+
+    private void btnUpdateCPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateCPActionPerformed
+        try {
+            // TODO add your handling code here:
+            if (checkCP()) {
+                if (txtIDSanPham.getText().equals("")) {
+                    qlKM.updCP1(getFormCoupon(), Integer.valueOf(txtMaCP.getText()));
+                    LoadDataCoupon();
+                    return;
+                }
+                int id = Integer.parseInt(txtIDSanPham.getText());
+                int ma = Integer.parseInt(txtMaCP.getText());
+                Date a1 = dcNgayBatDau.getDate();
+                Date b1 = dcNgayKetThuc.getDate();
+                Date a = new Date(a1.getTime());
+                Date b = new Date(b1.getTime());
+
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                for (Coupon cp : qlKM.getListTheoIdSPVaMaVC(id, ma)) {
+                    try {
+                        Date c = dateFormat.parse(cp.getNgayBatDau());
+                        Date d = dateFormat.parse(cp.getNgayKetThuc());
+                        if ((b.after(c) && c != null && a.before(c) && d.after(b) && d != null)) {
+                            JOptionPane.showMessageDialog(this, "NgayKetThuc khong hop le");
+                            return;
+                        }
+                        if ((b.equals(c) && c != null)) {
+                            JOptionPane.showMessageDialog(this, "Qua NgayBatDau cua CP khac cung IdSP");
+                            return;
+                        }
+                        if ((a.equals(d) && d != null)) {
+                            JOptionPane.showMessageDialog(this, "Qua NgayKetThuc cua CP khac cung IdSP");
+                            return;
+                        }
+                        if ((a.before(d) && d != null && b.after(d) && c.before(a))) {
+                            JOptionPane.showMessageDialog(this, "NgayBatDau khong hop le");
+                            return;
+                        }
+                        if (a.after(c) && b.before(d) && c != null & d != null) {
+                            JOptionPane.showMessageDialog(this, "NgayBatDau va NgayKetThuc trung voi CP khac");
+                            return;
+                        }
+                        if (a.before(c) && b.after(d) && c != null & d != null) {
+                            JOptionPane.showMessageDialog(this, "NgayBatDau va NgayKetThuc trung voi CP khac");
+                            return;
+                        }
+                    } catch (ParseException ex) {
+                        Logger.getLogger(ViewKhuyenMai.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                Date hienTai = new Date();
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                String now = df.format(hienTai);
+
+                Coupon cp = new Coupon();
+                cp.setTenCP(txtTenCP.getText());
+                cp.setPhanTram(txtGiamGiaCP.getText());
+                cp.setIdSP(txtIDSanPham.getText());
+                Date m = dcNgayBatDau.getDate();
+                Date n = dcNgayKetThuc.getDate();
+                String ngayBatDau = df.format(m);
+                String ngayKetThuc = df.format(n);
+                for (Coupon cou : qlKM.getListNgay(ma)) {
+                    try {
+                        Date i = df.parse(cou.getNgayBatDau());
+                        Date j = df.parse(cou.getNgayKetThuc());
+
+                        if (m != null && hienTai.before(m) || hienTai.after(n)) {
+                            cp.setNgayBatDau(ngayBatDau);
+                        } else {
+                            cp.setNgayBatDau(now);
+                        }
+
+                    } catch (ParseException ex) {
+                        Logger.getLogger(ViewKhuyenMai.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                cp.setNgayKetThuc(ngayKetThuc);
+
+//                Date nowDate = new Date();
+                LocalDate nowDate = LocalDate.now();
+                LocalDate dcNgayDatDauLocalDate = a.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                if (dcNgayDatDauLocalDate.equals(nowDate)) {
+                    rbHoatDong.setSelected(true);
+                    cp.setTrangThai("Hoạt động");
+                } else {
+                    rbChuaKH.setSelected(true);
+                    cp.setTrangThai("Chưa kích hoạt");
+                }
+                qlKM.updCP(cp, Integer.valueOf(txtMaCP.getText()), now);
+                LoadDataCoupon();
+            }
+        } catch (ParseException ex) {
+            Logger.getLogger(ViewKhuyenMai.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
+    }//GEN-LAST:event_btnUpdateCPActionPerformed
+
+    private void btnUpdateCP1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateCP1ActionPerformed
+        // TODO add your handling code here:
+        txtMaCP.setText("");
+        txtTenCP.setText("");
+        txtGiamGiaCP.setText("");
+        dcNgayBatDau.setDate(null);
+        dcNgayKetThuc.setDate(null);
+        rbCPHoatDong.setSelected(true);
+        txtIDSanPham.setText("");
+        txtTenSP.setText("");
+        txtSoLuong.setText("");
+        txtGiaBan.setText("");
+        txtMaSP.setText("");
+    }//GEN-LAST:event_btnUpdateCP1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -986,16 +1542,17 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
     private javax.swing.JToggleButton btnAdd;
     private javax.swing.JButton btnAddCoupon;
     private javax.swing.JButton btnApDung;
-    private javax.swing.JButton btnHuy;
     private javax.swing.JToggleButton btnRefresh;
     private javax.swing.JToggleButton btnUpdate;
+    private javax.swing.JButton btnUpdateCP;
+    private javax.swing.JButton btnUpdateCP1;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JCheckBox cbKhachVip;
     private javax.swing.JPanel danhSachVC;
     private com.toedter.calendar.JDateChooser dcBatDau;
-    private com.toedter.calendar.JDateChooser dcHetHan;
-    private com.toedter.calendar.JDateChooser dcNgayDatBau;
+    private com.toedter.calendar.JDateChooser dcKetThuc;
+    private com.toedter.calendar.JDateChooser dcNgayBatDau;
     private com.toedter.calendar.JDateChooser dcNgayKetThuc;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1027,6 +1584,8 @@ public class ViewKhuyenMai extends javax.swing.JFrame {
     private javax.swing.JPanel pnThongTin;
     private javax.swing.JRadioButton rbCPHetHan;
     private javax.swing.JRadioButton rbCPHoatDong;
+    private javax.swing.JRadioButton rbChuaKH;
+    private javax.swing.JRadioButton rbChuaKichHoat;
     private javax.swing.JRadioButton rbHetHan;
     private javax.swing.JRadioButton rbHoatDong;
     private javax.swing.JTable tbCoupon;
