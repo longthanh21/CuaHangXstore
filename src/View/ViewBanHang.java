@@ -40,6 +40,10 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 
 /**
  *
@@ -1106,63 +1110,117 @@ public class ViewBanHang extends javax.swing.JFrame {
 
     private void btnInHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInHDActionPerformed
         // TODO add your handling code here:
+//        try {
+//            // Xác định nơi lưu và tên tệp
+//            JFileChooser fileChooser = new JFileChooser();
+//            int userSelection = fileChooser.showSaveDialog(null);
+//
+//            if (userSelection == JFileChooser.APPROVE_OPTION) {
+//                File fileToSave = fileChooser.getSelectedFile();
+//
+//                // Lấy đường dẫn của tệp đã chọn
+//                String filePath = fileToSave.getAbsolutePath();
+//
+//                // Thêm phần mở rộng .pdf nếu tên tệp không có
+//                if (!filePath.toLowerCase().endsWith(".pdf")) {
+//                    filePath += ".pdf";
+//                }
+//
+//                // Tạo một đối tượng File từ đường dẫn
+//                File outputFile = new File(filePath);
+//
+//                // Tạo một đối tượng Bill
+//                Bill bill = new Bill("đường dẫn hình ảnh", ql, txtMaHD, txtTongTien, txtTienKD, txtTienThua, txtMaNV);
+//
+//                // Lấy đối tượng máy in mặc định
+//                PrintService defaultPrintService = PrintServiceLookup.lookupDefaultPrintService();
+//
+//                // Tạo một PrintRequestAttributeSet
+//                PrintRequestAttributeSet attributes = new HashPrintRequestAttributeSet();
+//
+//                // Thiết lập máy in mặc định
+//                attributes.add(new PrinterName(defaultPrintService.getName(), null));
+//
+//                // Thiết lập định dạng dữ liệu PDF
+//                DocFlavor flavor = DocFlavor.INPUT_STREAM.PDF;
+//
+//                // Thực hiện việc in
+//                try {
+//                    // Tạo một FileOutputStream để ghi dữ liệu in vào tệp
+//                    OutputStream outputStream = new FileOutputStream(outputFile);
+//
+//                    // Tạo một URI từ OutputStream
+//                    URI outputURI = outputFile.toURI();
+//
+//// Thêm thuộc tính Destination với URI vào PrintRequestAttributeSet
+//                    attributes.add(new Destination(outputURI));
+//
+//                    // In tài liệu
+//                    defaultPrintService.createPrintJob().print((Doc) bill, attributes);
+//
+//                    // Đóng outputStream sau khi in xong
+//                    outputStream.close();
+//                } catch (Exception ex) {
+//                    ex.printStackTrace();
+//                }
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+        String path = "D://";
+//        JFileChooser j = new JFileChooser();
+//        j.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+//        int x = j.showSaveDialog(this);
+//         
+//        if (x==JFileChooser.APPROVE_OPTION) {
+//            path = j.getSelectedFile().getPath();
+//            
+//        }
+        Document doc = new Document();
         try {
-            // Xác định nơi lưu và tên tệp
-            JFileChooser fileChooser = new JFileChooser();
-            int userSelection = fileChooser.showSaveDialog(null);
+            PdfWriter.getInstance(doc, new FileOutputStream(path + "HoaDon.pdf"));
+            doc.open();
+            doc.add(new Paragraph("------------CỬA HÀNG GIÀY XSTORE XIN KÍNH CHÀO --------------------"));
+            doc.add(new Paragraph("Mã Hoá Đơn:    " + txtMaHD.getText()));
+            doc.add(new Paragraph("Ngày Tạo:  " + txtNgayTao.getText()));
+            doc.add(new Paragraph("Mã Nhân Viên:    " + txtMaNV.getText()));
+            doc.add(new Paragraph("Tổng Tiền:    " + txtTongTien.getText()));
+            doc.add(new Paragraph("Tiền Khách Đưa:    " + txtTienKD.getText()));
+            doc.add(new Paragraph("Tiền Thừa:    " + txtTienThua.getText()));
+            doc.add(new Paragraph("------------CỬA HÀNG GIÀY XSTORE XIN CẢM ƠN --------------------"));
+            doc.add(new Paragraph(""));
+            doc.add(new Paragraph(""));
+            doc.add(new Paragraph("------------HẸN GẶP LẠI QUÝ KHÁCH--------------------"));
 
-            if (userSelection == JFileChooser.APPROVE_OPTION) {
-                File fileToSave = fileChooser.getSelectedFile();
-
-                // Lấy đường dẫn của tệp đã chọn
-                String filePath = fileToSave.getAbsolutePath();
-
-                // Thêm phần mở rộng .pdf nếu tên tệp không có
-                if (!filePath.toLowerCase().endsWith(".pdf")) {
-                    filePath += ".pdf";
-                }
-
-                // Tạo một đối tượng File từ đường dẫn
-                File outputFile = new File(filePath);
-
-                // Tạo một đối tượng Bill
-                Bill bill = new Bill("đường dẫn hình ảnh", ql, txtMaHD, txtTongTien, txtTienKD, txtTienThua, txtMaNV);
-
-                // Lấy đối tượng máy in mặc định
-                PrintService defaultPrintService = PrintServiceLookup.lookupDefaultPrintService();
-
-                // Tạo một PrintRequestAttributeSet
-                PrintRequestAttributeSet attributes = new HashPrintRequestAttributeSet();
-
-                // Thiết lập máy in mặc định
-                attributes.add(new PrinterName(defaultPrintService.getName(), null));
-
-                // Thiết lập định dạng dữ liệu PDF
-                DocFlavor flavor = DocFlavor.INPUT_STREAM.PDF;
-
-                // Thực hiện việc in
-                try {
-                    // Tạo một FileOutputStream để ghi dữ liệu in vào tệp
-                    OutputStream outputStream = new FileOutputStream(outputFile);
-
-                    // Tạo một URI từ OutputStream
-                    URI outputURI = outputFile.toURI();
-
-// Thêm thuộc tính Destination với URI vào PrintRequestAttributeSet
-                    attributes.add(new Destination(outputURI));
-
-                    // In tài liệu
-                    defaultPrintService.createPrintJob().print((Doc) bill, attributes);
-
-                    // Đóng outputStream sau khi in xong
-                    outputStream.close();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
+//            PdfPTable tbl = new PdfPTable(5);
+//            tbl.addCell("STT");
+//            tbl.addCell("Mã HD");
+//            tbl.addCell("Ngày Tạo");
+//            tbl.addCell("Mã NV");
+//            tbl.addCell("Trạng Thái");
+//            tbl.addCell("STT");
+//            tbl.addCell("STT");
+//            tbl.addCell("STT");
+//            for (int i = 0; i < tblHoaDon.getRowCount(); i++) {
+//                String id = tblHoaDon.getValueAt(i, 0).toString();
+//                String MaHD = tblHoaDon.getValueAt(i, 1).toString();
+//                String NgayTao = tblHoaDon.getValueAt(i, 2).toString();
+//                String MaNV = tblHoaDon.getValueAt(i, 3).toString();
+//                String TrangThai = tblHoaDon.getValueAt(i, 4).toString();
+////                String diaChi = "--------------- Trịnh Văn Bô---------------";
+//                tbl.addCell(id);
+//                tbl.addCell(MaHD);
+//                tbl.addCell(NgayTao);
+//                tbl.addCell(MaNV);
+//                tbl.addCell(TrangThai);
+//                tbl.addCell(diaChi);
+//            }
+//            doc.add(tbl);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        doc.close();
+
 
     }//GEN-LAST:event_btnInHDActionPerformed
 
