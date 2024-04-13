@@ -3,8 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/LongThank/Documents/NetBeansProjects/CuaHangXstore/src/Util/MaHoa.java</file>
-            <file>file:/C:/Users/LongThank/Documents/NetBeansProjects/CuaHangXstore/src/View/ViewBanHang.java</file>
+            <file>file:/C:/Users/LongThank/Documents/NetBeansProjects/CuaHangXstore/src/View/ViewDoanhThu.java</file>
+            <file>file:/C:/Users/LongThank/Documents/NetBeansProjects/CuaHangXstore/src/View/ViewKhuyenMai.java</file>
+            <file>file:/C:/Users/LongThank/Documents/NetBeansProjects/CuaHangXstore/src/Service/QuanLyKhuyenMai.java</file>
+            <file>file:/C:/Users/LongThank/Documents/NetBeansProjects/CuaHangXstore/src/View/ViewHoaDon.java</file>
         </group>
     </open-files>
 </project-private>
