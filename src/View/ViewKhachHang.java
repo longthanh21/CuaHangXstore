@@ -585,12 +585,13 @@ public class ViewKhachHang extends javax.swing.JFrame {
             return;
         }
         KhachHang khachHang = new KhachHang(ma, ten, sdt, strNgayTao, strNgaySinh, gioiTinh, trangThai, diaChi, null);
-
-        quanLyKhachHang.ADDKhachHang(khachHang);
-        loadDataKhachHang();
-        loadDataKhachVip();
-        JOptionPane.showMessageDialog(this, "Thêm Thành Công");
-
+        int ret = JOptionPane.showConfirmDialog(this, "Bạn Muốn Thêm Hay Không?", "Thông Báo", JOptionPane.YES_NO_OPTION);
+        if (ret == JOptionPane.YES_OPTION) {
+            quanLyKhachHang.ADDKhachHang(khachHang);
+            loadDataKhachHang();
+            loadDataKhachVip();
+            JOptionPane.showMessageDialog(this, "Thêm Thành Công");
+        }
 
     }//GEN-LAST:event_btnAddMouseClicked
 
