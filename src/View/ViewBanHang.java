@@ -40,6 +40,10 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 
 /**
  *
@@ -774,7 +778,7 @@ public class ViewBanHang extends javax.swing.JFrame {
         String ngayTao = java.time.LocalDate.now().toString();
         String mnv = txtMaNV.getText();
         String tt = "Chờ thanh toán";
-        HoaDon h = new HoaDon(mhd, ngayTao, null, mnv, null, null, tt, null, null, null, null, null, null, null, null,null);
+        HoaDon h = new HoaDon(mhd, ngayTao, null, mnv, null, null, tt, null, null, null, null, null, null, null, null);
         ql.themHoaDon(h);
         loadHoaDon();
         txtMaHD.setText(h.getMaHD());
@@ -840,7 +844,7 @@ public class ViewBanHang extends javax.swing.JFrame {
                     }
                 }
 
-                HoaDon h = new HoaDon(maHD, null, null, null, null, null, null, id, null, null, a, giaSau, phanTram, maCP, null,null);
+                HoaDon h = new HoaDon(maHD, null, null, null, null, null, null, id, null, null, a, giaSau, phanTram, maCP, null);
                 ql.themGioHang(h);
                 loadGioHang(maHD);
 
@@ -1072,16 +1076,16 @@ public class ViewBanHang extends javax.swing.JFrame {
             maKH = txtMaKH.getText();
         }
 
-        HoaDon h = new HoaDon(txtMaHD.getText(), txtNgayTao.getText(), maKH, txtMaNV.getText(), maVC, txtTongTien.getText(), null, null, null, null, null, null, null, null, null,null);
+        HoaDon h = new HoaDon(txtMaHD.getText(), txtNgayTao.getText(), maKH, txtMaNV.getText(), maVC, txtTongTien.getText(), null, null, null, null, null, null, null, null, null);
         if (ql.ThanhToan(h)) {
             JOptionPane.showMessageDialog(this, "Thanh toán thành công");
-            txtMaHD.setText("");
-            txtNgayTao.setText("");
-            txtMaKH.setText("");
-            txtTongTien.setText("");
-            txtTienKD.setText("");
-            txtTienThua.setText("");
-            cbVoucher.setSelectedIndex(1);
+//            txtMaHD.setText("");
+//            txtNgayTao.setText("");
+//            txtMaKH.setText("");
+//            txtTongTien.setText("");
+//            txtTienKD.setText("");
+//            txtTienThua.setText("");
+//            cbVoucher.setSelectedIndex(1);
         } else {
             JOptionPane.showMessageDialog(this, "Thanh toán thất bại");
 
@@ -1105,7 +1109,127 @@ public class ViewBanHang extends javax.swing.JFrame {
     }//GEN-LAST:event_cbVoucherKeyReleased
 
     private void btnInHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInHDActionPerformed
-      
+        // TODO add your handling code here:
+//        try {
+//            // Xác định nơi lưu và tên tệp
+//            JFileChooser fileChooser = new JFileChooser();
+//            int userSelection = fileChooser.showSaveDialog(null);
+//
+//            if (userSelection == JFileChooser.APPROVE_OPTION) {
+//                File fileToSave = fileChooser.getSelectedFile();
+//
+//                // Lấy đường dẫn của tệp đã chọn
+//                String filePath = fileToSave.getAbsolutePath();
+//
+//                // Thêm phần mở rộng .pdf nếu tên tệp không có
+//                if (!filePath.toLowerCase().endsWith(".pdf")) {
+//                    filePath += ".pdf";
+//                }
+//
+//                // Tạo một đối tượng File từ đường dẫn
+//                File outputFile = new File(filePath);
+//
+//                // Tạo một đối tượng Bill
+//                Bill bill = new Bill("đường dẫn hình ảnh", ql, txtMaHD, txtTongTien, txtTienKD, txtTienThua, txtMaNV);
+//
+//                // Lấy đối tượng máy in mặc định
+//                PrintService defaultPrintService = PrintServiceLookup.lookupDefaultPrintService();
+//
+//                // Tạo một PrintRequestAttributeSet
+//                PrintRequestAttributeSet attributes = new HashPrintRequestAttributeSet();
+//
+//                // Thiết lập máy in mặc định
+//                attributes.add(new PrinterName(defaultPrintService.getName(), null));
+//
+//                // Thiết lập định dạng dữ liệu PDF
+//                DocFlavor flavor = DocFlavor.INPUT_STREAM.PDF;
+//
+//                // Thực hiện việc in
+//                try {
+//                    // Tạo một FileOutputStream để ghi dữ liệu in vào tệp
+//                    OutputStream outputStream = new FileOutputStream(outputFile);
+//
+//                    // Tạo một URI từ OutputStream
+//                    URI outputURI = outputFile.toURI();
+//
+//// Thêm thuộc tính Destination với URI vào PrintRequestAttributeSet
+//                    attributes.add(new Destination(outputURI));
+//
+//                    // In tài liệu
+//                    defaultPrintService.createPrintJob().print((Doc) bill, attributes);
+//
+//                    // Đóng outputStream sau khi in xong
+//                    outputStream.close();
+//                } catch (Exception ex) {
+//                    ex.printStackTrace();
+//                }
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+        String path = "D://";
+//        JFileChooser j = new JFileChooser();
+//        j.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+//        int x = j.showSaveDialog(this);
+//         
+//        if (x==JFileChooser.APPROVE_OPTION) {
+//            path = j.getSelectedFile().getPath();
+//            
+//        }
+        Document doc = new Document();
+        try {
+            PdfWriter.getInstance(doc, new FileOutputStream(path + "HoaDon.pdf"));
+            doc.open();
+            doc.add(new Paragraph("------------CUA HANG GIAY XSTORE XIN KINH CHAO --------------------"));
+            doc.add(new Paragraph(" "));
+            doc.add(new Paragraph("Ma Hoa Don:    " + txtMaHD.getText()));
+            doc.add(new Paragraph("Ngay Tao:  " + txtNgayTao.getText()));
+            doc.add(new Paragraph("Ma Nhân Viên:    " + txtMaNV.getText()));
+            doc.add(new Paragraph("Tong Tien:    " + txtTongTien.getText()));
+            doc.add(new Paragraph("Tien Khach Dua:    " + txtTienKD.getText()));
+            doc.add(new Paragraph("Tien Thua:    " + txtTienThua.getText()));
+            doc.add(new Paragraph(" "));
+            doc.add(new Paragraph("---------------CUA HANG GIAY XSTORE XIN CAM ON --------------------"));
+            doc.add(new Paragraph("Dia Chi:  57P.QUAN HOA, QUAN HOA, CAU GIAY, HA NOI"));
+            doc.add(new Paragraph("So Dien Thoai Lien He:  0912387654"));
+            doc.add(new Paragraph("-----------------------HEN GAP LAI QUY KHACH-------------------------"));
+
+//            PdfPTable tbl = new PdfPTable(5);
+//            tbl.addCell("STT");
+//            tbl.addCell("Mã HD");
+//            tbl.addCell("Ngày Tạo");
+//            tbl.addCell("Mã NV");
+//            tbl.addCell("Trạng Thái");
+//            tbl.addCell("STT");
+//            tbl.addCell("STT");
+//            tbl.addCell("STT");
+//            for (int i = 0; i < tblHoaDon.getRowCount(); i++) {
+//                String id = tblHoaDon.getValueAt(i, 0).toString();
+//                String MaHD = tblHoaDon.getValueAt(i, 1).toString();
+//                String NgayTao = tblHoaDon.getValueAt(i, 2).toString();
+//                String MaNV = tblHoaDon.getValueAt(i, 3).toString();
+//                String TrangThai = tblHoaDon.getValueAt(i, 4).toString();
+////                String diaChi = "--------------- Trịnh Văn Bô---------------";
+//                tbl.addCell(id);
+//                tbl.addCell(MaHD);
+//                tbl.addCell(NgayTao);
+//                tbl.addCell(MaNV);
+//                tbl.addCell(TrangThai);
+//                tbl.addCell(diaChi);
+//            }
+//            doc.add(tbl);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        doc.close();
+        txtMaHD.setText("");
+        txtNgayTao.setText("");
+        txtMaKH.setText("");
+        txtTongTien.setText("");
+        txtTienKD.setText("");
+        txtTienThua.setText("");
+        cbVoucher.setSelectedIndex(1);
+
     }//GEN-LAST:event_btnInHDActionPerformed
 
     private void txtMaKHKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaKHKeyPressed
