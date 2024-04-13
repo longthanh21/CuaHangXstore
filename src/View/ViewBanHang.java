@@ -9,6 +9,9 @@ import Model.KhachHang;
 import Model.SanPham;
 import Model.Voucher;
 import Service.QuanLyBanHang;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -39,9 +42,13 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+<<<<<<< HEAD
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
+=======
+
+>>>>>>> d81d75341d542f173f100358fb56035e0af09bfe
 
 /**
  *
