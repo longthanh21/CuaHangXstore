@@ -310,7 +310,7 @@ public class QuanLyBanHang {
         ArrayList<KhachHang> listK = new ArrayList<KhachHang>();
         
         try {
-            String sql = "select * from khachhang";
+            String sql = "select * from khachhang where TrangThai=1";
             Connection con = DbConnect.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();

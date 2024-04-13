@@ -10,7 +10,10 @@ import javax.crypto.AEADBadTagException;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import View.ViewDangNhap;
+import java.awt.Frame;
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -21,53 +24,57 @@ public class BanHangForm extends javax.swing.JFrame {
 
     private String ma, ten, vaiTro, tenTK;
 
-    Connection cn;
-
     public BanHangForm() {
         initComponents();
 //        showFrame(new ViewBanHang(txtMaNV.getText()));
+<<<<<<< HEAD
         force();
+=======
+>>>>>>> master
     }
 
-    void force() {
-        txtMaNV.setEnabled(false);
-        txtTenNV.setEnabled(false);
-        lbVaiTro.setEnabled(false);
-
+    void quyen() {
+        if (txtMaNV.getText().startsWith("NV")) {
+            pnDoanhThu.setVisible(false);
+            pnSanPham.setVisible(false);
+            pnNhanVien.setVisible(false);
+            pnKhuyenMai.setVisible(false);
+        }
     }
 
     public BanHangForm(String maNV, String tenNV, String vaiTroNV, String tenTK) {
-        initComponents();
         try {
-            cn = DbConnect.getConnection();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        this.tenTK = tenTK;
-        try {
-            String sql = "SELECT NhanVien.MaNV, NhanVien.TenNV, NhanVien.VaiTro "
-                    + "FROM NhanVien JOIN TaiKhoan ON TaiKhoan.MaNV = NhanVien.MaNV "
-                    + "WHERE TaiKhoan.TenDangNhap = ?";
-            PreparedStatement ps = cn.prepareStatement(sql);
-            ps.setString(1, tenTK);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                ma = rs.getString("MaNV");
-                ten = rs.getString("TenNV");
-                vaiTro = rs.getString("VaiTro");
-                txtMaNV.setText(ma);
-                txtTenNV.setText(ten);
-                lbVaiTro.setText(vaiTro);
+            initComponents();
+            Connection cn = DbConnect.getConnection();
+            this.tenTK = tenTK;
+            try {
+                String sql = "SELECT NhanVien.MaNV, NhanVien.TenNV, NhanVien.VaiTro "
+                        + "FROM NhanVien JOIN TaiKhoan ON TaiKhoan.MaNV = NhanVien.MaNV "
+                        + "WHERE TaiKhoan.TenDangNhap = ?";
+                PreparedStatement ps = cn.prepareStatement(sql);
+                ps.setString(1, tenTK);
+                ResultSet rs = ps.executeQuery();
+                if (rs.next()) {
+                    ma = rs.getString("MaNV");
+                    ten = rs.getString("TenNV");
+                    vaiTro = rs.getString("VaiTro");
+                    txtMaNV.setText(ma);
+                    txtTenNV.setText(ten);
+                    lbVaiTro.setText(vaiTro);
+                    // Disable các panel phù hợp dựa vào vai trò
+                }
 
-                // Disable các panel phù hợp dựa vào vai trò
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Bạn không đủ quyền để thực hiện thao tác!");
             }
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Bạn không đủ quyền để thực hiện thao tác!");
-        }
-        // Hiển thị frame cuối cùng sau khi đã disable các panel
+            // Hiển thị frame cuối cùng sau khi đã disable các panel
 //        showFrame(new ViewBanHang(txtMaNV.getText()));
-        showFrame(new ViewDoanhThu());
+            quyen();
+//            showFrame(new ViewDoanhThu());
+            cn.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(BanHangForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -145,7 +152,7 @@ public class BanHangForm extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        pnLogo.setBackground(new java.awt.Color(0, 255, 255));
+        pnLogo.setBackground(new java.awt.Color(1, 79, 134));
 
         lbLogo.setBackground(new java.awt.Color(0, 0, 0));
         lbLogo.setFont(new java.awt.Font("Snap ITC", 2, 24)); // NOI18N
@@ -163,8 +170,9 @@ public class BanHangForm extends javax.swing.JFrame {
             pnLogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(lbLogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(pnLogoLayout.createSequentialGroup()
-                .addComponent(jButton1)
-                .addGap(0, 22, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         pnLogoLayout.setVerticalGroup(
             pnLogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -315,7 +323,7 @@ public class BanHangForm extends javax.swing.JFrame {
             .addGroup(pnKhuyenMaiLayout.createSequentialGroup()
                 .addGap(44, 44, 44)
                 .addComponent(lbKhuyenMai, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnKhuyenMaiLayout.setVerticalGroup(
             pnKhuyenMaiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -365,8 +373,12 @@ public class BanHangForm extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(51, 255, 51));
         jLabel1.setText("Mã Nhân Viên:");
 
+        txtMaNV.setEditable(false);
+
         jLabel2.setForeground(new java.awt.Color(0, 255, 51));
         jLabel2.setText("Tên Nhân Viên:");
+
+        txtTenNV.setEditable(false);
 
         lbVaiTro.setForeground(new java.awt.Color(0, 255, 51));
         lbVaiTro.setText("Vai trò");
@@ -386,18 +398,19 @@ public class BanHangForm extends javax.swing.JFrame {
             .addGroup(pnMenuLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnDangXuat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(pnMenuLayout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtMaNV))
+                        .addGroup(pnMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbVaiTro, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnDangXuat, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(pnMenuLayout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                         .addComponent(txtTenNV, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnMenuLayout.createSequentialGroup()
-                        .addComponent(lbVaiTro, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnMenuLayout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtMaNV, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         pnMenuLayout.setVerticalGroup(
@@ -418,19 +431,19 @@ public class BanHangForm extends javax.swing.JFrame {
                 .addComponent(pnKhuyenMai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnDoanhThu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
                 .addGroup(pnMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtMaNV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnMenuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtTenNV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jLabel2)
+                    .addComponent(txtTenNV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lbVaiTro)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnDangXuat)
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pnHienThi.setPreferredSize(new java.awt.Dimension(1200, 700));
@@ -484,29 +497,15 @@ public class BanHangForm extends javax.swing.JFrame {
     }//GEN-LAST:event_pnBanHangMouseClicked
 
     private void pnSanPhamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnSanPhamMouseClicked
-        if (vaiTro.equals("Quản lý")) {
-            showFrame(new ViewSanPham());
-        } else {
-            JOptionPane.showMessageDialog(this, "Bạn không đủ quyền để truy cập!");
-        }
+        showFrame(new ViewSanPham());
     }//GEN-LAST:event_pnSanPhamMouseClicked
 
     private void pnHoaDonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnHoaDonMouseClicked
-
-        if (vaiTro.equals("Quản lý")) {
-            showFrame(new ViewHoaDon());
-        } else {
-            JOptionPane.showMessageDialog(this, "Bạn không đủ quyền để truy cập!");
-        }
+        showFrame(new ViewHoaDon());
     }//GEN-LAST:event_pnHoaDonMouseClicked
 
     private void pnKhuyenMaiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnKhuyenMaiMouseClicked
-
-        if (vaiTro.equals("Quản lý")) {
-            showFrame(new ViewKhuyenMai());
-        } else {
-            JOptionPane.showMessageDialog(this, "Bạn không đủ quyền để truy cập!");
-        }
+        showFrame(new ViewKhuyenMai());
     }//GEN-LAST:event_pnKhuyenMaiMouseClicked
 
     private void pnKhachHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnKhachHangMouseClicked
@@ -514,23 +513,12 @@ public class BanHangForm extends javax.swing.JFrame {
     }//GEN-LAST:event_pnKhachHangMouseClicked
 
     private void pnNhanVienMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnNhanVienMouseClicked
-
-        if (vaiTro.equals("Quản lý")) {
-            showFrame(new ViewNhanVien());
-        } else {
-            JOptionPane.showMessageDialog(this, "Bạn không đủ quyền để truy cập!");
-        }
+        showFrame(new ViewNhanVien());
     }//GEN-LAST:event_pnNhanVienMouseClicked
 
     private void pnDoanhThuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnDoanhThuMouseClicked
         // TODO add your handling code here:
-
-        if (vaiTro.equals("Quản lý")) {
-            showFrame(new ViewDoanhThu());
-        } else {
-            JOptionPane.showMessageDialog(this, "Bạn không đủ quyền để truy cập!");
-        }
-
+        showFrame(new ViewDoanhThu());
     }//GEN-LAST:event_pnDoanhThuMouseClicked
 
     private void btnDangXuatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangXuatActionPerformed
