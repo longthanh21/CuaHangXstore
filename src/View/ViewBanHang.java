@@ -1079,13 +1079,13 @@ public class ViewBanHang extends javax.swing.JFrame {
         HoaDon h = new HoaDon(txtMaHD.getText(), txtNgayTao.getText(), maKH, txtMaNV.getText(), maVC, txtTongTien.getText(), null, null, null, null, null, null, null, null, null);
         if (ql.ThanhToan(h)) {
             JOptionPane.showMessageDialog(this, "Thanh toán thành công");
-            txtMaHD.setText("");
-            txtNgayTao.setText("");
-            txtMaKH.setText("");
-            txtTongTien.setText("");
-            txtTienKD.setText("");
-            txtTienThua.setText("");
-            cbVoucher.setSelectedIndex(1);
+//            txtMaHD.setText("");
+//            txtNgayTao.setText("");
+//            txtMaKH.setText("");
+//            txtTongTien.setText("");
+//            txtTienKD.setText("");
+//            txtTienThua.setText("");
+//            cbVoucher.setSelectedIndex(1);
         } else {
             JOptionPane.showMessageDialog(this, "Thanh toán thất bại");
 
@@ -1180,17 +1180,19 @@ public class ViewBanHang extends javax.swing.JFrame {
         try {
             PdfWriter.getInstance(doc, new FileOutputStream(path + "HoaDon.pdf"));
             doc.open();
-            doc.add(new Paragraph("------------CỬA HÀNG GIÀY XSTORE XIN KÍNH CHÀO --------------------"));
-            doc.add(new Paragraph("Mã Hoá Đơn:    " + txtMaHD.getText()));
-            doc.add(new Paragraph("Ngày Tạo:  " + txtNgayTao.getText()));
-            doc.add(new Paragraph("Mã Nhân Viên:    " + txtMaNV.getText()));
-            doc.add(new Paragraph("Tổng Tiền:    " + txtTongTien.getText()));
-            doc.add(new Paragraph("Tiền Khách Đưa:    " + txtTienKD.getText()));
-            doc.add(new Paragraph("Tiền Thừa:    " + txtTienThua.getText()));
-            doc.add(new Paragraph("------------CỬA HÀNG GIÀY XSTORE XIN CẢM ƠN --------------------"));
-            doc.add(new Paragraph(""));
-            doc.add(new Paragraph(""));
-            doc.add(new Paragraph("------------HẸN GẶP LẠI QUÝ KHÁCH--------------------"));
+            doc.add(new Paragraph("------------CUA HANG GIAY XSTORE XIN KINH CHAO --------------------"));
+            doc.add(new Paragraph(" "));
+            doc.add(new Paragraph("Ma Hoa Don:    " + txtMaHD.getText()));
+            doc.add(new Paragraph("Ngay Tao:  " + txtNgayTao.getText()));
+            doc.add(new Paragraph("Ma Nhân Viên:    " + txtMaNV.getText()));
+            doc.add(new Paragraph("Tong Tien:    " + txtTongTien.getText()));
+            doc.add(new Paragraph("Tien Khach Dua:    " + txtTienKD.getText()));
+            doc.add(new Paragraph("Tien Thua:    " + txtTienThua.getText()));
+            doc.add(new Paragraph(" "));
+            doc.add(new Paragraph("---------------CUA HANG GIAY XSTORE XIN CAM ON --------------------"));
+            doc.add(new Paragraph("Dia Chi:  57P.QUAN HOA, QUAN HOA, CAU GIAY, HA NOI"));
+            doc.add(new Paragraph("So Dien Thoai Lien He:  0912387654"));
+            doc.add(new Paragraph("-----------------------HEN GAP LAI QUY KHACH-------------------------"));
 
 //            PdfPTable tbl = new PdfPTable(5);
 //            tbl.addCell("STT");
@@ -1220,7 +1222,13 @@ public class ViewBanHang extends javax.swing.JFrame {
             e.printStackTrace();
         }
         doc.close();
-
+        txtMaHD.setText("");
+        txtNgayTao.setText("");
+        txtMaKH.setText("");
+        txtTongTien.setText("");
+        txtTienKD.setText("");
+        txtTienThua.setText("");
+        cbVoucher.setSelectedIndex(1);
 
     }//GEN-LAST:event_btnInHDActionPerformed
 
