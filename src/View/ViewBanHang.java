@@ -42,6 +42,12 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
+<<<<<<< HEAD
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+=======
+>>>>>>> 2d05022ab79eb2cdfcebffee409f2972d9b79e46
 
 /**
  *
