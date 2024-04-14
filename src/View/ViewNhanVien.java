@@ -15,6 +15,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
@@ -1182,6 +1183,18 @@ public class ViewNhanVien extends javax.swing.JFrame {
         }
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String strNgaySinh = dateFormat.format(ngaySinh);
+        Calendar dob = Calendar.getInstance();
+        dob.setTime(ngaySinh);
+        Calendar today = Calendar.getInstance();
+        int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
+        if (age < 18) {
+            JOptionPane.showMessageDialog(this, "Nhân Viên Phải Lớn Hơn 18 Tuổi ");
+            return;
+        }
+         if (age > 50) {
+            JOptionPane.showMessageDialog(this, "Nhân Viên Phải Nhỏ Hơn 50 Tuổi ");
+            return;
+        }
         Boolean gioiTinh;
         if (rdNam.isSelected()) {
             gioiTinh = true;
@@ -1395,7 +1408,18 @@ public class ViewNhanVien extends javax.swing.JFrame {
         }
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String strNgaySinh = dateFormat.format(ngaySinh);
-
+        Calendar dob = Calendar.getInstance();
+        dob.setTime(ngaySinh);
+        Calendar today = Calendar.getInstance();
+        int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
+        if (age < 18) {
+            JOptionPane.showMessageDialog(this, "Nhân Viên Phải Lớn Hơn 18 Tuổi ");
+            return;
+        }
+        if (age > 50) {
+            JOptionPane.showMessageDialog(this, "Nhân Viên Phải Nhỏ Hơn 50 Tuổi ");
+            return;
+        }
         Boolean gioiTinh;
         if (rdNam.isSelected()) {
             gioiTinh = true;
