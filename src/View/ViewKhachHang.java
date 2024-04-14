@@ -569,7 +569,7 @@ public class ViewKhachHang extends javax.swing.JFrame {
 
         Date NgaySinh = txtNgaySinh.getDate();
         if (txtNgaySinh.getDate() == null) {
-            JOptionPane.showMessageDialog(this, "Không Bỏ Trống Ngay Tao");
+            JOptionPane.showMessageDialog(this, "Không Bỏ Trống Ngay Sinh");
             return;
         }
         SimpleDateFormat dateNgaySinh = new SimpleDateFormat("yyyy-MM-dd");
@@ -734,7 +734,7 @@ public class ViewKhachHang extends javax.swing.JFrame {
 
         Date NgaySinh = txtNgaySinh.getDate();
         if (txtNgaySinh.getDate() == null) {
-            JOptionPane.showMessageDialog(this, "Không Bỏ Trống Ngay Tao");
+            JOptionPane.showMessageDialog(this, "Không Bỏ Trống Ngay Sinh");
             return;
         }
         SimpleDateFormat dateNgaySinh = new SimpleDateFormat("yyyy-MM-dd");
