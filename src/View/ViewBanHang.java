@@ -8,8 +8,10 @@ import Model.HoaDon;
 import Model.KhachHang;
 import Model.SanPham;
 import Model.Voucher;
-
 import Service.QuanLyBanHang;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -40,10 +42,6 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
 
 /**
  *
@@ -69,209 +67,85 @@ public class ViewBanHang extends javax.swing.JFrame {
         loadSanPham(ql.getListSanPham());
         txtTongTien.setText("");
     }
-//loi
-    //bat
-    //dau
 
-//    public PageFormat getPage(PrinterJob pj) {
-//        PageFormat pf = pj.defaultPage();
-//        Paper p = pf.getPaper();
-//        double bHeight = 0;
-//
-//        double bodyHeight = bHeight;
-//        double headerHeigth = 5.0;
-//        double footerHeigth = 5.0;
-//        double width = cm_to_pp(8);
-//        double height = cm_to_pp((int) (headerHeigth + bodyHeight + footerHeigth));
-//        p.setSize(width, height);
-//        p.setImageableArea(0, 10, width, height - cm_to_pp(1));
-//
-//        pf.setOrientation(PageFormat.PORTRAIT);
-//        pf.setPaper(p);
-//        return pf;
-//    }
-//
-//    public static double cm_to_pp(double cm) {
-//        return toPPI(cm * 0.393600787);
-//    }
-//
-//    public static double toPPI(double inch) {
-//        return inch * 72d;
-//    }
-//
 //    public class Bill implements Printable {
 //
+//        private String imagePath;
+//        private Object ql; // Thay thế Object bằng kiểu dữ liệu thực tế của ql
+//        private Object txtMaHD; // Thay thế Object bằng kiểu dữ liệu thực tế của txtMaHD
+//        private Object txtTongTien; // Thay thế Object bằng kiểu dữ liệu thực tế của txtTongTien
+//        private Object txtTienKD; // Thay thế Object bằng kiểu dữ liệu thực tế của txtTienKD
+//        private Object txtTienThua; // Thay thế Object bằng kiểu dữ liệu thực tế của txtTienThua
+//        private Object txtMaNV; // Thay thế Object bằng kiểu dữ liệu thực tế của txtMaNV
+//
+//        public Bill(String imagePath, Object ql, Object txtMaHD, Object txtTongTien, Object txtTienKD, Object txtTienThua, Object txtMaNV) {
+//            this.imagePath = imagePath;
+//            this.ql = ql;
+//            this.txtMaHD = txtMaHD;
+//            this.txtTongTien = txtTongTien;
+//            this.txtTienKD = txtTienKD;
+//            this.txtTienThua = txtTienThua;
+//            this.txtMaNV = txtMaNV;
+//        }
+
 //        @Override
 //        public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
-//            //int r = ql.getListGioHang(txtMaHD.getText()).size();
-//            ImageIcon icon = new ImageIcon("D:\\inHD");
-//            int result = NO_SUCH_PAGE;
-//            if (pageIndex == 0) {
-//                Graphics2D g2d = (Graphics2D) graphics;
-//                double width = pageFormat.getImageableWidth();
-//                g2d.translate((int) pageFormat.getImageableX(), (int) pageFormat.getImageableY());
-//
-//                try {
-//                    int y = 20;
-//                    int yShift = 10;
-//                    int headerRectHeight = 15;
-//
-//                    g2d.setFont(new Font("Monospaced", Font.PLAIN, 9));
-//                    ImageObserver rootPane = null;
-//                    g2d.drawImage(icon.getImage(), 50, 20, 90, 30, rootPane);
-//                    y += yShift + 30;
-//                    g2d.drawString("------------------------------------------------", 12, y);
-//                    y += yShift;
-//                    g2d.drawString("         Cửa hàng guitar classic M4L            ", 12, y);
-//                    y += yShift;
-//                    g2d.drawString("Địa chỉ: Đường Trịnh Văn Bô, Phương Canh,", 12, y);
-//                    y += yShift;
-//                    g2d.drawString("         Nam Từ Liêm, Hà Nội                      ", 12, y);
-//                    y += yShift;
-//                    g2d.drawString("------------------------------------------------", 12, y);
-//                    y += headerRectHeight;
-//
-//                    g2d.drawString("  Tên sản phẩm               Giá", 10, y);
-//                    y += yShift;
-//                    g2d.drawString("------------------------------------------------", 10, y);
-//                    y += headerRectHeight;
-//                    for (HoaDon hd : ql.getListGioHang(txtMaHD.getText())) {
-//
-//                        g2d.drawString(" " + hd.getTenSP() + "                     ", 10, y);
-//                        y += yShift;
-//                        g2d.drawString("  " + hd.getSoLuong() + " * " + hd.getGiaSau(), 10, y);
-//                        g2d.drawString(txtTongTien.getText(), 160, y);
-//                        y += yShift;
-//                    }
-//                    g2d.drawString("-------------------------------------------------", 10, y);
-//                    y += yShift;
-//                    g2d.drawString(" Tổng:                     " + txtTongTien.getText() + "", 10, y);
-//                    y += yShift;
-//                    g2d.drawString("-------------------------------------------------", 10, y);
-//                    y += yShift;
-//                    g2d.drawString(" Tiền mặt:                    " + txtTienKD.getText() + "", 10, y);
-//                    y += yShift;
-//
-//                    g2d.drawString("-------------------------------------------------", 10, y);
-//                    y += yShift;
-//                    g2d.drawString(" Tiền thừa:                 " + txtTienThua.getText() + "", 10, y);
-//                    y += yShift;
-//                    g2d.drawString("-------------------------------------------------", 10, y);
-//                    y += yShift;
-//                    g2d.drawString("             CẢM ƠN VÀ HẸN GẶP LẠI               ", 10, y);
-//                    y += yShift;
-//                    g2d.drawString("-------------------------------------------------", 10, y);
-//                    y += yShift;
-//                    g2d.drawString("               Người lập đơn          ", 10, y);
-//                    y += yShift;
-//                    g2d.drawString("               " + txtMaNV.getText() + "", 10, y);
-//                    y += yShift;
-//                    g2d.drawString("-------------------------------------------------", 10, y);
-//                    y += yShift;
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//
-//                result = PAGE_EXISTS;
+//            if (pageIndex > 0) {
+//                return NO_SUCH_PAGE;
 //            }
-//            return result;
+//
+//            Graphics2D g2d = (Graphics2D) graphics;
+//            double width = pageFormat.getImageableWidth();
+//            double height = pageFormat.getImageableHeight();
+//            g2d.translate((int) pageFormat.getImageableX(), (int) pageFormat.getImageableY());
+//
+//            try {
+//                ImageIcon icon = new ImageIcon(imagePath);
+//                Image logo = icon.getImage();
+//                g2d.drawImage(logo, 50, 20, 90, 30, null);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+
+//            int y = 100; // Bắt đầu vẽ từ y = 100
+//            g2d.setFont(new Font("Monospaced", Font.PLAIN, 9));
+//
+//            g2d.drawString("------------------------------------------------", 12, y);
+//            y += 10;
+//            g2d.drawString("         Cửa hàng guitar classic M4L            ", 12, y);
+//            y += 10;
+//            g2d.drawString("Địa chỉ: Đường Trịnh Văn Bô, Phương Canh,", 12, y);
+//            y += 10;
+//            g2d.drawString("         Nam Từ Liêm, Hà Nội                      ", 12, y);
+//            y += 10;
+//            g2d.drawString("------------------------------------------------", 12, y);
+//            y += 10;
+//
+//            return PAGE_EXISTS;
+//        }
+
+//        public PageFormat getPage(PrinterJob pj) {
+//            PageFormat pf = pj.defaultPage();
+//            Paper p = pf.getPaper();
+//            double headerHeight = 5.0;
+//            double footerHeight = 5.0;
+//            double width = cm_to_pp(8); // Độ rộng của trang (ví dụ)
+//            double height = cm_to_pp((int) (headerHeight + footerHeight)); // Độ cao của trang (ví dụ)
+//            p.setSize(width, height);
+//            p.setImageableArea(0, 10, width, height - cm_to_pp(1));
+//            pf.setOrientation(PageFormat.PORTRAIT);
+//            pf.setPaper(p);
+//            return pf;
+//        }
+
+//        public static double cm_to_pp(double cm) {
+//            return toPPI(cm * 0.393600787);
+//        }
+//
+//        public static double toPPI(double inch) {
+//            return inch * 72d;
 //        }
 //    }
-//
-//    public void inHD() {
-//
-//        bHeight = Double.valueOf(ql.getListGioHang(txtMaHD.getText()).size());
-//
-//        PrinterJob pj = PrinterJob.getPrinterJob();
-//        pj.setPrintable(new Bill(), getPage(pj));
-//        try {
-//            pj.print();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-//loi
-    //ket
-    //thuc
-    //??
-    public class Bill implements Printable {
-
-        private String imagePath;
-        private Object ql; // Thay thế Object bằng kiểu dữ liệu thực tế của ql
-        private Object txtMaHD; // Thay thế Object bằng kiểu dữ liệu thực tế của txtMaHD
-        private Object txtTongTien; // Thay thế Object bằng kiểu dữ liệu thực tế của txtTongTien
-        private Object txtTienKD; // Thay thế Object bằng kiểu dữ liệu thực tế của txtTienKD
-        private Object txtTienThua; // Thay thế Object bằng kiểu dữ liệu thực tế của txtTienThua
-        private Object txtMaNV; // Thay thế Object bằng kiểu dữ liệu thực tế của txtMaNV
-
-        public Bill(String imagePath, Object ql, Object txtMaHD, Object txtTongTien, Object txtTienKD, Object txtTienThua, Object txtMaNV) {
-            this.imagePath = imagePath;
-            this.ql = ql;
-            this.txtMaHD = txtMaHD;
-            this.txtTongTien = txtTongTien;
-            this.txtTienKD = txtTienKD;
-            this.txtTienThua = txtTienThua;
-            this.txtMaNV = txtMaNV;
-        }
-
-        @Override
-        public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
-            if (pageIndex > 0) {
-                return NO_SUCH_PAGE;
-            }
-
-            Graphics2D g2d = (Graphics2D) graphics;
-            double width = pageFormat.getImageableWidth();
-            double height = pageFormat.getImageableHeight();
-            g2d.translate((int) pageFormat.getImageableX(), (int) pageFormat.getImageableY());
-
-            try {
-                ImageIcon icon = new ImageIcon(imagePath);
-                Image logo = icon.getImage();
-                g2d.drawImage(logo, 50, 20, 90, 30, null);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            int y = 100; // Bắt đầu vẽ từ y = 100
-            g2d.setFont(new Font("Monospaced", Font.PLAIN, 9));
-
-            g2d.drawString("------------------------------------------------", 12, y);
-            y += 10;
-            g2d.drawString("         Cửa hàng guitar classic M4L            ", 12, y);
-            y += 10;
-            g2d.drawString("Địa chỉ: Đường Trịnh Văn Bô, Phương Canh,", 12, y);
-            y += 10;
-            g2d.drawString("         Nam Từ Liêm, Hà Nội                      ", 12, y);
-            y += 10;
-            g2d.drawString("------------------------------------------------", 12, y);
-            y += 10;
-
-            return PAGE_EXISTS;
-        }
-
-        public PageFormat getPage(PrinterJob pj) {
-            PageFormat pf = pj.defaultPage();
-            Paper p = pf.getPaper();
-            double headerHeight = 5.0;
-            double footerHeight = 5.0;
-            double width = cm_to_pp(8); // Độ rộng của trang (ví dụ)
-            double height = cm_to_pp((int) (headerHeight + footerHeight)); // Độ cao của trang (ví dụ)
-            p.setSize(width, height);
-            p.setImageableArea(0, 10, width, height - cm_to_pp(1));
-            pf.setOrientation(PageFormat.PORTRAIT);
-            pf.setPaper(p);
-            return pf;
-        }
-
-        public static double cm_to_pp(double cm) {
-            return toPPI(cm * 0.393600787);
-        }
-
-        public static double toPPI(double inch) {
-            return inch * 72d;
-        }
-    }
 
     //??
     private ViewBanHang() {
@@ -1182,17 +1056,18 @@ public class ViewBanHang extends javax.swing.JFrame {
             doc.open();
             doc.add(new Paragraph("------------CUA HANG GIAY XSTORE XIN KINH CHAO --------------------"));
             doc.add(new Paragraph(" "));
-            doc.add(new Paragraph("Ma Hoa Don:    " + txtMaHD.getText()));
-            doc.add(new Paragraph("Ngay Tao:  " + txtNgayTao.getText()));
-            doc.add(new Paragraph("Ma Nhân Viên:    " + txtMaNV.getText()));
-            doc.add(new Paragraph("Tong Tien:    " + txtTongTien.getText()));
-            doc.add(new Paragraph("Tien Khach Dua:    " + txtTienKD.getText()));
-            doc.add(new Paragraph("Tien Thua:    " + txtTienThua.getText()));
+            doc.add(new Paragraph("Ma Hoa Don:     " + txtMaHD.getText()));
+            doc.add(new Paragraph("Ngay Tao:       " + txtNgayTao.getText()));
+            doc.add(new Paragraph("Ma Nhan Vien:   " + txtMaNV.getText()));
+            doc.add(new Paragraph("Ma Khach Hang:  " + txtMaKH.getText()));
+            doc.add(new Paragraph("Tong Tien:      " + txtTongTien.getText()));
+            doc.add(new Paragraph("Tien Khach Dua: " + txtTienKD.getText()));
+            doc.add(new Paragraph("Tien Thua:      " + txtTienThua.getText()));
             doc.add(new Paragraph(" "));
             doc.add(new Paragraph("---------------CUA HANG GIAY XSTORE XIN CAM ON --------------------"));
             doc.add(new Paragraph("Dia Chi:  57P.QUAN HOA, QUAN HOA, CAU GIAY, HA NOI"));
             doc.add(new Paragraph("So Dien Thoai Lien He:  0912387654"));
-            doc.add(new Paragraph("-----------------------HEN GAP LAI QUY KHACH-------------------------"));
+            doc.add(new Paragraph("--------------------------HEN GAP LAI QUY KHACH----------------------------"));
 
 //            PdfPTable tbl = new PdfPTable(5);
 //            tbl.addCell("STT");
