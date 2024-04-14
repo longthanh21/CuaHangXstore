@@ -10,12 +10,12 @@ package Model;
  */
 public class HoaDon {
 
-    private String maHD, ngayTao, maKH, maNV, maVC, tongTien, trangThai, idSP, maSP, tenSP, soLuong, giaSau, phanTram, maCP, giaBan;
+    private String maHD, ngayTao, maKH, maNV, maVC, tongTien, trangThai, idSP, maSP, tenSP, soLuong, giaSau, phanTram, maCP, giaBan,thanhTien1;
 
     public HoaDon() {
     }
 
-    public HoaDon(String maHD, String ngayTao, String maKH, String maNV, String maVC, String tongTien, String trangThai, String idSP, String maSP, String tenSP, String soLuong, String giaSau, String phanTram, String maCP, String giaBan) {
+    public HoaDon(String maHD, String ngayTao, String maKH, String maNV, String maVC, String tongTien, String trangThai, String idSP, String maSP, String tenSP, String soLuong, String giaSau, String phanTram, String maCP, String giaBan, String thanhTien1) {
         this.maHD = maHD;
         this.ngayTao = ngayTao;
         this.maKH = maKH;
@@ -31,6 +31,7 @@ public class HoaDon {
         this.phanTram = phanTram;
         this.maCP = maCP;
         this.giaBan = giaBan;
+        this.thanhTien1 = thanhTien1;
     }
 
     public String getMaHD() {
@@ -152,6 +153,16 @@ public class HoaDon {
     public void setGiaBan(String giaBan) {
         this.giaBan = giaBan;
     }
+
+    public String getThanhTien1() {
+        return thanhTien1;
+    }
+
+    public void setThanhTien1(String thanhTien1) {
+        this.thanhTien1 = thanhTien1;
+    }
+
+   
 
     
 
