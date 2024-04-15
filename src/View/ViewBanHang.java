@@ -47,7 +47,6 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
-
 /**
  *
  * @author TienBB
@@ -67,6 +66,7 @@ public class ViewBanHang extends javax.swing.JFrame {
         txtMaNV.setEnabled(false);
         txtTongTien.setEnabled(false);
         txtTienThua.setEnabled(false);
+        btnInHD.setEnabled(false);
         loadcbVC();
         loadHoaDon();
         loadSanPham(ql.getListSanPham());
@@ -92,7 +92,6 @@ public class ViewBanHang extends javax.swing.JFrame {
 //            this.txtTienThua = txtTienThua;
 //            this.txtMaNV = txtMaNV;
 //        }
-
 //        @Override
 //        public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
 //            if (pageIndex > 0) {
@@ -111,7 +110,6 @@ public class ViewBanHang extends javax.swing.JFrame {
 //            } catch (Exception e) {
 //                e.printStackTrace();
 //            }
-
 //            int y = 100; // Bắt đầu vẽ từ y = 100
 //            g2d.setFont(new Font("Monospaced", Font.PLAIN, 9));
 //
@@ -128,7 +126,6 @@ public class ViewBanHang extends javax.swing.JFrame {
 //
 //            return PAGE_EXISTS;
 //        }
-
 //        public PageFormat getPage(PrinterJob pj) {
 //            PageFormat pf = pj.defaultPage();
 //            Paper p = pf.getPaper();
@@ -142,7 +139,6 @@ public class ViewBanHang extends javax.swing.JFrame {
 //            pf.setPaper(p);
 //            return pf;
 //        }
-
 //        public static double cm_to_pp(double cm) {
 //            return toPPI(cm * 0.393600787);
 //        }
@@ -151,7 +147,6 @@ public class ViewBanHang extends javax.swing.JFrame {
 //            return inch * 72d;
 //        }
 //    }
-
     //??
     private ViewBanHang() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -665,6 +660,7 @@ public class ViewBanHang extends javax.swing.JFrame {
         txtMaNV.setText(h.getMaNV());
         loadGioHang(mhd);
         tongTien();
+        btnInHD.setEnabled(false);
     }//GEN-LAST:event_btnTaoHDActionPerformed
 
     private void tblHoaDonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHoaDonMouseClicked
@@ -733,8 +729,6 @@ public class ViewBanHang extends javax.swing.JFrame {
             tongTien();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Lỗi thao tác. Vui long nhập lại!");
-            e.printStackTrace();
-
         }
 
     }//GEN-LAST:event_tblSanPhamMouseClicked
@@ -958,19 +952,25 @@ public class ViewBanHang extends javax.swing.JFrame {
         HoaDon h = new HoaDon(txtMaHD.getText(), txtNgayTao.getText(), maKH, txtMaNV.getText(), maVC, txtTongTien.getText(), null, null, null, null, null, null, null, null, null);
         if (ql.ThanhToan(h)) {
             JOptionPane.showMessageDialog(this, "Thanh toán thành công");
-//            txtMaHD.setText("");
-//            txtNgayTao.setText("");
-//            txtMaKH.setText("");
-//            txtTongTien.setText("");
-//            txtTienKD.setText("");
-//            txtTienThua.setText("");
-//            cbVoucher.setSelectedIndex(1);
+            int check = JOptionPane.showConfirmDialog(this, "Bạn có muốn in hóa đơn không?", null, JOptionPane.YES_NO_OPTION);
+            if (check == JOptionPane.NO_OPTION) {
+                txtMaHD.setText("");
+                txtNgayTao.setText("");
+                txtMaKH.setText("");
+                txtTongTien.setText("");
+                txtTienKD.setText("");
+                txtTienThua.setText("");
+                cbVoucher.setSelectedIndex(1);
+            }else{
+                btnInHD.doClick();
+            }
         } else {
             JOptionPane.showMessageDialog(this, "Thanh toán thất bại");
 
         }
         loadHoaDon();
         loadGioHang(txtMaHD.getText());
+        btnInHD.setEnabled(true);
     }//GEN-LAST:event_btnThanhToanActionPerformed
 
     private void cbVoucherItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbVoucherItemStateChanged
@@ -1102,6 +1102,7 @@ public class ViewBanHang extends javax.swing.JFrame {
             e.printStackTrace();
         }
         doc.close();
+        JOptionPane.showMessageDialog(this, "In thành công");
         txtMaHD.setText("");
         txtNgayTao.setText("");
         txtMaKH.setText("");
