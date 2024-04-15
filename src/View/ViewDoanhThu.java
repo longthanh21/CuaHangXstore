@@ -31,20 +31,8 @@ public class ViewDoanhThu extends javax.swing.JFrame {
         this.revalidate();
         this.repaint();
         loadHD();
+
         loadSPT();
-//         data = new HashMap<>();
-//        data.put(" 1", 12);
-//        data.put(" 2", 3);
-//        data.put(" 3", 44);
-//        data.put(" 4", 23);
-//        data.put(" 5", 12);
-//        data.put(" 6", 3);
-//        data.put(" 7", 44);
-//        data.put(" 8", 23);
-//        data.put(" 9", 12);
-//        data.put(" 10", 3);
-//        data.put(" 11", 44);
-//        data.put(" 12", 230);
     }
 //hh
     void loadSP(String ngayBD, String ngayKT) {

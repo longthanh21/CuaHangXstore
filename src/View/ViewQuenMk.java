@@ -24,16 +24,13 @@ public class ViewQuenMk extends javax.swing.JFrame {
         String email = txtEmail.getText();
         String maNV = qldn.getMaNhanVienByEmail(email);
         if (maNV != null) {
-            // Tạo mã xác nhận ngẫu nhiên
             String maXacNhan = Email.taoMaXacNhan();
             // Lưu mã xác nhận vào cơ sở dữ liệu với mã nhân viên tương ứng
             qldn.luuMaXacNhan(maNV, maXacNhan);
             // Gửi mã xác nhận đến email
             Email.guiMaXacNhanEmail(email, maXacNhan); 
-            //Thông bá gửi thành công
             JOptionPane.showMessageDialog(this, "Gửi mã thành công!");
 
-            // Chuyển sang view nhập mã xác nhận
             new ViewXacNhanMa(email).setVisible(true);
             dispose(); // Đóng frame
 
