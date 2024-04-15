@@ -414,4 +414,30 @@ public class QuanLyDoanhThu {
         }
         return listSP;
     }
+     public ArrayList<HoaDon> getListSPT() {
+        ArrayList<HoaDon> listSPT = new ArrayList<>();
+        try {
+            Connection con = DbConnect.getConnection();
+            String sql = "select b.idsp,d.masp,d.tensp,sum(b.soluong) soluong,sum(giasau) tong from hoadon a\n"
+                    + "join cthd b on a.mahd=b.mahd\n"
+                    + "join ctsp c on c.idsp=b.idsp\n"
+                    + "join sanpham d on d.MaSP=c.MaSP\n"
+                    
+                    + "group by b.idsp,d.masp,d.tensp";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                HoaDon hd = new HoaDon();
+                hd.setIdSP(rs.getString("idsp"));
+                hd.setMaSP(rs.getString("masp"));
+                hd.setTenSP(rs.getString("tensp"));
+                hd.setSoLuong(rs.getString("soluong"));
+                hd.setTongTien(rs.getString("tong"));
+                listSPT.add(hd);
+            }
+            con.close();
+        } catch (Exception e) {
+        }
+        return listSPT;
+    }
 }
