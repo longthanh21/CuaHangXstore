@@ -716,49 +716,6 @@ public class ViewHoaDon extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(ViewHoaDon.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-//        JFrame frame = new JFrame("JDateChooser Example");
-//        JPanel panel = new JPanel();
-//
-//        // Tạo một JDateChooser
-//        JDateChooser dateChooser = new JDateChooser();
-//
-//        // Định dạng ngày tháng
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-//
-//        // Lấy JDayChooser từ JDateChooser
-//        JDayChooser dayChooser = dateChooser.getJCalendar().getDayChooser();
-//
-//        // Tạo một PropertyChangeListener
-//        PropertyChangeListener dateChangeListener = new PropertyChangeListener() {
-//            @Override
-//            public void propertyChange(PropertyChangeEvent evt) {
-//                if ("day".equals(evt.getPropertyName())) {
-//                    Date selectedDate = dateChooser.getDate();
-//                    String formattedDate = dateFormat.format(selectedDate);
-//                    System.out.println(formattedDate); // In ra màn hình để kiểm tra
-//
-//                    // Hoặc bạn có thể đặt kết quả vào một JTextField hoặc nơi khác tùy theo nhu cầu
-//                }
-//            }
-//        };
-//
-//        // Thêm PropertyChangeListener vào JDayChooser
-//        dayChooser.addPropertyChangeListener(dateChangeListener);
-//
-//        // Hiển thị JDateChooser trên giao diện
-//        panel.add(dateChooser);
-//        frame.add(panel);
-//        frame.pack();
-//        frame.setVisible(true);
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//
-//        // Hiển thị JDateChooser trên giao diện
-//        panel.add(dateChooser);
-//        frame.add(panel);
-//        frame.pack();
-//        frame.setVisible(true);
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
