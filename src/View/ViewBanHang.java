@@ -71,7 +71,7 @@ public class ViewBanHang extends javax.swing.JFrame {
         loadSanPham(ql.getListSanPham());
         txtTongTien.setText("");
     }
-    
+
     private ViewBanHang() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
@@ -106,8 +106,8 @@ public class ViewBanHang extends javax.swing.JFrame {
             }
         }
         txtTongTien.setText(String.valueOf(tongTien));
-        txtTienKD.setText("");
-        txtTienThua.setText("");
+//        txtTienKD.setText("");
+//        txtTienThua.setText("");
     }
 
     void loadHoaDon() {
@@ -859,7 +859,7 @@ public class ViewBanHang extends javax.swing.JFrame {
                 break;
             }
         }
-        for (Voucher v : ql.getListVV(txtMaHD.getText())) {
+        for (Voucher v : ql.getListVV(txtMaKH.getText())) {
             String a = cbVoucher.getSelectedItem() + "";
 
             if (v.getTenVC().equals(a)) {
@@ -885,7 +885,7 @@ public class ViewBanHang extends javax.swing.JFrame {
                 txtTienKD.setText("");
                 txtTienThua.setText("");
                 cbVoucher.setSelectedIndex(1);
-            }else{
+            } else {
                 btnInHD.doClick();
             }
         } else {
@@ -895,6 +895,7 @@ public class ViewBanHang extends javax.swing.JFrame {
         loadHoaDon();
         loadGioHang(txtMaHD.getText());
         btnInHD.setEnabled(true);
+        loadcbVC();
     }//GEN-LAST:event_btnThanhToanActionPerformed
 
     private void cbVoucherItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbVoucherItemStateChanged
@@ -967,7 +968,9 @@ public class ViewBanHang extends javax.swing.JFrame {
 //            }
 //            doc.add(tbl);
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "In Thất Bại");
+            return;
         }
         doc.close();
         JOptionPane.showMessageDialog(this, "In thành công");
