@@ -462,6 +462,11 @@ public class ViewHoaDon extends javax.swing.JFrame {
                 rdTatCaMouseClicked(evt);
             }
         });
+        rdTatCa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdTatCaActionPerformed(evt);
+            }
+        });
 
         buttonGroup1.add(rdDaHuy);
         rdDaHuy.setText("Đã hủy");
@@ -579,6 +584,10 @@ public class ViewHoaDon extends javax.swing.JFrame {
 //        if (rdDaThanhToan.isSelected()) {
         loadDataHoaDon();
         loadDataHoaDonChiTiet();
+        dcNgayBatDau.setDate(null);
+        dcNgayKetThuc.setDate(null);
+        txtMaHoaDon.setText("");
+        txtMaNhanVien.setText("");
 //        }
     }//GEN-LAST:event_rdTatCaMouseClicked
 
@@ -689,6 +698,10 @@ public class ViewHoaDon extends javax.swing.JFrame {
         quanLyHoaDon.loadMaHDSeachHDCT(ma);
         loadMaHDDataHoaDonChiTiet(ma);
     }//GEN-LAST:event_tblHoaDon1MouseClicked
+
+    private void rdTatCaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdTatCaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rdTatCaActionPerformed
 
     /**
      * @param args the command line arguments

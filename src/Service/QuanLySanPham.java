@@ -53,7 +53,7 @@ public class QuanLySanPham {
     public String getSoLuongTong(String a) {
         try {
             Connection conn = DbConnect.getConnection();
-            String sql = "SELECT SoLuongTong FROM SanPham where MaSP = " + "'" + a + "'";
+            String sql = "SELECT (sum(SoLuong)) AS SoLuongTong FROM SanPham JOIN CTSP ON CTSP.MaSP = SanPham.MaSP where SanPham.MaSP = " + "'" + a + "'";
             Statement stm = conn.createStatement();
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {

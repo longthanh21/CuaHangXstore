@@ -585,6 +585,7 @@ public class ViewBanHang extends javax.swing.JFrame {
         loadGioHang(mhd);
         tongTien();
         btnInHD.setEnabled(false);
+        loadcbVC();
     }//GEN-LAST:event_btnTaoHDActionPerformed
 
     private void tblHoaDonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHoaDonMouseClicked
@@ -695,7 +696,7 @@ public class ViewBanHang extends javax.swing.JFrame {
             cbVoucher.setSelectedIndex(0);
             tongTien();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Lỗi thao tác. Bé Khánh đừng nghịch nhé(^_^)");
+            JOptionPane.showMessageDialog(this, "Lỗi thao tác.");
         }
 
     }//GEN-LAST:event_tblGioHangMouseClicked
@@ -883,7 +884,7 @@ public class ViewBanHang extends javax.swing.JFrame {
         loadHoaDon();
         loadGioHang(txtMaHD.getText());
         btnInHD.setEnabled(true);
-        loadcbVC();
+//        loadcbVC();
     }//GEN-LAST:event_btnThanhToanActionPerformed
 
     private void cbVoucherItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbVoucherItemStateChanged
