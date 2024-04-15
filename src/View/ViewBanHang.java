@@ -935,7 +935,7 @@ public class ViewBanHang extends javax.swing.JFrame {
                 break;
             }
         }
-        for (Voucher v : ql.getListVV(txtMaHD.getText())) {
+        for (Voucher v : ql.getListVV(txtMaKH.getText())) {
             String a = cbVoucher.getSelectedItem() + "";
 
             if (v.getTenVC().equals(a)) {
@@ -971,6 +971,7 @@ public class ViewBanHang extends javax.swing.JFrame {
         loadHoaDon();
         loadGioHang(txtMaHD.getText());
         btnInHD.setEnabled(true);
+        loadcbVC();
     }//GEN-LAST:event_btnThanhToanActionPerformed
 
     private void cbVoucherItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbVoucherItemStateChanged
