@@ -66,6 +66,7 @@ public class ViewBanHang extends javax.swing.JFrame {
         txtMaNV.setEnabled(false);
         txtTongTien.setEnabled(false);
         txtTienThua.setEnabled(false);
+        btnInHD.setEnabled(false);
         loadcbVC();
         loadHoaDon();
         loadSanPham(ql.getListSanPham());
@@ -659,6 +660,7 @@ public class ViewBanHang extends javax.swing.JFrame {
         txtMaNV.setText(h.getMaNV());
         loadGioHang(mhd);
         tongTien();
+        btnInHD.setEnabled(false);
     }//GEN-LAST:event_btnTaoHDActionPerformed
 
     private void tblHoaDonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHoaDonMouseClicked
@@ -968,6 +970,7 @@ public class ViewBanHang extends javax.swing.JFrame {
         }
         loadHoaDon();
         loadGioHang(txtMaHD.getText());
+        btnInHD.setEnabled(true);
     }//GEN-LAST:event_btnThanhToanActionPerformed
 
     private void cbVoucherItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbVoucherItemStateChanged
