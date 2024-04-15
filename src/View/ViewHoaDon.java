@@ -292,10 +292,7 @@ public class ViewHoaDon extends javax.swing.JFrame {
 
         tblHoaDon1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "Stt	", "Mã HD	", "Mã NV", "Mã KH	 ", "Mã VC	 ", "Ngày tạo	 ", "Tổng Tiền	 ", "Trạng thái"
@@ -320,18 +317,15 @@ public class ViewHoaDon extends javax.swing.JFrame {
         pnHoaDonLayout.setVerticalGroup(
             pnHoaDonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnHoaDonLayout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 8, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 19, Short.MAX_VALUE))
         );
 
         pnGioHang.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, null), "Hoá Đơn Chi Tiết", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14), new java.awt.Color(255, 0, 0))); // NOI18N
 
         tblHoaDonChiTiet.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
+
             },
             new String [] {
                 "STT	", "IdSP	", "Mã SP", "Tên SP", "Số lượng", "Giá bán", "Giảm Giá", "Giá Sau", "Thanh Tiền"
@@ -351,8 +345,8 @@ public class ViewHoaDon extends javax.swing.JFrame {
         pnGioHangLayout.setVerticalGroup(
             pnGioHangLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnGioHangLayout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 19, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 20, Short.MAX_VALUE))
         );
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Bảng điều khiển", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12), new java.awt.Color(255, 0, 0))); // NOI18N
@@ -549,7 +543,7 @@ public class ViewHoaDon extends javax.swing.JFrame {
                 .addComponent(pnHoaDon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(pnGioHang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(166, 166, 166))
+                .addGap(192, 192, 192))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -722,49 +716,6 @@ public class ViewHoaDon extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(ViewHoaDon.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-//        JFrame frame = new JFrame("JDateChooser Example");
-//        JPanel panel = new JPanel();
-//
-//        // Tạo một JDateChooser
-//        JDateChooser dateChooser = new JDateChooser();
-//
-//        // Định dạng ngày tháng
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-//
-//        // Lấy JDayChooser từ JDateChooser
-//        JDayChooser dayChooser = dateChooser.getJCalendar().getDayChooser();
-//
-//        // Tạo một PropertyChangeListener
-//        PropertyChangeListener dateChangeListener = new PropertyChangeListener() {
-//            @Override
-//            public void propertyChange(PropertyChangeEvent evt) {
-//                if ("day".equals(evt.getPropertyName())) {
-//                    Date selectedDate = dateChooser.getDate();
-//                    String formattedDate = dateFormat.format(selectedDate);
-//                    System.out.println(formattedDate); // In ra màn hình để kiểm tra
-//
-//                    // Hoặc bạn có thể đặt kết quả vào một JTextField hoặc nơi khác tùy theo nhu cầu
-//                }
-//            }
-//        };
-//
-//        // Thêm PropertyChangeListener vào JDayChooser
-//        dayChooser.addPropertyChangeListener(dateChangeListener);
-//
-//        // Hiển thị JDateChooser trên giao diện
-//        panel.add(dateChooser);
-//        frame.add(panel);
-//        frame.pack();
-//        frame.setVisible(true);
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//
-//        // Hiển thị JDateChooser trên giao diện
-//        panel.add(dateChooser);
-//        frame.add(panel);
-//        frame.pack();
-//        frame.setVisible(true);
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

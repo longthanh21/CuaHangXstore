@@ -42,7 +42,6 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
-
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -66,87 +65,13 @@ public class ViewBanHang extends javax.swing.JFrame {
         txtMaNV.setEnabled(false);
         txtTongTien.setEnabled(false);
         txtTienThua.setEnabled(false);
+        btnInHD.setEnabled(false);
         loadcbVC();
         loadHoaDon();
         loadSanPham(ql.getListSanPham());
         txtTongTien.setText("");
     }
 
-//    public class Bill implements Printable {
-//
-//        private String imagePath;
-//        private Object ql; // Thay thế Object bằng kiểu dữ liệu thực tế của ql
-//        private Object txtMaHD; // Thay thế Object bằng kiểu dữ liệu thực tế của txtMaHD
-//        private Object txtTongTien; // Thay thế Object bằng kiểu dữ liệu thực tế của txtTongTien
-//        private Object txtTienKD; // Thay thế Object bằng kiểu dữ liệu thực tế của txtTienKD
-//        private Object txtTienThua; // Thay thế Object bằng kiểu dữ liệu thực tế của txtTienThua
-//        private Object txtMaNV; // Thay thế Object bằng kiểu dữ liệu thực tế của txtMaNV
-//
-//        public Bill(String imagePath, Object ql, Object txtMaHD, Object txtTongTien, Object txtTienKD, Object txtTienThua, Object txtMaNV) {
-//            this.imagePath = imagePath;
-//            this.ql = ql;
-//            this.txtMaHD = txtMaHD;
-//            this.txtTongTien = txtTongTien;
-//            this.txtTienKD = txtTienKD;
-//            this.txtTienThua = txtTienThua;
-//            this.txtMaNV = txtMaNV;
-//        }
-//        @Override
-//        public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
-//            if (pageIndex > 0) {
-//                return NO_SUCH_PAGE;
-//            }
-//
-//            Graphics2D g2d = (Graphics2D) graphics;
-//            double width = pageFormat.getImageableWidth();
-//            double height = pageFormat.getImageableHeight();
-//            g2d.translate((int) pageFormat.getImageableX(), (int) pageFormat.getImageableY());
-//
-//            try {
-//                ImageIcon icon = new ImageIcon(imagePath);
-//                Image logo = icon.getImage();
-//                g2d.drawImage(logo, 50, 20, 90, 30, null);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//            int y = 100; // Bắt đầu vẽ từ y = 100
-//            g2d.setFont(new Font("Monospaced", Font.PLAIN, 9));
-//
-//            g2d.drawString("------------------------------------------------", 12, y);
-//            y += 10;
-//            g2d.drawString("         Cửa hàng guitar classic M4L            ", 12, y);
-//            y += 10;
-//            g2d.drawString("Địa chỉ: Đường Trịnh Văn Bô, Phương Canh,", 12, y);
-//            y += 10;
-//            g2d.drawString("         Nam Từ Liêm, Hà Nội                      ", 12, y);
-//            y += 10;
-//            g2d.drawString("------------------------------------------------", 12, y);
-//            y += 10;
-//
-//            return PAGE_EXISTS;
-//        }
-//        public PageFormat getPage(PrinterJob pj) {
-//            PageFormat pf = pj.defaultPage();
-//            Paper p = pf.getPaper();
-//            double headerHeight = 5.0;
-//            double footerHeight = 5.0;
-//            double width = cm_to_pp(8); // Độ rộng của trang (ví dụ)
-//            double height = cm_to_pp((int) (headerHeight + footerHeight)); // Độ cao của trang (ví dụ)
-//            p.setSize(width, height);
-//            p.setImageableArea(0, 10, width, height - cm_to_pp(1));
-//            pf.setOrientation(PageFormat.PORTRAIT);
-//            pf.setPaper(p);
-//            return pf;
-//        }
-//        public static double cm_to_pp(double cm) {
-//            return toPPI(cm * 0.393600787);
-//        }
-//
-//        public static double toPPI(double inch) {
-//            return inch * 72d;
-//        }
-//    }
-    //??
     private ViewBanHang() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
@@ -659,6 +584,7 @@ public class ViewBanHang extends javax.swing.JFrame {
         txtMaNV.setText(h.getMaNV());
         loadGioHang(mhd);
         tongTien();
+        btnInHD.setEnabled(false);
     }//GEN-LAST:event_btnTaoHDActionPerformed
 
     private void tblHoaDonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHoaDonMouseClicked
@@ -680,61 +606,54 @@ public class ViewBanHang extends javax.swing.JFrame {
     }
     private void tblSanPhamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSanPhamMouseClicked
         // TODO add your handling code here:
+        if (checkSP() == 2) {
+            return;
+        }
         try {
-            if (checkSP() == 2) {
-                return;
-            }
-            try {
 
-                int i = tblSanPham.getSelectedRow();
-                String a = JOptionPane.showInputDialog("Mời nhập số lượng:");
-                String id = (String) tblSanPham.getValueAt(i, 0);
-                String soLuong = (String) tblSanPham.getValueAt(i, 7);
-                String giaSau = String.valueOf(tblSanPham.getValueAt(i, 10));
+            int i = tblSanPham.getSelectedRow();
+            String a = JOptionPane.showInputDialog("Mời nhập số lượng:");
+            String id = (String) tblSanPham.getValueAt(i, 0);
+            String soLuong = (String) tblSanPham.getValueAt(i, 7);
+            String giaSau = String.valueOf(tblSanPham.getValueAt(i, 10));
 //            String phanTram = (String) tblSanPham.getValueAt(i, 9);
 
-                String phanTram = null;
-                String maCP = null;
-                for (SanPham s : ql.getListSanPham()) {
-                    if (tblSanPham.getValueAt(i, 0).equals(s.getIdspct())) {
-                        maCP = s.getMaCP();
-                        phanTram = s.getPhanTram();
-                        break;
-                    }
+            String phanTram = null;
+            String maCP = null;
+            for (SanPham s : ql.getListSanPham()) {
+                if (tblSanPham.getValueAt(i, 0).equals(s.getIdspct())) {
+                    maCP = s.getMaCP();
+                    phanTram = s.getPhanTram();
+                    break;
                 }
-                if (Integer.valueOf(a) <= Integer.valueOf(soLuong) && Integer.valueOf(a) > 0) {
-                    Integer so = Integer.valueOf(soLuong) - Integer.valueOf(a);
-                    String so2 = so.toString();
-                    ql.suaSanPham(so2, id);
-                    loadSanPham(ql.getListSanPham());
-                    String maHD = txtMaHD.getText();
-                    for (HoaDon h : ql.getListGioHang(maHD)) {
-                        if (id.equals(h.getIdSP())) {
-                            Integer a2 = Integer.valueOf(a) + Integer.valueOf(h.getSoLuong());
-                            ql.suaGioHang(String.valueOf(a2), id, maHD);
-                            loadGioHang(maHD);
-                            tongTien();
-                            return;
-                        }
-                    }
-
-                    HoaDon h = new HoaDon(maHD, null, null, null, null, null, null, id, null, null, a, giaSau, phanTram, maCP, null);
-                    ql.themGioHang(h);
-                    loadGioHang(maHD);
-
-                } else {
-                    JOptionPane.showMessageDialog(this, "Mời nhập lại!");
-                }
-                tongTien();
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Lỗi thao tác. Vui long nhập lại!");
-                e.printStackTrace();
-
             }
-        } catch (Exception e) {
-            System.out.println("");
-        }
+            if (Integer.valueOf(a) <= Integer.valueOf(soLuong) && Integer.valueOf(a) > 0) {
+                Integer so = Integer.valueOf(soLuong) - Integer.valueOf(a);
+                String so2 = so.toString();
+                ql.suaSanPham(so2, id);
+                loadSanPham(ql.getListSanPham());
+                String maHD = txtMaHD.getText();
+                for (HoaDon h : ql.getListGioHang(maHD)) {
+                    if (id.equals(h.getIdSP())) {
+                        Integer a2 = Integer.valueOf(a) + Integer.valueOf(h.getSoLuong());
+                        ql.suaGioHang(String.valueOf(a2), id, maHD);
+                        loadGioHang(maHD);
+                        tongTien();
+                        return;
+                    }
+                }
 
+                HoaDon h = new HoaDon(maHD, null, null, null, null, null, null, id, null, null, a, giaSau, phanTram, maCP, null);
+                ql.themGioHang(h);
+                loadGioHang(maHD);
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Mời nhập lại!");
+            }
+            tongTien();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lỗi thao tác. Vui long nhập lại!");
+        }
 
     }//GEN-LAST:event_tblSanPhamMouseClicked
 
@@ -940,7 +859,7 @@ public class ViewBanHang extends javax.swing.JFrame {
                 break;
             }
         }
-        for (Voucher v : ql.getListVV(txtMaHD.getText())) {
+        for (Voucher v : ql.getListVV(txtMaKH.getText())) {
             String a = cbVoucher.getSelectedItem() + "";
 
             if (v.getTenVC().equals(a)) {
@@ -957,19 +876,14 @@ public class ViewBanHang extends javax.swing.JFrame {
         HoaDon h = new HoaDon(txtMaHD.getText(), txtNgayTao.getText(), maKH, txtMaNV.getText(), maVC, txtTongTien.getText(), null, null, null, null, null, null, null, null, null);
         if (ql.ThanhToan(h)) {
             JOptionPane.showMessageDialog(this, "Thanh toán thành công");
-//            txtMaHD.setText("");
-//            txtNgayTao.setText("");
-//            txtMaKH.setText("");
-//            txtTongTien.setText("");
-//            txtTienKD.setText("");
-//            txtTienThua.setText("");
-//            cbVoucher.setSelectedIndex(1);
         } else {
             JOptionPane.showMessageDialog(this, "Thanh toán thất bại");
 
         }
         loadHoaDon();
         loadGioHang(txtMaHD.getText());
+        btnInHD.setEnabled(true);
+        loadcbVC();
     }//GEN-LAST:event_btnThanhToanActionPerformed
 
     private void cbVoucherItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbVoucherItemStateChanged
@@ -988,63 +902,7 @@ public class ViewBanHang extends javax.swing.JFrame {
 
     private void btnInHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInHDActionPerformed
         // TODO add your handling code here:
-//        try {
-//            // Xác định nơi lưu và tên tệp
-//            JFileChooser fileChooser = new JFileChooser();
-//            int userSelection = fileChooser.showSaveDialog(null);
-//
-//            if (userSelection == JFileChooser.APPROVE_OPTION) {
-//                File fileToSave = fileChooser.getSelectedFile();
-//
-//                // Lấy đường dẫn của tệp đã chọn
-//                String filePath = fileToSave.getAbsolutePath();
-//
-//                // Thêm phần mở rộng .pdf nếu tên tệp không có
-//                if (!filePath.toLowerCase().endsWith(".pdf")) {
-//                    filePath += ".pdf";
-//                }
-//
-//                // Tạo một đối tượng File từ đường dẫn
-//                File outputFile = new File(filePath);
-//
-//                // Tạo một đối tượng Bill
-//                Bill bill = new Bill("đường dẫn hình ảnh", ql, txtMaHD, txtTongTien, txtTienKD, txtTienThua, txtMaNV);
-//
-//                // Lấy đối tượng máy in mặc định
-//                PrintService defaultPrintService = PrintServiceLookup.lookupDefaultPrintService();
-//
-//                // Tạo một PrintRequestAttributeSet
-//                PrintRequestAttributeSet attributes = new HashPrintRequestAttributeSet();
-//
-//                // Thiết lập máy in mặc định
-//                attributes.add(new PrinterName(defaultPrintService.getName(), null));
-//
-//                // Thiết lập định dạng dữ liệu PDF
-//                DocFlavor flavor = DocFlavor.INPUT_STREAM.PDF;
-//
-//                // Thực hiện việc in
-//                try {
-//                    // Tạo một FileOutputStream để ghi dữ liệu in vào tệp
-//                    OutputStream outputStream = new FileOutputStream(outputFile);
-//
-//                    // Tạo một URI từ OutputStream
-//                    URI outputURI = outputFile.toURI();
-//
-//// Thêm thuộc tính Destination với URI vào PrintRequestAttributeSet
-//                    attributes.add(new Destination(outputURI));
-//
-//                    // In tài liệu
-//                    defaultPrintService.createPrintJob().print((Doc) bill, attributes);
-//
-//                    // Đóng outputStream sau khi in xong
-//                    outputStream.close();
-//                } catch (Exception ex) {
-//                    ex.printStackTrace();
-//                }
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+
         String path = "D://";
 //        JFileChooser j = new JFileChooser();
 //        j.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -1098,9 +956,12 @@ public class ViewBanHang extends javax.swing.JFrame {
 //            }
 //            doc.add(tbl);
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "In Thất Bại");
+            return;
         }
         doc.close();
+        JOptionPane.showMessageDialog(this, "In thành công");
         txtMaHD.setText("");
         txtNgayTao.setText("");
         txtMaKH.setText("");
@@ -1108,7 +969,7 @@ public class ViewBanHang extends javax.swing.JFrame {
         txtTienKD.setText("");
         txtTienThua.setText("");
         cbVoucher.setSelectedIndex(1);
-
+        
     }//GEN-LAST:event_btnInHDActionPerformed
 
     private void txtMaKHKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaKHKeyPressed
