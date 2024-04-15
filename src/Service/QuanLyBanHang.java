@@ -9,22 +9,25 @@ import Model.SanPham;
 import Model.Voucher;
 import Model.KhachHang;
 import Repository.DbConnect;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.sql.*;
+import java.text.SimpleDateFormat;
+import java.util.List;
 
 /**
  *
  * @author KhanhCT
  */
 public class QuanLyBanHang {
-    
+
     ArrayList<HoaDon> listHoaDon = new ArrayList<>();
     ArrayList<SanPham> listSanPham = new ArrayList<>();
     ArrayList<HoaDon> listGioHang = new ArrayList<>();
-    
+
     public ArrayList<HoaDon> getListHoaDon() {
         listHoaDon.clear();
-        
+
         try {
             String sql = "select * from HoaDon  order by CAST(SUBSTRING(MaHD, 3, LEN(MaHD)) AS INT) asc";
             Connection con = DbConnect.getConnection();
@@ -36,7 +39,7 @@ public class QuanLyBanHang {
                 bh.setNgayTao(rs.getString("NgayTao"));
                 bh.setMaNV(rs.getString("MaNV"));
                 bh.setTrangThai(rs.getString("TrangThai"));
-               // bh.setMaCP(rs.getString("MaCP"));
+                // bh.setMaCP(rs.getString("MaCP"));
                 listHoaDon.add(bh);
             }
             con.close();
@@ -45,7 +48,7 @@ public class QuanLyBanHang {
         }
         return listHoaDon;
     }
-    
+
     public ArrayList<SanPham> getListSanPham() {
         listSanPham.clear();
         try {
@@ -89,7 +92,7 @@ public class QuanLyBanHang {
         }
         return listSanPham;
     }
-    
+
     public void themHoaDon(HoaDon h) {
         try {
             String sql = "insert into HoaDon values(?,?,?,?,?,?,?)";
@@ -102,16 +105,16 @@ public class QuanLyBanHang {
             ps.setString(5, null);
             ps.setString(6, null);
             ps.setString(7, h.getTrangThai());
-            
+
             ps.executeUpdate();
             con.close();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
         }
-        
+
     }
-    
+
     public ArrayList<HoaDon> getListGioHang(String mhd) {
         listGioHang.clear();
         try {
@@ -146,7 +149,7 @@ public class QuanLyBanHang {
         }
         return listGioHang;
     }
-    
+
     public void suaSanPham(String sl, String id) {
         String sql = "UPDATE CTSP SET SoLuong = ? WHERE IdSP = ?";
         try {
@@ -159,9 +162,9 @@ public class QuanLyBanHang {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
     }
-    
+
     public void suaGioHang(String sl, String id, String mhd) {
         String sql = "UPDATE CTHD\n"
                 + "SET SoLuong = ?\n"
@@ -174,15 +177,15 @@ public class QuanLyBanHang {
             ps.setString(1, sl);
             ps.setString(2, id);
             ps.setString(3, mhd);
-            
+
             ps.executeUpdate();
             con.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
     }
-    
+
     public void themGioHang(HoaDon h) {
         try {
             String sql = "insert into cthd values(?,?,?,?,?,?)";
@@ -194,15 +197,15 @@ public class QuanLyBanHang {
             ps.setString(4, h.getMaCP());
             ps.setString(5, h.getPhanTram());
             ps.setString(6, h.getGiaSau());
-            
+
             ps.executeUpdate();
             con.close();
         } catch (Exception e) {
             e.printStackTrace();
-            
+
         }
     }
-    
+
     public void xoaGioHang(String idsp, String maHD) {
         String sql = "delete CTHD where IdSP=? and MaHD=?";
         try {
@@ -215,9 +218,9 @@ public class QuanLyBanHang {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
     }
-    
+
     public Boolean huyHoaDon(String mhd) {
         try {
             String sql = "update HoaDon set Trangthai=N'Đã hủy' where mahd='" + mhd + "'";
@@ -231,7 +234,7 @@ public class QuanLyBanHang {
         }
         return true;
     }
-    
+
     public Boolean ThanhToan(HoaDon h) {
         try {
             String sql = "update HoaDon set Trangthai=N'Đã thanh toán' "
@@ -242,7 +245,7 @@ public class QuanLyBanHang {
             ps.setString(2, h.getMaVC());
             ps.setString(3, h.getTongTien());
             ps.setString(4, h.getMaHD());
-            
+
             ps.executeUpdate();
             con.close();
         } catch (Exception e) {
@@ -251,10 +254,10 @@ public class QuanLyBanHang {
         }
         return true;
     }
-    
+
     public ArrayList<Voucher> getListV() {
         ArrayList<Voucher> listV = new ArrayList<Voucher>();
-        
+
         try {
             String sql = "SELECT a.MaKH, a.TrangThai, c.MaVC, TenVC, GiamGia,DieuKien \n"
                     + "FROM KhachHang a\n"
@@ -278,10 +281,10 @@ public class QuanLyBanHang {
         }
         return listV;
     }
-    
+
     public ArrayList<Voucher> getListVV(String mkh) {
         ArrayList<Voucher> listVV = new ArrayList<Voucher>();
-        
+
         try {
             String sql = "SELECT a.MaKH, a.TrangThai, c.MaVC, TenVC, GiamGia,DieuKien \n"
                     + "FROM KhachHang a\n"
@@ -305,12 +308,12 @@ public class QuanLyBanHang {
         }
         return listVV;
     }
-    
+
     public ArrayList<KhachHang> getKhachHang() {
         ArrayList<KhachHang> listK = new ArrayList<KhachHang>();
-        
+
         try {
-            String sql = "select * from khachhang";
+            String sql = "select * from khachhang where TrangThai=1";
             Connection con = DbConnect.getConnection();
             PreparedStatement ps = con.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
@@ -322,7 +325,7 @@ public class QuanLyBanHang {
                 } else {
                     k.setTrangThai(false);
                 }
-                
+
                 listK.add(k);
             }
             con.close();
@@ -331,5 +334,50 @@ public class QuanLyBanHang {
         }
         return listK;
     }
-    
+
+//    public ArrayList<HoaDon> getCTHD() {
+//        String sql = "select d.tensp,b.soluong,b.soluong*b.giasau thanhtien,giasau from HoaDon a\n"
+//                + "  join CTHD b on a.MaHD=b.MaHD\n"
+//                + "  join CTSP c on c.IdSp=b.idsp\n"
+//                + "  join SanPham d on d.masp=c.masp";
+//        try {
+//            Connection con = DbConnect.getConnection();
+//            PreparedStatement ps = con.prepareStatement(sql);
+//            ResultSet rs = ps.executeQuery();
+//            while (rs.next()) {
+//                HoaDon hd = new HoaDon();
+//                hd.setTenSP(rs.getString("tensp"));
+//                hd.setSoLuong(rs.getString("soluong"));
+//                hd.setThanhTien1(rs.getString("thanhtien"));
+//                hd.setMaVC(rs.getString("mavc"));
+//               
+//
+//            }
+//        } catch (Exception e) {
+//        }
+//
+//    }
+
+//    public void inHoaDonRaPDF(String maHoaDon) {
+//        List<HoaDonChiTietDTO> hoaDonChiTietDTOs = hoaDonChiTietService.getHoaDonChiTietDTOByMaHoaDon(maHoaDon);
+//        HoaDonDTO hoaDon = hoaDonRepository.findHoaDonByMaHoaDon(maHoaDon);
+//        Document document = new Document();
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
+//        String timestamp = dateFormat.format(new java.util.Date());
+//
+//        String pdfFile = "src/HoaDon/" + "hoadon_" + timestamp + ".pdf";
+//
+//        try {
+//            PdfWriter.getInstance(document, new FileOutputStream(pdfFile));
+//            document.open();
+//            addContent(document, hoaDonChiTietDTOs, hoaDon);
+//            document.close();
+//            openPDFFile(pdfFile);
+//            System.out.println("PDF printed successfully!");
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+
 }

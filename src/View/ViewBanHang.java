@@ -8,8 +8,10 @@ import Model.HoaDon;
 import Model.KhachHang;
 import Model.SanPham;
 import Model.Voucher;
-
 import Service.QuanLyBanHang;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -41,6 +43,11 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+
+
 /**
  *
  * @author TienBB
@@ -53,7 +60,7 @@ public class ViewBanHang extends javax.swing.JFrame {
     DefaultTableModel model;
     QuanLyBanHang ql = new QuanLyBanHang();
     private Double bHeight = 0.0;
-    
+
     public ViewBanHang(String layMaNV) {
         initComponents();
         txtMaNV.setText(layMaNV);
@@ -65,215 +72,91 @@ public class ViewBanHang extends javax.swing.JFrame {
         loadSanPham(ql.getListSanPham());
         txtTongTien.setText("");
     }
-//loi
-    //bat
-    //dau
 
-//    public PageFormat getPage(PrinterJob pj) {
-//        PageFormat pf = pj.defaultPage();
-//        Paper p = pf.getPaper();
-//        double bHeight = 0;
-//
-//        double bodyHeight = bHeight;
-//        double headerHeigth = 5.0;
-//        double footerHeigth = 5.0;
-//        double width = cm_to_pp(8);
-//        double height = cm_to_pp((int) (headerHeigth + bodyHeight + footerHeigth));
-//        p.setSize(width, height);
-//        p.setImageableArea(0, 10, width, height - cm_to_pp(1));
-//
-//        pf.setOrientation(PageFormat.PORTRAIT);
-//        pf.setPaper(p);
-//        return pf;
-//    }
-//
-//    public static double cm_to_pp(double cm) {
-//        return toPPI(cm * 0.393600787);
-//    }
-//
-//    public static double toPPI(double inch) {
-//        return inch * 72d;
-//    }
-//
 //    public class Bill implements Printable {
 //
+//        private String imagePath;
+//        private Object ql; // Thay thế Object bằng kiểu dữ liệu thực tế của ql
+//        private Object txtMaHD; // Thay thế Object bằng kiểu dữ liệu thực tế của txtMaHD
+//        private Object txtTongTien; // Thay thế Object bằng kiểu dữ liệu thực tế của txtTongTien
+//        private Object txtTienKD; // Thay thế Object bằng kiểu dữ liệu thực tế của txtTienKD
+//        private Object txtTienThua; // Thay thế Object bằng kiểu dữ liệu thực tế của txtTienThua
+//        private Object txtMaNV; // Thay thế Object bằng kiểu dữ liệu thực tế của txtMaNV
+//
+//        public Bill(String imagePath, Object ql, Object txtMaHD, Object txtTongTien, Object txtTienKD, Object txtTienThua, Object txtMaNV) {
+//            this.imagePath = imagePath;
+//            this.ql = ql;
+//            this.txtMaHD = txtMaHD;
+//            this.txtTongTien = txtTongTien;
+//            this.txtTienKD = txtTienKD;
+//            this.txtTienThua = txtTienThua;
+//            this.txtMaNV = txtMaNV;
+//        }
+
 //        @Override
 //        public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
-//            //int r = ql.getListGioHang(txtMaHD.getText()).size();
-//            ImageIcon icon = new ImageIcon("D:\\inHD");
-//            int result = NO_SUCH_PAGE;
-//            if (pageIndex == 0) {
-//                Graphics2D g2d = (Graphics2D) graphics;
-//                double width = pageFormat.getImageableWidth();
-//                g2d.translate((int) pageFormat.getImageableX(), (int) pageFormat.getImageableY());
-//
-//                try {
-//                    int y = 20;
-//                    int yShift = 10;
-//                    int headerRectHeight = 15;
-//
-//                    g2d.setFont(new Font("Monospaced", Font.PLAIN, 9));
-//                    ImageObserver rootPane = null;
-//                    g2d.drawImage(icon.getImage(), 50, 20, 90, 30, rootPane);
-//                    y += yShift + 30;
-//                    g2d.drawString("------------------------------------------------", 12, y);
-//                    y += yShift;
-//                    g2d.drawString("         Cửa hàng guitar classic M4L            ", 12, y);
-//                    y += yShift;
-//                    g2d.drawString("Địa chỉ: Đường Trịnh Văn Bô, Phương Canh,", 12, y);
-//                    y += yShift;
-//                    g2d.drawString("         Nam Từ Liêm, Hà Nội                      ", 12, y);
-//                    y += yShift;
-//                    g2d.drawString("------------------------------------------------", 12, y);
-//                    y += headerRectHeight;
-//
-//                    g2d.drawString("  Tên sản phẩm               Giá", 10, y);
-//                    y += yShift;
-//                    g2d.drawString("------------------------------------------------", 10, y);
-//                    y += headerRectHeight;
-//                    for (HoaDon hd : ql.getListGioHang(txtMaHD.getText())) {
-//
-//                        g2d.drawString(" " + hd.getTenSP() + "                     ", 10, y);
-//                        y += yShift;
-//                        g2d.drawString("  " + hd.getSoLuong() + " * " + hd.getGiaSau(), 10, y);
-//                        g2d.drawString(txtTongTien.getText(), 160, y);
-//                        y += yShift;
-//                    }
-//                    g2d.drawString("-------------------------------------------------", 10, y);
-//                    y += yShift;
-//                    g2d.drawString(" Tổng:                     " + txtTongTien.getText() + "", 10, y);
-//                    y += yShift;
-//                    g2d.drawString("-------------------------------------------------", 10, y);
-//                    y += yShift;
-//                    g2d.drawString(" Tiền mặt:                    " + txtTienKD.getText() + "", 10, y);
-//                    y += yShift;
-//
-//                    g2d.drawString("-------------------------------------------------", 10, y);
-//                    y += yShift;
-//                    g2d.drawString(" Tiền thừa:                 " + txtTienThua.getText() + "", 10, y);
-//                    y += yShift;
-//                    g2d.drawString("-------------------------------------------------", 10, y);
-//                    y += yShift;
-//                    g2d.drawString("             CẢM ƠN VÀ HẸN GẶP LẠI               ", 10, y);
-//                    y += yShift;
-//                    g2d.drawString("-------------------------------------------------", 10, y);
-//                    y += yShift;
-//                    g2d.drawString("               Người lập đơn          ", 10, y);
-//                    y += yShift;
-//                    g2d.drawString("               " + txtMaNV.getText() + "", 10, y);
-//                    y += yShift;
-//                    g2d.drawString("-------------------------------------------------", 10, y);
-//                    y += yShift;
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//
-//                result = PAGE_EXISTS;
+//            if (pageIndex > 0) {
+//                return NO_SUCH_PAGE;
 //            }
-//            return result;
-//        }
-//    }
 //
-//    public void inHD() {
+//            Graphics2D g2d = (Graphics2D) graphics;
+//            double width = pageFormat.getImageableWidth();
+//            double height = pageFormat.getImageableHeight();
+//            g2d.translate((int) pageFormat.getImageableX(), (int) pageFormat.getImageableY());
 //
-//        bHeight = Double.valueOf(ql.getListGioHang(txtMaHD.getText()).size());
-//
-//        PrinterJob pj = PrinterJob.getPrinterJob();
-//        pj.setPrintable(new Bill(), getPage(pj));
-//        try {
-//            pj.print();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-//loi
-    //ket
-    //thuc
-    //??
-    public class Bill implements Printable {
-        
-        private String imagePath;
-        private Object ql; // Thay thế Object bằng kiểu dữ liệu thực tế của ql
-        private Object txtMaHD; // Thay thế Object bằng kiểu dữ liệu thực tế của txtMaHD
-        private Object txtTongTien; // Thay thế Object bằng kiểu dữ liệu thực tế của txtTongTien
-        private Object txtTienKD; // Thay thế Object bằng kiểu dữ liệu thực tế của txtTienKD
-        private Object txtTienThua; // Thay thế Object bằng kiểu dữ liệu thực tế của txtTienThua
-        private Object txtMaNV; // Thay thế Object bằng kiểu dữ liệu thực tế của txtMaNV
+//            try {
+//                ImageIcon icon = new ImageIcon(imagePath);
+//                Image logo = icon.getImage();
+//                g2d.drawImage(logo, 50, 20, 90, 30, null);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
 
-        public Bill(String imagePath, Object ql, Object txtMaHD, Object txtTongTien, Object txtTienKD, Object txtTienThua, Object txtMaNV) {
-            this.imagePath = imagePath;
-            this.ql = ql;
-            this.txtMaHD = txtMaHD;
-            this.txtTongTien = txtTongTien;
-            this.txtTienKD = txtTienKD;
-            this.txtTienThua = txtTienThua;
-            this.txtMaNV = txtMaNV;
-        }
-        
-        @Override
-        public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
-            if (pageIndex > 0) {
-                return NO_SUCH_PAGE;
-            }
-            
-            Graphics2D g2d = (Graphics2D) graphics;
-            double width = pageFormat.getImageableWidth();
-            double height = pageFormat.getImageableHeight();
-            g2d.translate((int) pageFormat.getImageableX(), (int) pageFormat.getImageableY());
-            
-            try {
-                ImageIcon icon = new ImageIcon(imagePath);
-                Image logo = icon.getImage();
-                g2d.drawImage(logo, 50, 20, 90, 30, null);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            
-            int y = 100; // Bắt đầu vẽ từ y = 100
-            g2d.setFont(new Font("Monospaced", Font.PLAIN, 9));
-            
-            g2d.drawString("------------------------------------------------", 12, y);
-            y += 10;
-            g2d.drawString("         Cửa hàng guitar classic M4L            ", 12, y);
-            y += 10;
-            g2d.drawString("Địa chỉ: Đường Trịnh Văn Bô, Phương Canh,", 12, y);
-            y += 10;
-            g2d.drawString("         Nam Từ Liêm, Hà Nội                      ", 12, y);
-            y += 10;
-            g2d.drawString("------------------------------------------------", 12, y);
-            y += 10;
-            
-            return PAGE_EXISTS;
-        }
-        
-        public PageFormat getPage(PrinterJob pj) {
-            PageFormat pf = pj.defaultPage();
-            Paper p = pf.getPaper();
-            double headerHeight = 5.0;
-            double footerHeight = 5.0;
-            double width = cm_to_pp(8); // Độ rộng của trang (ví dụ)
-            double height = cm_to_pp((int) (headerHeight + footerHeight)); // Độ cao của trang (ví dụ)
-            p.setSize(width, height);
-            p.setImageableArea(0, 10, width, height - cm_to_pp(1));
-            pf.setOrientation(PageFormat.PORTRAIT);
-            pf.setPaper(p);
-            return pf;
-        }
-        
-        public static double cm_to_pp(double cm) {
-            return toPPI(cm * 0.393600787);
-        }
-        
-        public static double toPPI(double inch) {
-            return inch * 72d;
-        }
-    }
+//            int y = 100; // Bắt đầu vẽ từ y = 100
+//            g2d.setFont(new Font("Monospaced", Font.PLAIN, 9));
+//
+//            g2d.drawString("------------------------------------------------", 12, y);
+//            y += 10;
+//            g2d.drawString("         Cửa hàng guitar classic M4L            ", 12, y);
+//            y += 10;
+//            g2d.drawString("Địa chỉ: Đường Trịnh Văn Bô, Phương Canh,", 12, y);
+//            y += 10;
+//            g2d.drawString("         Nam Từ Liêm, Hà Nội                      ", 12, y);
+//            y += 10;
+//            g2d.drawString("------------------------------------------------", 12, y);
+//            y += 10;
+//
+//            return PAGE_EXISTS;
+//        }
+
+//        public PageFormat getPage(PrinterJob pj) {
+//            PageFormat pf = pj.defaultPage();
+//            Paper p = pf.getPaper();
+//            double headerHeight = 5.0;
+//            double footerHeight = 5.0;
+//            double width = cm_to_pp(8); // Độ rộng của trang (ví dụ)
+//            double height = cm_to_pp((int) (headerHeight + footerHeight)); // Độ cao của trang (ví dụ)
+//            p.setSize(width, height);
+//            p.setImageableArea(0, 10, width, height - cm_to_pp(1));
+//            pf.setOrientation(PageFormat.PORTRAIT);
+//            pf.setPaper(p);
+//            return pf;
+//        }
+
+//        public static double cm_to_pp(double cm) {
+//            return toPPI(cm * 0.393600787);
+//        }
+//
+//        public static double toPPI(double inch) {
+//            return inch * 72d;
+//        }
+//    }
 
     //??
     private ViewBanHang() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
+
     void loadcbVC() {
         cbVoucher.removeAllItems();
         cbVoucher.addItem("Mời chọn");
@@ -281,7 +164,7 @@ public class ViewBanHang extends javax.swing.JFrame {
             cbVoucher.addItem(v.getTenVC());
         }
     }
-    
+
     void tongTien() {
         String mhd = txtMaHD.getText();
         int tongTien = 0;
@@ -296,18 +179,18 @@ public class ViewBanHang extends javax.swing.JFrame {
             }
         }
         for (Voucher v : ql.getListVV(txtMaKH.getText())) {
-            
+
             if (v.getTenVC().equals(a)) {
                 tongTien -= Float.valueOf(v.getGiamGia()).intValue();
                 break;
-                
+
             }
         }
         txtTongTien.setText(String.valueOf(tongTien));
         txtTienKD.setText("");
         txtTienThua.setText("");
     }
-    
+
     void loadHoaDon() {
         model = (DefaultTableModel) tblHoaDon.getModel();
         model.setRowCount(0);
@@ -325,11 +208,11 @@ public class ViewBanHang extends javax.swing.JFrame {
             }
         }
     }
-    
+
     void loadSanPham(ArrayList<SanPham> list) {
         model = (DefaultTableModel) tblSanPham.getModel();
         model.setRowCount(0);
-        
+
         for (SanPham sp : list) {
             if (!sp.getSoLuong().equals("0")) {
                 model.addRow(new Object[]{
@@ -339,12 +222,12 @@ public class ViewBanHang extends javax.swing.JFrame {
                     Float.valueOf(sp.getPhanTram()).intValue(), sp.giaSau()
                 });
             }
-            
+
         }
     }
-    
+
     void loadGioHang(String mhd) {
-        
+
         model = (DefaultTableModel) tblGioHang.getModel();
         model.setRowCount(0);
         int stt = 0;
@@ -491,6 +374,9 @@ public class ViewBanHang extends javax.swing.JFrame {
             }
         });
         txtMaKH.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtMaKHKeyPressed(evt);
+            }
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtMaKHKeyReleased(evt);
             }
@@ -785,7 +671,7 @@ public class ViewBanHang extends javax.swing.JFrame {
         // TODO add your handling code here:
         int i = tblHoaDon.getSelectedRow();
         loadGioHang(String.valueOf(tblHoaDon.getValueAt(i, 1)));
-        
+
         txtMaHD.setText((String) tblHoaDon.getValueAt(i, 1));
         txtNgayTao.setText((String) tblHoaDon.getValueAt(i, 2));
         txtMaNV.setText((String) tblHoaDon.getValueAt(i, 3));
@@ -804,20 +690,20 @@ public class ViewBanHang extends javax.swing.JFrame {
             return;
         }
         try {
-            
+
             int i = tblSanPham.getSelectedRow();
             String a = JOptionPane.showInputDialog("Mời nhập số lượng:");
             String id = (String) tblSanPham.getValueAt(i, 0);
             String soLuong = (String) tblSanPham.getValueAt(i, 7);
             String giaSau = String.valueOf(tblSanPham.getValueAt(i, 10));
 //            String phanTram = (String) tblSanPham.getValueAt(i, 9);
-           
-            String phanTram=null;
-             String maCP = null;
-            for (SanPham s :  ql.getListSanPham()){
+
+            String phanTram = null;
+            String maCP = null;
+            for (SanPham s : ql.getListSanPham()) {
                 if (tblSanPham.getValueAt(i, 0).equals(s.getIdspct())) {
                     maCP = s.getMaCP();
-                    phanTram=s.getPhanTram();
+                    phanTram = s.getPhanTram();
                     break;
                 }
             }
@@ -836,11 +722,11 @@ public class ViewBanHang extends javax.swing.JFrame {
                         return;
                     }
                 }
-                
+
                 HoaDon h = new HoaDon(maHD, null, null, null, null, null, null, id, null, null, a, giaSau, phanTram, maCP, null);
                 ql.themGioHang(h);
                 loadGioHang(maHD);
-                
+
             } else {
                 JOptionPane.showMessageDialog(this, "Mời nhập lại!");
             }
@@ -848,7 +734,7 @@ public class ViewBanHang extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Lỗi thao tác. Vui long nhập lại!");
             e.printStackTrace();
-            
+
         }
 
     }//GEN-LAST:event_tblSanPhamMouseClicked
@@ -860,9 +746,9 @@ public class ViewBanHang extends javax.swing.JFrame {
             int i = tblGioHang.getSelectedRow();
             String mhd = txtMaHD.getText();
             String idsp = String.valueOf(tblGioHang.getValueAt(i, 1));
-            
+
             String b = JOptionPane.showInputDialog("Mời nhập lại số lượng:");
-            
+
             String slgh = (String) tblGioHang.getValueAt(i, 4);
             try {
                 for (SanPham s : ql.getListSanPham()) {
@@ -879,7 +765,7 @@ public class ViewBanHang extends javax.swing.JFrame {
                 }
             } catch (Exception e) {
             }
-            
+
             if (Integer.valueOf(b) == 0) {
                 ql.xoaGioHang(idsp, mhd);
                 loadGioHang(mhd);
@@ -887,7 +773,7 @@ public class ViewBanHang extends javax.swing.JFrame {
                 ql.suaGioHang(b, idsp, mhd);
                 loadGioHang(mhd);
             }
-            
+
             cbVoucher.setSelectedIndex(0);
             tongTien();
         } catch (Exception e) {
@@ -923,7 +809,7 @@ public class ViewBanHang extends javax.swing.JFrame {
                 return 1;
             }
         }
-        
+
         return 2;
     }
     private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
@@ -944,12 +830,12 @@ public class ViewBanHang extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Huỷ thành công");
         } else {
             JOptionPane.showMessageDialog(this, "Huỷ thất bại");
-            
+
         }
         loadHoaDon();
         loadGioHang(mhd);
         tongTien();
-        
+
 
     }//GEN-LAST:event_btnHuyActionPerformed
 
@@ -986,7 +872,7 @@ public class ViewBanHang extends javax.swing.JFrame {
                         return;
                     }
                 }
-                
+
             }
             String mKH = txtMaKH.getText();
             for (Voucher v : ql.getListVV(mKH)) {
@@ -1049,7 +935,7 @@ public class ViewBanHang extends javax.swing.JFrame {
         String maVC = null;
         for (Voucher v : ql.getListV()) {
             String a = cbVoucher.getSelectedItem() + "";
-            
+
             if (v.getTenVC().equals(a)) {
                 maVC = v.getMaVC();
                 break;
@@ -1057,31 +943,31 @@ public class ViewBanHang extends javax.swing.JFrame {
         }
         for (Voucher v : ql.getListVV(txtMaHD.getText())) {
             String a = cbVoucher.getSelectedItem() + "";
-            
+
             if (v.getTenVC().equals(a)) {
                 maVC = v.getMaVC();
                 break;
             }
         }
-        
+
         String maKH = null;
         if (!txtMaKH.getText().equals("")) {
             maKH = txtMaKH.getText();
         }
-        
+
         HoaDon h = new HoaDon(txtMaHD.getText(), txtNgayTao.getText(), maKH, txtMaNV.getText(), maVC, txtTongTien.getText(), null, null, null, null, null, null, null, null, null);
         if (ql.ThanhToan(h)) {
             JOptionPane.showMessageDialog(this, "Thanh toán thành công");
-            txtMaHD.setText("");
-            txtNgayTao.setText("");
-            txtMaKH.setText("");
-            txtTongTien.setText("");
-            txtTienKD.setText("");
-            txtTienThua.setText("");
-            cbVoucher.setSelectedIndex(1);
+//            txtMaHD.setText("");
+//            txtNgayTao.setText("");
+//            txtMaKH.setText("");
+//            txtTongTien.setText("");
+//            txtTienKD.setText("");
+//            txtTienThua.setText("");
+//            cbVoucher.setSelectedIndex(1);
         } else {
             JOptionPane.showMessageDialog(this, "Thanh toán thất bại");
-            
+
         }
         loadHoaDon();
         loadGioHang(txtMaHD.getText());
@@ -1103,65 +989,132 @@ public class ViewBanHang extends javax.swing.JFrame {
 
     private void btnInHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInHDActionPerformed
         // TODO add your handling code here:
+//        try {
+//            // Xác định nơi lưu và tên tệp
+//            JFileChooser fileChooser = new JFileChooser();
+//            int userSelection = fileChooser.showSaveDialog(null);
+//
+//            if (userSelection == JFileChooser.APPROVE_OPTION) {
+//                File fileToSave = fileChooser.getSelectedFile();
+//
+//                // Lấy đường dẫn của tệp đã chọn
+//                String filePath = fileToSave.getAbsolutePath();
+//
+//                // Thêm phần mở rộng .pdf nếu tên tệp không có
+//                if (!filePath.toLowerCase().endsWith(".pdf")) {
+//                    filePath += ".pdf";
+//                }
+//
+//                // Tạo một đối tượng File từ đường dẫn
+//                File outputFile = new File(filePath);
+//
+//                // Tạo một đối tượng Bill
+//                Bill bill = new Bill("đường dẫn hình ảnh", ql, txtMaHD, txtTongTien, txtTienKD, txtTienThua, txtMaNV);
+//
+//                // Lấy đối tượng máy in mặc định
+//                PrintService defaultPrintService = PrintServiceLookup.lookupDefaultPrintService();
+//
+//                // Tạo một PrintRequestAttributeSet
+//                PrintRequestAttributeSet attributes = new HashPrintRequestAttributeSet();
+//
+//                // Thiết lập máy in mặc định
+//                attributes.add(new PrinterName(defaultPrintService.getName(), null));
+//
+//                // Thiết lập định dạng dữ liệu PDF
+//                DocFlavor flavor = DocFlavor.INPUT_STREAM.PDF;
+//
+//                // Thực hiện việc in
+//                try {
+//                    // Tạo một FileOutputStream để ghi dữ liệu in vào tệp
+//                    OutputStream outputStream = new FileOutputStream(outputFile);
+//
+//                    // Tạo một URI từ OutputStream
+//                    URI outputURI = outputFile.toURI();
+//
+//// Thêm thuộc tính Destination với URI vào PrintRequestAttributeSet
+//                    attributes.add(new Destination(outputURI));
+//
+//                    // In tài liệu
+//                    defaultPrintService.createPrintJob().print((Doc) bill, attributes);
+//
+//                    // Đóng outputStream sau khi in xong
+//                    outputStream.close();
+//                } catch (Exception ex) {
+//                    ex.printStackTrace();
+//                }
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+        String path = "D://";
+//        JFileChooser j = new JFileChooser();
+//        j.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+//        int x = j.showSaveDialog(this);
+//         
+//        if (x==JFileChooser.APPROVE_OPTION) {
+//            path = j.getSelectedFile().getPath();
+//            
+//        }
+        Document doc = new Document();
         try {
-            // Xác định nơi lưu và tên tệp
-            JFileChooser fileChooser = new JFileChooser();
-            int userSelection = fileChooser.showSaveDialog(null);
-            
-            if (userSelection == JFileChooser.APPROVE_OPTION) {
-                File fileToSave = fileChooser.getSelectedFile();
+            PdfWriter.getInstance(doc, new FileOutputStream(path + "HoaDon.pdf"));
+            doc.open();
+            doc.add(new Paragraph("------------CUA HANG GIAY XSTORE XIN KINH CHAO --------------------"));
+            doc.add(new Paragraph(" "));
+            doc.add(new Paragraph("Ma Hoa Don:     " + txtMaHD.getText()));
+            doc.add(new Paragraph("Ngay Tao:       " + txtNgayTao.getText()));
+            doc.add(new Paragraph("Ma Nhan Vien:   " + txtMaNV.getText()));
+            doc.add(new Paragraph("Ma Khach Hang:  " + txtMaKH.getText()));
+            doc.add(new Paragraph("Tong Tien:      " + txtTongTien.getText()));
+            doc.add(new Paragraph("Tien Khach Dua: " + txtTienKD.getText()));
+            doc.add(new Paragraph("Tien Thua:      " + txtTienThua.getText()));
+            doc.add(new Paragraph(" "));
+            doc.add(new Paragraph("---------------CUA HANG GIAY XSTORE XIN CAM ON --------------------"));
+            doc.add(new Paragraph("Dia Chi:  57P.QUAN HOA, QUAN HOA, CAU GIAY, HA NOI"));
+            doc.add(new Paragraph("So Dien Thoai Lien He:  0912387654"));
+            doc.add(new Paragraph("--------------------------HEN GAP LAI QUY KHACH----------------------------"));
 
-                // Lấy đường dẫn của tệp đã chọn
-                String filePath = fileToSave.getAbsolutePath();
-
-                // Thêm phần mở rộng .pdf nếu tên tệp không có
-                if (!filePath.toLowerCase().endsWith(".pdf")) {
-                    filePath += ".pdf";
-                }
-
-                // Tạo một đối tượng File từ đường dẫn
-                File outputFile = new File(filePath);
-
-                // Tạo một đối tượng Bill
-                Bill bill = new Bill("đường dẫn hình ảnh", ql, txtMaHD, txtTongTien, txtTienKD, txtTienThua, txtMaNV);
-
-                // Lấy đối tượng máy in mặc định
-                PrintService defaultPrintService = PrintServiceLookup.lookupDefaultPrintService();
-
-                // Tạo một PrintRequestAttributeSet
-                PrintRequestAttributeSet attributes = new HashPrintRequestAttributeSet();
-
-                // Thiết lập máy in mặc định
-                attributes.add(new PrinterName(defaultPrintService.getName(), null));
-
-                // Thiết lập định dạng dữ liệu PDF
-                DocFlavor flavor = DocFlavor.INPUT_STREAM.PDF;
-
-                // Thực hiện việc in
-                try {
-                    // Tạo một FileOutputStream để ghi dữ liệu in vào tệp
-                    OutputStream outputStream = new FileOutputStream(outputFile);
-
-                    // Tạo một URI từ OutputStream
-                    URI outputURI = outputFile.toURI();
-
-// Thêm thuộc tính Destination với URI vào PrintRequestAttributeSet
-                    attributes.add(new Destination(outputURI));
-
-                    // In tài liệu
-                    defaultPrintService.createPrintJob().print((Doc) bill, attributes);
-
-                    // Đóng outputStream sau khi in xong
-                    outputStream.close();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
+//            PdfPTable tbl = new PdfPTable(5);
+//            tbl.addCell("STT");
+//            tbl.addCell("Mã HD");
+//            tbl.addCell("Ngày Tạo");
+//            tbl.addCell("Mã NV");
+//            tbl.addCell("Trạng Thái");
+//            tbl.addCell("STT");
+//            tbl.addCell("STT");
+//            tbl.addCell("STT");
+//            for (int i = 0; i < tblHoaDon.getRowCount(); i++) {
+//                String id = tblHoaDon.getValueAt(i, 0).toString();
+//                String MaHD = tblHoaDon.getValueAt(i, 1).toString();
+//                String NgayTao = tblHoaDon.getValueAt(i, 2).toString();
+//                String MaNV = tblHoaDon.getValueAt(i, 3).toString();
+//                String TrangThai = tblHoaDon.getValueAt(i, 4).toString();
+////                String diaChi = "--------------- Trịnh Văn Bô---------------";
+//                tbl.addCell(id);
+//                tbl.addCell(MaHD);
+//                tbl.addCell(NgayTao);
+//                tbl.addCell(MaNV);
+//                tbl.addCell(TrangThai);
+//                tbl.addCell(diaChi);
+//            }
+//            doc.add(tbl);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        doc.close();
+        txtMaHD.setText("");
+        txtNgayTao.setText("");
+        txtMaKH.setText("");
+        txtTongTien.setText("");
+        txtTienKD.setText("");
+        txtTienThua.setText("");
+        cbVoucher.setSelectedIndex(1);
 
     }//GEN-LAST:event_btnInHDActionPerformed
+
+    private void txtMaKHKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaKHKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtMaKHKeyPressed
 
     /**
      * @param args the command line arguments

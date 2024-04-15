@@ -16,9 +16,9 @@ import java.util.logging.Logger;
  * @author LongThank
  */
 public class QuanLyDoanhThu {
-
+    
     int i = 0;
-
+    
     public Integer HDToday() {
         try {
             Connection conn = DbConnect.getConnection();
@@ -35,6 +35,7 @@ public class QuanLyDoanhThu {
     }
     
     float j = 0;
+    
     public Float DoanhThuToday() {
         try {
             Connection conn = DbConnect.getConnection();
@@ -56,6 +57,7 @@ public class QuanLyDoanhThu {
     }
     
     float k = 0;
+    
     public Float loiNhuan() {
         try {
             Connection conn = DbConnect.getConnection();
@@ -78,7 +80,7 @@ public class QuanLyDoanhThu {
         return k;
     }
     float LNTK = 0;
-
+    
     public Float loiNhuanTK(String NgayBD, String NgayKT) {
         try {
             Connection conn = DbConnect.getConnection();
@@ -104,7 +106,7 @@ public class QuanLyDoanhThu {
         return LNTK;
     }
     float h = 0;
-
+    
     public Float laiToDay() {
         try {
             Connection conn = DbConnect.getConnection();
@@ -128,7 +130,7 @@ public class QuanLyDoanhThu {
         return h;
     }
     float T = 0;
-
+    
     public Float TongDoanhThu() {
         try {
             Connection conn = DbConnect.getConnection();
@@ -149,7 +151,7 @@ public class QuanLyDoanhThu {
         return T;
     }
     float TK = 0;
-
+    
     public Float TongDoanhThuTimKiem(String NgayBD, String NgayKT) {
         try {
             Connection conn = DbConnect.getConnection();
@@ -172,7 +174,7 @@ public class QuanLyDoanhThu {
         return TK;
     }
     float DTT = 0;
-
+    
     public Float TongDoanhThuThang() {
         try {
             Connection conn = DbConnect.getConnection();
@@ -193,14 +195,13 @@ public class QuanLyDoanhThu {
         return DTT;
     }
     
-    
     float DTTKT = 0;
-
+    
     public Float TimKiemTongDoanhThuThang(String Thang) {
         try {
             Connection conn = DbConnect.getConnection();
             String sql = "SELECT sum(TongTien) AS TongDoanhThuu FROM HoaDon WHERE MONTH(NgayTao) = ? and   TrangThai LIKE N'Đã thanh toán'";
-             PreparedStatement ps = conn.prepareStatement(sql);
+            PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, Thang);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -217,9 +218,8 @@ public class QuanLyDoanhThu {
         return DTTKT;
     }
     
-    
     ArrayList<HoaDon> listHD = new ArrayList<>();
-
+    
     public ArrayList<HoaDon> getListHD() {
         listHD.clear();
         try {
@@ -235,13 +235,13 @@ public class QuanLyDoanhThu {
                 listHD.add(hd);
             }
             conn.close();
-
+            
         } catch (SQLException ex) {
             Logger.getLogger(QuanLyDoanhThu.class.getName()).log(Level.SEVERE, null, ex);
         }
         return listHD;
     }
-
+    
     public ArrayList<HoaDon> getListHDTK(String NgayBD, String NgayKT) {
         listHD.clear();
         try {
@@ -259,12 +259,13 @@ public class QuanLyDoanhThu {
                 listHD.add(hd);
             }
             conn.close();
-
+            
         } catch (SQLException ex) {
             Logger.getLogger(QuanLyDoanhThu.class.getName()).log(Level.SEVERE, null, ex);
         }
         return listHD;
     }
+    
     public ArrayList<HoaDon> getListHDThaang(String Thang) {
         listHD.clear();
         try {
@@ -281,13 +282,13 @@ public class QuanLyDoanhThu {
                 listHD.add(hd);
             }
             conn.close();
-
+            
         } catch (SQLException ex) {
             Logger.getLogger(QuanLyDoanhThu.class.getName()).log(Level.SEVERE, null, ex);
         }
         return listHD;
     }
-
+    
     public Float laiXuat() {
         float m = 0;
         try {
@@ -310,7 +311,7 @@ public class QuanLyDoanhThu {
         }
         return m;
     }
-
+    
     public Float laiXuatTK(String NgayBD, String NgayKT) {
         float LXTK = 0;
         try {
@@ -337,7 +338,6 @@ public class QuanLyDoanhThu {
         return LXTK;
     }
     
-    
     public Float laiXuatTKThang(String Thang) {
         float LXThang = 0;
         try {
@@ -362,8 +362,8 @@ public class QuanLyDoanhThu {
         }
         return LXThang;
     }
-       float LNThang = 0;
-
+    float LNThang = 0;
+    
     public Float loiNhuanTKThang(String Thang) {
         try {
             Connection conn = DbConnect.getConnection();
@@ -377,7 +377,7 @@ public class QuanLyDoanhThu {
             while (rs.next()) {
                 String a = rs.getString("LoiNhuant");
                 if (a == null || a.isEmpty()) {
-                    LNThang= 0;
+                    LNThang = 0;
                 } else {
                     LNThang = Float.valueOf(a);
                 }
@@ -386,5 +386,32 @@ public class QuanLyDoanhThu {
             Logger.getLogger(QuanLyDoanhThu.class.getName()).log(Level.SEVERE, null, ex);
         }
         return LNThang;
+    }
+    
+    public ArrayList<HoaDon> getListSP(String ngayBD, String ngayKT) {
+        ArrayList<HoaDon> listSP = new ArrayList<>();
+        try {
+            Connection con = DbConnect.getConnection();
+            String sql = "select b.idsp,d.masp,d.tensp,sum(b.soluong) soluong,sum(giasau) tong from hoadon a\n"
+                    + "join cthd b on a.mahd=b.mahd\n"
+                    + "join ctsp c on c.idsp=b.idsp\n"
+                    + "join sanpham d on d.MaSP=c.MaSP\n"
+                    + "WHERE NgayTao >= '"+ngayBD+"' and NgayTao <= '"+ngayKT+"'\n"
+                    + "group by b.idsp,d.masp,d.tensp";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                HoaDon hd = new HoaDon();
+                hd.setIdSP(rs.getString("idsp"));
+                hd.setMaSP(rs.getString("masp"));
+                hd.setTenSP(rs.getString("tensp"));
+                hd.setSoLuong(rs.getString("soluong"));
+                hd.setTongTien(rs.getString("tong"));
+                listSP.add(hd);
+            }
+            con.close();
+        } catch (Exception e) {
+        }
+        return listSP;
     }
 }

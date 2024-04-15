@@ -15,6 +15,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
@@ -314,7 +315,6 @@ public class ViewNhanVien extends javax.swing.JFrame {
         txtMaNVDKi = new javax.swing.JTextField();
         btnAddDKi = new javax.swing.JButton();
         btnUpDateDKi = new javax.swing.JButton();
-        btnDeleteDKi = new javax.swing.JButton();
         btnNewDangKi = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
@@ -663,24 +663,26 @@ public class ViewNhanVien extends javax.swing.JFrame {
             pnQuanLyTKLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnQuanLyTKLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnQuanLyTKLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(XuattExel, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(pnQuanLyTKLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pnQuanLyTKLayout.createSequentialGroup()
+                        .addGap(101, 101, 101)
+                        .addComponent(XuattExel, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(103, 103, 103)
+                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGroup(pnQuanLyTKLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnQuanLyTKLayout.createSequentialGroup()
                         .addGap(18, 18, Short.MAX_VALUE)
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(31, 31, 31))
                     .addGroup(pnQuanLyTKLayout.createSequentialGroup()
-                        .addGap(42, 42, 42)
-                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(53, 53, 53)
                         .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(50, 50, 50)
+                        .addGap(102, 102, 102)
                         .addComponent(btnNghiLam, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(33, 33, 33)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnNew, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(56, 56, 56))))
+                        .addGap(92, 92, 92))))
         );
         pnQuanLyTKLayout.setVerticalGroup(
             pnQuanLyTKLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -753,13 +755,6 @@ public class ViewNhanVien extends javax.swing.JFrame {
             }
         });
 
-        btnDeleteDKi.setText("Delete");
-        btnDeleteDKi.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnDeleteDKiMouseClicked(evt);
-            }
-        });
-
         btnNewDangKi.setText("New");
         btnNewDangKi.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -788,7 +783,6 @@ public class ViewNhanVien extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnAddDKi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnUpDateDKi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnDeleteDKi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnNewDangKi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(15, Short.MAX_VALUE))
         );
@@ -809,13 +803,12 @@ public class ViewNhanVien extends javax.swing.JFrame {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
                     .addComponent(txtMatKhau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnDeleteDKi))
+                    .addComponent(btnNewDangKi))
                 .addGap(38, 38, 38)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel15)
-                    .addComponent(txtMaNVDKi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnNewDangKi))
-                .addContainerGap(27, Short.MAX_VALUE))
+                    .addComponent(txtMaNVDKi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
@@ -1165,8 +1158,8 @@ public class ViewNhanVien extends javax.swing.JFrame {
         }
 
         try {
-            Integer cccd = Integer.parseInt(txtCccd.getText());
-            Integer.valueOf(cccd);
+            Float cccd = Float.parseFloat(txtCccd.getText());
+            Float.valueOf(cccd);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Căn Cước Công Dân Phải Là Số");
             return;
@@ -1176,7 +1169,9 @@ public class ViewNhanVien extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Email");
             return;
         }
-        String emailRegex = "^[a-zA-Z0-9._%+-]+@gmail\\.com$";
+        String emailRegex = "^[a-z0-9._%+-]+@gmail\\.com$";
+//        String emailRegex2 = "^[a-z0-9._%+-]+@fpt\\.edu.vn$";
+//|| !Email.matches(emailRegex2)
         if (!Email.matches(emailRegex)) {
             JOptionPane.showMessageDialog(this, "Định dạng email không hợp lệ.");
             return;
@@ -1188,6 +1183,18 @@ public class ViewNhanVien extends javax.swing.JFrame {
         }
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String strNgaySinh = dateFormat.format(ngaySinh);
+        Calendar dob = Calendar.getInstance();
+        dob.setTime(ngaySinh);
+        Calendar today = Calendar.getInstance();
+        int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
+        if (age < 18) {
+            JOptionPane.showMessageDialog(this, "Nhân Viên Phải Lớn Hơn 18 Tuổi ");
+            return;
+        }
+         if (age > 50) {
+            JOptionPane.showMessageDialog(this, "Nhân Viên Phải Nhỏ Hơn 50 Tuổi ");
+            return;
+        }
         Boolean gioiTinh;
         if (rdNam.isSelected()) {
             gioiTinh = true;
@@ -1250,9 +1257,12 @@ public class ViewNhanVien extends javax.swing.JFrame {
             return;
         }
         NhanVien nhanVien = new NhanVien(ma, ten, Cccd, Email, strNgaySinh, gioiTinh, sdt, NgayVao, vaiTro, maCL, diaChi, trangThai);
-        quanLyNhanVien.AddNhanVien(nhanVien);
-        JOptionPane.showMessageDialog(this, "Thêm Nhân Viên Thành Công");
-        loadNhanVien();
+        int ret = JOptionPane.showConfirmDialog(this, "Bạn Muốn Thêm Nhân Viên Hay Không?", "Thông Báo", JOptionPane.YES_NO_OPTION);
+        if (ret == JOptionPane.YES_OPTION) {
+            quanLyNhanVien.AddNhanVien(nhanVien);
+            JOptionPane.showMessageDialog(this, "Thêm Nhân Viên Thành Công");
+            loadNhanVien();
+        }
     }//GEN-LAST:event_btnAddMouseClicked
 
     private void btnNghiLamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNghiLamMouseClicked
@@ -1262,9 +1272,12 @@ public class ViewNhanVien extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Mã Nhân Viên");
             return;
         }
-        quanLyNhanVien.deleteNhanVien(ma);
-        JOptionPane.showMessageDialog(this, "Cập Nhật Nhân Viên Nghỉ Làm");
-        loadNhanVien();
+        int ret = JOptionPane.showConfirmDialog(this, "Bạn Muốn Cập Nhật NV Nghỉ Làm Hay Không?", "Thông Báo", JOptionPane.YES_NO_OPTION);
+        if (ret == JOptionPane.YES_OPTION) {
+            quanLyNhanVien.deleteNhanVien(ma);
+            JOptionPane.showMessageDialog(this, "Cập Nhật Nhân Viên Nghỉ Làm");
+            loadNhanVien();
+        }
     }//GEN-LAST:event_btnNghiLamMouseClicked
 
     private void tblNhanVienMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblNhanVienMouseClicked
@@ -1369,18 +1382,21 @@ public class ViewNhanVien extends javax.swing.JFrame {
             return;
         }
         try {
-            Integer cccd = Integer.parseInt(txtCccd.getText());
-            Integer.valueOf(cccd);
+            Float cccd = Float.parseFloat(txtCccd.getText());
+            Float.valueOf(cccd);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Căn Cước Công Dân Phải Là Số");
             return;
         }
+
         String Email = txtEmail.getText();
         if (Email.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Email");
             return;
         }
-        String emailRegex = "^[a-zA-Z0-9._%+-]+@gmail\\.com$";
+        String emailRegex = "^[a-z0-9._%+-]+@gmail\\.com$";
+//        String emailRegex2 = "^[a-z0-9._%+-]+@fpt\\.edu\\.vn$";
+//||!Email.matches(emailRegex2)
         if (!Email.matches(emailRegex)) {
             JOptionPane.showMessageDialog(this, "Định dạng email không hợp lệ.");
             return;
@@ -1392,7 +1408,18 @@ public class ViewNhanVien extends javax.swing.JFrame {
         }
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String strNgaySinh = dateFormat.format(ngaySinh);
-
+        Calendar dob = Calendar.getInstance();
+        dob.setTime(ngaySinh);
+        Calendar today = Calendar.getInstance();
+        int age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR);
+        if (age < 18) {
+            JOptionPane.showMessageDialog(this, "Nhân Viên Phải Lớn Hơn 18 Tuổi ");
+            return;
+        }
+        if (age > 50) {
+            JOptionPane.showMessageDialog(this, "Nhân Viên Phải Nhỏ Hơn 50 Tuổi ");
+            return;
+        }
         Boolean gioiTinh;
         if (rdNam.isSelected()) {
             gioiTinh = true;
@@ -1460,10 +1487,14 @@ public class ViewNhanVien extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Trạng Thái");
             return;
         }
-        NhanVien nhanVien = new NhanVien(ma, ten, Cccd, Email, strNgaySinh, gioiTinh, sdt, NgayVao, vaiTro, maCL, diaChi, trangThai);
-        quanLyNhanVien.UpDateNhanVien(nhanVien);
-        JOptionPane.showMessageDialog(this, "Cập Nhật Nhân Viên Thành Công");
-        loadNhanVien();
+
+        int ret = JOptionPane.showConfirmDialog(this, "Bạn Muốn Cập Nhật Nhân Viên Hay Không?", "Thông Báo", JOptionPane.YES_NO_OPTION);
+        if (ret == JOptionPane.YES_OPTION) {
+            NhanVien nhanVien = new NhanVien(ma, ten, Cccd, Email, strNgaySinh, gioiTinh, sdt, NgayVao, vaiTro, maCL, diaChi, trangThai);
+            quanLyNhanVien.UpDateNhanVien(nhanVien);
+            JOptionPane.showMessageDialog(this, "Cập Nhật Nhân Viên Thành Công");
+            loadNhanVien();
+        }
     }//GEN-LAST:event_btnUpdateMouseClicked
 
     private void btnNewMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNewMouseClicked
@@ -1515,23 +1546,15 @@ public class ViewNhanVien extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Mã Nhân Viên ");
             return;
         }
-        TaiKhoan taiKhoan = new TaiKhoan(ma, tenDN, MatKhau, MaNV);
-        quanLyNhanVien.AddTaiKhoan(taiKhoan);
-        loadTaiKhoanDKi();
-        loadQuanLyTaiKhoan();
-    }//GEN-LAST:event_btnAddDKiMouseClicked
 
-    private void btnDeleteDKiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteDKiMouseClicked
-        // TODO add your handling code here:
-        String ma = txtMaTaiKhoanDki.getText();
-        if (ma.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Không Bỏ Trống Mã Đăng Kí");
-            return;
+        TaiKhoan taiKhoan = new TaiKhoan(ma, tenDN, MatKhau, MaNV);
+        int ret = JOptionPane.showConfirmDialog(this, "Bạn Muốn Thêm Tài Khoản Hay Không?", "Thông Báo", JOptionPane.YES_NO_OPTION);
+        if (ret == JOptionPane.YES_OPTION) {
+            quanLyNhanVien.AddTaiKhoan(taiKhoan);
+            loadTaiKhoanDKi();
+            loadQuanLyTaiKhoan();
         }
-        quanLyNhanVien.DeleteTaiKhoan(ma);
-        loadTaiKhoanDKi();
-        loadQuanLyTaiKhoan();
-    }//GEN-LAST:event_btnDeleteDKiMouseClicked
+    }//GEN-LAST:event_btnAddDKiMouseClicked
 
     private void btnUpDateDKiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpDateDKiMouseClicked
         // TODO add your handling code here:
@@ -1556,9 +1579,12 @@ public class ViewNhanVien extends javax.swing.JFrame {
             return;
         }
         TaiKhoan taiKhoan = new TaiKhoan(ma, tenDN, MatKhau, MaNV);
-        quanLyNhanVien.UpDateTaiKhoan(taiKhoan);
-        loadTaiKhoanDKi();
-        loadQuanLyTaiKhoan();
+        int ret = JOptionPane.showConfirmDialog(this, "Bạn Muốn Cập Nhật Tài Khoản Hay Không?", "Thông Báo", JOptionPane.YES_NO_OPTION);
+        if (ret == JOptionPane.YES_OPTION) {
+            quanLyNhanVien.UpDateTaiKhoan(taiKhoan);
+            loadTaiKhoanDKi();
+            loadQuanLyTaiKhoan();
+        }
     }//GEN-LAST:event_btnUpDateDKiMouseClicked
 
 //    void MK() {
@@ -1641,14 +1667,17 @@ public class ViewNhanVien extends javax.swing.JFrame {
             return;
         }
         String ghiChu = txtGhiChu.getText();
-        if (ghiChu.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Không Bỏ Trống Ghi Chú");
-            return;
-        }
+//        if (ghiChu.isEmpty()) {
+//            JOptionPane.showMessageDialog(this, "Không Bỏ Trống Ghi Chú");
+//            return;
+//        }
         TaiKhoan taiKhoan = new TaiKhoan(ma, tenCL, gioBatDau, gioketThuc, ghiChu);
-        quanLyNhanVien.AddCaLam(taiKhoan);
-        loadCaLamDKi();
-        loadCaLamNhanVien();
+        int ret = JOptionPane.showConfirmDialog(this, "Bạn Muốn Thêm Ca Làm Hay Không?", "Thông Báo", JOptionPane.YES_NO_OPTION);
+        if (ret == JOptionPane.YES_OPTION) {
+            quanLyNhanVien.AddCaLam(taiKhoan);
+            loadCaLamDKi();
+            loadCaLamNhanVien();
+        }
     }//GEN-LAST:event_btnAddCaLamMouseClicked
 
     private void btnUpDateCalLamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnUpDateCalLamMouseClicked
@@ -1674,14 +1703,17 @@ public class ViewNhanVien extends javax.swing.JFrame {
             return;
         }
         String ghiChu = txtGhiChu.getText();
-        if (ghiChu.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Không Bỏ Trống Ghi Chú");
-            return;
-        }
+//        if (ghiChu.isEmpty()) {
+//            JOptionPane.showMessageDialog(this, "Không Bỏ Trống Ghi Chú");
+//            return;
+//        }
         TaiKhoan taiKhoan = new TaiKhoan(ma, tenCL, gioBatDau, gioketThuc, ghiChu);
-        quanLyNhanVien.UpDateCaLam(taiKhoan);
-        loadCaLamDKi();
-        loadCaLamNhanVien();
+        int ret = JOptionPane.showConfirmDialog(this, "Bạn Muốn Cập Nhật Ca Làm Hay Không?", "Thông Báo", JOptionPane.YES_NO_OPTION);
+        if (ret == JOptionPane.YES_OPTION) {
+            quanLyNhanVien.UpDateCaLam(taiKhoan);
+            loadCaLamDKi();
+            loadCaLamNhanVien();
+        }
     }//GEN-LAST:event_btnUpDateCalLamMouseClicked
 
     private void btnDeleteCaLamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteCaLamMouseClicked
@@ -1691,10 +1723,14 @@ public class ViewNhanVien extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Không Bỏ Trống Mã Ca Làm");
             return;
         }
-        quanLyNhanVien.DeleteCaLam(ma);
-        loadCaLamDKi();
-        loadCaLamNhanVien();
-        loadNhanVien();
+
+        int ret = JOptionPane.showConfirmDialog(this, "Bạn Muốn Xoá Ca Làm Hay Không?", "Thông Báo", JOptionPane.YES_NO_OPTION);
+        if (ret == JOptionPane.YES_OPTION) {
+            quanLyNhanVien.DeleteCaLam(ma);
+            loadCaLamDKi();
+            loadCaLamNhanVien();
+            loadNhanVien();
+        }
     }//GEN-LAST:event_btnDeleteCaLamMouseClicked
 
     private void txtTimKiemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtTimKiemMouseClicked
@@ -1796,7 +1832,7 @@ public class ViewNhanVien extends javax.swing.JFrame {
             cell.setCellValue("Mã CL");
             cell = row.createCell(11, CellType.STRING);
             cell.setCellValue("Trạng Thái");
-            
+
             try {
 
                 ArrayList<NhanVien> listKH = quanLyNhanVien.getAllNhanVien();
@@ -1817,19 +1853,18 @@ public class ViewNhanVien extends javax.swing.JFrame {
 
                         cell = row.createCell(3, CellType.STRING);
                         cell.setCellValue(nhanVien.getCccd());
-                        
+
                         cell = row.createCell(4, CellType.STRING);
                         cell.setCellValue(nhanVien.getEmail());
-                        
+
                         cell = row.createCell(5, CellType.STRING);
                         cell.setCellValue(nhanVien.getNgaySinh());
-                        
+
                         cell = row.createCell(6, CellType.STRING);
                         cell.setCellValue(nhanVien.isGioiTinh() ? "Nam" : "Nữ");
 
                         cell = row.createCell(7, CellType.STRING);
                         cell.setCellValue(nhanVien.getSĐT());
-                      
 
                         cell = row.createCell(8, CellType.STRING);
                         cell.setCellValue(nhanVien.getNgayVaoLam());
@@ -1843,7 +1878,6 @@ public class ViewNhanVien extends javax.swing.JFrame {
                         cell = row.createCell(11, CellType.STRING);
                         cell.setCellValue(nhanVien.getTrangThai());
 
-                        
                     }
                 }
 
@@ -1911,7 +1945,6 @@ public class ViewNhanVien extends javax.swing.JFrame {
     private javax.swing.JButton btnAddCaLam;
     private javax.swing.JButton btnAddDKi;
     private javax.swing.JButton btnDeleteCaLam;
-    private javax.swing.JButton btnDeleteDKi;
     private javax.swing.JButton btnNew;
     private javax.swing.JButton btnNewCaLam;
     private javax.swing.JButton btnNewDangKi;

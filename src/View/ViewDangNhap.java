@@ -52,6 +52,7 @@ public class ViewDangNhap extends javax.swing.JFrame {
                     String vaiTro = rs.getString("VaiTro");
                     JOptionPane.showMessageDialog(this, "Đăng nhập thành công!");
                     new BanHangForm(maNV, tenNV, vaiTro, ten).setVisible(true);
+//                    new ViewBanHang(maNV);
                     this.dispose(); // Đóng cửa sổ đăng nhập sau khi mở cửa sổ BanHangForm
                 } else {
                     JOptionPane.showMessageDialog(this, "Tên đăng nhập hoặc mật khẩu không chính xác");

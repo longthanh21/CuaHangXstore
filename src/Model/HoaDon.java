@@ -154,6 +154,11 @@ public class HoaDon {
     }
 
     
+    
+
+   
+
+    
 
     
     public Integer thanhTien(Integer soLuong, Integer giaBan) {

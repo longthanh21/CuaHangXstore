@@ -218,13 +218,11 @@ public class QuanLyHoaDon {
         listHDCT.clear();
         listHD.clear();
         try {
-            String sql = "select a.IdSP,d.MaSP,TenSP,a.SoLuong,(GiaSau/(1-Coupon.PhanTram/100)) AS GiaBan,Coupon.PhanTram,a.GiaSau, TongTien from CTHD a\n"
+            String sql = "select a.IdSP,d.MaSP,TenSP,a.SoLuong,(GiaSau/(1-a.PhanTram/100)) AS GiaBan,a.PhanTram,a.GiaSau from CTHD a\n"
                     + "join HoaDon b on b.MaHD = a.MaHD\n"
                     + "join CTSP c on c.IdSP=a.IdSP\n"
                     + "join SanPham d on d.MaSP=c.MaSP\n"
-                    + "left join GiamGiaSP on GiamGiaSP.IdSP = c.IdSP\n"
-                    + "left join Coupon on Coupon.MaCP = GiamGiaSP.MaCP\n"
-                    + "where b.TrangThai = N'Đã thanh toán'";
+                    + "where b.TrangThai = N'Đã thanh toán' ";
             Connection con = DbConnect.getConnection();
             Statement stm = con.createStatement();
             ResultSet rs = stm.executeQuery(sql);
@@ -255,14 +253,12 @@ public class QuanLyHoaDon {
         listHDCT.clear();
         listHD.clear();
         try {
-            String sql = "select a.IdSP,d.MaSP,TenSP,a.SoLuong,(GiaSau/(1-Coupon.PhanTram/100)) AS GiaBan,Coupon.PhanTram,a.GiaSau, TongTien from CTHD a\n"
+            String sql = "select a.IdSP,d.MaSP,TenSP,a.SoLuong,(GiaSau/(1-a.PhanTram/100)) AS GiaBan,a.PhanTram,a.GiaSau from CTHD a\n"
                     + "join HoaDon b on b.MaHD = a.MaHD\n"
                     + "join CTSP c on c.IdSP=a.IdSP\n"
                     + "join SanPham d on d.MaSP=c.MaSP\n"
-                    + "left join GiamGiaSP on GiamGiaSP.IdSP = c.IdSP\n"
-                    + "left join Coupon on Coupon.MaCP = GiamGiaSP.MaCP\n"
-                    + "where b.TrangThai = N'Đã thanh toán'\n"
-                    + "and b.MaHD = '" + mhd + "'";
+                    + "where b.TrangThai = N'Đã thanh toán' AND b.MaHD = " + "'" + mhd + "'";
+
             Connection con = DbConnect.getConnection();
             Statement stm = con.createStatement();
             ResultSet rs = stm.executeQuery(sql);
