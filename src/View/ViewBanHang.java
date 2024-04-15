@@ -106,8 +106,8 @@ public class ViewBanHang extends javax.swing.JFrame {
             }
         }
         txtTongTien.setText(String.valueOf(tongTien));
-//        txtTienKD.setText("");
-//        txtTienThua.setText("");
+        txtTienKD.setText("");
+        txtTienThua.setText("");
     }
 
     void loadHoaDon() {
