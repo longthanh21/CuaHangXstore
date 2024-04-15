@@ -876,18 +876,6 @@ public class ViewBanHang extends javax.swing.JFrame {
         HoaDon h = new HoaDon(txtMaHD.getText(), txtNgayTao.getText(), maKH, txtMaNV.getText(), maVC, txtTongTien.getText(), null, null, null, null, null, null, null, null, null);
         if (ql.ThanhToan(h)) {
             JOptionPane.showMessageDialog(this, "Thanh toán thành công");
-            int check = JOptionPane.showConfirmDialog(this, "Bạn có muốn in hóa đơn không?", null, JOptionPane.YES_NO_OPTION);
-            if (check == JOptionPane.NO_OPTION) {
-                txtMaHD.setText("");
-                txtNgayTao.setText("");
-                txtMaKH.setText("");
-                txtTongTien.setText("");
-                txtTienKD.setText("");
-                txtTienThua.setText("");
-                cbVoucher.setSelectedIndex(1);
-            } else {
-                btnInHD.doClick();
-            }
         } else {
             JOptionPane.showMessageDialog(this, "Thanh toán thất bại");
 
@@ -981,7 +969,7 @@ public class ViewBanHang extends javax.swing.JFrame {
         txtTienKD.setText("");
         txtTienThua.setText("");
         cbVoucher.setSelectedIndex(1);
-
+        
     }//GEN-LAST:event_btnInHDActionPerformed
 
     private void txtMaKHKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaKHKeyPressed
