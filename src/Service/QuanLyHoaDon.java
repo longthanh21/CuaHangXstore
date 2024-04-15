@@ -193,7 +193,7 @@ public class QuanLyHoaDon {
     public ArrayList<HoaDon> loadMaHoaDon() {
         listHD.clear();
         try {
-            String sql = "SELECT MaHD,MaNV,MaKH,MaVC,NgayTao,TongTien,TrangThai FROM HoaDon order by CAST(SUBSTRING(MaHD, 3, LEN(MaHD)) AS INT) asc";
+            String sql = "SELECT MaHD,MaNV,MaKH,MaVC,NgayTao,TongTien,TrangThai FROM HoaDon ";
             Connection con = DbConnect.getConnection();
             Statement stm = con.createStatement();
             ResultSet rs = stm.executeQuery(sql);
