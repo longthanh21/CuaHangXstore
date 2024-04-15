@@ -15,6 +15,7 @@ import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 /**
  *
@@ -489,31 +490,142 @@ public class BanHangForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void pnBanHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnBanHangMouseClicked
+        setColorJpanel(pnBanHang);
+        resetColorJpane(pnSanPham);
+        resetColorJpane(pnHoaDon);
+        resetColorJpane(pnNhanVien);
+        resetColorJpane(pnKhachHang);
+        resetColorJpane(pnKhuyenMai);
+        resetColorJpane(pnDoanhThu);
+
+        setColor(lbBanHang);
+        resetColor(lbSanPham);
+        resetColor(lbHoaDon);
+        resetColor(lbNhanVien);
+        resetColor(lbKhachHang);
+        resetColor(lbKhuyenMai);
+        resetColor(lbDoanhThu);
+
         showFrame(new ViewBanHang(txtMaNV.getText()));
     }//GEN-LAST:event_pnBanHangMouseClicked
 
     private void pnSanPhamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnSanPhamMouseClicked
+        resetColorJpane(pnBanHang);
+        setColorJpanel(pnSanPham);
+        resetColorJpane(pnHoaDon);
+        resetColorJpane(pnNhanVien);
+        resetColorJpane(pnKhachHang);
+        resetColorJpane(pnKhuyenMai);
+        resetColorJpane(pnDoanhThu);
+
+        resetColor(lbBanHang);
+        setColor(lbSanPham);
+        resetColor(lbHoaDon);
+        resetColor(lbNhanVien);
+        resetColor(lbKhachHang);
+        resetColor(lbKhuyenMai);
+        resetColor(lbDoanhThu);
+
         showFrame(new ViewSanPham());
     }//GEN-LAST:event_pnSanPhamMouseClicked
 
     private void pnHoaDonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnHoaDonMouseClicked
+        resetColorJpane(pnBanHang);
+        resetColorJpane(pnSanPham);
+        setColorJpanel(pnHoaDon);
+        resetColorJpane(pnNhanVien);
+        resetColorJpane(pnKhachHang);
+        resetColorJpane(pnKhuyenMai);
+        resetColorJpane(pnDoanhThu);
+
+        resetColor(lbBanHang);
+        resetColor(lbSanPham);
+        setColor(lbHoaDon);
+        resetColor(lbNhanVien);
+        resetColor(lbKhachHang);
+        resetColor(lbKhuyenMai);
+        resetColor(lbDoanhThu);
+
         showFrame(new ViewHoaDon());
+
     }//GEN-LAST:event_pnHoaDonMouseClicked
 
     private void pnKhuyenMaiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnKhuyenMaiMouseClicked
+        resetColorJpane(pnBanHang);
+        resetColorJpane(pnSanPham);
+        resetColorJpane(pnHoaDon);
+        resetColorJpane(pnNhanVien);
+        resetColorJpane(pnKhachHang);
+        setColorJpanel(pnKhuyenMai);
+        resetColorJpane(pnDoanhThu);
+
+        resetColor(lbBanHang);
+        resetColor(lbSanPham);
+        resetColor(lbHoaDon);
+        resetColor(lbNhanVien);
+        resetColor(lbKhachHang);
+        setColor(lbKhuyenMai);
+        resetColor(lbDoanhThu);
+
         showFrame(new ViewKhuyenMai());
     }//GEN-LAST:event_pnKhuyenMaiMouseClicked
 
     private void pnKhachHangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnKhachHangMouseClicked
+        resetColorJpane(pnBanHang);
+        resetColorJpane(pnSanPham);
+        resetColorJpane(pnHoaDon);
+        resetColorJpane(pnNhanVien);
+        setColorJpanel(pnKhachHang);
+        resetColorJpane(pnKhuyenMai);
+        resetColorJpane(pnDoanhThu);
+
+        resetColor(lbBanHang);
+        resetColor(lbSanPham);
+        resetColor(lbHoaDon);
+        resetColor(lbNhanVien);
+        setColor(lbKhachHang);
+        resetColor(lbKhuyenMai);
+        resetColor(lbDoanhThu);
+        
         showFrame(new ViewKhachHang());
     }//GEN-LAST:event_pnKhachHangMouseClicked
 
     private void pnNhanVienMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnNhanVienMouseClicked
+        resetColorJpane(pnBanHang);
+        resetColorJpane(pnSanPham);
+        resetColorJpane(pnHoaDon);
+        setColorJpanel(pnNhanVien);
+        resetColorJpane(pnKhachHang);
+        resetColorJpane(pnKhuyenMai);
+        resetColorJpane(pnDoanhThu);
+
+        resetColor(lbBanHang);
+        resetColor(lbSanPham);
+        resetColor(lbHoaDon);
+        setColor(lbNhanVien);
+        resetColor(lbKhachHang);
+        resetColor(lbKhuyenMai);
+        resetColor(lbDoanhThu);
         showFrame(new ViewNhanVien());
     }//GEN-LAST:event_pnNhanVienMouseClicked
 
     private void pnDoanhThuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnDoanhThuMouseClicked
-        // TODO add your handling code here:
+        resetColorJpane(pnBanHang);
+        resetColorJpane(pnSanPham);
+        resetColorJpane(pnHoaDon);
+        resetColorJpane(pnNhanVien);
+        resetColorJpane(pnKhachHang);
+        resetColorJpane(pnKhuyenMai);
+        setColorJpanel(pnDoanhThu);
+
+        resetColor(lbBanHang);
+        resetColor(lbSanPham);
+        resetColor(lbHoaDon);
+        resetColor(lbNhanVien);
+        resetColor(lbKhachHang);
+        resetColor(lbKhuyenMai);
+        setColor(lbDoanhThu);
+        
         showFrame(new ViewDoanhThu());
     }//GEN-LAST:event_pnDoanhThuMouseClicked
 
@@ -599,11 +711,20 @@ public class BanHangForm extends javax.swing.JFrame {
         pnHienThi.repaint();
     }
 
+    public void setColorJpanel(JPanel pane) {
+        pane.setBackground(new java.awt.Color(255, 204, 204));
+    }
+
+    public void resetColorJpane(JPanel pane) {
+        pane.setBackground(new java.awt.Color(204,255,255));
+    }
+
     public void setColor(JLabel label) {
-        label.setForeground(Color.BLUE);
+        label.setForeground(Color.blue);
     }
 
     public void resetColor(JLabel label) {
         label.setForeground(Color.black);
     }
+
 }
