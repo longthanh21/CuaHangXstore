@@ -47,7 +47,6 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
-
 /**
  *
  * @author TienBB
@@ -92,7 +91,6 @@ public class ViewBanHang extends javax.swing.JFrame {
 //            this.txtTienThua = txtTienThua;
 //            this.txtMaNV = txtMaNV;
 //        }
-
 //        @Override
 //        public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
 //            if (pageIndex > 0) {
@@ -111,7 +109,6 @@ public class ViewBanHang extends javax.swing.JFrame {
 //            } catch (Exception e) {
 //                e.printStackTrace();
 //            }
-
 //            int y = 100; // Bắt đầu vẽ từ y = 100
 //            g2d.setFont(new Font("Monospaced", Font.PLAIN, 9));
 //
@@ -128,7 +125,6 @@ public class ViewBanHang extends javax.swing.JFrame {
 //
 //            return PAGE_EXISTS;
 //        }
-
 //        public PageFormat getPage(PrinterJob pj) {
 //            PageFormat pf = pj.defaultPage();
 //            Paper p = pf.getPaper();
@@ -142,7 +138,6 @@ public class ViewBanHang extends javax.swing.JFrame {
 //            pf.setPaper(p);
 //            return pf;
 //        }
-
 //        public static double cm_to_pp(double cm) {
 //            return toPPI(cm * 0.393600787);
 //        }
@@ -151,7 +146,6 @@ public class ViewBanHang extends javax.swing.JFrame {
 //            return inch * 72d;
 //        }
 //    }
-
     //??
     private ViewBanHang() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -686,56 +680,61 @@ public class ViewBanHang extends javax.swing.JFrame {
     }
     private void tblSanPhamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSanPhamMouseClicked
         // TODO add your handling code here:
-        if (checkSP() == 2) {
-            return;
-        }
         try {
+            if (checkSP() == 2) {
+                return;
+            }
+            try {
 
-            int i = tblSanPham.getSelectedRow();
-            String a = JOptionPane.showInputDialog("Mời nhập số lượng:");
-            String id = (String) tblSanPham.getValueAt(i, 0);
-            String soLuong = (String) tblSanPham.getValueAt(i, 7);
-            String giaSau = String.valueOf(tblSanPham.getValueAt(i, 10));
+                int i = tblSanPham.getSelectedRow();
+                String a = JOptionPane.showInputDialog("Mời nhập số lượng:");
+                String id = (String) tblSanPham.getValueAt(i, 0);
+                String soLuong = (String) tblSanPham.getValueAt(i, 7);
+                String giaSau = String.valueOf(tblSanPham.getValueAt(i, 10));
 //            String phanTram = (String) tblSanPham.getValueAt(i, 9);
 
-            String phanTram = null;
-            String maCP = null;
-            for (SanPham s : ql.getListSanPham()) {
-                if (tblSanPham.getValueAt(i, 0).equals(s.getIdspct())) {
-                    maCP = s.getMaCP();
-                    phanTram = s.getPhanTram();
-                    break;
-                }
-            }
-            if (Integer.valueOf(a) <= Integer.valueOf(soLuong) && Integer.valueOf(a) > 0) {
-                Integer so = Integer.valueOf(soLuong) - Integer.valueOf(a);
-                String so2 = so.toString();
-                ql.suaSanPham(so2, id);
-                loadSanPham(ql.getListSanPham());
-                String maHD = txtMaHD.getText();
-                for (HoaDon h : ql.getListGioHang(maHD)) {
-                    if (id.equals(h.getIdSP())) {
-                        Integer a2 = Integer.valueOf(a) + Integer.valueOf(h.getSoLuong());
-                        ql.suaGioHang(String.valueOf(a2), id, maHD);
-                        loadGioHang(maHD);
-                        tongTien();
-                        return;
+                String phanTram = null;
+                String maCP = null;
+                for (SanPham s : ql.getListSanPham()) {
+                    if (tblSanPham.getValueAt(i, 0).equals(s.getIdspct())) {
+                        maCP = s.getMaCP();
+                        phanTram = s.getPhanTram();
+                        break;
                     }
                 }
+                if (Integer.valueOf(a) <= Integer.valueOf(soLuong) && Integer.valueOf(a) > 0) {
+                    Integer so = Integer.valueOf(soLuong) - Integer.valueOf(a);
+                    String so2 = so.toString();
+                    ql.suaSanPham(so2, id);
+                    loadSanPham(ql.getListSanPham());
+                    String maHD = txtMaHD.getText();
+                    for (HoaDon h : ql.getListGioHang(maHD)) {
+                        if (id.equals(h.getIdSP())) {
+                            Integer a2 = Integer.valueOf(a) + Integer.valueOf(h.getSoLuong());
+                            ql.suaGioHang(String.valueOf(a2), id, maHD);
+                            loadGioHang(maHD);
+                            tongTien();
+                            return;
+                        }
+                    }
 
-                HoaDon h = new HoaDon(maHD, null, null, null, null, null, null, id, null, null, a, giaSau, phanTram, maCP, null);
-                ql.themGioHang(h);
-                loadGioHang(maHD);
+                    HoaDon h = new HoaDon(maHD, null, null, null, null, null, null, id, null, null, a, giaSau, phanTram, maCP, null);
+                    ql.themGioHang(h);
+                    loadGioHang(maHD);
 
-            } else {
-                JOptionPane.showMessageDialog(this, "Mời nhập lại!");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Mời nhập lại!");
+                }
+                tongTien();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Lỗi thao tác. Vui long nhập lại!");
+                e.printStackTrace();
+
             }
-            tongTien();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Lỗi thao tác. Vui long nhập lại!");
-            e.printStackTrace();
-
+            System.out.println("");
         }
+
 
     }//GEN-LAST:event_tblSanPhamMouseClicked
 

@@ -106,6 +106,7 @@ public class ViewDangNhap extends javax.swing.JFrame {
         });
 
         lbQuenMK.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lbQuenMK.setForeground(new java.awt.Color(255, 102, 102));
         lbQuenMK.setText("Quên mật khẩu?");
         lbQuenMK.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
