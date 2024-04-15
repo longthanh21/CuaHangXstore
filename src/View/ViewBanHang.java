@@ -680,61 +680,54 @@ public class ViewBanHang extends javax.swing.JFrame {
     }
     private void tblSanPhamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSanPhamMouseClicked
         // TODO add your handling code here:
+        if (checkSP() == 2) {
+            return;
+        }
         try {
-            if (checkSP() == 2) {
-                return;
-            }
-            try {
 
-                int i = tblSanPham.getSelectedRow();
-                String a = JOptionPane.showInputDialog("Mời nhập số lượng:");
-                String id = (String) tblSanPham.getValueAt(i, 0);
-                String soLuong = (String) tblSanPham.getValueAt(i, 7);
-                String giaSau = String.valueOf(tblSanPham.getValueAt(i, 10));
+            int i = tblSanPham.getSelectedRow();
+            String a = JOptionPane.showInputDialog("Mời nhập số lượng:");
+            String id = (String) tblSanPham.getValueAt(i, 0);
+            String soLuong = (String) tblSanPham.getValueAt(i, 7);
+            String giaSau = String.valueOf(tblSanPham.getValueAt(i, 10));
 //            String phanTram = (String) tblSanPham.getValueAt(i, 9);
 
-                String phanTram = null;
-                String maCP = null;
-                for (SanPham s : ql.getListSanPham()) {
-                    if (tblSanPham.getValueAt(i, 0).equals(s.getIdspct())) {
-                        maCP = s.getMaCP();
-                        phanTram = s.getPhanTram();
-                        break;
-                    }
+            String phanTram = null;
+            String maCP = null;
+            for (SanPham s : ql.getListSanPham()) {
+                if (tblSanPham.getValueAt(i, 0).equals(s.getIdspct())) {
+                    maCP = s.getMaCP();
+                    phanTram = s.getPhanTram();
+                    break;
                 }
-                if (Integer.valueOf(a) <= Integer.valueOf(soLuong) && Integer.valueOf(a) > 0) {
-                    Integer so = Integer.valueOf(soLuong) - Integer.valueOf(a);
-                    String so2 = so.toString();
-                    ql.suaSanPham(so2, id);
-                    loadSanPham(ql.getListSanPham());
-                    String maHD = txtMaHD.getText();
-                    for (HoaDon h : ql.getListGioHang(maHD)) {
-                        if (id.equals(h.getIdSP())) {
-                            Integer a2 = Integer.valueOf(a) + Integer.valueOf(h.getSoLuong());
-                            ql.suaGioHang(String.valueOf(a2), id, maHD);
-                            loadGioHang(maHD);
-                            tongTien();
-                            return;
-                        }
-                    }
-
-                    HoaDon h = new HoaDon(maHD, null, null, null, null, null, null, id, null, null, a, giaSau, phanTram, maCP, null);
-                    ql.themGioHang(h);
-                    loadGioHang(maHD);
-
-                } else {
-                    JOptionPane.showMessageDialog(this, "Mời nhập lại!");
-                }
-                tongTien();
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Lỗi thao tác. Vui long nhập lại!");
-                e.printStackTrace();
-
             }
-        } catch (Exception e) {
-            System.out.println("");
-        }
+            if (Integer.valueOf(a) <= Integer.valueOf(soLuong) && Integer.valueOf(a) > 0) {
+                Integer so = Integer.valueOf(soLuong) - Integer.valueOf(a);
+                String so2 = so.toString();
+                ql.suaSanPham(so2, id);
+                loadSanPham(ql.getListSanPham());
+                String maHD = txtMaHD.getText();
+                for (HoaDon h : ql.getListGioHang(maHD)) {
+                    if (id.equals(h.getIdSP())) {
+                        Integer a2 = Integer.valueOf(a) + Integer.valueOf(h.getSoLuong());
+                        ql.suaGioHang(String.valueOf(a2), id, maHD);
+                        loadGioHang(maHD);
+                        tongTien();
+                        return;
+                    }
+                }
 
+                HoaDon h = new HoaDon(maHD, null, null, null, null, null, null, id, null, null, a, giaSau, phanTram, maCP, null);
+                ql.themGioHang(h);
+                loadGioHang(maHD);
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Mời nhập lại!");
+            }
+            tongTien();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lỗi thao tác. Vui long nhập lại!");
+        }
 
     }//GEN-LAST:event_tblSanPhamMouseClicked
 
@@ -957,13 +950,18 @@ public class ViewBanHang extends javax.swing.JFrame {
         HoaDon h = new HoaDon(txtMaHD.getText(), txtNgayTao.getText(), maKH, txtMaNV.getText(), maVC, txtTongTien.getText(), null, null, null, null, null, null, null, null, null);
         if (ql.ThanhToan(h)) {
             JOptionPane.showMessageDialog(this, "Thanh toán thành công");
-//            txtMaHD.setText("");
-//            txtNgayTao.setText("");
-//            txtMaKH.setText("");
-//            txtTongTien.setText("");
-//            txtTienKD.setText("");
-//            txtTienThua.setText("");
-//            cbVoucher.setSelectedIndex(1);
+            int check = JOptionPane.showConfirmDialog(this, "Bạn có muốn in hóa đơn không?", null, JOptionPane.YES_NO_OPTION);
+            if (check == JOptionPane.NO_OPTION) {
+                txtMaHD.setText("");
+                txtNgayTao.setText("");
+                txtMaKH.setText("");
+                txtTongTien.setText("");
+                txtTienKD.setText("");
+                txtTienThua.setText("");
+                cbVoucher.setSelectedIndex(1);
+            }else{
+                btnInHD.doClick();
+            }
         } else {
             JOptionPane.showMessageDialog(this, "Thanh toán thất bại");
 
@@ -1101,6 +1099,7 @@ public class ViewBanHang extends javax.swing.JFrame {
             e.printStackTrace();
         }
         doc.close();
+        JOptionPane.showMessageDialog(this, "In thành công");
         txtMaHD.setText("");
         txtNgayTao.setText("");
         txtMaKH.setText("");
